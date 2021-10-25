@@ -13,7 +13,7 @@ typedef struct	s_info
 {
 	char		is_odd_single_quatations;
 	char		is_odd_double_quatations;
-	char		odd_quotations;
+	char		odd_quote;
 	t_token		*tokens;
 
 }				t_info;
