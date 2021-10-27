@@ -1,7 +1,7 @@
 APP				= minishell
 
-OBJDIR			= objs
-SRCDIR			= srcs
+OBJDIR			= ./objs/
+SRCDIR			= ./srcs/
 LIBRARY_NAME	= lib
 SYSTEM			= $(shell uname)
 
@@ -9,7 +9,7 @@ REL_PATH		:= $(shell pwd)
 SRCS			:= $(shell find $(SRCDIR) -name '*.c')
 SRCS			+= $(shell find ./libft -name '*.c')
 SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
-OBJS			:= ${SRCS:.c=.o} 
+OBJS			:= ${ addprefix($(OBJDIR), notdir $(SRCS:.c=.o))} 
 HEADERS			:= ${shell find ./includes -name '*.h'}
 
 ifeq ($(UNAME), Darwin)
@@ -18,10 +18,16 @@ endif
 ifeq ($(UNAME), Linux)
 	MAKE		= $(MAKE)
 endif
+ifeq ($(UNAME), Darwin)
+	add 		= 
+endif
+ifeq ($(UNAME), Linux)
+	add			=  -ltinfo
+endif
 CFLAGS			= -Wall	-Wextra -Werror
 DEBUG			= -g
 INCLUDES		=  -I./includes
-LDFLAGS			= -L$(REL_PATH)/lib/lib -lreadline -ltinfo -I$(REL_PATH)/includes/readline -L./libft -lft
+LDFLAGS			= -L$(REL_PATH)/lib/lib -lreadline $(add) -I$(REL_PATH)/includes/readline -L./libft -lft
 
 
 
@@ -31,13 +37,13 @@ ${APP}:	  Makefile $(HEADERS) ${OBJS}
 				mkdir -p lib && \
 				cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install; \
 			fi
-			$(call make-repo)
+			# $(call make-repo)
 			${CC} ${CFLAGS} -g  -fsanitize=address ${OBJS} ${LDFLAGS} -o ${APP}
 
 lib :
 	
 
-*.o: %.c
+$(OBJDIR)*.o: $(SRCDIR)%.c
 		@echo $@...
 		${CC} ${CFLAGS} -g $< -o $@
 
@@ -56,14 +62,17 @@ fclean : clean
 		rm -rf lib
 		rm -rf $(APP)
 
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
 buildrepo: 
 	$(call make-repo)
 	mkdir -p lib 
 	cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install 
 
-define make-repo
-   for dir in $(SRCDIRS); \
-   do \
-	mkdir -p $(OBJDIR)/$$dir; \
-   done
-endef
+# define make-repo
+#    for dir in $(SRCDIRS); \
+#    do \
+# 	mkdir -p $(OBJDIR)/$$dir; \
+#    done
+# endef

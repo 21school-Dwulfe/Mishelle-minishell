@@ -47,9 +47,9 @@ int	msh_is_close_odd_quote(char *buff, char *line)
 	int	i;
 
 	i = 0;
+	ft_strlcat(buff, line, 1024);
 	if (!ft_strchr(line, g_info.odd_quote))
 	{
-		ft_strlcat(buff, line, 1024);
 		return (g_info.odd_quote);
 	}
 	else

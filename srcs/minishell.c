@@ -11,9 +11,22 @@ void msh_sigintHandler(int sig_num)
 	rl_redisplay();
 }
 
-void	msh_parse_cmd(char *line)
+// void	msh_execute(void)
+// {
+// 	if (g_info.regime == 0)
+	// {
+
+	// }
+	// else if ()
+
+// }
+
+void	msh_exec_cmd(char *line)
 {
-	if (line && ft_strnstr(line, "exit", 4))
+	// g_info.regime = msh_parse(line);
+	// free(line);
+	// msh_execute();
+	if (line && ft_strnstr(line, "exit", ft_strlen(line)))
 		exit(0);
 }
 
@@ -71,7 +84,7 @@ int main(int argc, char **argv, char **env)
 		ft_strlcat(buff, line, 1024);
 		msh_check_unclosed_quotes(buff, line, 0);
 		add_history(buff);
-		msh_parse_cmd(buff);
+		msh_exec_cmd(buff);
 		free(line);
 		ft_bzero(buff, sizeof(char) * 1024);
 	}
