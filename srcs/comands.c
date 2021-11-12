@@ -1,21 +1,48 @@
 #include "../includes/main.h"
 
-void	msh_print_dir_(void)
+void	msh_custom_pwd(t_command *cmd)
 {
 	char str[512];
 
+	(void)cmd;
 	getcwd(str, sizeof(str));
-	printf("%s ", str);
+	printf("%s\n", str);
+}
+void	msh_custom_exit(t_command *cmd)
+{
+	// if (cmd->numberOfAvailableArgs > 1)
+	// 	exit(ft_isnum(cmd->arguments[1]));
+	// else
+	(void)cmd;
+	exit(1);
 }
 
-void	msh_insert_argument(t_s_command *cmd, char *argument)
+void	msh_custom_echo(t_command *cmd)
 {
-	cmd->arguments[cmd->num_of_args] = argument;
-	cmd->num_of_args++;
+	(void)cmd;
+	//temporary execution
+	
 }
 
-void	msh_insert_simple_command(t_command *cmd, t_s_command *simple_cmd)
+void	msh_custom_env(t_command *cmd)
 {
-	cmd->simple_commands[cmd->num_of_simple_commands] = simple_cmd;
-	cmd->num_of_simple_commands++;
+	(void)cmd;
+
 }
+
+void	msh_custom_cd(t_command *cmd)
+{
+	chdir(cmd->arguments[0]);
+}
+
+void	msh_custom_export(t_command *cmd)
+{
+	(void)cmd;
+
+}
+
+void	msh_custom_unset(t_command *cmd)
+{
+	(void)cmd;
+}
+

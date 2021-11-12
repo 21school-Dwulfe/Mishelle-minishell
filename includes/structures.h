@@ -3,27 +3,34 @@
 
 #include "libs.h"
 
-typedef struct	s_s_comand
-{
-	int		num_of_available_args;
-	int		num_of_args;
-	char	*name;
-	char	**arguments;
-	struct s_s_command	*next;
-	struct s_s_command	*prev;
-	
+typedef void(*f)(char *str, int *length);
 
-}				t_s_command;
+typedef enum s_specials
+{
+	SEMICOLON,
+	PIPE,
+	REDIRECT,
+	R_REDIRECT,
+	D_REDIRECT,
+	RD_REDIRECT,
+	R_REDIRECT_AMP,
+	RD_REDIRECT_AMP,
+	AMPERSAND,
+	ERROR
+}				t_specials;
+
+
 
 typedef struct s_command
 { 
-	int numberOfAvailableSimpleCommands; 
-	int num_of_simple_commands; 
-	t_s_command **simple_commands; 
-	char *outFile;
-	char *inputFile;
-	char *errFile;
-	int background;
+	int					numberOfAvailableArgs; 
+	char				**arguments;
+	char				*out_file;
+	char				*input_file;
+	char				*errFile;
+	int					piped;
+	t_specials			specials;
+	int					background;
 	struct s_command	*next;
 	struct s_command	*prev;
 	// void *prompt;
@@ -35,13 +42,14 @@ typedef struct s_command
 
 typedef struct	s_info
 {
+	int			num_of_commands; 
 	char		is_odd_single_quatations;
 	char		is_odd_double_quatations;
 	char		odd_quote;
 	short		regime;
-	t_command   *currentCommand; // 2 для команд с пайпами или редиректами
-	t_s_command *currentSimpleCommand; // 1 для команд без пайпов и редиректов
-
+	char		**env;
+	t_command   *current_command; 
+	f			func[16];
 }				t_info;
 
 t_info	g_info;

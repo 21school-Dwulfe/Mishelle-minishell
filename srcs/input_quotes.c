@@ -60,14 +60,20 @@ int	msh_is_close_odd_quote(char *buff, char *line)
 }
 
 void	msh_check_unclosed_quotes(char *buff, char *line, char c)
-{	
+{
+	char	*quote_type;
+
 	if (c == 0)
 		c = msh_is_odd_quote(line);
 	else
 		c = msh_is_close_odd_quote(buff, line);
 	if (c)
 	{
-		line = msh_readline("quote> ");
+		if (c == '\'')
+			quote_type = "quote> ";
+		else
+			quote_type = "dquote> ";
+		line = msh_readline(quote_type);
 		msh_check_unclosed_quotes(buff, line, 1);
 		free(line);
 	}

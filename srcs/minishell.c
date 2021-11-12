@@ -11,23 +11,34 @@ void msh_sigintHandler(int sig_num)
 	rl_redisplay();
 }
 
-// void	msh_execute(void)
-// {
-// 	if (g_info.regime == 0)
-	// {
+void	msh_parse_cmd(char *line)
+{   
+	int		i;
+	t_command	*cmd;
 
-	// }
-	// else if ()
-
-// }
-
-void	msh_exec_cmd(char *line)
-{
-	// g_info.regime = msh_parse(line);
-	// free(line);
-	// msh_execute();
-	if (line && ft_strnstr(line, "exit", ft_strlen(line)))
-		exit(0);
+	i = 0;
+	msh_parse(line);
+	cmd = g_info.current_command;
+	while (i++ < g_info.num_of_commands)
+	{
+		if (ft_strnstr(cmd->arguments[0], "exit", 4))
+			msh_custom_exit(cmd);
+		else if (ft_strnstr(cmd->arguments[0], "pwd", 3))
+			msh_custom_pwd(cmd);
+		else if (ft_strnstr(cmd->arguments[0], "echo", 4))
+			msh_custom_echo(cmd);
+		else if (ft_strnstr(cmd->arguments[0], "env", 3))
+			msh_custom_env(cmd);
+		else if (ft_strnstr(cmd->arguments[0], "cd", 2))
+			msh_custom_cd(cmd);
+		else if (ft_strnstr(cmd->arguments[0], "export", 6))
+			msh_custom_export(cmd);
+		else if (ft_strnstr(cmd->arguments[0], "unset", 5))
+			msh_custom_unset(cmd);
+		else
+			msh_execute(cmd);
+		cmd = cmd->next;
+	}
 }
 
 void	msh_sigtermHandler(int signum)
@@ -65,6 +76,14 @@ void	msh_config(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
+	g_info.func[0] = msh_help_parse_semi;
+	g_info.func[1] = msh_help_parse_pipe;
+	g_info.func[2] = msh_help_parse_redirect;
+	g_info.func[3] = msh_help_parse_r_redirect;
+	g_info.env = env;
+	// g_info.func[4] = ;
+	// g_info.func[5] = msh_help_parse_quotes;
+	
 }
 
 int main(int argc, char **argv, char **env)
@@ -84,7 +103,7 @@ int main(int argc, char **argv, char **env)
 		ft_strlcat(buff, line, 1024);
 		msh_check_unclosed_quotes(buff, line, 0);
 		add_history(buff);
-		msh_exec_cmd(buff);
+		msh_parse_cmd(buff);
 		free(line);
 		ft_bzero(buff, sizeof(char) * 1024);
 	}

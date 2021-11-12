@@ -3,51 +3,52 @@ APP				= minishell
 OBJDIR			= ./objs/
 SRCDIR			= ./srcs/
 LIBRARY_NAME	= lib
-SYSTEM			= $(shell uname)
+SYSTEM			:= $(shell uname)
 
 REL_PATH		:= $(shell pwd)
 SRCS			:= $(shell find $(SRCDIR) -name '*.c')
-SRCS			+= $(shell find ./libft -name '*.c')
+
 SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
-OBJS			:= ${ addprefix($(OBJDIR), notdir $(SRCS:.c=.o))} 
+OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))} 
 HEADERS			:= ${shell find ./includes -name '*.h'}
 
-ifeq ($(UNAME), Darwin)
-	MAKE 		= MAKE
+ifeq ($(SYSTEM), Darwin)
+	MAKE 		= make -C
 endif
-ifeq ($(UNAME), Linux)
-	MAKE		= $(MAKE)
+ifeq ($(SYSTEM), Linux)
+	MAKE		= make
 endif
-ifeq ($(UNAME), Darwin)
-	add 		= 
+
+ifeq ($(SYSTEM), Darwin)
+	ADD 		= 
 endif
-ifeq ($(UNAME), Linux)
-	add			=  -ltinfo
+ifeq ($(SYSTEM), Linux)
+	ADD			= -ltinfo
 endif
 CFLAGS			= -Wall	-Wextra -Werror
 DEBUG			= -g
 INCLUDES		=  -I./includes
-LDFLAGS			= -L$(REL_PATH)/lib/lib -lreadline $(add) -I$(REL_PATH)/includes/readline -L./libft -lft
+LDFLAGS			= -L$(REL_PATH)/lib/lib -lreadline $(ADD) -I./libft -I$(REL_PATH)/includes/readline -L./libft -lft
+CC				= gcc
 
-
-
-
-${APP}:	  Makefile $(HEADERS) ${OBJS}
+${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS} 
 			@if [ ! -d "lib" ]; then \
 				mkdir -p lib && \
 				cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install; \
 			fi
-			# $(call make-repo)
+			cd ./libft && $(MAKE) && $(MAKE) bonus
 			${CC} ${CFLAGS} -g  -fsanitize=address ${OBJS} ${LDFLAGS} -o ${APP}
 
-lib :
-	
+.PHONY: all clean fclean re bonus buildrepo lib print
 
-$(OBJDIR)*.o: $(SRCDIR)%.c
-		@echo $@...
-		${CC} ${CFLAGS} -g $< -o $@
+print : 
+	echo $(OBJS)
 
-.PHONY: all clean fclean re bonus buildrepo lib
+$(OBJDIR)%.o: $(SRCDIR)%.c
+		echo $@...
+		${CC} ${CFLAGS} -g -c $< -o $@
+
+
 
 all : ${APP}
 
@@ -68,11 +69,11 @@ $(OBJDIR):
 buildrepo: 
 	$(call make-repo)
 	mkdir -p lib 
-	cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install 
+	 cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 
 
-# define make-repo
-#    for dir in $(SRCDIRS); \
-#    do \
-# 	mkdir -p $(OBJDIR)/$$dir; \
-#    done
-# endef
+# # define make-repo
+# #    for dir in $(SRCDIRS); \
+# #    do \
+# # 	mkdir -p $(OBJDIR)/$$dir; \
+# #    done
+# # endef
