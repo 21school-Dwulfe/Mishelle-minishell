@@ -9,7 +9,7 @@ t_command	*msh_create_command(char	**dstr)
 	cmd->background = 0;
 	cmd->input_file = NULL;
 	cmd->out_file = NULL;
-	cmd->errFile = NULL;
+	cmd->err_file = NULL;
 	cmd->piped = 0;
 	cmd->prev = NULL;
 	cmd->next = NULL;

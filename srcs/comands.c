@@ -10,9 +10,6 @@ void	msh_custom_pwd(t_command *cmd)
 }
 void	msh_custom_exit(t_command *cmd)
 {
-	// if (cmd->numberOfAvailableArgs > 1)
-	// 	exit(ft_isnum(cmd->arguments[1]));
-	// else
 	(void)cmd;
 	exit(1);
 }
@@ -20,6 +17,18 @@ void	msh_custom_exit(t_command *cmd)
 void	msh_custom_echo(t_command *cmd)
 {
 	(void)cmd;
+	int i;
+
+	i = 0;
+	while (i < cmd->number_args)
+	{
+		if (cmd->arguments[i])
+		{
+
+		}
+	}
+	cmd->arguments;
+	ft_putstr_fd();
 	//temporary execution
 	
 }
