@@ -7,8 +7,8 @@ typedef void(*f)(char *str, int *length);
 
 typedef enum s_specials
 {
-	SEMICOLON, 			// ;
-	PIPE,				// |
+	SEMICOLON, 			/* ; */
+	PIPE,				/* | */
 	REDIRECT,			// >
 	R_REDIRECT,			// <
 	D_REDIRECT,			// >>
@@ -16,7 +16,7 @@ typedef enum s_specials
 	R_REDIRECT_AMP,		// >&
 	RD_REDIRECT_AMP,	// <&
 	AMPERSAND,			// &
-	ERROR				// Error in synax
+	ERROR				// Error in syntax
 }				t_specials;
 
 typedef struct s_command
