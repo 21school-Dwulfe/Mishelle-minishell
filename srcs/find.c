@@ -19,7 +19,7 @@ char	*msh_read_fd(int fd)
 		else
 		{
 			tmp = ft_strjoin(result, buff);
-//			ft_strdel(result);
+			ft_strdel(result);
 			result = tmp;
 		}
 	}

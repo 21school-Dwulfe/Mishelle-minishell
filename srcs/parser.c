@@ -32,7 +32,7 @@ int	msh_check_special_signs(char c)
 	return (0);
 }
 
-void	msh_get_cmds(char *str)
+void	msh_parse(char *str)
 {
 	int		mem;
 	int		length;
@@ -53,22 +53,4 @@ void	msh_get_cmds(char *str)
 		msh_set_specials(str, &length, msh_check_special_signs(str[length]));
 		length++;
 	}
-}
-
-void	msh_parse(char *str)
-{
-	int	i;
-
-	i = 0;
-	g_info.regime = 1;
-	while (str[i])
-	{
-		if (str[i] == '>' || str[i] == '<' || str[i] == '|')
-		{
-			g_info.regime = 2;
-			break ;
-		}
-		i++;
-	}
-	msh_get_cmds(str);
 }
