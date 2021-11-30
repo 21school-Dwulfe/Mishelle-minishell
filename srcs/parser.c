@@ -32,6 +32,23 @@ int	msh_check_special_signs(char c)
 	return (0);
 }
 
+int	ft_str_count(char **str)
+{
+	int i;
+	char *tmp;
+
+
+	i = 0;
+	//printf("%s", str[i]);
+	while (str[i])
+	{
+
+		tmp = str[i];
+		i++;
+	}
+	return (i);
+}
+
 void	msh_parse(char *str)
 {
 	int		mem;
@@ -47,9 +64,9 @@ void	msh_parse(char *str)
 			length++;
 		tmp = ft_substr(str, mem, length);
 		msh_add_command(&g_info.current_command, msh_split(tmp, ' '));
+		g_info.current_command->number_args = ft_str_count(g_info.current_command->args);
 		g_info.num_of_commands++;
 		ft_delptr(tmp);
-
 		msh_set_specials(str, &length, msh_check_special_signs(str[length]));
 		length++;
 	}

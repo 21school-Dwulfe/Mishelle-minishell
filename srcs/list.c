@@ -5,7 +5,7 @@ t_command	*msh_create_command(char	**dstr)
 	t_command	*cmd;	
 
 	cmd = malloc(sizeof(t_command));
-	cmd->arguments = dstr;
+	cmd->args = dstr;
 	cmd->background = 0;
 	cmd->input_file = NULL;
 	cmd->out_file = NULL;
@@ -13,6 +13,7 @@ t_command	*msh_create_command(char	**dstr)
 	cmd->piped = 0;
 	cmd->prev = NULL;
 	cmd->next = NULL;
+	cmd->number_args = 0;
 	return (cmd);
 }
 

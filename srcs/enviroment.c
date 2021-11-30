@@ -16,23 +16,26 @@ void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 	int		i;
 	int		j;
 	int     k;
+	char *temp;
 
 	i = 0;
 	while (i < cmd->number_args)
 	{
 		k = 0;
-		while (env[k])
-		{
-			j = 0;
-			while (env[k][j] != '=')
-				j++;
-			if (!ft_strncmp(env[k], cmd->arguments[i], j))
+		temp = cmd->args[i];
+		if (ft_strchr(temp, '$'))
+			while (env[k])
 			{
-				msh_replace_env_var_in_arg(cmd->arguments, i, env[k]);
-				return ;
+				j = 0;
+				while (env[k][j] != '=')
+					j++;
+				if (!ft_strncmp(env[k], cmd->args[i], j))
+				{
+					msh_replace_env_var_in_arg(cmd->args, i, env[k]);
+					return ;
+				}
+				k++;
 			}
-			k++;
-		}
 		i++;
 	}
 }
@@ -40,47 +43,47 @@ void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 char	**msh_copy_env(char **array)
 {
 	int		l;
+	char	*stop;
 	char	**result;
 
-	l = 0;
-	while (array[l])
+	l = 1;
+	stop = ft_strdup(array[0]);
+	while (array[l] != 0)
 		l++;
 	result = malloc(sizeof(char *) * (l + 1));
 	result[l] = 0;
 	l = -1;
 	while (array[++l])
 		result[l] = ft_strdup(array[l]);
+	free(stop);
 	return (result);
 }
 
-void	*ft_realloc(void *memory, size_t size)
-{
-	int		i;
-	void	*result;
-
-	result = malloc(size);
-	if (result)
-	{
-		ft_bzero(result, size);
-		while (((unsigned char *)memory)[i])
-			((unsigned char *)result)[i] = ((unsigned char *)memory)[i++];
-		ft_delptr(memory);
-		return (result);
-	}
-	return (NULL);
-}
 
 char	**msh_create_env_var(char *new_var)
 {
 	int		length;
-	char **result;
+	int 	j;
+	char	**result;
 
+	j = 0;
+	length = 0;
 	while (g_info.env[length])
 		length++;
-	result = ft_realloc(g_info.env, sizeof(char *) * (length + 1));
+	result = ft_realloc(g_info.env, sizeof(char *) * (length + 2));
+	while (result[j])
+	{
+		printf("%d  %s\n", j, result[j]);
+		j++;
+	}
 	result[length] = new_var;
+	while (result[j])
+	{
+		printf("%d  %s\n", j, result[j]);
+		j++;
+	}
+	return (result);
 }
-
 
 // int main(int argc, char **argv, char **env)
 // {

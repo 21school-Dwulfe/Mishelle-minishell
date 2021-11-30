@@ -37,10 +37,22 @@ void	msh_config(int argc, char **argv, char **env)
 	g_info.func[1] = msh_help_parse_pipe;
 	g_info.func[2] = msh_help_parse_redirect;
 	g_info.func[3] = msh_help_parse_r_redirect;
-	g_info.env = env;
+	g_info.env = msh_copy_env(env);
+	g_info.num_of_commands = 0;
 	// g_info.func[4] = ;
 	// g_info.func[5] = msh_help_parse_quotes;
 	
+}
+
+void	msh_struct_clear()
+{
+	// ft_arrstr_del((*cmd)->args, (*cmd)->number_args);
+	ft_delptr(g_info.current_command->args);
+	ft_strdel(g_info.current_command->input_file);
+	ft_strdel(g_info.current_command->err_file);
+	ft_strdel(g_info.current_command->out_file);
+	free(g_info.current_command);
+	g_info.current_command = NULL;
 }
 
 int main(int argc, char **argv, char **env)
@@ -60,8 +72,9 @@ int main(int argc, char **argv, char **env)
 		msh_check_unclosed_quotes(buff, line, 0);
 		add_history(buff);
 		msh_cmd(buff);
-		free(line);
-		ft_bzero(buff, sizeof(char) * 1024);
+		ft_strdel(line);
+		ft_bzero(buff, sizeof(char) * 1024); //604 365 194
+		msh_struct_clear();
 	}
 	return (0);
 }

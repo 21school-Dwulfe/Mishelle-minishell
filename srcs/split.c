@@ -57,10 +57,12 @@ char	**msh_split(char *str, int c)
 	int		j;
 	int		start;
 	char	**result;
+	int		counter;
 
 	i = 0;
 	j = 0;
-	result = (char **)malloc(sizeof(char *) * (count_str(str, c) + 1));
+	counter = count_str(str, c);
+	result = (char **)malloc(sizeof(char *) * (counter + 1));
 	while (str[i])
 	{	
 		while (str[i] && str[i] == c)
@@ -81,9 +83,9 @@ char	**msh_split(char *str, int c)
 			j++;
 		}
 		if (result[j - 1] == NULL)
-				ft_freee(result, j);
+				ft_arrstr_del(result, j);
 	}
-	result[j] = "\0";
+	result[j] = 0;//ft_strdup("\0");
 	return (result);
 }
 

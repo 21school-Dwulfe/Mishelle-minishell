@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrdel_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_realoc_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/30 18:05:24 by dwulfe            #+#    #+#             */
-/*   Updated: 2021/11/30 20:05:51 by dwulfe           ###   ########.fr       */
+/*   Created: 2021/11/30 18:04:37 by dwulfe            #+#    #+#             */
+/*   Updated: 2021/11/30 19:21:06 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_arrstr_del(char **dst, int s_counter)
+void	*ft_realloc(void *memory, size_t size)
 {
-	while (s_counter > 0)
+	int		i;
+	void	*result;
+
+	i = 0;
+	result = malloc(size);
+	if (result)
 	{
-		s_counter--;
-		free((void *)dst[s_counter]);
+		ft_bzero(result, size);
+		result = ft_memmove(result, memory, size);
+		ft_delptr(memory);
+		return (result);
 	}
-	free(dst);
 	return (NULL);
 }

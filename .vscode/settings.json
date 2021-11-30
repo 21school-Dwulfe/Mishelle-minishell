@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "__functional_base": "c",
+        "functional": "c",
+        "tuple": "c"
+    }
+}

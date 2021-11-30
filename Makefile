@@ -13,7 +13,7 @@ OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))}
 HEADERS			:= ${shell find ./includes -name '*.h'}
 
 ifeq ($(SYSTEM), Darwin)
-	MAKE 		= make -C
+	MAKE 		= make 
 endif
 ifeq ($(SYSTEM), Linux)
 	MAKE		= make

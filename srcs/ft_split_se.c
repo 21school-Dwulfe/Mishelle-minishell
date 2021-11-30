@@ -1,6 +1,6 @@
 #include "../includes/main.h"
 
-char	**ft_freee(char **dst, int s_counter)
+char	**ft_arrstr_del(char **dst, int s_counter)
 {
 	while (s_counter > 0)
 	{
@@ -53,7 +53,7 @@ char **ft_split_se(char *str, int c)
 			j++;
 		}
 		if (result[j - 1] == NULL)
-				ft_freee(result, j);
+				ft_arrstr_del(result, j);
 	}
 	result[j] = "\0";
 	return (result);

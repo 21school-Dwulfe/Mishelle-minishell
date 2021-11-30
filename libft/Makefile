@@ -2,7 +2,7 @@ SRCSDIR = ./
 
 SRCS 			:= $(shell find . -name '*.c' ! -name '*_bonus.c')
 
-SRCS_BONUS 		:= $(shell find -name '*_bonus.c')
+SRCS_BONUS 		:= $(shell find . -name '*_bonus.c')
 
 OBJS 			:= ${SRCS:.c=.o}
 
@@ -35,7 +35,7 @@ clean :
 			${RM} ${OBJS}
 
 fclean :	clean 
-			${RM} ${NAME}
+			rm -rf libft.a
 
 re :		fclean all
 
