@@ -24,11 +24,13 @@ void	msh_add_command(t_command **cur_cmd, char **value)
 	tmp = msh_create_command(value);
 	if (cur_cmd && *cur_cmd)
 	{
-		tmp->next = *cur_cmd;
-		if ((*cur_cmd)->prev != NULL)
-			tmp->prev = (*cur_cmd)->prev;
-		else
-			tmp->prev = *cur_cmd;
+		(*cur_cmd)->prev->next = tmp;
+		tmp->prev = (*cur_cmd)->prev;
+		(*cur_cmd)->prev = tmp;
 	}
-	*cur_cmd = tmp;
+	else
+	{
+		*cur_cmd = tmp;
+		(*cur_cmd)->prev = tmp;
+	}
 }

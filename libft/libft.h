@@ -61,6 +61,7 @@ void		ft_delptr(void *ptr);
 t_list		*ft_lstnew(void *content);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 int			ft_lstsize(t_list *lst);
+int			ft_index_of(char *str, int c);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 char		**ft_arrstr_del(char **dst, int s_counter);
 t_list		*ft_lstlast(t_list *lst);

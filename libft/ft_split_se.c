@@ -1,4 +1,4 @@
-#include "../includes/main.h"
+#include "libft.h"
 
 char	**ft_arrstr_del(char **dst, int s_counter)
 {
@@ -58,23 +58,3 @@ char **ft_split_se(char *str, int c)
 	result[j] = "\0";
 	return (result);
 }
-
-// int main(void)
-// {
-// 	int i = 0;
-// 	char	**chstr;
-
-// 	chstr = ft_split_se("dfghj asd asdfg", ' ');
-// 	(void)chstr;
-// 	while (ft_strcmp(chstr[i], "\0"))
-// 	{
-// 		printf("|%s|\n", chstr[i]);
-// 		free(chstr[i]);
-// 		i++;
-// 	}
-
-// 	free(chstr);
-// 	chstr = NULL;
-	
-// 	return (0);
-// }

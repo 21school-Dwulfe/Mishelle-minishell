@@ -14,7 +14,7 @@ int	check_is_opened(char c)
 	}
 	else if (i > 0 && c != ch)
 		return (ch);
-	else if (i > 0)
+	else if (i > 0 )
 	{
 		i = 0;
 		ch = 0;
@@ -33,7 +33,7 @@ int	count_str(char	*str, int c)
 	count = 0;
 	while (str[++i])
 	{
-		if (check_is_opened(str[i]) && ++i)
+		if (flag == 0 && check_is_opened(str[i]) && ++i)
 		{
 			while (check_is_opened(str[i]))
 				i++;
@@ -51,6 +51,26 @@ int	count_str(char	*str, int c)
 	return (count);
 }
 
+char	*msh_get_quotes_str(char *str, int *i)
+{
+	int start;
+	char *result;
+
+	start = *i;
+	while (check_is_opened(str[*i]))
+		*i = *i + 1;
+	*i = *i + 1;
+	result = ft_strndup(str + start, *i - 1 - start);
+	return (result);
+}
+
+char *ft_str_smart_join(char *s1, char *s2)
+{
+	if (s1 == NULL )
+		return (s2);
+	return (ft_strjoin(s1, s2));
+}
+
 char	**msh_split(char *str, int c)
 {
 	int		i;
@@ -58,34 +78,59 @@ char	**msh_split(char *str, int c)
 	int		start;
 	char	**result;
 	int		counter;
+	int 	concat;
+	char	*tmp[2];
 
 	i = 0;
 	j = 0;
+	concat = 1;
+	ft_bzero(tmp, sizeof(char) * 2);
 	counter = count_str(str, c);
-	result = (char **)malloc(sizeof(char *) * (counter + 1));
+	result = ft_calloc(counter + 1, sizeof(char *));
 	while (str[i])
 	{	
 		while (str[i] && str[i] == c)
 				i++;
-		start = i;
-		if (check_is_opened(str[i]) && ++i)
+		while (str[i] && str[i] != c)
 		{
-			while (str[i] && check_is_opened(str[i]))
-				i++;
-			result[j] = ft_strndup(str + start, (++i - start));
-			j++;
+			if (check_is_opened(str[i]) && ++i)
+			{
+				tmp[0] = msh_get_quotes_str(str, &i);
+				if (tmp[0] != NULL && result[j])
+				{
+					tmp[1] = result[j];
+					result[j] = ft_strjoin(tmp[1], tmp[0]);
+					ft_strdel(tmp[1]);
+					ft_strdel(tmp[0]);
+				}
+				else
+					result[j] = tmp[0];
+			}
+			if ((result[j] && str[i] == c) || str[i] == '\0')// if next char after quotes == space
+				break ;
+			if (str[i] && str[i] != '\'' && str[i] != '\"')
+			{
+				start = i;
+				while(str[i] && str[i] != '\'' && str[i] != '\"' && str[i] != c)
+					i++;
+				if (result[j] != 0 && start != i)
+				{
+					tmp[1] = result[j];
+					tmp[0] = ft_strndup(str + start, i - start);
+					result[j] = ft_str_smart_join(tmp[1], tmp[0]);
+					ft_strdel(tmp[1]);
+					ft_strdel(tmp[0]);
+				}
+				else if (start != i)
+					result[j] = ft_strndup(str + start, i - start);
+			}
+			
 		}
-		else if (str[i] != c && str[i] != '\0' )
-		{	
-			while (str[i] && ((str[i] != '\'') & (str[i] != '\"')) && str[i] != c)
-				i++;
-			result[j] = ft_strndup(str + start, i - start);
-			j++;
-		}
-		if (result[j - 1] == NULL)
+		if (j > 0 && result[j - 1] == NULL)
 				ft_arrstr_del(result, j);
+		else
+			j++;
 	}
-	result[j] = 0;//ft_strdup("\0");
 	return (result);
 }
 

@@ -60,6 +60,7 @@ clean :
 		cd readline-8.1 && $(MAKE) distclean
 
 fclean : clean
+		cd ./libft && $(MAKE) fclean
 		rm -rf lib
 		rm -rf $(APP)
 
@@ -71,9 +72,3 @@ buildrepo:
 	mkdir -p lib 
 	 cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 
 
-# # define make-repo
-# #    for dir in $(SRCDIRS); \
-# #    do \
-# # 	mkdir -p $(OBJDIR)/$$dir; \
-# #    done
-# # endef

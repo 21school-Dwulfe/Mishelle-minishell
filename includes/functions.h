@@ -34,6 +34,6 @@ char	**msh_split(char *str, int c);
 char    *msh_get_path(char *cmd_name, char **env);
 char	**msh_copy_env(char **array);
 char    *msh_multy_pipe(t_command *cmds, char **env);
-
+t_command	*msh_create_command(char	**dstr);
 
 #endif

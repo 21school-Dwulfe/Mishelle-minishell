@@ -56,6 +56,7 @@ char *msh_get_path(char *cmd_name, char **env)
 	close(fd[0]);
 	waitpid(0, NULL, 0);
 	path = msh_read_fd(0);
+	path[ft_strlen(path) - 1] = '\0';
 	return (path);
 }
 
@@ -103,7 +104,7 @@ char *msh_get_path(char *cmd_name, char **env)
 // 	return (result);
 // }
 
-// // int main(int argc, char **argv, char **env)
+// int main(int argc, char **argv, char **env)
 // {
 // 	(void)argc;
 // 	(void)argv;
