@@ -25,6 +25,28 @@ void	msh_simple_execute(t_command *cmd, char **env)
 	ft_strdel(s);
 }
 
+void	msh_custom_redirect(t_command *cmd)
+{
+	t_command *tmp;
+	int			i;
+
+	i = 0;
+	if (cmd->input_file)
+		tmp = cmd;
+	while (cmd->input_file)
+	{
+		if (msh_open(cmd->input_file, cmd->specials) == -1)
+			perror(cmd->input_file);
+		
+		i++;
+	}
+}
+
+void	msh_custom_r_redirect(t_command *cmd)
+{
+
+}
+
 void	msh_cmd(char *line)
 {
 	int			i;
@@ -39,39 +61,38 @@ void	msh_cmd(char *line)
 		{
 			printf("%s | ", cmd->args[i]);
 		}
-		printf("\n");
-		// msh_evaluate_env_call_if_exist(cmd, g_info.env);
-		// if (ft_strnstr(cmd->args[0], "exit", 4))
-		// 	msh_custom_exit(cmd);
-		// else if (ft_strnstr(cmd->args[0], "pwd", 3))
-		// 	msh_custom_pwd(cmd);
-		// else if (ft_strnstr(cmd->args[0], "echo", 4))
-		// 	msh_custom_echo(cmd);
-		// else if (ft_strnstr(cmd->args[0], "env", 3))
-		// 	msh_custom_env(cmd);
-		// else if (ft_strnstr(cmd->args[0], "cd", 2))
-		// 	msh_custom_cd(cmd);
-		// else if (ft_strnstr(cmd->args[0], "export", 6))
-		// 	msh_custom_export(cmd);
-		// else if (ft_strnstr(cmd->args[0], "unset", 5))
-		// 	msh_custom_unset(cmd);
-		// else
-		// {
-		// 	if (cmd->piped)
-		// 		msh_execute(cmd, g_info.env);
-		// 	else
-		// 		msh_simple_execute(cmd, g_info.env);
-		// }
+		printf("end of command\n");
+		msh_evaluate_env_call_if_exist(cmd, g_info.env);
+		if (ft_strnstr(cmd->args[0], "exit", 4))
+			msh_custom_exit(cmd);
+		else if (ft_strnstr(cmd->args[0], "pwd", 3))
+			msh_custom_pwd(cmd);
+		else if (ft_strnstr(cmd->args[0], "echo", 4))
+			msh_custom_echo(cmd);
+		else if (ft_strnstr(cmd->args[0], "env", 3))
+			msh_custom_env(cmd);
+		else if (ft_strnstr(cmd->args[0], "cd", 2))
+			msh_custom_cd(cmd);
+		else if (ft_strnstr(cmd->args[0], "export", 6))
+			msh_custom_export(cmd);
+		else if (ft_strnstr(cmd->args[0], "unset", 5))
+			msh_custom_unset(cmd);
+		else if (ft_strnstr(cmd->args[0], ">", 2))
+			msh_custom_redirect(cmd);
+		else if (ft_strnstr(cmd->args[0], "<", 2))
+			msh_custom_r_redirect(cmd);
+		else
+		{
+			if (cmd->piped)
+				msh_execute(cmd, g_info.env);
+			else
+				msh_simple_execute(cmd, g_info.env);
+		}
 		cmd = cmd->next;
 	}
 }
 
-/**
- * @brief 
- * 
- * @param cmd 
- * @param env 
- */
+
 // void	msh_execute(t_command *cmd, char **env)
 // {
 // 	int	fdin;

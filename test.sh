@@ -26,4 +26,50 @@
 blah "|" /bin/echo OK
 blah "|" /bin/echo OK ";"
 ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" blah "|" /bin/echo OK ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";"
+
+### Opens stdin
+
 >>tyuikl| - # stdin
+
+## Errors while stdin
+
+##
+e''ch""o ";" ""O""K #; OK
+4:12
+e"$POO"''ch""o ";" ""O""K
+; OK
+4:12
+bash-3.2$ e"$POO"''ch""o ";" ""O""K
+; OK
+4:13
+
+### End stdin
+
+echo hren >    file			# Create file if it not exist & write to it string
+echo hren > !				# Create ! if it not exist & write to it string
+echo hren >> ?
+echo hren >> $
+
+### Errors
+
+echo hren >    > file		# bash: syntax error near unexpected token `>'
+echo hren > |				# bash: syntax error near unexpected token `|'
+echo hren >|				# bash: syntax error near unexpected token `newline'
+echo hren > <				# bash: syntax error near unexpected token `<'
+echo hren ><				# bash: syntax error near unexpected token `<'
+echo hren > & 				# bash: syntax error near unexpected token `&'
+echo hren <|				# bash: syntax error near unexpected token `|'
+echo hren >> >				# bash: syntax error near unexpected token `>'
+echo hren >>>				# bash: syntax error near unexpected token `>'
+echo hren >>> g				# bash: syntax error near unexpected token `>'
+echo hren >>>|				# bash: syntax error near unexpected token `>|'
+echo hren >>>?				# bash: syntax error near unexpected token `>'
+echo hren >>> ?				# bash: syntax error near unexpected token `>'
+echo hren >> |				# bash: syntax error near unexpected token `|'
+echo hren >>|				# bash: syntax error near unexpected token `|'
+e"POO"''ch""o ";" ""O""K 	# bash: ePOOcho: command not found
+< file < file4 fr			# bash: fr: command not found
+< file < file4 > file5 fg	# bash: fg: current: no such job
+< file < file4 > file5 f	# bash: f: command not found
+< file < file4 > file5 fh 	# bash: fh: command not found
+### End Errors

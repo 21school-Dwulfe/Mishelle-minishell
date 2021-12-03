@@ -66,8 +66,10 @@ char	*msh_get_quotes_str(char *str, int *i)
 
 char *ft_str_smart_join(char *s1, char *s2)
 {
-	if (s1 == NULL )
+	if (s1 == NULL && s2)
 		return (s2);
+	else if (s1 && s2 == NULL)
+		return (s1);
 	return (ft_strjoin(s1, s2));
 }
 

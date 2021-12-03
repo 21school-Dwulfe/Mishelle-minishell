@@ -7,15 +7,15 @@ typedef void(*f)(char *str, int *length);
 
 typedef enum s_specials
 {
-	SEMICOLON, 			/* ; */
+	SEMICOLON = 1, 		/* ; */
 	PIPE,				/* | */
 	REDIRECT,			// >
 	R_REDIRECT,			// <
 	D_REDIRECT,			// >>
 	RD_REDIRECT,		// <<
+	AMPERSAND,			// &
 	R_REDIRECT_AMP,		// >&
 	RD_REDIRECT_AMP,	// <&
-	AMPERSAND,			// &
 	ERROR				// Error in syntax
 }				t_specials;
 
@@ -27,7 +27,7 @@ typedef struct s_command
 	char				*input_file;	// путь к файлу для редиректа (чтение)
 	char				*err_file;		// путь к файлу для редиректа (ошибок) 
 	int					piped;			// вмето булевого значения флаг указывающи на наличие pipe
-	int					background;
+	int					background;		
 	t_specials			specials;		// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
 	struct s_command	*next;			// указатель на сдедующуу команду
 	struct s_command	*prev;			// указатель на предыдущюю команду (возможно не нужен)

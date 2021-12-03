@@ -5,36 +5,45 @@
 // validation cmd names
 // validation cmd args
 
-// void	msh_set_specials(char *str, int *length, int specials)
-// {
-// 	if (specials == 4 || specials == 3)
-// 	{
-		
-// 	}
-	
-// }
-
-int	msh_check_special_signs(char *c, int i)
+void	msh_set_specials(char *str, int *length, int specials)
 {
-	int specials;
+	if (str && specials)
+		g_info.func[specials](str, length);
+}
 
-	specials = 0;
-	if (i > 0 && c[i] == ';' )
-		specials = 1;
-	if (*c == '|')
-		specials = 2;
-	if (*c == '>')
-		specials = 3;
-	if (i > 0 && *c == '<')
-		specials = 4;
-	if (*c == '&')
-		specials = 5;
-	if (ft_strnstr(c + i, ">>", 3))
-		specials = 6;
-	if (ft_strnstr(c + i, "<<", 3))
-		specials = 7;
-	//g_info.func[specials](c, i);
-	return (specials);
+int	msh_multiple_iterator(int num, int *i)
+{
+	int in;
+
+	in = 0;
+	while (in < num)
+	{
+		in++;
+		(*i)++;
+	}
+	return (in);
+}
+
+int	msh_check_special_signs(char *str, int *i, int *specials)
+{
+	if ((ft_strnstr(str + *i, "\";\"", 3) || ft_strnstr(str + *i, "\';\'", 3))
+		&& msh_multiple_iterator(3, i))
+		return (*specials = 0);
+	if (*i > 0 && str[*i] == ';')
+		return (*specials = SEMICOLON);
+	if (str[*i] == '|')
+		return (*specials = PIPE);
+	if (ft_strnstr(str + *i, ">>", 3))
+		return (*specials = D_REDIRECT);
+	if (ft_strnstr(str + *i, "<<", 3))
+		return (*specials = RD_REDIRECT);
+	if (str[*i] == '>')
+		return (*specials = REDIRECT);
+	if (*i > 0 && str[*i] == '<')
+		return (*specials = R_REDIRECT);
+	if (str[*i] == '&')
+		return (*specials = AMPERSAND);
+	return (*specials = 0);
 }
 
 int	ft_str_count(char **str)
@@ -42,12 +51,9 @@ int	ft_str_count(char **str)
 	int i;
 	char *tmp;
 
-
 	i = 0;
-	//printf("%s", str[i]);
 	while (str[i])
 	{
-
 		tmp = str[i];
 		i++;
 	}
@@ -56,43 +62,49 @@ int	ft_str_count(char **str)
 
 void	msh_parse(char *str)
 {
-	int		mem;
-	int		length;
-	char	*tmp;
-	//char	*c;
+	int			mem;
+	int			length;
+	char		*tmp;
+	int			specials;
+	t_command	*cur_cmd;
 
 	mem = 0;
 	length = 0;
+	specials = 0;
+	cur_cmd = msh_create_command(NULL); 
+	g_info.current_command;
 	while (str[length])
 	{
 		mem = length;
-		while (str[length] && !msh_check_special_signs(str, length))
+		while (str[length])
+		{
+			msh_check_special_signs(str, &length, &specials);
+			if (specials > 0)
+				break ;
 			length++;
+		}
 		tmp = ft_strndup(str + mem, length - mem);
-		msh_add_command(&g_info.current_command, msh_split(tmp, ' '));
-		// c = ft_strrchr(tmp, ';');
-		// if (c && ft_strlen(tmp) > 1)
-		// 	c = \0';
+		
+		// if (specials > 3 && specials < 7)
+		// {
+		// 	if (cmd-> != NULL)
+		// 		msh_add_redirect();
+		// }
+		// else if ()
+		msh_add_command(cur_cmd, msh_split(tmp, ' '));
 		g_info.current_command->number_args = ft_str_count(g_info.current_command->args);
 		g_info.num_of_commands++;
 		ft_delptr(tmp);
-	//	msh_set_specials(str, &length, msh_check_special_signs(str, length));
+		msh_set_specials(str, &length, specials);
 		length++;
 	}
 }
-
-
-
-
-
-
 	// int i = 0;
 	// t_command *t = g_info.current_command;
 	// while (t)
 	// {
 	// 	while (t->args[i])
 	// 	{
-
 	// 		printf("%s\n",t->args[i]);
 	// 		i++;
 	// 	}
