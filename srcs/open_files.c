@@ -14,7 +14,7 @@ int msh_open(char *path, int type)
     {
         return (open(path, O_RDONLY));
     }
-    else if (type == RD_REDIRECT)
+    else //if (type == RD_REDIRECT)
     {
         return (open(path, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, S_IRWXU));
     }

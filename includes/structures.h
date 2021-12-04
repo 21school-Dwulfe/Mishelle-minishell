@@ -3,7 +3,7 @@
 
 #include "libs.h"
 
-typedef void(*f)(char *str, int *length);
+typedef void(*f)(char *str, int *length, int start_index);
 
 typedef enum s_specials
 {

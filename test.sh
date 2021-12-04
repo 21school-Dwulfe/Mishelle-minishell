@@ -72,4 +72,6 @@ e"POO"''ch""o ";" ""O""K 	# bash: ePOOcho: command not found
 < file < file4 > file5 fg	# bash: fg: current: no such job
 < file < file4 > file5 f	# bash: f: command not found
 < file < file4 > file5 fh 	# bash: fh: command not found
+# bash-3.2$ echo $PA"TH"
+# TH
 ### End Errors

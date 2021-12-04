@@ -5,10 +5,10 @@
 // validation cmd names
 // validation cmd args
 
-void	msh_set_specials(char *str, int *length, int specials)
+void	msh_set_specials(char *str, int *length, int specials, int start_index)
 {
 	if (str && specials)
-		g_info.func[specials](str, length);
+		g_info.func[specials](str, length, start_index);
 }
 
 int	msh_multiple_iterator(int num, int *i)
@@ -34,13 +34,13 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 	if (str[*i] == '|')
 		return (*specials = PIPE);
 	if (ft_strnstr(str + *i, ">>", 3))
-		return (*specials = D_REDIRECT);
+		return (!(*specials = D_REDIRECT));
 	if (ft_strnstr(str + *i, "<<", 3))
-		return (*specials = RD_REDIRECT);
+		return (!(*specials = RD_REDIRECT));
 	if (str[*i] == '>')
-		return (*specials = REDIRECT);
+		return (!(*specials = REDIRECT));
 	if (*i > 0 && str[*i] == '<')
-		return (*specials = R_REDIRECT);
+		return (!(*specials = R_REDIRECT));
 	if (str[*i] == '&')
 		return (*specials = AMPERSAND);
 	return (*specials = 0);
@@ -66,13 +66,10 @@ void	msh_parse(char *str)
 	int			length;
 	char		*tmp;
 	int			specials;
-	t_command	*cur_cmd;
 
 	mem = 0;
 	length = 0;
 	specials = 0;
-	cur_cmd = msh_create_command(NULL); 
-	g_info.current_command;
 	while (str[length])
 	{
 		mem = length;
@@ -84,19 +81,11 @@ void	msh_parse(char *str)
 			length++;
 		}
 		tmp = ft_strndup(str + mem, length - mem);
-		
-		// if (specials > 3 && specials < 7)
-		// {
-		// 	if (cmd-> != NULL)
-		// 		msh_add_redirect();
-		// }
-		// else if ()
-		msh_add_command(cur_cmd, msh_split(tmp, ' '));
+		msh_add_command(&g_info.current_command, msh_split(tmp, ' '));
 		g_info.current_command->number_args = ft_str_count(g_info.current_command->args);
 		g_info.num_of_commands++;
 		ft_delptr(tmp);
-		msh_set_specials(str, &length, specials);
-		length++;
+		msh_set_specials(str, &length, specials, mem);
 	}
 }
 	// int i = 0;
