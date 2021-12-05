@@ -72,6 +72,7 @@ void	msh_help_parse_redirect(char *str, int *length, int start_index)
 	//		str + mem_start_index , start_index - mem_start_index);
 }
 
+
 void	msh_help_parse_r_redirect(char *str, int *index, int begin_of_str)
 {
 	(void)str;
@@ -94,9 +95,10 @@ void	msh_help_parse_r_redirect(char *str, int *index, int begin_of_str)
 		while (str[*index] && str[*index] == ' ')
 			(*index)++;
 		start = *index;
-		
 		while (str[*index] && str[*index] != ' ' && str[*index] != '<')
 			(*index)++;
+		if (is_need_cmd && str[*index] == ' ')
+			
 		msh_add_redirect(&g_info.current_command->input, ft_strndup(str + start, *index - start));
 		if (str[*index] == '<')
 			(*index)++;
