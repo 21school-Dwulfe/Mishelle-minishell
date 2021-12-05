@@ -34,13 +34,13 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 	if (str[*i] == '|')
 		return (*specials = PIPE);
 	if (ft_strnstr(str + *i, ">>", 3))
-		return (!(*specials = D_REDIRECT));
+		return (*specials = D_REDIRECT);
 	if (ft_strnstr(str + *i, "<<", 3))
-		return (!(*specials = RD_REDIRECT));
+		return (*specials = RD_REDIRECT);
 	if (str[*i] == '>')
-		return (!(*specials = REDIRECT));
+		return (*specials = REDIRECT);
 	if (*i > 0 && str[*i] == '<')
-		return (!(*specials = R_REDIRECT));
+		return (*specials = R_REDIRECT);
 	if (str[*i] == '&')
 		return (*specials = AMPERSAND);
 	return (*specials = 0);
@@ -49,12 +49,10 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 int	ft_str_count(char **str)
 {
 	int i;
-	char *tmp;
 
 	i = 0;
 	while (str[i])
 	{
-		tmp = str[i];
 		i++;
 	}
 	return (i);

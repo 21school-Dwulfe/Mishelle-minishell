@@ -56,9 +56,9 @@ void	msh_struct_clear()
 	while (cmds)
 	{
 		ft_delptr(cmds->args);
-		ft_strdel(cmds->input_file);
-		ft_strdel(cmds->err_file);
-		ft_strdel(cmds->out_file);
+		ft_strdel(cmds->input);
+		ft_strdel(cmds->err);
+		ft_strdel(cmds->out);
 		cmds = cmds->next;
 		free(g_info.current_command);
 		g_info.current_command = NULL;

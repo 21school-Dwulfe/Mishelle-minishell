@@ -71,5 +71,8 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *),
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 void		ft_strdel(char	*ptr);
+void		ft_swap_strs(void *p1, void *p2);
+void		ft_swap_int(void *a, void *b);
+
 
 #endif

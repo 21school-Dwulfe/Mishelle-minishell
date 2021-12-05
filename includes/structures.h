@@ -19,15 +19,23 @@ typedef enum s_specials
 	ERROR				// Error in syntax
 }				t_specials;
 
+typedef struct s_redirect
+{
+	char *file;
+	struct s_redirect *next;
+	struct s_redirect *prev;
+}				t_redirect;
+
+
 typedef struct s_command
 {  
 	int					number_args;  	// количество аргументов включая команду 
 	char				**args;			// массив строк где 0 индекс всегда является названием команды, остальные являются аргументами команды, заканчивается '\0'
-	char				*out_file;		// путь к файлу для редиректа (запись)
-	char				*input_file;	// путь к файлу для редиректа (чтение)
-	char				*err_file;		// путь к файлу для редиректа (ошибок) 
+	t_redirect			*out;			// путь к файлу для редиректа (запись)
+	t_redirect			*input;			// путь к файлу для редиректа (чтение)
+	t_redirect			*err;			// путь к файлу для редиректа (ошибок) 
 	int					piped;			// вмето булевого значения флаг указывающи на наличие pipe
-	int					background;		
+	int					background;	
 	t_specials			specials;		// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
 	struct s_command	*next;			// указатель на сдедующуу команду
 	struct s_command	*prev;			// указатель на предыдущюю команду (возможно не нужен)
