@@ -22,7 +22,7 @@ void	msh_help_parse_pipe(char *str, int *length, int start_index)
 		if (!ft_strcmp(g_info.current_command->args[i], "<")
 			&& i + 1 <= g_info.current_command->number_args)
 		{
-			msh_add_command(&g_info.current_command, );
+			//msh_add_command(&g_info.current_command, );
 		}
 		i++;
 	}

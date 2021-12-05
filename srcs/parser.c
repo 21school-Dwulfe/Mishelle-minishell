@@ -82,6 +82,7 @@ void	msh_parse(char *str)
 		}
 		tmp = ft_strndup(str + mem, length - mem);
 		msh_add_command(&g_info.current_command, msh_split(tmp, ' '));
+		msh_evaluate_env_call_if_exist(&g_info.current_command, g_info.env);
 		g_info.current_command->number_args = ft_str_count(g_info.current_command->args);
 		g_info.num_of_commands++;
 		ft_delptr(tmp);

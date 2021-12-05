@@ -67,7 +67,7 @@ void	msh_cmd(char *line)
 			printf("%s | ", cmd->args[i]);
 		}
 		printf("end of command\n");
-		// msh_evaluate_env_call_if_exist(cmd, g_info.env);
+		 
 		// if (ft_strnstr(cmd->args[0], "exit", 4))
 		// 	msh_custom_exit(cmd);
 		// else if (ft_strnstr(cmd->args[0], "pwd", 3))
