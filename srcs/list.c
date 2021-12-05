@@ -7,14 +7,25 @@ t_command	*msh_create_command(char	**dstr)
 	cmd = malloc(sizeof(t_command));
 	cmd->args = dstr;
 	cmd->background = 0;
-	cmd->input_file = NULL;
-	cmd->out_file = NULL;
-	cmd->err_file = NULL;
+	cmd->input = NULL;
+	cmd->out = NULL;
+	cmd->err = NULL;
 	cmd->piped = 0;
 	cmd->prev = NULL;
 	cmd->next = NULL;
 	cmd->number_args = 0;
 	return (cmd);
+}
+
+t_redirect	*msh_create_redirect(char *filepath)
+{
+	t_redirect *redirect;
+
+	redirect = malloc(sizeof(t_redirect));
+	redirect->file = filepath;
+	redirect->next = NULL;
+	redirect->prev = NULL;
+	return (redirect);
 }
 
 void	msh_add_command(t_command **cur_cmd, char **value)
@@ -32,5 +43,23 @@ void	msh_add_command(t_command **cur_cmd, char **value)
 	{
 		*cur_cmd = tmp;
 		(*cur_cmd)->prev = tmp;
+	}
+}
+
+void msh_add_redirect(t_redirect **current, char *value)
+{
+	t_redirect	*tmp;
+
+	tmp = msh_create_redirect(value);
+	if (current && *current)
+	{
+		(*current)->prev->next = tmp;
+		tmp->prev = (*current)->prev;
+		(*current)->prev = tmp;
+	}
+	else
+	{
+		*current = tmp;
+		(*current)->prev = tmp;
 	}
 }

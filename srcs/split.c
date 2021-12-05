@@ -80,12 +80,10 @@ char	**msh_split(char *str, int c)
 	int		start;
 	char	**result;
 	int		counter;
-	int 	concat;
 	char	*tmp[2];
 
 	i = 0;
 	j = 0;
-	concat = 1;
 	ft_bzero(tmp, sizeof(char) * 2);
 	counter = count_str(str, c);
 	result = ft_calloc(counter + 1, sizeof(char *));

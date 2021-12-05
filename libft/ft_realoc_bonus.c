@@ -14,10 +14,8 @@
 
 void	*ft_realloc(void *memory, size_t size)
 {
-	int		i;
 	void	*result;
 
-	i = 0;
 	result = malloc(size);
 	if (result)
 	{

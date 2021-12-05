@@ -33,31 +33,10 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 		return (*specials = SEMICOLON);
 	if (str[*i] == '|')
 		return (*specials = PIPE);
-	if (ft_strnstr(str + *i, ">>", 3))
-		return (!(*specials = D_REDIRECT));
-	if (ft_strnstr(str + *i, "<<", 3))
-		return (!(*specials = RD_REDIRECT));
-	if (str[*i] == '>')
-		return (!(*specials = REDIRECT));
-	if (*i > 0 && str[*i] == '<')
-		return (!(*specials = R_REDIRECT));
+	
 	if (str[*i] == '&')
 		return (*specials = AMPERSAND);
 	return (*specials = 0);
-}
-
-int	ft_str_count(char **str)
-{
-	int i;
-	char *tmp;
-
-	i = 0;
-	while (str[i])
-	{
-		tmp = str[i];
-		i++;
-	}
-	return (i);
 }
 
 void	msh_parse(char *str)
@@ -82,7 +61,7 @@ void	msh_parse(char *str)
 		}
 		tmp = ft_strndup(str + mem, length - mem);
 		msh_add_command(&g_info.current_command, msh_split(tmp, ' '));
-		msh_evaluate_env_call_if_exist(&g_info.current_command, g_info.env);
+		msh_evaluate_env_call_if_exist(g_info.current_command, g_info.env);
 		g_info.current_command->number_args = ft_str_count(g_info.current_command->args);
 		g_info.num_of_commands++;
 		ft_delptr(tmp);

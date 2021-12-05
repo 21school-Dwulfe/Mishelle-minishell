@@ -5,17 +5,17 @@
 #include "features.h"
 
 void	    msh_parse(char *str);
-void	    msh_help_parse_semi(char *str, int *length, int start_index);
-void	    msh_help_parse_pipe(char *str, int *length, int start_index);
-void	    msh_help_parse_redirect(char *str, int *length, int start_index);
-void	    msh_help_parse_r_redirect(char *str, int *length, int start_index);
-void	    msh_help_parse_d_quotes(char *str, int *length, int start_index);
-void	    msh_help_parse_quotes(char *str, int *length, int start_index);
-void	    msh_help_parse_ampersand(char *str, int *length, int start_index);
-void	    msh_help_parse_d_redirect(char *str, int *length, int start_index);
-void	    msh_help_parse_rd_redirect(char *str, int *length, int start_index);
-void	    msh_help_parse_r_redirect_amp(char *str, int *length, int start_index);
-void	    msh_help_parse_rd_redirect_amp(char *str, int *length, int start_index);
+void	    msh_help_parse_semi(char *str, int length);
+void	    msh_help_parse_pipe(char *str, int length);
+void	    msh_help_parse_redirect(char *str, int length);
+void	    msh_help_parse_r_redirect(char *str, int length);
+void	    msh_help_parse_d_quotes(char *str, int length);
+void	    msh_help_parse_quotes(char *str, int length);
+void	    msh_help_parse_ampersand(char *str, int length);
+void	    msh_help_parse_d_redirect(char *str, int length);
+void	    msh_help_parse_rd_redirect(char *str, int length);
+void	    msh_help_parse_r_redirect_amp(char *str, int length);
+void	    msh_help_parse_rd_redirect_amp(char *str, int length);
 void	    msh_add_to_struct(char **result);
 void	    msh_add_command(t_command **cur_cmd, char **value);
 void	    msh_custom_exit(t_command *cmd);
@@ -44,6 +44,7 @@ char	    **msh_copy_env(char **array);
 char        *msh_multy_pipe(t_command *cmds, char **env);
 int	        msh_check_special_signs(char *str, int *i, int *specials);
 t_command	*msh_create_command(char    **dstr);
+void        msh_add_redirect(t_redirect **current, char *value);
 int         msh_open(char *path, int type);
 
 /**

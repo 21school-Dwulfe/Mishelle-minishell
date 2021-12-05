@@ -27,19 +27,19 @@ void	msh_simple_execute(t_command *cmd, char **env)
 
 void	msh_custom_redirect(t_command *cmd)
 {
-	t_command *tmp;
-	int			i;
-
-	i = 0;
-	if (cmd->input_file)
-		tmp = cmd;
-	while (cmd->input_file)
-	{
-		if (msh_open(cmd->input_file, cmd->specials) == -1)
-			perror(cmd->input_file);
+	// t_command *tmp;
+	// int			i;
+	(void)cmd;
+	// i = 0;
+	// if (cmd->input_file)
+	// 	tmp = cmd;
+	// while (cmd->input_file)
+	// {
+	// 	if (msh_open(cmd->input_file, cmd->specials) == -1)
+	// 		perror(cmd->input_file);
 		
-		i++;
-	}
+	// 	i++;
+	// }
 }
 
 void	msh_custom_r_redirect(t_command *cmd, char *str)
@@ -54,10 +54,8 @@ void	msh_custom_r_redirect(t_command *cmd, char *str)
 
 void	msh_cmd(char *line)
 {
-	int			i;
 	t_command	*cmd;
 
-	i = 0;
 	msh_parse(line);
 	cmd = g_info.current_command;
 	while (cmd)
