@@ -43,13 +43,13 @@ void	msh_custom_echo(t_command *cmd)
 	{
 		tmp[1] = msh_add_space(len, tmp[0], cmd);
 		tmp[0] = ft_strjoin(tmp[1], cmd->args[len++]);
-		ft_strdel(tmp[1]);
+		ft_strdel(&tmp[1]);
 	}
 	if (is_nl)
 		ft_putendl_fd(tmp[0], 1);
 	else
 		ft_putstr_fd(tmp[0], 1);
-	ft_strdel(tmp[0]);
+	ft_strdel(&tmp[0]);
 }
 
 void	msh_custom_env(t_command *cmd)
@@ -71,7 +71,7 @@ void	msh_custom_cd(t_command *cmd)
 
 void msh_modify_env_var(char **env, char *new_value)
 {
-	ft_strdel(*env);
+	ft_strdel(env);
 	*env = new_value; 
 }
 

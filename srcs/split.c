@@ -100,8 +100,8 @@ char	**msh_split(char *str, int c)
 				{
 					tmp[1] = result[j];
 					result[j] = ft_strjoin(tmp[1], tmp[0]);
-					ft_strdel(tmp[1]);
-					ft_strdel(tmp[0]);
+					ft_strdel(&tmp[1]);
+					ft_strdel(&tmp[0]);
 				}
 				else
 					result[j] = tmp[0];
@@ -118,8 +118,8 @@ char	**msh_split(char *str, int c)
 					tmp[1] = result[j];
 					tmp[0] = ft_strndup(str + start, i - start);
 					result[j] = ft_str_smart_join(tmp[1], tmp[0]);
-					ft_strdel(tmp[1]);
-					ft_strdel(tmp[0]);
+					ft_strdel(&tmp[1]);
+					ft_strdel(&tmp[0]);
 				}
 				else if (start != i)
 					result[j] = ft_strndup(str + start, i - start);

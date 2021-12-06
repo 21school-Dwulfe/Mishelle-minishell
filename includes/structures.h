@@ -3,17 +3,17 @@
 
 #include "libs.h"
 
-typedef void(*f)(char *str, int length);
+typedef int(*f)(char *str, int *length);
 
 typedef enum s_specials
 {
 	SEMICOLON = 1, 		/* ; */
 	PIPE,				/* | */
+	AMPERSAND,			// &
 	REDIRECT,			// >
 	R_REDIRECT,			// <
 	D_REDIRECT,			// >>
 	RD_REDIRECT,		// <<
-	AMPERSAND,			// &
 	R_REDIRECT_AMP,		// >&
 	RD_REDIRECT_AMP,	// <&
 	ERROR				// Error in syntax

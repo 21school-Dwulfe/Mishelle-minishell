@@ -23,6 +23,7 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char		*ft_strcpy(char *dest, const char *src);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
+char 		**ft_split_se(char *str, int c);
 int			ft_index_of(char *line, int c);
 int			ft_isascii(int ch);
 int			ft_isdigit(int c);

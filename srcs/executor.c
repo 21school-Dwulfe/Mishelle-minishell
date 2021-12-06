@@ -22,7 +22,7 @@ void	msh_simple_execute(t_command *cmd, char **env)
 		}
 	}
 	waitpid(ret, NULL, 0);
-	ft_strdel(s);
+	ft_strdel(&s);
 }
 
 void	msh_custom_redirect(t_command *cmd)

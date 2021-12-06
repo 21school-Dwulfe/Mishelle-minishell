@@ -5,10 +5,9 @@
 // validation cmd names
 // validation cmd args
 
-void	msh_set_specials(char *str, int *length, int specials)
+int	msh_set_specials(char *str, int *length, int specials)
 {
-	if (str && specials)
-		g_info.func[specials](str, *length);
+	return (g_info.func[specials](str, length));
 }
 
 int	msh_multiple_iterator(int num, int *i)
@@ -65,7 +64,8 @@ void	msh_parse(char *str)
 		g_info.cur_cmd->num_args = ft_str_count(g_info.cur_cmd->args);
 		g_info.num_of_commands++;
 		ft_strdel(&tmp);
-		msh_set_specials(str, &length, specials);
+		if (msh_set_specials(str, &length, specials) == -1)
+			return ;
 	}
 }
 	// int i = 0;

@@ -7,7 +7,7 @@ void	msh_replace_env_var_in_arg(char **arg_values, int index, char *new_value)
 	i = 0;
 	while (new_value[i] != '=')
 		i++;
-	ft_strdel(arg_values[index]);
+	ft_strdel(&arg_values[index]);
 	arg_values[index] = ft_strdup(new_value + (i + 1));
 }
 

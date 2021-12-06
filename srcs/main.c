@@ -33,18 +33,11 @@ void	msh_config(int argc, char **argv, char **env)
 	(void)argv;
 	(void)env;
 	rl_catch_signals = 0;
-	g_info.func[1] = msh_help_parse_semi;
-	g_info.func[2] = msh_help_parse_pipe;
-	g_info.func[3] = msh_help_parse_redirect;
-	g_info.func[4] = msh_help_parse_r_redirect;
-	g_info.func[5] = msh_help_parse_ampersand;
-	g_info.func[6] = msh_help_parse_d_redirect;
-	g_info.func[7] = msh_help_parse_rd_redirect;
-	//g_info.func[8] = msh_help_parse_
-	//g_info.func[10] = msh_error;
+	g_info.func[0] = msh_redirect_parse;
+	g_info.func[1] = msh_help_parse_pipe;
+	g_info.func[2] = msh_help_parse_ampersand;
 	g_info.env = msh_copy_env(env);
 	g_info.num_of_commands = 0;
-
 }
 
 void	msh_struct_clear()
@@ -55,7 +48,7 @@ void	msh_struct_clear()
 	cmds = g_info.cur_cmd;
 	while (cmds)
 	{
-		ft_delptr(cmds->args);
+		ft_delptr((void **)cmds->args);
 
 		// ft_arrstr_del(cmds->input, ft_str_counter());
 		// ft_strdel(cmds->err);
@@ -83,7 +76,7 @@ int main(int argc, char **argv, char **env)
 		msh_check_unclosed_quotes(buff, line, 0);
 		add_history(buff);
 		msh_cmd(buff);
-		ft_strdel(line);
+		ft_strdel(&line);
 		ft_bzero(buff, sizeof(char) * 1024); //604 365 194
 		msh_struct_clear();
 	}
