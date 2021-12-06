@@ -57,7 +57,7 @@ void	msh_cmd(char *line)
 	t_command	*cmd;
 
 	msh_parse(line);
-	cmd = g_info.current_command;
+	cmd = g_info.cur_cmd;
 	while (cmd)
 	{
 		for( int i = 0; cmd->args[i]; i++)

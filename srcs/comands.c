@@ -16,7 +16,7 @@ void	msh_custom_exit(t_command *cmd)
 
 char	*msh_add_space(int len, char *tmp, t_command *cmd)
 {
-	if (len < cmd->number_args)
+	if (len < cmd->num_args)
 	{
 		tmp = ft_realloc(tmp, ft_strlen(tmp) + 2);
 		tmp[ft_strlen(tmp)] = ' ';
@@ -34,7 +34,7 @@ void	msh_custom_echo(t_command *cmd)
 	is_nl = 1;
 	len = 1;
 	c = NULL;
-	if (cmd->number_args > 1)
+	if (cmd->num_args > 1)
 		c = ft_strchr(cmd->args[1], '-');
 	if (c && ft_strlen(c) == 2 && *(c + 1) == 'n' && (--is_nl == 0))
 		len = 2;
@@ -113,8 +113,8 @@ void	msh_custom_export(t_command *cmd)
 	int arg_in_env;
 
 	i = 1;
-	if (cmd->number_args > 1)
-		while (i < cmd->number_args)
+	if (cmd->num_args > 1)
+		while (i < cmd->num_args)
 		{
 			arg_in_env = msh_check_if_exist(g_info.env, cmd->args);
 			if (arg_in_env)

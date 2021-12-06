@@ -5,10 +5,10 @@
 // validation cmd names
 // validation cmd args
 
-void	msh_set_specials(char *str, int *length, int specials, int start_index)
+void	msh_set_specials(char *str, int *length, int specials)
 {
 	if (str && specials)
-		g_info.func[specials](str, length, start_index);
+		g_info.func[specials](str, *length);
 }
 
 int	msh_multiple_iterator(int num, int *i)
@@ -60,12 +60,12 @@ void	msh_parse(char *str)
 			length++;
 		}
 		tmp = ft_strndup(str + mem, length - mem);
-		msh_add_command(&g_info.current_command, msh_split(tmp, ' '));
-		msh_evaluate_env_call_if_exist(g_info.current_command, g_info.env);
-		g_info.current_command->number_args = ft_str_count(g_info.current_command->args);
+		msh_add_command(&g_info.cur_cmd, msh_split(tmp, ' '));
+		msh_evaluate_env_call_if_exist(g_info.cur_cmd, g_info.env);
+		g_info.cur_cmd->num_args = ft_str_count(g_info.cur_cmd->args);
 		g_info.num_of_commands++;
-		ft_delptr(tmp);
-		msh_set_specials(str, &length, specials, mem);
+		ft_strdel(&tmp);
+		msh_set_specials(str, &length, specials);
 	}
 }
 	// int i = 0;
