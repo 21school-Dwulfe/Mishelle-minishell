@@ -52,7 +52,7 @@ void	msh_struct_clear()
 	// ft_arrstr_del((*cmd)->args, (*cmd)->number_args);
 	t_command *cmds;
 
-	cmds = g_info.current_command;
+	cmds = g_info.cur_cmd;
 	while (cmds)
 	{
 		ft_delptr(cmds->args);
@@ -61,8 +61,8 @@ void	msh_struct_clear()
 		// ft_strdel(cmds->err);
 		// ft_strdel(cmds->out);
 		cmds = cmds->next;
-		free(g_info.current_command);
-		g_info.current_command = NULL;
+		free(g_info.cur_cmd);
+		g_info.cur_cmd = NULL;
 	}
 }
 

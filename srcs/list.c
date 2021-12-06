@@ -13,7 +13,7 @@ t_command	*msh_create_command(char	**dstr)
 	cmd->piped = 0;
 	cmd->prev = NULL;
 	cmd->next = NULL;
-	cmd->number_args = 0;
+	cmd->num_args = 0;
 	return (cmd);
 }
 

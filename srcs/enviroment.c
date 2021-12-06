@@ -19,7 +19,7 @@ void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 	char *temp;
 
 	i = 0;
-	while (i < cmd->number_args)
+	while (i < cmd->num_args)
 	{
 		k = 0;
 		temp = cmd->args[i];

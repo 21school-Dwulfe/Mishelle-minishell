@@ -3,7 +3,7 @@
 
 #include "libs.h"
 
-typedef void(*f)(char *str, int *length, int start_index);
+typedef void(*f)(char *str, int length);
 
 typedef enum s_specials
 {
@@ -29,7 +29,7 @@ typedef struct s_redirect
 
 typedef struct s_command
 {  
-	int					number_args;  	// количество аргументов включая команду 
+	int					num_args;  	// количество аргументов включая команду 
 	char				**args;			// массив строк где 0 индекс всегда является названием команды, остальные являются аргументами команды, заканчивается '\0'
 	t_redirect			*out;			// путь к файлу для редиректа (запись)
 	t_redirect			*input;			// путь к файлу для редиректа (чтение)
@@ -46,7 +46,7 @@ typedef struct	s_info
 	int			num_of_commands;		// общее число команд
 	char		odd_quote;				// тип незакрытой кавычки 			
 	char		**env;					// переменное окружение минишелла (используется вместо стандартных функций редактирования окружения)
-	t_command   *current_command; 		// указатель на первую команду
+	t_command   *cur_cmd; 		// указатель на первую команду
 	f			func[16];				// массив функций для реализации доп логики (возможно не пригодится)
 }				t_info;
 
