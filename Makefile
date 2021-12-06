@@ -31,7 +31,7 @@ INCLUDES		=  -I./includes
 LDFLAGS			= -L$(REL_PATH)/lib/lib -lreadline $(ADD) -I./libft -I$(REL_PATH)/includes/readline -L./libft -lft
 CC				= gcc
 
-${APP}:	  Makefile $(HEADERS) $(LIB) libft/*.o $(OBJDIR) ${OBJS} 
+${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS} 
 			@if [ ! -d "lib" ]; then \
 				mkdir -p lib && \
 				cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install; \
