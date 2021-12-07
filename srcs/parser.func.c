@@ -112,7 +112,7 @@ void	msh_concat_args(t_command *cmd)
 		cmd->args = malloc(sizeof(char) * (num + 1));
 		while (k < i)
 		{
-			cmd->args[k] =tmp[k];
+			cmd->args[k] = tmp[k];
 			k++;
 		}
 		while (++j < cmd->num_args)

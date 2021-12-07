@@ -16,7 +16,8 @@ typedef enum s_specials
 	RD_REDIRECT,		// <<
 	R_REDIRECT_AMP,		// >&
 	RD_REDIRECT_AMP,	// <&
-	ERROR				// Error in syntax
+	ERROR,				// Error in syntax
+	RETURN_TO_RL,		// return to readline
 }				t_specials;
 
 typedef struct s_redirect
@@ -46,8 +47,9 @@ typedef struct	s_info
 	int			num_of_commands;		// общее число команд
 	char		odd_quote;				// тип незакрытой кавычки 			
 	char		**env;					// переменное окружение минишелла (используется вместо стандартных функций редактирования окружения)
-	t_command   *cur_cmd; 		// указатель на первую команду
+	t_command   *cur_cmd; 				// указатель на первую команду
 	f			func[16];				// массив функций для реализации доп логики (возможно не пригодится)
+	f			scenario[16];			// 
 }				t_info;
 
 t_info	g_info;

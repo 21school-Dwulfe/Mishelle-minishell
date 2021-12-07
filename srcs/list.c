@@ -63,3 +63,18 @@ void msh_add_redirect(t_redirect **current, char *value)
 		(*current)->prev = tmp;
 	}
 }
+
+void	msh_append_cmd(t_command **current, t_command *new)
+{
+	if (current && *current)
+	{
+		(*current)->prev->next = new;
+		new->prev = (*current)->prev;
+		(*current)->prev = new;
+	}
+	else
+	{
+		*current = new;
+		(*current)->prev = new;
+	}
+}
