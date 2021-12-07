@@ -44,6 +44,6 @@ char **ft_split_se(char *str, int c)
 		if (result[j - 1] == NULL)
 				ft_arrstr_del(result, j);
 	}
-	result[j] = "\0";
+	result[j] = 0;
 	return (result);
 }
