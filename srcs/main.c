@@ -34,8 +34,9 @@ void	msh_config(int argc, char **argv, char **env)
 	(void)env;
 	rl_catch_signals = 0;
 	g_info.func[0] = msh_redirect_parse;
-	g_info.func[1] = msh_help_parse_pipe;
-	g_info.func[2] = msh_help_parse_ampersand;
+	g_info.func[1] = msh_redirect_parse;
+	g_info.func[2] = msh_help_parse_pipe;
+	g_info.func[3] = msh_help_parse_ampersand;
 	g_info.env = msh_copy_env(env);
 	g_info.num_of_commands = 0;
 }

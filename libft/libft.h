@@ -24,6 +24,7 @@ char		*ft_strcpy(char *dest, const char *src);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 char 		**ft_split_se(char *str, int c);
+char		*ft_strjoin_se(char *s1, char *s2);
 int			ft_index_of(char *line, int c);
 int			ft_isascii(int ch);
 int			ft_isdigit(int c);
