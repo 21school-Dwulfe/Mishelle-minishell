@@ -17,6 +17,8 @@ int		msh_check_syntax(char *str, int in, int c, int len_cmp)
 		msh_error(str, "Mishelle: syntax error near unexpected token",
 			g_info.cur_cmd->args[in + 1] , ft_strlen(g_info.cur_cmd->args[in + 1]));
 	}
+	else if (in == g_info.cur_cmd->num_args - 1 && g_info.cur_cmd->piped)
+		msh_error(str, "Mishelle: syntax error near unexpected token", "|" , 1);
 	else if (index > 2)
 	{
 		g_info.cur_cmd->specials = ERROR;
@@ -27,15 +29,16 @@ int		msh_check_syntax(char *str, int in, int c, int len_cmp)
 	{
 		g_info.cur_cmd->specials = ERROR;
 		msh_error(str, "Mishelle: syntax error near unexpected token",
-				str + 2 , len_cmp - index);
+				str + index , len_cmp - index);
 	}
 	else if ((index < len_cmp && (str[index + 1] == ';'
-		|| (len_cmp > 2 && str[index + 1] == '|')))  )
+		|| (in == g_info.cur_cmd->num_args - 1 && (str[index + 1] == '|' || g_info.cur_cmd->piped))))  )
 		{
 			g_info.cur_cmd->specials = ERROR;
 			msh_error(str, "Mishelle: syntax error near unexpected token",
 					str + index , ft_strlen(str) - index);
 		}
+	
 	else if (in + 1 < g_info.cur_cmd->num_args)
 	{
 		if (in + 1 < g_info.cur_cmd->num_args && !ft_strcmp(g_info.cur_cmd->args[in], g_info.cur_cmd->args[in + 1])
@@ -43,37 +46,49 @@ int		msh_check_syntax(char *str, int in, int c, int len_cmp)
 		msh_error(str, "Mishelle: syntax error near unexpected token",
 			g_info.cur_cmd->args[in + 1], ft_strlen(g_info.cur_cmd->args[in + 1]));
 	}
-	else if (in == g_info.cur_cmd->num_args -1 && (!ft_strcmp(g_info.cur_cmd->args[in], "<<") || !ft_strcmp(g_info.cur_cmd->args[in], ">>")))
+	else if (in == g_info.cur_cmd->num_args -1 && ((!ft_strcmp(g_info.cur_cmd->args[in], "<<") || !ft_strcmp(g_info.cur_cmd->args[in], ">>"))
+		|| (!ft_strcmp(g_info.cur_cmd->args[in], "<") || !ft_strcmp(g_info.cur_cmd->args[in], ">"))))
 		msh_error(str, "Mishelle: syntax error near unexpected token", "newline", 7);
 	if (!g_info.cur_cmd)
 		return (-1);
 	return (1);
 }
 
-int	msh_redirect_parse(void)
+int	msh_redirect_parse(char *str, int *length)
 {
 	t_command	*cmd;
 	int			i;
 	char		c[4];
+	int			in[4];
 
+	(void)str;
+	(void)length;
 	i = 0;
 	ft_bzero(c, sizeof(char) * 4);
 	cmd = g_info.cur_cmd;
 	while (cmd->args[i])
 	{
-		if (ft_strnstr(cmd->args[i], ">>", 3))
+		in[0] = ft_index_of(cmd->args[i], '<');
+		in[1] = ft_index_of(cmd->args[i], '>');
+		if (ft_strnstr(cmd->args[i], ">>", 3)
+			&& ((in[1] != -1 && in[0] == -1)
+			|| (in[1] != -1 && in[0] != -1 && in[1] < in[0])))
 		{
 			c[0] = '>';
 			c[1] = '>';
 		}
-		else if (ft_strnstr(cmd->args[i], "<<", 3))
+		else if (ft_strnstr(cmd->args[i], "<<", 3)
+			&& ((in[0] != -1 && in[1] == -1)
+			|| (in[0] != -1 && in[1] != -1 && in[0] < in[1])))
 		{
 			c[0] = '<';
 			c[1] = '<';
 		}
-		else if (ft_strchr(cmd->args[i], '<'))
+		if ((in[0] != -1 && in[1] == -1)
+			|| (in[0] != -1 && in[1] != -1 && in[0] < in[1]))
 			c[0] = '<';
-		else if (ft_strchr(cmd->args[i], '>'))
+		else if ((in[1] != -1 && in[0] == -1)
+			|| (in[1] != -1 && in[0] != -1 && in[1] < in[0]))
 			c[0] = '>';
 		if (c[0] && msh_help_parse_redirect(cmd->args[i], &i, c) == -1)
 			return (-1);
@@ -87,7 +102,7 @@ int	msh_help_parse_pipe(char *str, int *index)
 	(void)str;
 	(*index)++;
 	g_info.cur_cmd->piped = 1;
-	return (msh_redirect_parse());
+	return (msh_redirect_parse(str, index));
 }
 
 void	msh_concat_args(t_command *cmd)
@@ -143,41 +158,59 @@ int		msh_if_cmd_found(char *str, int *index, char *c)
 	else
 		return (1);
 }
-
+/**
+ * @brief Cut's redirect signs, if they are clumped with filename or previos arg
+ * j[0] = NULL	
+ * j[1] = int of redirect < , > 
+ * j[2] = index of another type of redirect if it exist in the string
+ * j[3] = iterator for loop
+ * @param i - current index of args
+ * @param c - string with redirect
+ */
 void	msh_multiple_clump_redirects(int i, char *c)
 {
 	int			j[4];
 	char		**tmp;
-	t_redirect	*s;
+	t_redirect	**l;
 	char		*t;
+	char		*tp[4];
+	
 
 	tmp = NULL;
 	ft_bzero(j, sizeof(int) * 4);
 	j[1] = 122 - c[0];
 	j[2] = ft_index_of(g_info.cur_cmd->args[i], j[1]);
+	if (!ft_strcmp(c, ">") || !ft_strcmp(c, ">>"))
+		l = &g_info.cur_cmd->out;
+	else
+		l = &g_info.cur_cmd->input;
+	if (g_info.cur_cmd->args[i][0] != j[1])
+	{
+		tp[0] = ft_strndup_se(g_info.cur_cmd->args[i] , 0, c[0]);
+		tp[1] = ft_strdup(g_info.cur_cmd->args[i] + ft_index_of(g_info.cur_cmd->args[i], c[0]));
+		ft_strdel(&g_info.cur_cmd->args[i]);
+	}
+	else
+		tp[1] = g_info.cur_cmd->args[i];
 	if (j[2] < 0)
 	{
-		tmp = msh_split(g_info.cur_cmd->args[i], c[0]);
+		tmp = ft_split(tp[1], c[0]);
 		while (tmp[j[3]])
-			if ((!ft_strcmp(c, ">") || !ft_strcmp(c, ">>")))
 			{
 				t = tmp[j[3]++];
-				msh_add_redirect(&g_info.cur_cmd->out, t);
-			}
-			else
-			{
-				t = tmp[j[3]++];
-				msh_add_redirect(&g_info.cur_cmd->input, t);
+				msh_add_redirect(l, t);
 			}
 	}
 	else
 	{
-		msh_add_redirect(&s, ft_strndup_se(g_info.cur_cmd->args[i] + 1, 0, j[1]));
-		tmp[0] = ft_strdup(g_info.cur_cmd->args[i] + j[2]);
-		g_info.cur_cmd->args[i] = tmp[0];
+		msh_add_redirect(l, ft_strndup_se(tp[1] + 1, 0, j[1]));
+		tmp[0] = ft_strdup(tp[1] + j[2]);
+		tp[1] = tmp[0];
+		ft_memset(c, j[1], sizeof(ft_strlen(c)));
 		msh_multiple_clump_redirects(i, c);
 	}
-	ft_strdel(&g_info.cur_cmd->args[i]);
+	g_info.cur_cmd->args[i] = ft_strjoin(tp[0], tp[1]);
+	ft_strdel(&tp[1]);
 }
 
 int	msh_help_parse_redirect(char *str, int *index, char *c)
@@ -212,8 +245,9 @@ int	msh_help_parse_redirect(char *str, int *index, char *c)
 	return (*index = 0);
 }
 
-void	msh_help_parse_ampersand(char *str, int *length)
+int	msh_help_parse_ampersand(char *str, int *length)
 {
 	(void)str;
 	(void)length;
+	return (0);
 }
