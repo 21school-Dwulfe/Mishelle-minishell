@@ -1,23 +1,24 @@
 #include "../includes/main.h"
 
-int		msh_check_syntax(char *str, int in, int c, int len_cmp)
+int		msh_check_syntax(char *str, int in, char *c, int len_cmp)
 {
 	int index;
 
 	index = 0;
-	if (!ft_strchr(str, c))
+	if (!ft_strchr(str, c[0]))
 		return (0);
-	while (str[index] == c)
+	while (str[index] == c[0])
 		index++;
-	if (index == len_cmp && in + 1 < g_info.cur_cmd->num_args 
-		&& ((ft_strcmp("<", g_info.cur_cmd->args[in + 1] ) && ft_strcmp(">", g_info.cur_cmd->args[in + 1])) ||
-		(ft_strcmp("<<", g_info.cur_cmd->args[in + 1]) && ft_strcmp(">>", g_info.cur_cmd->args[in + 1]))))
-	{
-		g_info.cur_cmd->specials = ERROR;
-		msh_error(str, "Mishelle: syntax error near unexpected token",
-			g_info.cur_cmd->args[in + 1] , ft_strlen(g_info.cur_cmd->args[in + 1]));
-	}
-	else if (in == g_info.cur_cmd->num_args - 1 && g_info.cur_cmd->piped)
+	// if (index == len_cmp && in + 1 < g_info.cur_cmd->num_args 
+	// 	&& ((ft_strcmp("<", g_info.cur_cmd->args[in + 1] ) && ft_strcmp(">", g_info.cur_cmd->args[in + 1])) ||
+	// 	(ft_strcmp("<<", g_info.cur_cmd->args[in + 1]) && ft_strcmp(">>", g_info.cur_cmd->args[in + 1]))))
+	// {
+	// 	g_info.cur_cmd->specials = ERROR;
+	// 	msh_error(str, "Mishelle: syntax error near unexpected token",
+	// 		g_info.cur_cmd->args[in + 1] , ft_strlen(g_info.cur_cmd->args[in + 1]));
+	// }
+	// else
+	if (in == g_info.cur_cmd->num_args - 1 && g_info.cur_cmd->piped)
 		msh_error(str, "Mishelle: syntax error near unexpected token", "|" , 1);
 	else if (index > 2)
 	{
@@ -25,7 +26,7 @@ int		msh_check_syntax(char *str, int in, int c, int len_cmp)
 		msh_error(str, "Mishelle: syntax error near unexpected token",
 				str + 2 , index - 2);
 	}
-	else if (len_cmp > index && ft_abs(c - str[index]) == 2)
+	else if (len_cmp > index && ft_abs(c[0] - str[index]) == 2)
 	{
 		g_info.cur_cmd->specials = ERROR;
 		msh_error(str, "Mishelle: syntax error near unexpected token",
@@ -51,6 +52,8 @@ int		msh_check_syntax(char *str, int in, int c, int len_cmp)
 		msh_error(str, "Mishelle: syntax error near unexpected token", "newline", 7);
 	if (!g_info.cur_cmd)
 		return (-1);
+	if (!ft_strcmp(str, c))
+		return (0);
 	return (1);
 }
 
@@ -220,11 +223,12 @@ int	msh_help_parse_redirect(char *str, int *index, char *c)
 	int			err;
 
 	i = *index;
+	is_cmd = 0;
 	if (msh_if_cmd_found(str, index, c))
 		is_cmd = 1;
 	while (i < g_info.cur_cmd->num_args)
 	{
-		err = msh_check_syntax(g_info.cur_cmd->args[i], i, c[0], ft_strlen(g_info.cur_cmd->args[i]));
+		err = msh_check_syntax(g_info.cur_cmd->args[i], i, c, ft_strlen(g_info.cur_cmd->args[i]));
 		if (err == 1)
 			msh_multiple_clump_redirects(i, c);
 		else if (err == -1)

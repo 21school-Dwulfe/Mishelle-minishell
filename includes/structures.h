@@ -21,9 +21,9 @@ typedef enum s_specials
 
 typedef struct s_redirect
 {
-	char *file;
-	struct s_redirect *next;
-	struct s_redirect *prev;
+	char				*file;
+	struct s_redirect	*next;
+	struct s_redirect	*prev;
 }				t_redirect;
 
 
