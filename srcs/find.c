@@ -108,11 +108,11 @@ char *msh_get_path(char *cmd_name, char **env)
 // {
 // 	(void)argc;
 // 	(void)argv;
-// 	char *re = msh_get_path("cat", env);
+// 	char *re = msh_get_path(NULL, env);
 // 	if (re == NULL)
 // 		printf("NULL\n");
 // 	printf("%s", re);
-// 	ft_strdel(re);
+// 	ft_strdel(&re);
 // 	return (0);
 // }
 

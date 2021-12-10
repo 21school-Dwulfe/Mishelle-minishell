@@ -3,6 +3,7 @@
         "__functional_base": "c",
         "functional": "c",
         "tuple": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "chrono": "c"
     }
 }

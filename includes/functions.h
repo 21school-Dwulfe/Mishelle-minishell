@@ -29,16 +29,17 @@ int 	    msh_redirect_parse(char *str, int *length);
  * @param cmd List of commands
  * @param env  Evariables 
  */
-void	    msh_execute(t_command *cmd, char **env);
+void	    msh_execute(t_command *cmd, char *path, char **env);
 void	    msh_config(int argc, char **argv, char **env);
 char	    **msh_create_env_var(char *new_var);
 char	    **msh_split(char *str, int c);
+char        *msh_read_fd(int fd);
 char        *msh_get_path(char *cmd_name, char **env);
 char	    **msh_copy_env(char **array);
 char        *msh_multy_pipe(t_command *cmds, char **env);
 int	        msh_check_special_signs(char *str, int *i, int *specials);
 t_command	*msh_create_command(char    **dstr);
-void        msh_add_redirect(t_redirect **current, char *value);
+void        msh_add_redirect(t_redirect **current, char *value, t_specials specials);
 int         msh_open(char *path, int type);
 
 /**

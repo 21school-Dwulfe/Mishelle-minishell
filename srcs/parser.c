@@ -32,7 +32,6 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 		return (*specials = SEMICOLON);
 	if (str[*i] == '|')
 		return (*specials = PIPE);
-	
 	if (str[*i] == '&')
 		return (*specials = AMPERSAND);
 	return (*specials = 0);
