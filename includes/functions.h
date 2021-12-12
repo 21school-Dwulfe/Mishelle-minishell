@@ -11,13 +11,13 @@ int 	    msh_help_parse_redirect(char *str, int *length, char *c);
 int	        msh_help_parse_ampersand(char *str, int *length);
 void	    msh_add_to_struct(char **result);
 void	    msh_add_command(t_command **cur_cmd, char **value);
-void	    msh_custom_exit(t_command *cmd);
-void	    msh_custom_pwd(t_command *cmd);
-void	    msh_custom_echo(t_command *cmd);
-void	    msh_custom_env(t_command *cmd);
-void	    msh_custom_cd(t_command *cmd);
-void	    msh_custom_export(t_command *cmd);
-void	    msh_custom_unset(t_command *cmd);
+int 	    msh_custom_exit(t_command *cmd);
+int 	    msh_custom_pwd(t_command *cmd);
+int 	    msh_custom_echo(t_command *cmd);
+int 	    msh_custom_env(t_command *cmd);
+int 	    msh_custom_cd(t_command *cmd);
+int 	    msh_custom_export(t_command *cmd);
+int 	    msh_custom_unset(t_command *cmd);
 void	    msh_evaluate_env_call_if_exist(t_command *cmd, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
@@ -41,6 +41,8 @@ int	        msh_check_special_signs(char *str, int *i, int *specials);
 t_command	*msh_create_command(char    **dstr);
 void        msh_add_redirect(t_redirect **current, char *value, t_specials specials);
 int         msh_open(char *path, int type);
+int         msh_export_invalid(char *arg);
+void	    msh_export_error(char *arg);
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
@@ -48,7 +50,7 @@ int         msh_open(char *path, int type);
  * @param str string from readline
  * @param message error message
  */
-void	msh_error(char *str, char *message, char *token_str, int token_len);
+void	msh_error(char *message, char *token_str, int token_len);
 
 
 #endif

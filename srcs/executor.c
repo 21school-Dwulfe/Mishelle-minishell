@@ -4,7 +4,8 @@ void	msh_simple_execute(t_command *cmd, char *path, char **env)
 {
 	char		*s;
 	pid_t		ret;
-	int			status;
+//	int			status;
+	char *sss[] = {"/bin/cat", NULL};
 	//int			fd_pipe[2];
 	//char 		*str;
 
@@ -18,8 +19,9 @@ void	msh_simple_execute(t_command *cmd, char *path, char **env)
 		// dup2(fd_pipe[1], STDOUT_FILENO);
 		// close(fd_pipe[0]);
 		// close(fd_pipe[1]);
-		write(1, "cattttt",8);
-		if (execve(cmd->args[0], cmd->args, env) == -1)
+		// write(1, "cattttt",8);
+		printf("%s\n",cmd->args[0]);
+		if (execve(sss[0], sss, env) == -1)
 		{
 		
 			perror(s);
@@ -35,9 +37,9 @@ void	msh_simple_execute(t_command *cmd, char *path, char **env)
 	// str[ft_strlen(str) - 1] = '\0';
 	// close(fd_pipe[0]);
 	// close(fd_pipe[1]);
-	waitpid(ret, &status, 0);
-	WEXITSTATUS(status);
-	printf("%d\n", status);
+	waitpid(ret, NULL, 0);
+	//WEXITSTATUS(status);
+	//printf("%d\n", status);
 	ft_strdel(&s);
 }
 
@@ -78,20 +80,20 @@ int	msh_buildins(t_command *cmd, int reg)
 	int	is_buildin;
 
 	is_buildin = 0;
-	if (reg == 0 && ft_strnstr(cmd->args[0], "exit", 4) && ++is_buildin)
-		msh_custom_exit(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "pwd", 3) && ++is_buildin)
-		msh_custom_pwd(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "echo", 4) && ++is_buildin)
-		msh_custom_echo(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "env", 3) && ++is_buildin)
-		msh_custom_env(cmd);
-	else if (reg == 0 && ft_strnstr(cmd->args[0], "cd", 2) && ++is_buildin)
-		msh_custom_cd(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "export", 6) && ++is_buildin)
-		msh_custom_export(cmd);
-	else if (reg == 0 && ft_strnstr(cmd->args[0], "unset", 5) && ++is_buildin)
-		msh_custom_unset(cmd);
+	if (reg == 0 && ft_strnstr(cmd->args[0], "exit", 4))
+		is_buildin = msh_custom_exit(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "pwd", 3))
+		is_buildin = msh_custom_pwd(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "echo", 4))
+		is_buildin = msh_custom_echo(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "env", 3))
+		is_buildin = msh_custom_env(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "cd", 2))
+		is_buildin = msh_custom_cd(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "export", 6))
+		is_buildin = msh_custom_export(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "unset", 5))
+		is_buildin = msh_custom_unset(cmd);
 	return (is_buildin);
 }
 
@@ -110,7 +112,7 @@ void	msh_cmd(char *line)
 		// }
 		// printf("end of command\n");
 		ft_strdel(&path);
-		path = msh_get_path(cmd->args[0], g_info.env);
+		path = "/bin/ls";//msh_get_path(cmd->args[0], g_info.env);
 		// if (msh_buildins(cmd, 0))
 		// 	;
 		//else if (cmd->piped || cmd->input || cmd->out || cmd->redirects)

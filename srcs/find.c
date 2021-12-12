@@ -26,39 +26,55 @@ char	*msh_read_fd(int fd)
 	return (result);
 }
 
-char *msh_get_path(char *cmd_name, char **env)
-{
-	int		pid;
-	int		fd[2];
-	char	*path;
-	char	*cmd[3];
+// char	*msh_get_path(char *cmd_name, char **env)
+// {
+// 	return 
+// }
 
-	cmd[0] = "/usr/bin/which";
-	cmd[1] = cmd_name;
-	cmd[2] = NULL;
-	path = NULL;
-	if (pipe(fd) < 0)
-		perror("Error");
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		if (execve("/usr/bin/which", cmd, env) == -1)
-		{
-			perror("Pathfinder:");
-			exit(EXIT_FAILURE);
-		}
-	}
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[1]);
-	close(fd[0]);
-	waitpid(0, NULL, 0);
-	path = msh_read_fd(0);
-	path[ft_strlen(path) - 1] = '\0';
-	return (path);
-}
+// char *msh_get_path(char *cmd_name, char **env)
+// {
+// 	int		pid;
+// 	int		fd[2];
+// 	char	*path;
+// 	char	*cmd[3];
+// 	char	fds[2];
+
+// 	fds[0] = dup(STDIN_FILENO);
+// 	fds[1] = dup(STDOUT_FILENO);
+// 	cmd[0] = "/usr/bin/which";
+// 	cmd[1] = cmd_name;
+// 	cmd[2] = NULL;
+// 	path = NULL;
+// 	if (pipe(fd) < 0)
+// 		perror("Error");
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		dup2(fd[1], STDOUT_FILENO);
+		
+// 		close(fd[0]);
+// 		close(fd[1]);
+// 		if (execve("/usr/bin/which", cmd, env) == -1)
+// 		{
+// 			perror("Pathfinder:");
+// 			exit(EXIT_FAILURE);
+// 		}
+// 	}
+// 	dup2(fd[0], STDIN_FILENO);
+// 	dup2(STDOUT_FILENO, fd[1]);
+// 	close(fd[1]);
+// 	close(fd[0]);
+// 	dup2(fds[0], STDIN_FILENO);
+	
+// 	close(fds[0]);
+// 	close(fds[1]);
+// 	waitpid(0, NULL, 0);
+// 	path = msh_read_fd(0);
+// 	if (path)
+// 		path[ft_strlen(path) - 1] = '\0';
+// 	return (path);
+// }
+
 
 
 // char *msh_multy_pipe(t_command *cmds, char **env)
