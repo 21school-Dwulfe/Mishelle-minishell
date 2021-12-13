@@ -19,24 +19,24 @@ int		msh_check_syntax(char *str, int in, char *c, int len_cmp)
 	// }
 	// else
 	if (in == g_info.cur_cmd->num_args - 1 && g_info.cur_cmd->piped)
-		msh_error(str, "Mishelle: syntax error near unexpected token", "|" , 1);
+		msh_error( "Mishelle: syntax error near unexpected token", "|" , 1);
 	else if (index > 2)
 	{
 		g_info.cur_cmd->specials = ERROR;
-		msh_error(str, "Mishelle: syntax error near unexpected token",
+		msh_error("Mishelle: syntax error near unexpected token",
 				str + 2 , index - 2);
 	}
 	else if (len_cmp > index && ft_abs(c[0] - str[index]) == 2)
 	{
 		g_info.cur_cmd->specials = ERROR;
-		msh_error(str, "Mishelle: syntax error near unexpected token",
+		msh_error("Mishelle: syntax error near unexpected token",
 				str + index , len_cmp - index);
 	}
 	else if ((index < len_cmp && (str[index + 1] == ';'
 		|| (in == g_info.cur_cmd->num_args - 1 && (str[index + 1] == '|' || g_info.cur_cmd->piped))))  )
 		{
 			g_info.cur_cmd->specials = ERROR;
-			msh_error(str, "Mishelle: syntax error near unexpected token",
+			msh_error("Mishelle: syntax error near unexpected token",
 					str + index , ft_strlen(str) - index);
 		}
 	
@@ -44,12 +44,12 @@ int		msh_check_syntax(char *str, int in, char *c, int len_cmp)
 	{
 		if (in + 1 < g_info.cur_cmd->num_args && !ft_strcmp(g_info.cur_cmd->args[in], g_info.cur_cmd->args[in + 1])
 			&& (int)ft_strlen(g_info.cur_cmd->args[in]) == index)
-		msh_error(str, "Mishelle: syntax error near unexpected token",
+		msh_error("Mishelle: syntax error near unexpected token",
 			g_info.cur_cmd->args[in + 1], ft_strlen(g_info.cur_cmd->args[in + 1]));
 	}
 	else if (in == g_info.cur_cmd->num_args -1 && ((!ft_strcmp(g_info.cur_cmd->args[in], "<<") || !ft_strcmp(g_info.cur_cmd->args[in], ">>"))
 		|| (!ft_strcmp(g_info.cur_cmd->args[in], "<") || !ft_strcmp(g_info.cur_cmd->args[in], ">"))))
-		msh_error(str, "Mishelle: syntax error near unexpected token", "newline", 7);
+		msh_error("Mishelle: syntax error near unexpected token", "newline", 7);
 	if (!g_info.cur_cmd)
 		return (-1);
 	if (!ft_strcmp(str, c))

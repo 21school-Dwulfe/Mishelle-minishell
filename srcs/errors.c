@@ -38,7 +38,7 @@ int	msh_export_invalid(char *arg)
 	res = 0;
 	i[0] = -1;
 	length = ft_strlen(arg);
-	if (length == 1 && !ft_isalpha(arg[0]))
+	if (!arg || (length == 1 && !ft_isalpha(arg[0])))
 		return ((++res));
 	i[1] = ft_index_of(arg, '+');
 	if (i[1] > 0)

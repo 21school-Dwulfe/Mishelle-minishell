@@ -74,10 +74,35 @@ int	msh_custom_cd(t_command *cmd)
 	return (1);
 }
 
+
+
 int msh_modify_env_var(char **env, char *new_value)
 {
+	int		index_cmd;
+	int		index_env;
+	int 	len;
+	char	*result;
+	char	*tmp[4];
+
+	len = 0;
+	index_cmd = ft_index_of(new_value, '+');
+	if (index_cmd < 0)
+		index_cmd = ft_index_of(new_value, '=');
+	else
+		index_cmd++;
+	tmp[0] = ft_strdup(new_value + index_cmd + 1);
+	index_env = ft_index_of(*env, '=');
+	tmp[1] = ft_strdup(*env + index_env + 1);
+	tmp[2] = ft_strtrim(tmp[0], "\"");
+	tmp[3] = ft_strjoin(tmp[0], tmp[2]);
+	result = ft_decorate(tmp[3], "\"", "\"");
 	ft_strdel(env);
-	*env = new_value;
+	*env = result;
+	while (len < 4)
+	{
+		ft_strdel(&tmp[len]);
+		len++;
+	}
 	return (1);
 }
 
@@ -137,8 +162,6 @@ void	msh_export_add(t_command	*cmd)
 {
 	int		i;
 	int		arg_in_env;
-	char	*tmp[2];
-	int		index;
 
 	i = 1;
 	while (i < cmd->num_args)
@@ -149,21 +172,11 @@ void	msh_export_add(t_command	*cmd)
 			break ;
 		}
 		arg_in_env = msh_check_if_exist(g_info.env, cmd->args[i]);
-		index = ft_index_of(cmd->args[i], '+');
-		if (index > -1)
-		{
-			tmp[0] = ft_strdup((g_info.env[arg_in_env]) + ft_index_of(g_info.env[arg_in_env], '=') + 1);
-			tmp[1] = ft_strjoin_se(tmp[0], (g_info.env[arg_in_env]) + index + 1);
-			ft_strdel(&tmp[0]);
-			ft_strdel(&cmd->args[i]);
-			cmd->args[i] = tmp[1];
-		}
 		if (arg_in_env)
 			msh_modify_env_var(&g_info.env[arg_in_env], cmd->args[i]);
 		else
 			g_info.env = msh_create_env_var(cmd->args[i]);
 	}
-
 }
 
 // -n -p -f

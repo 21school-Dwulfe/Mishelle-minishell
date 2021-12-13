@@ -102,6 +102,7 @@ void	msh_cmd(char *line)
 	t_command	*cmd;
 	char		*path;
 
+	path = NULL;
 	msh_parse(line);
 	cmd = g_info.cur_cmd;
 	while (cmd)

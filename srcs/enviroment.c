@@ -71,7 +71,7 @@ char	**msh_create_env_var(char *new_var)
 	while (g_info.env[length])
 		length++;
 	result = ft_realloc(g_info.env, sizeof(char *) * (length + 2));
-	result[length + 2] = 0;
+	result[length + 1] = 0;
 	while (result[j])
 	{
 		printf("%d  %s\n", j, result[j]);
