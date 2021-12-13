@@ -62,27 +62,30 @@ char	**msh_copy_env(char **array)
 
 char	**msh_create_env_var(char *new_var)
 {
-	int		length;
-	int 	j;
+	int		length[2];
+	int		i[4];
+	char	*tmp[4];
 	char	**result;
 
-	j = 0;
-	length = 0;
-	while (g_info.env[length])
-		length++;
-	result = ft_realloc(g_info.env, sizeof(char *) * (length + 2));
-	result[length + 1] = 0;
-	while (result[j])
+	ft_bzero(length, sizeof(int) * 2);
+	i[0] = ft_index_of(new_var, '+');
+	i[1] = ft_index_of(new_var, '=');
+	if (i[0] > -1)
 	{
-		printf("%d  %s\n", j, result[j]);
-		j++;
+		tmp[0] = ft_strdup(new_var + i[1] + 1);
+		tmp[1] = ft_strndup_se(new_var, 0, '+');
+		tmp[2] = ft_strjoin();
 	}
-	result[length] = new_var;
-	while (result[j])
+	else
 	{
-		printf("%d  %s\n", j, result[j]);
-		j++;
+		tmp[4] = new_var;
 	}
+	
+	while (g_info.env[length[1]])
+		length[1]++;
+	result = ft_realloc(g_info.env, sizeof(char *) * (length[1] + 2));
+	result[length[1] + 1] = 0;
+	result[length[1]] = tmp[4];
 	return (result);
 }
 
