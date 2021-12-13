@@ -74,7 +74,36 @@ int	msh_custom_cd(t_command *cmd)
 	return (1);
 }
 
+// int msh_modify_env_var(char **env, char *new_value)
+// {
+// 	int		index_cmd;
+// 	int		index_env;
+// 	int 	len;
+// 	char	*result;
+// 	char	*tmp[6];
 
+// 	len = 0;
+// 	index_cmd = ft_index_of(new_value, '+');
+// 	if (index_cmd < 0)
+// 		index_cmd = ft_index_of(new_value, '=');
+// 	else
+// 		index_cmd++;
+// 	tmp[0] = ft_strdup(new_value + index_cmd + 1);
+// 	index_env = ft_index_of(*env, '=');
+// 	tmp[1] = ft_strdup(*env + index_env + 1);
+// 	tmp[2] = ft_strtrim(tmp[0], "");
+// 	tmp[3] = ft_strtrim(tmp[1], "\"");
+// 	tmp[4] = ft_strjoin(tmp[3], tmp[2]);
+// 	result = ft_decorate(tmp[4], "\"", "\"");
+// 	ft_strdel(env);
+// 	*env = result;
+// 	while (len < 6)
+// 	{
+// 		ft_strdel(&tmp[len]);
+// 		len++;
+// 	}
+// 	return (1);
+// }
 
 int msh_modify_env_var(char **env, char *new_value)
 {
@@ -85,24 +114,32 @@ int msh_modify_env_var(char **env, char *new_value)
 	char	*tmp[4];
 
 	len = 0;
+
 	index_cmd = ft_index_of(new_value, '+');
 	if (index_cmd < 0)
-		index_cmd = ft_index_of(new_value, '=');
+		result = new_value;
 	else
+	{
 		index_cmd++;
-	tmp[0] = ft_strdup(new_value + index_cmd + 1);
-	index_env = ft_index_of(*env, '=');
-	tmp[1] = ft_strdup(*env + index_env + 1);
-	tmp[2] = ft_strtrim(tmp[0], "\"");
-	tmp[3] = ft_strjoin(tmp[0], tmp[2]);
-	result = ft_decorate(tmp[3], "\"", "\"");
+		index_env = ft_index_of(*env, '=');
+		tmp[0] = ft_strdup(new_value + index_cmd + 1);
+		if (index_env != - 1)
+			tmp[1] = ft_strdup(*env + index_env + 1);
+		else
+			tmp[1] = ft_strdup("");
+		tmp[2] = ft_strjoin(tmp[1], tmp[0]);
+		tmp[3] = ft_strndup_se(new_value, 0, '=');
+		tmp[3][index_cmd - 1] = '=';
+		result = ft_strjoin(tmp[3], tmp[2]);
+		while (len < 4)
+		{
+			ft_strdel(&tmp[len]);
+			len++;
+		}
+	}
 	ft_strdel(env);
 	*env = result;
-	while (len < 4)
-	{
-		ft_strdel(&tmp[len]);
-		len++;
-	}
+	
 	return (1);
 }
 
@@ -115,20 +152,28 @@ int msh_modify_env_var(char **env, char *new_value)
  */
 int	msh_check_if_exist(char **env, char *argument)
 {
-	int j;
-	int n;
-	int	index;
+	int		j;
+	int		n[4];
+	int		index;
+	int		len;
+	char	*tmp[2];
 
 	j = 0;
 	index = ft_index_of(argument, '+');
 	while (env[j])
 	{
-		n = 0;
-		while(env[j][n] && env[j][n] != '=')
-			n++;
-		if (ft_strncmp(env[j], argument, n - 1) == 0)
+		ft_bzero(n, sizeof(int) * 4);
+		len = ft_strlen(argument);
+		while (env[j][n[0]] && env[j][n[0]] != '=')
+			n[0]++;
+		while (argument[n[1]] && argument[n[1]] != '=')
+			n[1]++;
+
+		tmp[0] = env[j];
+		tmp[1] = ft_strndup_se(argument, 0, '=');
+		if (ft_strncmp(tmp[0], tmp[1], n[0]) == 0)
 			return (j);
-		if (index > 0 && ft_strncmp(env[j], argument, index + 1))
+		if (index > 1 && ft_strncmp(env[j], tmp[1], index))
 			return (j);
 		j++;
 	}
@@ -176,6 +221,7 @@ void	msh_export_add(t_command	*cmd)
 			msh_modify_env_var(&g_info.env[arg_in_env], cmd->args[i]);
 		else
 			g_info.env = msh_create_env_var(cmd->args[i]);
+		i++;
 	}
 }
 
@@ -183,6 +229,7 @@ void	msh_export_add(t_command	*cmd)
 int	msh_custom_export(t_command *cmd)
 {
 	int		i;
+	int		index;
 
 	i = 1;
 	if (cmd->num_args > 1)
@@ -191,7 +238,19 @@ int	msh_custom_export(t_command *cmd)
 		while (g_info.env[i])
 		{
 			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(g_info.env[i], 1);
+			index = ft_index_of(g_info.env[i], '=');
+			if (index > -1)
+			{
+				write(1, g_info.env[i], index + 1);
+				write(1,"\"", 1);
+				if (ft_strlen((g_info.env[i]) + index + 1) > 0)
+					ft_putstr_fd((g_info.env[i]) + index + 1, 1);
+				else
+					write(1, "\0", 1);
+				write(1,"\"\n", 3);
+			}
+			else
+				ft_putendl_fd(g_info.env[i], 1);		
 			i++;
 		}
 	return (1);

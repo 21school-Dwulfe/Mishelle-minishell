@@ -60,12 +60,14 @@ char	**msh_copy_env(char **array)
 }
 
 
+
 char	**msh_create_env_var(char *new_var)
 {
 	int		length[2];
 	int		i[4];
 	char	*tmp[4];
 	char	**result;
+	char	*new;
 
 	ft_bzero(length, sizeof(int) * 2);
 	i[0] = ft_index_of(new_var, '+');
@@ -73,19 +75,33 @@ char	**msh_create_env_var(char *new_var)
 	if (i[0] > -1)
 	{
 		tmp[0] = ft_strdup(new_var + i[1] + 1);
-		tmp[1] = ft_strndup_se(new_var, 0, '+');
-		tmp[2] = ft_strjoin();
+		tmp[1] = ft_strndup_se(new_var, 0, '=');
+		tmp[1][i[1] - 1] = '=';
+		tmp[1][i[1]] = '\0';
+		//tmp[2] = ft_decorate(tmp[0], "\"", "\"");
+		new = ft_strjoin(tmp[1], tmp[0]);
+		ft_strdel(&tmp[0]);
+		ft_strdel(&tmp[1]);
+		//ft_strdel(&tmp[2]);
 	}
+	// else if (i[1] > -1)
+	// {
+	// 	tmp[0] = ft_strdup(new_var + i[1] + 1);
+	// 	tmp[1] = ft_strndup_se(new_var, 0, '=');
+	// //	if (ft_index_of(tmp[0], '\"') > -1)
+	// 	//tmp[2] = ft_decorate(tmp[0], "\"", "\"");
+	// 	new = ft_strjoin(tmp[1], tmp[2]);
+	// 	ft_strdel(&tmp[0]);
+	// 	ft_strdel(&tmp[1]);
+	// //	ft_strdel(&tmp[2]);
+	// }
 	else
-	{
-		tmp[4] = new_var;
-	}
-	
+		new = new_var;
 	while (g_info.env[length[1]])
 		length[1]++;
 	result = ft_realloc(g_info.env, sizeof(char *) * (length[1] + 2));
 	result[length[1] + 1] = 0;
-	result[length[1]] = tmp[4];
+	result[length[1]] = new;
 	return (result);
 }
 

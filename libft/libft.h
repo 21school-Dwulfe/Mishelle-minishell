@@ -77,6 +77,7 @@ void		ft_swap_strs(void *p1, void *p2);
 void		ft_swap_int(void *a, void *b);
 int			ft_str_count(char **str);
 char		*ft_decorate(char *src, char *begining, char *end);
+int			ft_ch_count(char *str, char ch);
 
 
 

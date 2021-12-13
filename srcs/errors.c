@@ -38,22 +38,23 @@ int	msh_export_invalid(char *arg)
 	res = 0;
 	i[0] = -1;
 	length = ft_strlen(arg);
-	if (!arg || (length == 1 && !ft_isalpha(arg[0])))
+	if (!arg || (length == 1 && !ft_isalpha(arg[0])) || ft_ch_count(arg, '+') > 1 )
 		return ((++res));
 	i[1] = ft_index_of(arg, '+');
 	if (i[1] > 0)
-		i[2] = 2;
+		i[2] = i[1];
 	else if (i[1] == -1)
-		i[2] = 1;
+		i[2] = ft_index_of(arg, '=');
 	else
 		return ((++res));
-	while (length > 1 && !res && ++i[0] < length - i[2])
-		if (!ft_isalpha(arg[i[0]]) && !ft_isdigit(arg[i[0]]) && ++res)
-			return ((++res));
-	if (length > 2 && i[1] > -1 && i[1] != length - 2)
+	if (length > 2 && arg[i[1]] == '+' && arg[i[1] + 1] != '=')
 		return ((++res));
 	else if (!res && ((arg[length - 1] != '=' && !ft_isalpha(arg[length - 1]) && !ft_isdigit(arg[length - 1]))
 		|| (arg[length - 1] != '=' && !ft_isalpha(arg[length - 1]))))
 		return ((++res));
+	while (length > 1 && !res && ++i[0] < i[2])
+		if (!ft_isalpha(arg[i[0]]) && !ft_isdigit(arg[i[0]])  && ++res)
+			return ((++res));
+	
 	return (0);
 }
