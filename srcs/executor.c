@@ -46,7 +46,7 @@ void msh_custom_redirect(int *fd_arr, t_command *cmd)
 {
 	int			fd_index;
 	t_redirect	*tmp;
-
+	
 	fd_index = 0;
 	tmp = NULL;
 	if (cmd)
@@ -55,21 +55,31 @@ void msh_custom_redirect(int *fd_arr, t_command *cmd)
 	{
 		if (tmp->specials == 5 || tmp->specials == 7)
 		{
-			if (cmd->input)
-				close(fd_arr[0]);
+			// if (cmd->input)
+			// 	close(fd_arr[0]);
 			cmd->input = tmp;
 			fd_index = 0;
 		}
 		if (tmp->specials == 4 || tmp->specials == 6)
 		{
-			if (cmd->out)
-				close(fd_arr[1]);
+			// if (cmd->out)
+			// 	close(fd_arr[1]);
 			cmd->out = tmp;
 			fd_index = 1; 
 		}
 		fd_arr[fd_index] = msh_open(tmp->file, tmp->specials);
+		// if (fd_index == 0 && tmp->next == NULL)
+		// {
+		// 	dup2(fd_arr[fd_index], 0);
+		// 	close(fd_arr[fd_index]);
+		// 	msh_simple_execute(cmd, msh_get_path(cmd->args[0], g_info.env) , g_info.env);
+		// 	break;
+		// }
 		if (fd_arr[fd_index] == -1)
+		{
 			perror(tmp->file);
+			break ;
+		}
 		tmp = tmp->next;
 	}
 }
@@ -98,95 +108,167 @@ int	msh_buildins(t_command *cmd, int reg)
 
 void	msh_cmd(char *line)
 {
+	msh_parse(line);
+	msh_execute(g_info.cur_cmd, g_info.env);
+}
+
+void	msh_execute(t_command *cmd_s, char **env)
+{
 	t_command	*cmd;
+	int			ret;
+	int			fd_cur[2];
+	int			in_out_s[2];
+	int			fd_pipe[2];
 	char		*path;
+	char		*s;
 
 	path = NULL;
-	msh_parse(line);
-	cmd = g_info.cur_cmd;
+	cmd = cmd_s; 
+	//for
 	while (cmd)
 	{
-		for( int i = 0; cmd->args[i]; i++)
-		{
-			printf("%s | ", cmd->args[i]);
-		}
-		printf("end of command\n");
+		in_out_s[0] = dup(0);
+		in_out_s[1] = dup(1);
 		ft_strdel(&path);
 		path = msh_get_path(cmd->args[0], g_info.env);
 		if(!path)
 			break ;
-		// if (msh_buildins(cmd, 0))
-		// 	;
-		//else if (cmd->piped || cmd->input || cmd->out || cmd->redirects)
-		msh_execute(cmd, path, g_info.env);
+		if (cmd->redirects)
+		{
+			msh_custom_redirect(fd_cur, cmd);
+			if (cmd->input)
+			{
+				
+				dup2(fd_cur[0], 0);
+				close(fd_cur[0]);
+				
+			}
+			if (cmd->out)
+			{
+					dup2(fd_cur[1], 1);
+				close(fd_cur[1]);
+			}
+				
+			msh_simple_execute(cmd, path, g_info.env);
+			if (cmd->input)
+			{
+				dup2(in_out_s[0], 0);
+				close(in_out_s[0]);
+			}
+			if (cmd->out)
+			{
+				dup2(in_out_s[1], 1);
+				close(in_out_s[1]);
+			}
+			break;
+		}
+		else if (cmd->prev && cmd->prev->piped)
+		{
+			in_out_s[0] = dup(0);
+			dup2(fd_cur[0], 0);
+			close(fd_cur[0]);
+		}
+		if (cmd->piped)
+		{
+			if (pipe(fd_pipe) == -1)
+			{
+				perror("Pipe");
+				break ;
+			}
+			in_out_s[1] = dup(1);
+			dup2(fd_cur[1], 1);
+			close(fd_cur[1]);
+		}
+
+
+
+		// in_out_s[0] = dup(0);
+		// in_out_s[1] = dup(1);
+		// if (cmd->redirects)
+		// 	msh_custom_redirect(fd_cur, cmd);//open(cmd->input, O_RDONLY);
 		// else
-		// 	msh_simple_execute(cmd, g_info.env);
-		cmd = cmd->next;
-	}
-}
+		// 	fd_cur[0] = dup(in_out_s[0]);
+		// //for
+		// dup2(fd_cur[0], STDIN_FILENO);
+		// close(fd_cur[0]);
+		// if (cmd->next == NULL) // if last command
+		// {
+		// 	if (!cmd->out)
+		// 		fd_cur[1] = dup(in_out_s[1]);
+		// }
+		// else if (cmd->piped)
+		// {
+		// 	pipe(fd_pipe);
+		// 	fd_cur[1] = fd_pipe[1];
+		// 	fd_cur[0] = fd_pipe[0];
+		// }
+		// dup2(fd_cur[1], STDOUT_FILENO);
+		// close(fd_cur[1]);
 
-void	msh_execute(t_command *cmd, char *path, char **env)
-{
-	int		ret;
-	int		fd_cur[2];
-	int		in_out_s[2];
-	int		fdpipe[2];
-	 char	*s;
 
-	in_out_s[0] = dup(0);
-	in_out_s[1] = dup(1);
-	if (cmd->redirects)
-		msh_custom_redirect(fd_cur, cmd);
-	if (!cmd->input)
-		fd_cur[0] = dup(in_out_s[0]);
-	//for
-	dup2(fd_cur[0], STDIN_FILENO);
-	close(fd_cur[0]);
-	if (cmd->next == NULL && !cmd->out)// if last command
-		fd_cur[1] = dup(in_out_s[1]);
-	else if (cmd->piped)
-	{
-		pipe(fdpipe);
-		fd_cur[1] = fdpipe[1];
-		fd_cur[0] = fdpipe[0];
-	}
-	dup2(fd_cur[1], STDOUT_FILENO); //set out
-	close(fd_cur[1]);
-	if (cmd->piped)
-	{
+		// in_out_s[0] = dup(0);
+		// in_out_s[1] = dup(1);
+		// if (cmd->redirects)
+		// 	msh_custom_redirect(fd_cur, cmd);
+		// if (!cmd->input)
+		// 	fd_cur[0] = dup(in_out_s[0]);
+		// //for
+		// dup2(fd_cur[0], STDIN_FILENO);
+		// close(fd_cur[0]);
+		// if (cmd->next == NULL && !cmd->out)// if last command
+		// 	fd_cur[1] = dup(in_out_s[1]);
+		// else if (cmd->piped)
+		// {
+		// 	pipe(fd_pipe);
+		// 	fd_cur[1] = fd_pipe[1];
+		// 	fd_cur[0] = fd_pipe[0];
+		// }
+		// dup2(fd_cur[1], STDOUT_FILENO); //set out
+		// close(fd_cur[1]);
 		ret = fork();
 		if (ret == 0)
 		{
-			s = cmd->args[0];
-			cmd->args[0] = path;
 			if (!msh_buildins(cmd, 1))
+			{
+				s = cmd->args[0];
+				cmd->args[0] = path;
+				ft_strdel(&s);
 				if (execve(cmd->args[0], cmd->args, env) == -1)//(cmd->args[0], cmd->args, env) == -1)
 				{
 					perror(cmd->args[0]);
 					exit(1);
 				}
-			ft_strdel(&s);
+				
+			}
 		}
+		int	status;
+		if (!cmd->background ) //wait for last command
+			waitpid(ret, &status, 0);
+		if (cmd->redirects)
+		{
+			if (cmd->input)
+			{
+				dup2(in_out_s[0], 0);
+				close(in_out_s[0]);
+			}
+			if (cmd->out)
+			{
+				dup2(in_out_s[1], 1);
+				close(in_out_s[1]);
+			}
+		}
+		else if (cmd->prev && cmd->prev->piped)
+		{
+		   dup2(in_out_s[0], 0);
+		   close(in_out_s[0]);
+		}
+		if (cmd->piped)
+		{         
+		   dup2(in_out_s[1], 1);
+		   close(in_out_s[1]);
+		}
+		cmd = cmd->next;
 	}
-	else if (cmd->redirects)
-	{
-		msh_simple_execute(cmd, path, env);
-	}
-	else if (!msh_buildins(cmd, 0))
-	{
-		msh_simple_execute(cmd, path, env);
-
-	}
-	// for end
-	// restore in/out defaults
-	dup2(in_out_s[0], 0);
-	dup2(in_out_s[1], 1);
-	close(in_out_s[0]);
-	close(in_out_s[1]);
-	
-	int	status;
-	if (!cmd->background && cmd->piped) //wait for last command
-		waitpid(ret, &status, 0);
 }
 
 

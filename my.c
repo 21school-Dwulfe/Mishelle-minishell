@@ -68,6 +68,10 @@ int main(int argc, char **argv, char **env)
     pid_t pid;
     int status = 0;
         
+    // for (int i = 0; argv[i] ; i++ )
+	// {
+	// 	printf("%s \n", argv[i]);
+	// }
     while(argc > 1 && i < argc)
     {
         if ((!strcmp(argv[i], ";") || !strcmp(argv[i], "|")))
@@ -133,14 +137,14 @@ int main(int argc, char **argv, char **env)
             waitpid(pid, &status, 0);
         if (opend)
         {
-            dup2(fds[0], 0);
-            close(fds[0]);
+           dup2(fds[0], 0);
+           close(fds[0]);
             opend = 0;
         }
         if (f_pipe)
         {         
-            dup2(fds[1], 1);
-            close(fds[1]);
+           dup2(fds[1], 1);
+           close(fds[1]);
             opend = 1;
         }
         f_cd = 0;

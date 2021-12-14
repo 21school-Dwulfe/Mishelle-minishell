@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Debug",
             "program": "${workspaceFolder}/minishell",
-            "args": ["export"],
+            "args": ["/bin/ls", "|", "/usr/bin/grep microshell"],
             "cwd": "${workspaceFolder}"
         }
     ]

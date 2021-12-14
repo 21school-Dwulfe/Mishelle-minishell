@@ -31,7 +31,7 @@ char	    *msh_get_if_exist(char **env, char *argument);
  * @param cmd List of commands
  * @param env  Evariables 
  */
-void	    msh_execute(t_command *cmd, char *path, char **env);
+void	    msh_execute(t_command *cmd, char **env);
 void	    msh_config(int argc, char **argv, char **env);
 char	    **msh_create_env_var(char *new_var);
 char	    **msh_split(char *str, int c);
