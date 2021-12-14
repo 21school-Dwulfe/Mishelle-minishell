@@ -131,6 +131,7 @@ char	**msh_split(char *str, int c)
 		else
 			j++;
 	}
+	result[j] = (void *)0;
 	return (result);
 }
 

@@ -22,6 +22,8 @@ void	    msh_evaluate_env_call_if_exist(t_command *cmd, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
 int 	    msh_redirect_parse(char *str, int *length);
+char	    *msh_get_if_exist(char **env, char *argument);
+
 
 /**
  * @brief Execute commands with pipe or redirect

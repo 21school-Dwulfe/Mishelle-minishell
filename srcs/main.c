@@ -57,6 +57,7 @@ void	msh_struct_clear()
 		cmds = cmds->next;
 		free(g_info.cur_cmd);
 		g_info.cur_cmd = NULL;
+		g_info.cur_cmd = cmds;
 	}
 }
 

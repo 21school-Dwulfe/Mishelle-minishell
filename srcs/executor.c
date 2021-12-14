@@ -2,16 +2,16 @@
 
 void	msh_simple_execute(t_command *cmd, char *path, char **env)
 {
-	char		*s;
 	pid_t		ret;
 //	int			status;
-	char *sss[] = {"/bin/cat", NULL};
+	//char *sss[] = {"/usr/bin/ls", "-ls", NULL};
 	//int			fd_pipe[2];
 	//char 		*str;
 
 	// if (pipe(fd_pipe) < 0)
 	// 	perror("Error");
-	s = cmd->args[0];
+//	s = cmd->args[0];
+	ft_strdel(&cmd->args[0]);
 	cmd->args[0] = path;
 	ret = fork();
 	if (ret == 0)
@@ -20,11 +20,11 @@ void	msh_simple_execute(t_command *cmd, char *path, char **env)
 		// close(fd_pipe[0]);
 		// close(fd_pipe[1]);
 		// write(1, "cattttt",8);
-		printf("%s\n",cmd->args[0]);
-		if (execve(sss[0], sss, env) == -1)
+	//	printf("%s\n",cmd->args[0]);
+		if (execve(cmd->args[0], cmd->args, env) == -1)
 		{
 		
-			perror(s);
+			perror(cmd->args[0]);
 			exit(1);
 		}
 	
@@ -40,7 +40,6 @@ void	msh_simple_execute(t_command *cmd, char *path, char **env)
 	waitpid(ret, NULL, 0);
 	//WEXITSTATUS(status);
 	//printf("%d\n", status);
-	ft_strdel(&s);
 }
 
 void msh_custom_redirect(int *fd_arr, t_command *cmd)
@@ -107,13 +106,15 @@ void	msh_cmd(char *line)
 	cmd = g_info.cur_cmd;
 	while (cmd)
 	{
-		// for( int i = 0; cmd->args[i]; i++)
-		// {
-		// 	printf("%s | ", cmd->args[i]);
-		// }
-		// printf("end of command\n");
+		for( int i = 0; cmd->args[i]; i++)
+		{
+			printf("%s | ", cmd->args[i]);
+		}
+		printf("end of command\n");
 		ft_strdel(&path);
-		path = "/bin/ls";//msh_get_path(cmd->args[0], g_info.env);
+		path = msh_get_path(cmd->args[0], g_info.env);
+		if(!path)
+			break ;
 		// if (msh_buildins(cmd, 0))
 		// 	;
 		//else if (cmd->piped || cmd->input || cmd->out || cmd->redirects)
@@ -127,30 +128,30 @@ void	msh_cmd(char *line)
 void	msh_execute(t_command *cmd, char *path, char **env)
 {
 	int		ret;
-	// int		fd_cur[2];
-	// int		in_out_s[2];
-	// int		fdpipe[2];
+	int		fd_cur[2];
+	int		in_out_s[2];
+	int		fdpipe[2];
 	 char	*s;
 
-	// in_out_s[0] = dup(0);
-	// in_out_s[1] = dup(1);
-	// if (cmd->redirects)
-	// 	msh_custom_redirect(fd_cur, cmd);
-	// if (!cmd->input)
-	// 	fd_cur[0] = dup(in_out_s[0]);
-	// //for
-	// dup2(fd_cur[0], STDIN_FILENO);
-	// if (cmd->next == NULL && !cmd->out)// if last command
-	// 	fd_cur[1] = dup(in_out_s[1]);
-	// else if (cmd->piped)
-	// {
-	// 	pipe(fdpipe);
-	// 	fd_cur[1] = fdpipe[1];
-	// 	fd_cur[0] = fdpipe[0];
-	// }
-	// dup2(fd_cur[1], STDOUT_FILENO); //set out
-	// close(fd_cur[0]);
-	// close(fd_cur[1]);
+	in_out_s[0] = dup(0);
+	in_out_s[1] = dup(1);
+	if (cmd->redirects)
+		msh_custom_redirect(fd_cur, cmd);
+	if (!cmd->input)
+		fd_cur[0] = dup(in_out_s[0]);
+	//for
+	dup2(fd_cur[0], STDIN_FILENO);
+	close(fd_cur[0]);
+	if (cmd->next == NULL && !cmd->out)// if last command
+		fd_cur[1] = dup(in_out_s[1]);
+	else if (cmd->piped)
+	{
+		pipe(fdpipe);
+		fd_cur[1] = fdpipe[1];
+		fd_cur[0] = fdpipe[0];
+	}
+	dup2(fd_cur[1], STDOUT_FILENO); //set out
+	close(fd_cur[1]);
 	if (cmd->piped)
 	{
 		ret = fork();
@@ -171,17 +172,17 @@ void	msh_execute(t_command *cmd, char *path, char **env)
 	{
 		msh_simple_execute(cmd, path, env);
 	}
-	else if (!msh_buildins(cmd, 1))
+	else if (!msh_buildins(cmd, 0))
 	{
 		msh_simple_execute(cmd, path, env);
 
 	}
 	// for end
 	// restore in/out defaults
-	// dup2(in_out_s[0], 0);
-	// dup2(in_out_s[1], 1);
-	// close(in_out_s[0]);
-	// close(in_out_s[1]);
+	dup2(in_out_s[0], 0);
+	dup2(in_out_s[1], 1);
+	close(in_out_s[0]);
+	close(in_out_s[1]);
 	
 	int	status;
 	if (!cmd->background && cmd->piped) //wait for last command

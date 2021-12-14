@@ -70,10 +70,10 @@ int	msh_redirect_parse(char *str, int *length)
 	(void)str;
 	(void)length;
 	i = 0;
-	ft_bzero(c, sizeof(char) * 4);
 	cmd = g_info.cur_cmd;
 	while (cmd->args[i])
 	{
+		ft_bzero(c, sizeof(char) * 4);
 		in[0] = ft_index_of(cmd->args[i], '<');
 		in[1] = ft_index_of(cmd->args[i], '>');
 		if (ft_strnstr(cmd->args[i], ">>", 3)
@@ -131,7 +131,7 @@ void	msh_concat_args(t_command *cmd)
 	if (num)
 	{
 		tmp = cmd->args;
-		cmd->args = ft_calloc(sizeof(char), (num + 1));
+		cmd->args = ft_calloc(sizeof(char *), (num + 1));
 		while (k < i)
 		{
 			t = tmp[k];
@@ -144,7 +144,7 @@ void	msh_concat_args(t_command *cmd)
 			cmd->args[k] = t; //tmp[k];
 			k++;
 		}
-		// ft_strdel(tmp);
+		cmd->args[num] = NULL;
 		cmd->num_args = num;
 	}
 }

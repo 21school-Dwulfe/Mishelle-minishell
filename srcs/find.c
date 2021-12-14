@@ -26,10 +26,32 @@ char	*msh_read_fd(int fd)
 	return (result);
 }
 
-// char	*msh_get_path(char *cmd_name, char **env)
-// {
-// 	return 
-// }
+char	*msh_get_path(char *cmd_name, char **env)
+{
+	int		i;
+	char	*tmp[4];
+	char	*path;
+	char	**splited;
+
+	i = 0;
+	path = msh_get_if_exist(env, "PATH");
+	splited = ft_split(path, ':');
+	while (splited[i])
+	{
+		tmp[0] = ft_strjoin(splited[i], "/");
+		tmp[1] = ft_strjoin(tmp[0], cmd_name);
+		if (access(tmp[1], F_OK) == 0)
+			return (tmp[1]);
+		else
+		{
+			ft_strdel(&tmp[0]);
+			ft_strdel(&tmp[1]);
+		}
+		i++;
+	}
+	perror(cmd_name);
+	return (NULL);
+}
 
 // char *msh_get_path(char *cmd_name, char **env)
 // {
@@ -61,17 +83,19 @@ char	*msh_read_fd(int fd)
 // 		}
 // 	}
 // 	dup2(fd[0], STDIN_FILENO);
-// 	dup2(STDOUT_FILENO, fd[1]);
 // 	close(fd[1]);
 // 	close(fd[0]);
-// 	dup2(fds[0], STDIN_FILENO);
 	
-// 	close(fds[0]);
-// 	close(fds[1]);
 // 	waitpid(0, NULL, 0);
 // 	path = msh_read_fd(0);
 // 	if (path)
 // 		path[ft_strlen(path) - 1] = '\0';
+// 	dup2( fds[1], STDOUT_FILENO);
+// 	dup2(fds[0], STDIN_FILENO);
+	
+	
+// 	close(fds[0]);
+// 	close(fds[1]);
 // 	return (path);
 // }
 
