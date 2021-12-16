@@ -5,10 +5,7 @@
 #include "features.h"
 
 void	    msh_parse(char *str);
-void	    msh_help_parse_semi(char *str, int *length);
-int 	    msh_help_parse_pipe(char *str, int *length);
-int 	    msh_help_parse_redirect(char *str, int *length, char *c);
-int	        msh_help_parse_ampersand(char *str, int *length);
+int 	    msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void	    msh_add_to_struct(char **result);
 void	    msh_add_command(t_command **cur_cmd, char **value);
 int 	    msh_custom_exit(t_command *cmd);
@@ -21,7 +18,7 @@ int 	    msh_custom_unset(t_command *cmd);
 void	    msh_evaluate_env_call_if_exist(t_command *cmd, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
-int 	    msh_redirect_parse(char *str, int *length);
+int 	    msh_common_parse();
 char	    *msh_get_if_exist(char **env, char *argument);
 
 
@@ -45,6 +42,7 @@ void        msh_add_redirect(t_redirect **current, char *value, t_specials speci
 int         msh_open(char *path, int type);
 int         msh_export_invalid(char *arg);
 void	    msh_export_error(char *arg);
+int	        msh_multiple_iterator(int num, int *i, int sign);
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
