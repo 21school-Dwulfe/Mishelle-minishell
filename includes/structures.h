@@ -3,7 +3,6 @@
 
 #include "libs.h"
 
-typedef int(*f)(char *str, int *length);
 
 typedef enum s_specials
 {
@@ -49,7 +48,6 @@ typedef struct	s_info
 	char		odd_quote;				// тип незакрытой кавычки 			
 	char		**env;					// переменное окружение минишелла (используется вместо стандартных функций редактирования окружения)
 	t_command   *cur_cmd; 				// указатель на первую команду
-	f			func[16];				// массив функций для реализации доп логики (возможно не пригодится)
 }				t_info;
 
 t_info	g_info;
