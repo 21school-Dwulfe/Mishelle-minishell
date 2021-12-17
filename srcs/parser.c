@@ -5,17 +5,18 @@
 // validation cmd names
 // validation cmd args
 
-
-
-int	msh_multiple_iterator(int num, int *i)
+int	msh_multiple_iterator(int num, int *i, int sign)
 {
 	int in;
 
 	in = 0;
 	while (in < num)
 	{
+		if (sign > -1)
+			(*i)++;
+		else
+			(*i)--;
 		in++;
-		(*i)++;
 	}
 	return (in);
 }
@@ -23,11 +24,11 @@ int	msh_multiple_iterator(int num, int *i)
 int	msh_check_special_signs(char *str, int *i, int *specials)
 {
 	if ((ft_strnstr(str + *i, "\";\"", 3) || ft_strnstr(str + *i, "\';\'", 3))
-		&& msh_multiple_iterator(3, i))
+		&& msh_multiple_iterator(3, i, 1))
 		return (*specials = 0);
 	if (*i > 0 && str[*i] == ';')
 		return (*specials = SEMICOLON);
-	if (str[*i + 1] == '\0' && msh_multiple_iterator(2, i))
+	if (str[*i + 1] == '\0' && msh_multiple_iterator(2, i, 1))
 		return (*specials = 1);
 	if (str[*i] == '|')
 		return (*specials = PIPE);
@@ -63,14 +64,3 @@ void	msh_parse(char *str)
 	}
 	msh_common_parse();
 }
-	// int i = 0;
-	// t_command *t = g_info.current_command;
-	// while (t)
-	// {
-	// 	while (t->args[i])
-	// 	{
-	// 		printf("%s\n",t->args[i]);
-	// 		i++;
-	// 	}
-	// 	t = t->next;
-	// }

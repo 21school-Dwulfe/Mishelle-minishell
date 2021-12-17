@@ -42,6 +42,7 @@ void        msh_add_redirect(t_redirect **current, char *value, t_specials speci
 int         msh_open(char *path, int type);
 int         msh_export_invalid(char *arg);
 void	    msh_export_error(char *arg);
+int	        msh_multiple_iterator(int num, int *i, int sign);
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline

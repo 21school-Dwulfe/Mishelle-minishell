@@ -3,43 +3,20 @@
 void	msh_simple_execute(t_command *cmd, char *path, char **env)
 {
 	pid_t		ret;
-//	int			status;
-	//char *sss[] = {"/usr/bin/ls", "-ls", NULL};
-	//int			fd_pipe[2];
-	//char 		*str;
 
-	// if (pipe(fd_pipe) < 0)
-	// 	perror("Error");
-//	s = cmd->args[0];
 	ft_strdel(&cmd->args[0]);
 	cmd->args[0] = path;
 	ret = fork();
 	if (ret == 0)
 	{
-		// dup2(fd_pipe[1], STDOUT_FILENO);
-		// close(fd_pipe[0]);
-		// close(fd_pipe[1]);
-		// write(1, "cattttt",8);
-	//	printf("%s\n",cmd->args[0]);
 		if (execve(cmd->args[0], cmd->args, env) == -1)
 		{
 		
 			perror(cmd->args[0]);
 			exit(1);
 		}
-	
 	}
-	
-	// else
-	// 	perror("simple fork");
-	// dup2(fd_pipe[0], STDIN_FILENO);
-	// str = msh_read_fd(0);
-	// str[ft_strlen(str) - 1] = '\0';
-	// close(fd_pipe[0]);
-	// close(fd_pipe[1]);
 	waitpid(ret, NULL, 0);
-	//WEXITSTATUS(status);
-	//printf("%d\n", status);
 }
 
 void msh_custom_redirect(int *fd_arr, t_command *cmd)

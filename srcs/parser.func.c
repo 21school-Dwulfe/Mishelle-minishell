@@ -135,26 +135,64 @@ int msh_get_specials(char *c)
 	return (0);
 }
 
-
-int	msh_first_redirect(char *str, char *c)
+/**
+ * @brief Cut current redirect & change next type for recursion
+ * 
+ * @param dest - redirect file name for adding in redirect struct
+ * @param src  - income string or previos tail
+ * @param tail - tail after first redirect
+ * @param c - next type of redirect from list of  < , > , << , >>
+ * @return int 1 - requirement to use recursion
+ */
+int	msh_first_redirect(char **dest, char *src, char **tail, char *c)
 {
-	int r;
-	int	rr;
+	int		res;
+	int		rr[4];
+	char	ch[2];
 
-	r = ft_index_of(str, '>');
-	rr = ft_index_of(str, '<');
-	if (rr < r)
+	res = 0;
+	ch[0] = '<';
+	ch[1] = '>';
+	ft_bzero(rr, sizeof(int) * 4);
+	while (src[rr[2]] == c[0])
+		rr[2]++;
+	rr[0] = ft_index_of(src + rr[2], '<');
+	rr[1] = ft_index_of(src + rr[2], '>');
+	ft_bzero(c, sizeof(char) * ft_strlen(c));
+	if (rr[0] < rr[1] && rr[0] != -1)
+		res = 0;
+	if (rr[1] < rr[0] && rr[1] != -1)
+		res = 1;
+	rr[3] = ft_index_of(src + rr[2], ch[res]);
+	if (rr[3] < rr[!res] && rr[3] != -1)
+		res = 2;
+	if (src[rr[!res] + 1] == src[rr[!res]])
+		ft_memset(c, ch[!res], 2);
+	else
+		c[0] = ch[!res];
+	*dest = ft_strndup_se(src + rr[2], rr[!res] - rr[2], 0);
+	return (!(*tail  = ft_strdup(src + rr[2] + ft_strlen(*dest))));
+}
+
+/**
+ * @brief Replace prefix before redirect
+ * 
+ * @param cmd current command
+ * @param i index of current arg
+ * @param tp temporary string pointers
+ * @param c type of closest redirect
+ */
+void	msh_replace_prefix_before_redirect(t_command *cmd, int i, char **tp, char *c)
+{
+	if (cmd->args[i][0] != c[0])
 	{
-		if (str[r + 1] == '>')
-			ft_memset(c, '>', 2);
-		return (rr - 1);
+		tp[0] = ft_strndup_se(cmd->args[i] , 0, c[0]);
+		tp[1] = ft_strdup(cmd->args[i] + ft_index_of(cmd->args[i], c[0]));
+		ft_strdel(&cmd->args[i]);
+		cmd->args[i] = tp[0];
 	}
 	else
-	{
-		if (str[r + 1] == '>')
-			ft_memset(c, '>', 2);
-		return (r - 1);
-	}
+		tp[1] = cmd->args[i];
 }
 
 /**
@@ -170,7 +208,6 @@ void	msh_clumped_redirects(t_command *cmd, int i, char *c)
 {
 	int			j[4];
 	char		**tmp;
-	char		*t;
 	char		*tp[4];
 
 	tmp = NULL;
@@ -178,35 +215,20 @@ void	msh_clumped_redirects(t_command *cmd, int i, char *c)
 	ft_bzero(tp, sizeof(char *) * 4);
 	j[1] = 122 - c[0];
 	j[2] = ft_index_of(cmd->args[i], j[1]);
-	if (cmd->args[i][0] != c[0])
-	{
-		tp[0] = ft_strndup_se(cmd->args[i] , 0, j[1]);
-		tp[1] = ft_strdup(cmd->args[i] + ft_index_of(cmd->args[i], c[0]));
-		ft_strdel(&cmd->args[i]);
-	}
-	else
-		tp[1] = cmd->args[i];
+	msh_replace_prefix_before_redirect(cmd, i, tp, c);
 	if (j[2] < 0)
 	{
 		tmp = ft_split(tp[1], c[0]);
 		while (tmp[j[3]])
-			{
-				t = tmp[j[3]++];
-				msh_add_redirect(&cmd->redirects, t, msh_get_specials(c));
-			}
+			msh_add_redirect(&cmd->redirects, tmp[j[3]++], msh_get_specials(c));
 	}
 	else
 	{
-		j[1] =  msh_first_redirect(tp[1], c);
-		tp[3] =	ft_strndup_se(tp[1] + 1, 0, j[1]);
-		msh_add_redirect(&cmd->redirects, tp[3], msh_get_specials(c));
-		tmp[0] = ft_strdup(tp[1] + j[2]);
-		tp[1] = tmp[0];
-		ft_memset(c, j[1], sizeof(ft_strlen(c)));
-		ft_strdel(&tp[3]);
-		msh_clumped_redirects(cmd, i, c);
+		j[3] = !msh_first_redirect(&tp[2], tp[1], &cmd->args[i], c);
+		msh_add_redirect(&cmd->redirects, tp[2], msh_get_specials(c));
+		if (j[3])
+			msh_clumped_redirects(cmd, i, c);
 	}
-	cmd->args[i] = ft_strjoin(tp[0], tp[1]);
 	ft_strdel(&tp[1]);
 }
 
@@ -262,16 +284,11 @@ int	msh_common_parse()
 			if (ft_strnstr(cmd->args[i], ">>", 3)
 				&& ((in[1] != -1 && in[0] == -1)
 				|| (in[1] != -1 && in[0] != -1 && in[1] < in[0])))
-			{
 				ft_memset(c, '>', 2);
-			}
 			else if (ft_strnstr(cmd->args[i], "<<", 3)
 				&& ((in[0] != -1 && in[1] == -1)
 				|| (in[0] != -1 && in[1] != -1 && in[0] < in[1])))
-			{
-				c[0] = '<';
-				c[1] = '<';
-			}
+				ft_memset(c, '<', 2);
 			if ((in[0] != -1 && in[1] == -1)
 				|| (in[0] != -1 && in[1] != -1 && in[0] < in[1]))
 				c[0] = '<';
