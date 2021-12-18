@@ -78,7 +78,7 @@ void		ft_swap_int(void *a, void *b);
 int			ft_str_count(char **str);
 char		*ft_decorate(char *src, char *begining, char *end);
 int			ft_ch_count(char *str, char ch);
-
-
+int			*ft_min(int *arr, int size);
+int			*ft_max(int *arr, int size);
 
 #endif

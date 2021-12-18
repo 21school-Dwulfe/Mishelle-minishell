@@ -42,17 +42,24 @@ void	msh_config(int argc, char **argv, char **env)
 
 void	msh_struct_clear()
 {
-	// ft_arrstr_del((*cmd)->args, (*cmd)->number_args);
-	t_command *cmds;
+	t_command 	*cmds;
+	t_redirect	*tmp_red;
 
 	cmds = g_info.cur_cmd;
+	g_info.num_of_commands = 0;
 	while (cmds)
 	{
-		ft_delptr((void **)cmds->args);
-
-		// ft_arrstr_del(cmds->input, ft_str_counter());
-		// ft_strdel(cmds->err);
-		// ft_strdel(cmds->out);
+		if (cmds->args)
+			ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
+		//ft_delptr((void **)cmds->args);
+		tmp_red = cmds->redirects;
+		while (tmp_red)
+		{
+			cmds->redirects = cmds->redirects->next;
+			ft_strdel(&tmp_red->file);
+			free(tmp_red);
+			tmp_red = cmds->redirects;
+		}
 		cmds = cmds->next;
 		free(g_info.cur_cmd);
 		g_info.cur_cmd = NULL;

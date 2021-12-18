@@ -40,13 +40,14 @@ char	*msh_get_path(char *cmd_name, char **env)
 	{
 		tmp[0] = ft_strjoin(splited[i], "/");
 		tmp[1] = ft_strjoin(tmp[0], cmd_name);
+		ft_strdel(&tmp[0]);
 		if (access(tmp[1], F_OK) == 0)
-			return (tmp[1]);
-		else
 		{
-			ft_strdel(&tmp[0]);
-			ft_strdel(&tmp[1]);
+			ft_arrstr_del(splited, ft_str_count(splited));
+			return (tmp[1]);
 		}
+		else
+			ft_strdel(&tmp[1]);
 		i++;
 	}
 	perror(cmd_name);

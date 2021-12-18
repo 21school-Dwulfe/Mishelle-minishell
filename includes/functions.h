@@ -28,7 +28,6 @@ char	    *msh_get_if_exist(char **env, char *argument);
  * @param cmd List of commands
  * @param env  Evariables 
  */
-void	    msh_execute(t_command *cmd, char *path, char **env);
 void	    msh_config(int argc, char **argv, char **env);
 char	    **msh_create_env_var(char *new_var);
 char	    **msh_split(char *str, int c);
@@ -43,6 +42,8 @@ int         msh_open(char *path, int type);
 int         msh_export_invalid(char *arg);
 void	    msh_export_error(char *arg);
 int	        msh_multiple_iterator(int num, int *i, int sign);
+void	    msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s);
+
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline

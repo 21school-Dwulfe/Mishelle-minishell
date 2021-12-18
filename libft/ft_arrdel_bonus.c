@@ -20,5 +20,6 @@ char	**ft_arrstr_del(char **dst, int s_counter)
 		free((void *)dst[s_counter]);
 	}
 	free(dst);
+	dst = NULL;
 	return (NULL);
 }

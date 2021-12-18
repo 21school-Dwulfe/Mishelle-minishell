@@ -155,7 +155,6 @@ int	msh_check_if_exist(char **env, char *argument)
 	int		j;
 	int		n[4];
 	int		index;
-	// /int		len;
 	char	*tmp[2];
 
 	j = 0;
@@ -163,7 +162,6 @@ int	msh_check_if_exist(char **env, char *argument)
 	while (env[j])
 	{
 		ft_bzero(n, sizeof(int) * 4);
-	//	len = ft_strlen(argument);
 		while (env[j][n[0]] && env[j][n[0]] != '=')
 			n[0]++;
 		while (argument[n[1]] && argument[n[1]] != '=')
@@ -171,16 +169,10 @@ int	msh_check_if_exist(char **env, char *argument)
 
 		tmp[0] = env[j];
 		tmp[1] = ft_strndup_se(argument, 0, '=');
-		if (ft_strncmp(tmp[0], tmp[1], n[0]) == 0)
-		{
-			ft_strdel(&tmp[1]);
+		n[4] = !ft_strncmp(tmp[0], tmp[1], n[0]) || (index > 1 && !ft_strncmp(env[j], tmp[1], index));
+		ft_strdel(&tmp[1]);
+		if (n[4])
 			return (j);
-		}
-		if (index > 1 && ft_strncmp(env[j], tmp[1], index))
-		{
-			ft_strdel(&tmp[1]);
-			return (j);
-		}
 		j++;
 	}
 	return (0);
