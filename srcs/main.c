@@ -36,8 +36,15 @@ void	msh_config(int argc, char **argv, char **env)
 	(void)argv;
 	(void)env;
 	rl_catch_signals = 0;
-	g_info.env = msh_copy_env(env);
 	g_info.num_of_commands = 0;
+	g_info.env = msh_copy_env(env);
+	g_info.f[0] = "export";
+	g_info.f[1] = "exit";
+	g_info.f[2] = "unset";
+	g_info.f[3] = "cd";
+	g_info.f[4] = "pwd";
+	g_info.f[5] = "echo";
+	g_info.f[6] = "env";
 }
 
 void	msh_struct_clear()

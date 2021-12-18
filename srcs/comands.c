@@ -169,9 +169,10 @@ int	msh_check_if_exist(char **env, char *argument)
 
 		tmp[0] = env[j];
 		tmp[1] = ft_strndup_se(argument, 0, '=');
-		n[4] = !ft_strncmp(tmp[0], tmp[1], n[0]) || (index > 1 && !ft_strncmp(env[j], tmp[1], index));
+		n[3] = !ft_strncmp(tmp[0], tmp[1], n[0]); //
+		n[3] = (index > 1 && !ft_strncmp(env[j], tmp[1], index));
 		ft_strdel(&tmp[1]);
-		if (n[4])
+		if (n[3])
 			return (j);
 		j++;
 	}

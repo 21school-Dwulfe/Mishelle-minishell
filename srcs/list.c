@@ -11,6 +11,7 @@ t_command	*msh_create_command(char	**dstr)
 	cmd->out = NULL;
 	cmd->err = NULL;
 	cmd->piped = 0;
+	cmd->build = 0;
 	cmd->num_args = ft_str_count(dstr);
 	cmd->prev = NULL;
 	cmd->redirects = NULL;

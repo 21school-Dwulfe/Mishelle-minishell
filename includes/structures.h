@@ -3,7 +3,6 @@
 
 #include "libs.h"
 
-
 typedef enum s_specials
 {
 	SEMICOLON = 1, 		/* ; */
@@ -26,15 +25,15 @@ typedef struct s_redirect
 	struct s_redirect	*prev;
 }				t_redirect;
 
-
 typedef struct s_command
-{  
-	int					num_args;  		// количество аргументов включая команду 
+{
+	int					num_args;		// количество аргументов включая команду 
 	char				**args;			// массив строк где 0 индекс всегда является названием команды, остальные являются аргументами команды, заканчивается '\0'
 	t_redirect			*out;			// путь к файлу для редиректа (запись)
 	t_redirect			*input;			// путь к файлу для редиректа (чтение)
 	t_redirect			*err;			// путь к файлу для редиректа (ошибок) 
 	t_redirect			*redirects;
+	int					build;			// buildin function flag
 	int					piped;			// вмето булевого значения флаг указывающи на наличие pipe
 	int					background;	
 	t_specials			specials;		// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
@@ -47,7 +46,8 @@ typedef struct	s_info
 	int			num_of_commands;		// общее число команд
 	char		odd_quote;				// тип незакрытой кавычки 			
 	char		**env;					// переменное окружение минишелла (используется вместо стандартных функций редактирования окружения)
-	t_command   *cur_cmd; 				// указатель на первую команду
+	t_command   *cur_cmd;				// указатель на первую команду
+	char		*f[8];					// buildin
 }				t_info;
 
 t_info	g_info;
