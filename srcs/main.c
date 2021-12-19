@@ -16,13 +16,13 @@ void	msh_sigtermHandler(int signum)
 	printf("%d\n", signum);
 }
 
-char	*msh_readline(char *prefix)
+void msh_readline(char *prefix, char **dest)
 {
 	char *line;
 
 	line = readline(prefix);
 	if (line)
-		return (line);
+		*dest = line;
 	else
 	{
 		msh_struct_clear();
@@ -73,10 +73,53 @@ void	msh_struct_clear()
 		g_info.cur_cmd = cmds;
 	}
 }
+int	msh_validate_line(char *line)
+{
+	int				i;
+	unsigned int	ascii[256];
+
+	i = 0;
+	ft_bzero(ascii, sizeof(char) * 256);
+	while (line[i])
+	{
+		if (ft_isspace(line[i]))
+			ascii[(unsigned char)line[i]]++;
+		i++;
+	}
+	if (ft_strlen(line) == ascii[32])
+		return (1);
+	return (0);
+}
+
+char	*msh_strlcat(char *new, char *buff, char *dyn_buff)
+{
+	int	line_l;
+	int	buff_l;
+	int new_size;
+
+	if (!dyn_buff)
+		buff_l = ft_strlen(buff);
+	else
+		buff_l = ft_strlen(dyn_buff);
+	line_l = ft_strlen(new);
+	if (buff_l + line_l > 1024)
+	{
+		new_size = ft_abs((1024 - buff_l + line_l));
+		dyn_buff = ft_realloc(buff, sizeof(char) * (new_size + 1));
+		ft_strlcat(dyn_buff, new, new_size + 1);
+		return (dyn_buff);
+	}
+	else
+	{
+		ft_strlcat(buff, new, 1024);
+		return (buff);
+	}
+}
 
 int main(int argc, char **argv, char **env)
 {
 	char	*line;
+	char	*buff_st_dy;
 	char	buff[1024];
 	pid_t	pid = getpid();
 
@@ -88,13 +131,15 @@ int main(int argc, char **argv, char **env)
 	ft_bzero(buff, sizeof(char) * 1024);
 	while (1)
 	{
-		line = msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002");
-		ft_strlcat(buff, line, 1024);
-		msh_check_unclosed_quotes(buff, line, 0);
-		add_history(buff);
-		msh_cmd(buff);
+		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line);
+		if (msh_validate_line(line))
+			continue ;
+		buff_st_dy = msh_strlcat(line, buff, buff_st_dy);
+		msh_check_unclosed_quotes(buff, line, buff_st_dy, 0);
+		add_history(buff_st_dy);
+		msh_cmd(buff_st_dy);
 		ft_strdel(&line);
-		ft_bzero(buff, sizeof(char) * 1024); //604 365 194
+		ft_bzero(buff_st_dy, sizeof(char) * 1024); //604 365 194
 		msh_struct_clear();
 	}
 	return (0);

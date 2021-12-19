@@ -99,7 +99,7 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 	}
 	if ((cmd->prev && cmd->prev->piped))
 	{
-		if (!cmd->input)
+		if (!cmd->input && cmd->num_args == 1)
 			dup2(fd_pipe[0], 0);
 		//else	dup2(fd_pipe[0], fd[0]);
 		close(fd_pipe[0]);
@@ -111,13 +111,12 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 		dup2(fd_pipe[1], 1);
 		close(fd_pipe[1]);
 	}
-	
 	ret = fork();
 	if (ret == 0)
 	{
 		close(fd_s[0]);
 		close(fd_s[1]);
-		if (!msh_buildins(cmd, 1)) 
+		if (!msh_buildins(cmd, 1))
 			if (execve(cmd->args[0], cmd->args, env) == -1)
 			{
 				perror(cmd->args[0]);

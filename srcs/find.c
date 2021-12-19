@@ -6,11 +6,13 @@ char	*msh_get_path(char *cmd_name, char **env)
 	char	*tmp[4];
 	char	*path;
 	char	**splited;
+	int		res;
 
 	ft_bzero(i, sizeof(int) * 2);
 	path = msh_get_if_exist(env, "PATH");
 	splited = ft_split(path, ':');
-	if (access(cmd_name, X_OK) == -1 && i[1]++)
+	res = access(cmd_name, X_OK);
+	if (res == -1 && i[1]++)
 		while (splited[i[0]])
 		{
 			tmp[0] = ft_strjoin(splited[i[0]], "/");
@@ -23,5 +25,7 @@ char	*msh_get_path(char *cmd_name, char **env)
 				ft_strdel(&tmp[1]);
 			i[0]++;
 		}
+	else if (res == 0)
+		return (ft_strdup(cmd_name));
 	return (NULL);
 }
