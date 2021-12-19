@@ -42,7 +42,7 @@ int         msh_open(char *path, int type);
 int         msh_export_invalid(char *arg);
 void	    msh_export_error(char *arg);
 int	        msh_multiple_iterator(int num, int *i, int sign);
-void	    msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s);
+void	    msh_execution(t_command *cmd, char **env, int *fd_pipe);//, int *fd_s);
 
 
 /**

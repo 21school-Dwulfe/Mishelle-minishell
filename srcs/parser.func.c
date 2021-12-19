@@ -295,14 +295,14 @@ int	msh_common_parse()
 			ft_bzero(c, sizeof(char) * 4);
 			in[0] = ft_index_of(cmd->args[i], '<');
 			in[1] = ft_index_of(cmd->args[i], '>');
-			if (ft_strnstr(cmd->args[i], ">>", 3)
-				&& ((in[1] != -1 && in[0] == -1)
-				|| (in[1] != -1 && in[0] != -1 && in[1] < in[0])))
-				ft_memset(c, '>', 2);
-			else if (ft_strnstr(cmd->args[i], "<<", 3)
-				&& ((in[0] != -1 && in[1] == -1)
-				|| (in[0] != -1 && in[1] != -1 && in[0] < in[1])))
-				ft_memset(c, '<', 2);
+			// if (ft_strnstr(cmd->args[i], ">>", 3)
+			// 	&& ((in[1] != -1 && in[0] == -1)
+			// 	|| (in[1] != -1 && in[0] != -1 && in[1] < in[0])))
+			// 	ft_memset(c, '>', 2);
+			// else if (ft_strnstr(cmd->args[i], "<<", 3)
+			// 	&& ((in[0] != -1 && in[1] == -1)
+			// 	|| (in[0] != -1 && in[1] != -1 && in[0] < in[1])))
+			// 	ft_memset(c, '<', 2);
 			if ((in[0] != -1 && in[1] == -1)
 				|| (in[0] != -1 && in[1] != -1 && in[0] < in[1]))
 				c[0] = '<';

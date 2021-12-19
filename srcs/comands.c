@@ -166,11 +166,12 @@ int	msh_check_if_exist(char **env, char *argument)
 			n[0]++;
 		while (argument[n[1]] && argument[n[1]] != '=')
 			n[1]++;
-
 		tmp[0] = env[j];
 		tmp[1] = ft_strndup_se(argument, 0, '=');
-		n[3] = !ft_strncmp(tmp[0], tmp[1], n[0]); //
-		n[3] = (index > 1 && !ft_strncmp(env[j], tmp[1], index));
+		if (!ft_strncmp(tmp[0], tmp[1], n[0]))
+			n[3] = 1;
+		if ((index > 1 && !ft_strncmp(env[j], tmp[1], index)))
+			n[3] = 1;
 		ft_strdel(&tmp[1]);
 		if (n[3])
 			return (j);

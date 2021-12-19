@@ -56,9 +56,9 @@ void	msh_struct_clear()
 	g_info.num_of_commands = 0;
 	while (cmds)
 	{
-		if (cmds->args)
-			ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
-		//ft_delptr((void **)cmds->args);
+		// if (cmds->args)
+		// 	ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
+		ft_delptr((void **)cmds->args);
 		tmp_red = cmds->redirects;
 		while (tmp_red)
 		{
@@ -74,6 +74,11 @@ void	msh_struct_clear()
 	}
 }
 
+void	msh_child(int child)
+{
+	printf("handler %d\n", child);
+}
+
 int main(int argc, char **argv, char **env)
 {
 	char	*line;
@@ -84,6 +89,7 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, msh_sigintHandler);
+	signal(SIGCHLD, msh_child);
 	msh_config(argc, argv, env);
 	ft_bzero(buff, sizeof(char) * 1024);
 	while (1)
