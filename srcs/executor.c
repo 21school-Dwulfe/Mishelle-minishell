@@ -75,7 +75,7 @@ int msh_buildins(t_command *cmd, int reg)
 	// 	is_buildin = msh_custom_export(cmd);
 	// return (is_buildin);
 
-void	msh_execution(t_command *cmd, char **env, int *fd_pipe)//, int *fd_s)
+void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 {
 	int			fd[2];
 	pid_t		ret;
@@ -115,8 +115,9 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe)//, int *fd_s)
 	ret = fork();
 	if (ret == 0)
 	{
-	
-		if (!msh_buildins(cmd, 1)) 
+		close(fd_s[0]);
+		close(fd_s[1]);
+		if (!msh_buildins(cmd, 1))
 			if (execve(cmd->args[0], cmd->args, env) == -1)
 			{
 				perror(cmd->args[0]);
@@ -125,8 +126,8 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe)//, int *fd_s)
 	}
 	int status;
 	waitpid(ret, &status, 0);
-	
-	printf("WEXIT = %d status = %d\n", WEXITSTATUS(status), status);
+	g_info.exit_code = WEXITSTATUS(status);
+	//printf("WEXIT = %d status = %d\n", , status);
 }
 
 int	msh_is_build(char *cmd)
@@ -140,7 +141,7 @@ int	msh_is_build(char *cmd)
 	{
 		len = ft_strlen(g_info.f[i]);
 		if (!ft_strncmp(cmd, g_info.f[i], len))
-			return (i);
+			return (i + 1);
 		i++;
 	}
 	return (0);
@@ -197,12 +198,12 @@ void	msh_cmd(char *line)
 			tmp[1] = msh_get_path(tmp[0], g_info.env);
 			if(!tmp[1])
 				break ;
-			ft_strdel(&cmd->args[0]);
-			cmd->args[0] = tmp[1];
+			//	ft_strdel(&cmd->args[0]);
+			//	cmd->args[0] = tmp[1];
 
-			//cmd->args = msh_replace_and_copy(cmd->args, tmp[1], 0);
+			cmd->args = msh_replace_and_copy(cmd->args, tmp[1], 0);
 		}
-		msh_execution(cmd, g_info.env, fd_pipe);//, in_out_s);
+		msh_execution(cmd, g_info.env, fd_pipe, in_out_s);
 		cmd = cmd->next;
 		if ((cmd && !cmd->piped) || !cmd)
 			dup2(in_out_s[1], 1);

@@ -28,10 +28,10 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 		return (*specials = 0);
 	if (*i > 0 && str[*i] == ';')
 		return (*specials = SEMICOLON);
-	if (str[*i + 1] == '\0' && msh_multiple_iterator(2, i, 1))
-		return (*specials = 1);
 	if (str[*i] == '|')
 		return (*specials = PIPE);
+	if (str[*i + 1] == '\0' && ++*i)
+		return (*specials = 1);
 	return (*specials = 0);
 }
 

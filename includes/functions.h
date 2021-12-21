@@ -42,8 +42,8 @@ int         msh_open(char *path, int type);
 int         msh_export_invalid(char *arg);
 void	    msh_export_error(char *arg);
 int	        msh_multiple_iterator(int num, int *i, int sign);
-void	    msh_execution(t_command *cmd, char **env, int *fd_pipe);//, int *fd_s);
-
+void	    msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s);
+char	    *msh_strlcat(char *line, char *buff, char *reall);
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
@@ -52,6 +52,5 @@ void	    msh_execution(t_command *cmd, char **env, int *fd_pipe);//, int *fd_s);
  * @param message error message
  */
 void	msh_error(char *message, char *token_str, int token_len);
-
 
 #endif

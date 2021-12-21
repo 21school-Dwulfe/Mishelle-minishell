@@ -27,7 +27,6 @@ typedef struct s_redirect
 
 typedef struct s_command
 {
-	int					exit_code;		// код ошибки
 	int					num_args;		// количество аргументов включая команду 
 	char				**args;			// массив строк где 0 индекс всегда является названием команды, остальные являются аргументами команды, заканчивается '\0'
 	t_redirect			*out;			// путь к файлу для редиректа (запись)
@@ -44,6 +43,7 @@ typedef struct s_command
 
 typedef struct	s_info
 {
+	int			exit_code;				// код ошибки
 	int			num_of_commands;		// общее число команд
 	char		odd_quote;				// тип незакрытой кавычки 			
 	char		**env;					// переменное окружение минишелла (используется вместо стандартных функций редактирования окружения)

@@ -16,42 +16,38 @@ int	msh_custom_exit(t_command *cmd)
 	return (1);
 }
 
-char	*msh_add_space(int len, char *tmp, t_command *cmd)
-{
-	if (len < cmd->num_args)
-	{
-		tmp = ft_realloc(tmp, ft_strlen(tmp) + 2);
-		tmp[ft_strlen(tmp)] = ' ';
-	}
-	return(tmp);
-}
-
 int	msh_custom_echo(t_command *cmd)
 {
 	short	is_nl;
 	int		len;
-	char	*c;
-	char	*tmp[2];
+	int		l[4];
+	char	*tmp[4];
 
 	is_nl = 1;
 	len = 1;
-	c = NULL;
+	ft_bzero(l, sizeof(int) * 4);
+	ft_bzero(tmp, sizeof(char *) * 4);
 	if (cmd->num_args > 1)
-		c = ft_strchr(cmd->args[1], '-');
-	if (c && ft_strlen(c) == 2 && *(c + 1) == 'n' && (--is_nl == 0))
-		len = 2;
-	tmp[0] = cmd->args[len];
-	while (cmd->args[++len])
 	{
-		tmp[1] = msh_add_space(len, tmp[0], cmd);
-		tmp[0] = ft_strjoin(tmp[1], cmd->args[len++]);
+		tmp[0] = ft_strchr(cmd->args[1], '-');
+		if (tmp[0] && *(tmp[0] + 1) == 'n' && (--is_nl == 0))
+			len = 2;
+		l[2] = len;
+		while (l[2] < cmd->num_args)
+			l[0] += ft_strlen(cmd->args[l[2]++]);
+		tmp[1] = ft_calloc(sizeof(char), (l[0] + cmd->num_args - 2));
+		while (len < cmd->num_args)
+		{
+			l[1] = (int)ft_strlcat(tmp[1], cmd->args[len], (l[0] + cmd->num_args - 1));
+			if (len != cmd->num_args - 1)
+				tmp[1][l[1]] = ' ';
+			len++;
+		}
+		ft_putstr_fd(tmp[1], 1);
 		ft_strdel(&tmp[1]);
 	}
 	if (is_nl)
-		ft_putendl_fd(tmp[0], 1);
-	else
-		ft_putstr_fd(tmp[0], 1);
-	ft_strdel(&tmp[0]);
+		ft_putstr_fd("\n", 1);
 	return (1);
 }
 

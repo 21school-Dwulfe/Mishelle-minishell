@@ -42,37 +42,38 @@ int	msh_is_odd_quote(char *str)
 		return (g_info.odd_quote = 0);
 }
 
-int	msh_is_close_odd_quote(char *buff, char *line)
+void	msh_is_close_odd_quote(char *buff, char *line, char **buf_sd, char *c)
 {
 	int	i;
 
 	i = 0;
-	ft_strlcat(buff, line, 1024);
+	//ft_strlcat(buff, line, 1024);
+	*buf_sd = msh_strlcat(buff, line, *buf_sd);
 	if (!ft_strchr(line, g_info.odd_quote))
-		return (g_info.odd_quote);
+		*c = g_info.odd_quote;
 	else
 	{
 		i = ft_index_of(line, g_info.odd_quote);
-		return (msh_is_odd_quote(line + i + 1));
+		*c = msh_is_odd_quote(line + i + 1);
 	}
 }
 
-void	msh_check_unclosed_quotes(char *buff, char *line, char c)
+void	msh_check_unclosed_quotes(char *buf, char *line, char *buf_sd, char c)
 {
 	char	*quote_type;
 
 	if (c == 0)
 		c = msh_is_odd_quote(line);
 	else
-		c = msh_is_close_odd_quote(buff, line);
+		msh_is_close_odd_quote(buf, line, &buf_sd, &c);
 	if (c)
 	{
 		if (c == '\'')
 			quote_type = "quote> ";
 		else
 			quote_type = "dquote> ";
-		line = msh_readline(quote_type);
-		msh_check_unclosed_quotes(buff, line, 1);
+		msh_readline(quote_type, &line);
+		msh_check_unclosed_quotes(buf, line, buf_sd, 1);
 		free(line);
 	}
 }

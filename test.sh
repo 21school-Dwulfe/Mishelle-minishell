@@ -87,21 +87,21 @@ Compile
 
 Simple Command & global
 
-- Execute a simple command with an absolute path like /bin/ls or any other command without options
-- How many global variables? why? Give a concrete example of why it feels mandatory or logical.
-- Test an empty command.
-- Test only spaces or tabs.
-- if something crashes use the crash flag.
-- if something is not working use the incomplete work flag.
+#- Execute a simple command with an absolute path like /bin/ls or any other command without options
+#- How many global variables? why? Give a concrete example of why it feels mandatory or logical.
+#- Test an empty command.
+#- Test only spaces or tabs.
+#- if something crashes use the crash flag.
+#- if something is not working use the incomplete work flag.
 
 
 
 Arguments & history
 
-- Execute a simple command with an absolute path like /bin/ls or any other command with arguments but without quotes and double quotes
-- Repeat multiple times with different commands and arguments
-- if something crashes use the crash flag.
-- if something is not working use the incomplete work flag.
+#- Execute a simple command with an absolute path like /bin/ls or any other command with arguments but without quotes and double quotes
+#- Repeat multiple times with different commands and arguments
+#- if something crashes use the crash flag.
+#- if something is not working use the incomplete work flag.
 
 
 

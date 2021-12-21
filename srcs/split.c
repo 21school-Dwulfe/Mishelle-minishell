@@ -86,7 +86,8 @@ char	**msh_split(char *str, int c)
 	j = 0;
 	ft_bzero(tmp, sizeof(char) * 2);
 	counter = count_str(str, c);
-	result = ft_calloc(counter + 1, sizeof(char *));
+	result = malloc((counter + 1) * sizeof(char *));
+	ft_bzero(result, (counter + 1) * sizeof(char *));
 	while (str[i])
 	{	
 		while (str[i] && str[i] == c)
