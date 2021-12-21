@@ -1,4 +1,5 @@
 #include "../includes/main.h"
+#include <errno.h>
 
 int msh_custom_redirect(int *fd_arr, t_command *cmd)
 {
@@ -53,6 +54,9 @@ int msh_buildins(t_command *cmd, int reg)
 		is_buildin = msh_custom_echo(cmd);
 	else if (reg == 1 && ft_strnstr(cmd->args[0], "env", 3))
 		is_buildin = msh_custom_env(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "export", 6)
+		&& cmd->num_args > 1)
+		is_buildin = msh_custom_export(cmd);
 	else if (reg == 1 && ft_strnstr(cmd->args[0], "export", 6))
 		is_buildin = msh_custom_export(cmd);
 	return (is_buildin);
@@ -75,11 +79,62 @@ int msh_buildins(t_command *cmd, int reg)
 	// 	is_buildin = msh_custom_export(cmd);
 	// return (is_buildin);
 
+void	msh_wait_pid(int pid)
+{
+	int status;
+	waitpid(pid, &status, 0);
+	g_info.exit_code = WEXITSTATUS(status);
+	if (status == 3)
+		write(1, "Quit: 3\n", 9);
+	if (status == 2)
+		write(1, "\n", 1);
+}
+
+void	msh_pipes(t_command *cmd, int *fd_pipe)
+{
+	if ((cmd->prev && cmd->prev->piped))
+	{
+		if (!cmd->input)
+			dup2(fd_pipe[0], 0);
+		//else	dup2(fd_pipe[0], fd[0]);
+		close(fd_pipe[0]);
+	}
+	if (cmd->piped && cmd->out == NULL)
+	{	
+		if (pipe(fd_pipe) == -1)
+			perror("Pipe");
+		dup2(fd_pipe[1], 1);
+		close(fd_pipe[1]);
+	}
+}
+
+void	msh_func(t_command *cmd, int *fd_s, char **env)
+{
+	pid_t		pid;
+	if (!msh_buildins(cmd, 0))
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			close(fd_s[0]);
+			close(fd_s[1]);
+			if (!msh_buildins(cmd, 1))
+				if (execve(cmd->args[0], cmd->args, env) == -1)
+				{
+					perror(cmd->args[0]);
+					exit(1);
+				}
+		}
+		msh_wait_pid(pid);
+	}
+}
+
 void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 {
 	int			fd[2];
-	pid_t		ret;
-
+	
 	if (cmd->redirects)
 	{
 		if (msh_custom_redirect(fd, cmd))
@@ -97,38 +152,10 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 										// в данный момент к записать файл fd[1] можно только STD_OUT (1)
 		}
 	}
-	if ((cmd->prev && cmd->prev->piped))
-	{
-		if (!cmd->input)
-			dup2(fd_pipe[0], 0);
-		//else	dup2(fd_pipe[0], fd[0]);
-		close(fd_pipe[0]);
-	}
-	if (cmd->piped && cmd->out == NULL)
-	{	
-		if (pipe(fd_pipe) == -1)
-			perror("Pipe");
-		dup2(fd_pipe[1], 1);
-		close(fd_pipe[1]);
-	}
-	
-	ret = fork();
-	if (ret == 0)
-	{
-		close(fd_s[0]);
-		close(fd_s[1]);
-		if (!msh_buildins(cmd, 1))
-			if (execve(cmd->args[0], cmd->args, env) == -1)
-			{
-				perror(cmd->args[0]);
-				exit(1);
-			}
-	}
-	int status;
-	waitpid(ret, &status, 0);
-	g_info.exit_code = WEXITSTATUS(status);
-	//printf("WEXIT = %d status = %d\n", , status);
+	msh_pipes(cmd, fd_pipe);
+	msh_func(cmd, fd_s, env);
 }
+
 
 int	msh_is_build(char *cmd)
 {
@@ -172,7 +199,6 @@ char	**msh_replace_and_copy(char **args, char *new, int index)
 		i++;
 	}
 	arr[i] = 0;
-	//ft_delptr((void **)args);
 	free(args);
 	return (arr);
 }
@@ -187,6 +213,7 @@ void	msh_cmd(char *line)
 	ft_bzero(tmp, sizeof(char *) * 2);
 	msh_parse(line);
 	cmd = g_info.cur_cmd;
+	signal(SIGINT, SIG_IGN);
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);
 	while (cmd)

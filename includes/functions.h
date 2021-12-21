@@ -19,9 +19,12 @@ void	    msh_evaluate_env_call_if_exist(t_command *cmd, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
 int 	    msh_common_parse();
-char	    *msh_get_if_exist(char **env, char *argument);
-
-
+char		*msh_env_get_if_exist(char **env, char *argument);
+void		msh_sigint_handler_ch(int sig);
+void		msh_sigint_handler(int sig_num);
+void		msh_signal_child(int sig);
+void	    msh_save_error_code(int code);
+int 	    msh_read_error_code(void);
 /**
  * @brief Execute commands with pipe or redirect
  * 
@@ -41,16 +44,18 @@ void        msh_add_redirect(t_redirect **current, char *value, t_specials speci
 int         msh_open(char *path, int type);
 int         msh_export_invalid(char *arg);
 void	    msh_export_error(char *arg);
-int	        msh_multiple_iterator(int num, int *i, int sign);
+int			msh_multiple_iterator(int num, int *i, int sign);
 void	    msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s);
 char	    *msh_strlcat(char *line, char *buff, char *reall);
-
+void        msh_sigint_handler(int sig_num);
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
  * 
  * @param str string from readline
  * @param message error message
  */
-void	msh_error(char *message, char *token_str, int token_len);
-
+void	    msh_error(char *message, char *token_str, int token_len);
+char        *msh_env_get_if_exist(char **env, char *argument);
+int         msh_env_str(char **env, char *argument);
+int         msh_modify_env_var(char **env, char *new_value);
 #endif

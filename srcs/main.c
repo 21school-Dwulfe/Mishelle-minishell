@@ -2,29 +2,11 @@
 //rl_clear_history, rl_on_new_line,
 //rl_replace_line, rl_redisplay, add_history,
 
-void msh_sigintHandler(int sig_num)
-{
-	(void)sig_num;
-	printf("%d\n", sig_num);
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	msh_sigtermHandler(int signum)
-{
-	printf("%d\n", signum);
-}
 
 void msh_readline(char *prefix, char **dest)
 {
 	char *line;
 
-	pid_t	pid = getpid();
-
-//	si.__sigaction_handler = msh_sigintHandler;
-	printf("%d\n", pid);
 	line = readline(prefix);
 	if (line)
 		*dest = line;
@@ -43,6 +25,10 @@ void	msh_config(int argc, char **argv, char **env)
 	rl_catch_signals = 0;
 	g_info.num_of_commands = 0;
 	g_info.env = msh_copy_env(env);
+	for (int i= 0; i < ft_str_count(g_info.env); i++)
+	{
+		printf("%d %s\n", i + 1, g_info.env[i]);
+	}
 	g_info.f[0] = "export";
 	g_info.f[1] = "exit";
 	g_info.f[2] = "unset";
@@ -61,13 +47,13 @@ void	msh_struct_clear()
 	g_info.num_of_commands = 0;
 	while (cmds)
 	{
-		// if (cmds->args)
-		int len = ft_str_count(cmds->args);
-		 	ft_arrstr_del(cmds->args, len);
-	//	ft_delptr((void **)cmds->args);
+		if (cmds->args)
+			ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
+		//ft_delptr((void **)cmds->args);
 		tmp_red = cmds->redirects;
 		while (tmp_red)
 		{
+			rl_catch_signals = 1;
 			cmds->redirects = cmds->redirects->next;
 			ft_strdel(&tmp_red->file);
 			free(tmp_red);
@@ -122,25 +108,18 @@ char	*msh_strlcat(char *new, char *buff, char *dyn_buff)
 	}
 }
 
-void	msh_child(int child)
-{
-	printf("handler %d\n", child);
-}
-
 int main(int argc, char **argv, char **env)
 {
 	char	*line;
 	char	*buff_st_dy;
 	char	buff[1024];
-//	struct sigaction si;
 	pid_t	pid = getpid();
 
-//	si.__sigaction_handler = msh_sigintHandler;
 	printf("%d\n", pid);
 	line = NULL;
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, msh_sigintHandler);
-	signal(SIGCHLD, msh_child);
+	signal(SIGCHLD, msh_signal_child);
+	signal(SIGINT, msh_sigint_handler);
 	msh_config(argc, argv, env);
 	ft_bzero(buff, sizeof(char) * 1024);
 	while (1)
@@ -153,7 +132,8 @@ int main(int argc, char **argv, char **env)
 		add_history(buff_st_dy);
 		msh_cmd(buff_st_dy);
 		ft_strdel(&line);
-		ft_bzero(buff_st_dy, sizeof(char) * 1024); //604 365 194
+		ft_bzero(buff, sizeof(char) * 1024);
+		ft_bzero(buff_st_dy, (ft_strlen(buff_st_dy) * sizeof(char))); //604 365 194
 		msh_struct_clear();
 	}
 	return (0);

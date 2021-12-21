@@ -118,7 +118,7 @@ exit
 
 - Execute exit command with or without arguments
 - Repeat multiple times with different arguments
-- Don't forget to relaunch the minishell
+- Dont forget to relaunch the minishell
 - if something crashes use the crash flag.
 - if something is not working use the incomplete work flag.
 
@@ -135,21 +135,21 @@ Return value of a process
 
 
 
-Signals
+# Signals
 
-- Try ctrl-C in an empty prompt should show a new line with a new prompt
-- Try ctrl-\ in an empty prompt should not do anything
-- Try ctrl-D in an empty prompt should quit minishell --> RELAUNCH!
-- Try ctrl-C in a prompt after you wrote some stuff should show a new line with a new prompt
-- The buffer should be clean too, press "enter" to make sure nothing from the old line is executed.
-- Try ctrl-D in a prompt after you wrote some stuff should not do anything
-- Try ctrl-\ in a prompt after you wrote some stuff should not do anything!
-- Try ctrl-C after running a blocking command like cat without arguments or grep “something“
-- Try ctrl-\ after running a blocking command like cat without arguments or grep “something“
-- Try ctrl-D after running a blocking command like cat without arguments or grep “something“
-- Repeat multiple times with different commands
-- if something crashes use the crash flag.
-- if something is not working use the incomplete work flag.
+# - Try ctrl-C in an empty prompt should show a new line with a new prompt
+# - Try ctrl-\ in an empty prompt should not do anything
+# - Try ctrl-D in an empty prompt should quit minishell --> RELAUNCH!
+# - Try ctrl-C in a prompt after you wrote some stuff should show a new line with a new prompt
+# - The buffer should be clean too, press "enter" to make sure nothing from the old line is executed.
+# - Try ctrl-D in a prompt after you wrote some stuff should not do anything
+# - Try ctrl-\ in a prompt after you wrote some stuff should not do anything!
+# - Try ctrl-C after running a blocking command like cat without arguments or grep “something“
+# - Try ctrl-\ after running a blocking command like cat without arguments or grep “something“
+# - Try ctrl-D after running a blocking command like cat without arguments or grep “something“
+# - Repeat multiple times with different commands
+# - if something crashes use the crash flag.
+# - if something is not working use the incomplete work flag.
 
 
 

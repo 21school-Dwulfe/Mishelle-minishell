@@ -11,7 +11,7 @@ char	*msh_get_path(char *cmd_name, char **env)
 	res = access(cmd_name, X_OK);
 	if (res == -1 && ++i[1])
 	{
-		tmp[0] = msh_get_if_exist(env, "PATH");
+		tmp[0] = msh_env_get_if_exist(env, "PATH");
 		splited = ft_split(tmp[0], ':');
 		while (splited[i[0]])
 		{

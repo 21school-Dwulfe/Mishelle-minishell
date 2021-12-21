@@ -4,6 +4,7 @@
         "functional": "c",
         "tuple": "c",
         "sstream": "c",
-        "chrono": "c"
+        "chrono": "c",
+        "main.h": "c"
     }
 }

@@ -1,4 +1,4 @@
-#ifndef LIBS_H
+# ifndef LIBS_H
 # define LIBS_H 
 
 # include <term.h>
@@ -13,7 +13,8 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <fcntl.h>
-
+# include <errno.h>
+# include <dirent.h>
 
 //#include "/Users/dwulfe/.brew/opt/readline/include/"
 #endif

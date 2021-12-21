@@ -16,7 +16,7 @@ void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 	int		i;
 	int		j;
 	int     k;
-	char *temp;
+	char 	*temp;
 
 	i = 0;
 	while (i < cmd->num_args)
@@ -59,17 +59,15 @@ char	**msh_copy_env(char **array)
 	return (result);
 }
 
-
-
 char	**msh_create_env_var(char *new_var)
 {
-	int		length[2];
+	int		length[3];
 	int		i[4];
 	char	*tmp[4];
 	char	**result;
 	char	*new;
 
-	ft_bzero(length, sizeof(int) * 2);
+	ft_bzero(length, sizeof(int) * 3);
 	i[0] = ft_index_of(new_var, '+');
 	i[1] = ft_index_of(new_var, '=');
 	if (i[0] > -1)
@@ -99,9 +97,15 @@ char	**msh_create_env_var(char *new_var)
 		new = new_var;
 	while (g_info.env[length[1]])
 		length[1]++;
-	result = ft_realloc(g_info.env, sizeof(char *) * (length[1] + 2));
-	result[length[1] + 1] = 0;
+	result = ft_calloc((length[1] + 2), sizeof(char *));
+	while (g_info.env[length[2]])
+	{
+		result[length[2]] = ft_strdup(g_info.env[length[2]]);
+		length[2]++;
+	}
 	result[length[1]] = new;
+	result[length[1] + 1] = (void *)0;
+	ft_arrstr_del(g_info.env, length[1]);
 	return (result);
 }
 

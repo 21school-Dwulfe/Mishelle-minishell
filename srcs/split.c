@@ -86,7 +86,7 @@ char	**msh_split(char *str, int c)
 	j = 0;
 	ft_bzero(tmp, sizeof(char) * 2);
 	counter = count_str(str, c);
-	result = malloc((counter + 1) * sizeof(char *));
+	result = (char **)malloc((counter + 1) * sizeof(char *));
 	ft_bzero(result, (counter + 1) * sizeof(char *));
 	while (str[i])
 	{	
@@ -129,7 +129,7 @@ char	**msh_split(char *str, int c)
 		}
 		if (j > 0 && result[j - 1] == NULL)
 				ft_arrstr_del(result, j);
-		else
+		else if (j < counter)
 			j++;
 	}
 	result[j] = (void *)0;

@@ -1,5 +1,15 @@
 #include "../includes/main.h"
 
+int	msh_read_error_code(void)
+{
+	return (g_info.exit_code);
+}
+
+void	msh_save_error_code(int code)
+{
+	g_info.exit_code = code;
+}
+
 void	msh_error(char *message, char *token_str, int token_len)
 {
 	int i;
@@ -12,7 +22,6 @@ void	msh_error(char *message, char *token_str, int token_len)
 	write(2, token_str, token_len);
 	write(2, "'\n", 3);
 	msh_struct_clear();
-	//exit(1);
 }
 
 void	msh_export_error(char *arg)
@@ -55,6 +64,5 @@ int	msh_export_invalid(char *arg)
 	while (length > 1 && !res && ++i[0] < i[2])
 		if (!ft_isalpha(arg[i[0]]) && !ft_isdigit(arg[i[0]])  && ++res)
 			return ((++res));
-	
 	return (0);
 }
