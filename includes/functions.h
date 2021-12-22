@@ -26,6 +26,8 @@ void		msh_signal_child(int sig);
 void	    msh_save_error_code(int code);
 int 	    msh_read_error_code(void);
 int	        msh_perror(char *cmd_name);
+int 	    msh_error_bash(char *message, char *str, int code);
+
 /**
  * @brief Execute commands with pipe or redirect
  * 
@@ -49,6 +51,7 @@ int			msh_multiple_iterator(int num, int *i, int sign);
 void	    msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s);
 char	    *msh_strlcat(char *line, char *buff, char *reall);
 void        msh_sigint_handler(int sig_num);
+
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
  * 

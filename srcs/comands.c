@@ -2,11 +2,13 @@
 
 int	msh_custom_pwd(t_command *cmd)
 {
-	char str[512];
+	char *str;
 
+	str = NULL;
 	(void)cmd;
-	getcwd(str, sizeof(str));
-	printf("%s\n", str);
+	str = getcwd(str, sizeof(str) * 512);
+	ft_putendl_fd(str, 1);
+	ft_strdel(&str);
 	return (1);
 }
 

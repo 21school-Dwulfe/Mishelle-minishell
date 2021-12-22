@@ -6,9 +6,29 @@ int	msh_perror(char *cmd_name)
 
 	str = strerror(errno);
 	msh_save_error_code(errno);
-	ft_putstr_fd("Mishelle", 2);
-	ft_putstr_fd(cmd_name, 2);
-	ft_putendl_fd(str, 2);
+	ft_putstr_fd("Mishelle: ", 1);
+	ft_putstr_fd(cmd_name, 1);
+	write(1, ": ", 1);
+	ft_putendl_fd(str, 1);
+	return (1);
+}
+
+int	msh_error_bash(char *message, char *str, int code)
+{
+	msh_save_error_code(code);
+	if (code == 1)
+	{
+		ft_putstr_fd("msh: ", 1);
+		ft_putstr_fd("no such file or derectory: ", 1);
+		ft_putendl_fd(str, 1);
+	}
+	else if (code == 127)
+	{
+		ft_putstr_fd("msh: ", 1);
+		ft_putstr_fd(str, 1);
+		write(1, ": ", 2);
+		ft_putendl_fd(message, 1);
+	}
 	return (1);
 }
 

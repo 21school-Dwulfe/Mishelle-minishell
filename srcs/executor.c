@@ -61,23 +61,6 @@ int msh_buildins(t_command *cmd, int reg)
 		is_buildin = msh_custom_export(cmd);
 	return (is_buildin);
 }
-	// is_buildin = 0;
-	// if (reg == 0 && ft_strnstr(cmd->args[0], "exit", 4))
-	// 	is_buildin = msh_custom_exit(cmd);
-	// else if (reg == 0 && ft_strnstr(cmd->args[0], "unset", 5))
-	// 	is_buildin = msh_custom_unset(cmd);
-	// else if (reg == 0 && ft_strnstr(cmd->args[0], "cd", 2))
-	// 	is_buildin = msh_custom_cd(cmd);
-	// else if (reg == 1 && ft_strnstr(cmd->args[0], "pwd", 3))
-	// 	is_buildin = msh_custom_pwd(cmd);
-	// else if (reg == 1 && ft_strnstr(cmd->args[0], "echo", 4))
-	// 	is_buildin = msh_custom_echo(cmd);
-	// else if (reg == 1 && ft_strnstr(cmd->args[0], "env", 3))
-	// 	is_buildin = msh_custom_env(cmd);
-	// else if (reg == 1 && ft_strnstr(cmd->args[0], "export", 6)
-	// 	&& cmd->num_args > 1 && !(--cmd->piped))
-	// 	is_buildin = msh_custom_export(cmd);
-	// return (is_buildin);
 
 void	msh_wait_pid(int pid)
 {
@@ -111,8 +94,10 @@ void	msh_pipes(t_command *cmd, int *fd_pipe)
 void	msh_func(t_command *cmd, int *fd_s, char **env)
 {
 	pid_t		pid;
+
 	if (!msh_buildins(cmd, 0))
 	{
+		signal(SIGINT, SIG_IGN);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -155,7 +140,6 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 	msh_pipes(cmd, fd_pipe);
 	msh_func(cmd, fd_s, env);
 }
-
 
 int	msh_is_build(char *cmd)
 {
@@ -213,7 +197,7 @@ void	msh_cmd(char *line)
 	ft_bzero(tmp, sizeof(char *) * 2);
 	msh_parse(line);
 	cmd = g_info.cur_cmd;
-	signal(SIGINT, SIG_IGN);
+	
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);
 	while (cmd)

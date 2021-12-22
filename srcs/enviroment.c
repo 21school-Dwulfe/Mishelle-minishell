@@ -1,42 +1,35 @@
 #include "../includes/main.h"
 
-void	msh_replace_env_var_in_arg(char **arg_values, int index, char *new_value)
-{
-	int i;
-
-	i = 0;
-	while (new_value[i] != '=')
-		i++;
-	ft_strdel(&arg_values[index]);
-	arg_values[index] = ft_strdup(new_value + (i + 1));
-}
-
 void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 {
-	int		i;
-	int		j;
-	int     k;
-	char 	*temp;
+	int		i[2];
+	char	*temp[4];
 
-	i = 0;
+	ft_bzero(i, sizeof(int) * 2);
 	while (i < cmd->num_args)
 	{
-		k = 0;
-		temp = cmd->args[i];
-		if (ft_strchr(temp, '$'))
-			while (env[k])
+		temp[0] = cmd->args[i[0]];
+		temp[1] = ft_strchr(temp[0], '$');
+		i[1] = ft_index_of(temp[0], '$');
+		if (temp[1])
+		{
+			temp[2] = msh_get_env_by_key(env, temp[1]);
+			if (temp[2])
 			{
-				j = 0;
-				while (env[k][j] != '=')
-					j++;
-				if (!ft_strncmp(env[k], cmd->args[i], j))
+				if (i[1] != 0)
 				{
-					msh_replace_env_var_in_arg(cmd->args, i, env[k]);
-					return ;
+					temp[3] = ft_strndup_se(temp[0], 0, '$');
+					cmd->args[i[0]] = ft_strjoin(temp[3], temp[2]);
 				}
-				k++;
+				else
+					cmd->args[i[0]] = ft_strdup(temp[2]);
+				ft_strdel(&temp[0]);
+				break ;
 			}
-		i++;
+			else
+				ft_memset(temp[1], '\0', ft_strlen(temp[0]));
+		}
+		i[0]++;
 	}
 }
 
