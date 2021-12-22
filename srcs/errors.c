@@ -1,16 +1,18 @@
 #include "../includes/main.h"
 
-int	msh_read_error_code(void)
+int	msh_perror(char *cmd_name)
 {
-	return (g_info.exit_code);
+	char	*str;
+
+	str = strerror(errno);
+	msh_save_error_code(errno);
+	ft_putstr_fd("Mishelle", 2);
+	ft_putstr_fd(cmd_name, 2);
+	ft_putendl_fd(str, 2);
+	return (1);
 }
 
-void	msh_save_error_code(int code)
-{
-	g_info.exit_code = code;
-}
-
-void	msh_error(char *message, char *token_str, int token_len)
+void	msh_redirect_error(char *message, char *token_str, int token_len)
 {
 	int i;
 

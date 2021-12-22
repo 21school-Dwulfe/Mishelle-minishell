@@ -67,19 +67,6 @@ int	msh_custom_env(t_command *cmd)
 	return (1);
 }
 
-int	msh_perror(char *cmd_name)
-{
-	char	*str;
-
-	str = strerror(errno);
-	msh_save_error_code(errno);
-	ft_putstr_fd("Mishelle", 2);
-	ft_putstr_fd(cmd_name, 2);
-	ft_putendl_fd(str, 2);
-	return (1);
-}
-
-
 void	msh_export_add(t_command	*cmd)
 {
 	int		i;

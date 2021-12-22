@@ -74,7 +74,7 @@ int	msh_env_str(char **env, char *argument)
 	return (0);
 }
 
-char	*msh_env_get_if_exist(char **env, char *argument)
+char	*msh_get_env_by_key(char **env, char *argument)
 {
 	int j;
 	int i;

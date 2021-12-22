@@ -1,59 +1,65 @@
 #include "../includes/main.h"
 
-int	msh_cd_validation(t_command *cmd)
+int	msh_cd_validation(t_command *cmd, char *new)
 {
 	if (cmd->num_args > 1)
 	{
-		DIR *dir = opendir(cmd->args[1]);
-		if (dir == NULL)
-			return (msh_perror(cmd->args[1]));
-		else
-			if (closedir(dir))
-				msh_perror(cmd->args[1]);
-		if (cmd->args[1][0] == '.' 
+		if (cmd->args[1] && cmd->args[1][0] == '.'
 			&& cmd->args[1][1] == '\0')
 			return (1);
+		DIR *dir = opendir(new);
+		if (dir == NULL)
+			return (msh_perror(new));
+		else
+			if (closedir(dir))
+				msh_perror(new);
 	}
 	return (0);
 }
 
 int	msh_custom_cd(t_command *cmd)
 {
-	char	str[512];
+	char	*str;
 	char	*env_value[4];
+	int		old_cur[2];
 
-	if (msh_cd_validation(cmd))
-		return (1);
+	str = NULL;
+	(void)cmd;
+	ft_bzero(old_cur, sizeof(int) * 2);
 	ft_bzero(env_value, sizeof(char *) * 4);
-	if (cmd->num_args == 1)
-		env_value[1] = msh_env_get_if_exist(g_info.env, "HOME");
-	else
-		env_value[1] = cmd->args[1];
-	env_value[0] = msh_env_get_if_exist(g_info.env, "OLDPWD");
-	env_value[2] = msh_env_get_if_exist(g_info.env, "PWD");
-	if (ft_strcmp(env_value[0], env_value[2]) == 0)
+	old_cur[0] = msh_env_str(g_info.env, "OLDPWD");
+	old_cur[1] = msh_env_str(g_info.env, "PWD");
+	env_value[0] = msh_get_env_by_key(g_info.env, "OLDPWD");
+	env_value[1] = msh_get_env_by_key(g_info.env, "PWD");
+	if (!env_value[0] && cmd->num_args > 1 && !ft_strncmp(cmd->args[1], "-", 2))
 	{
-        env_value[4] = ft_strrchr(env_value[0], '/');
-        if (env_value[4] != NULL && &env_value[0] - &env_value[4] != 0)
-		    env_value[0] = ft_strndup(env_value[0], *env_value[4]);
-        else if ()
-        {
-            
-        }
-        else
-            env_value[0] = ft_strdup("/");
+		write(1, "Mishelle: cd: OLDPWD not set\n", 30);
+		return (g_info.exit_code = 1);
 	}
-	getcwd(str, sizeof(str));
-	if (cmd->num_args > 1 && !ft_strncmp(cmd->args[1], "..", 3))
-		env_value[3] = ft_strdup(str);
+	else if (cmd->num_args > 1 && !ft_strncmp(cmd->args[1], "-", 2))
+		env_value[2] = env_value[0];
+	if (cmd->num_args == 2 && cmd->args[1][0] == '~' && cmd->args[1][1] == '\0')
+		env_value[2] = msh_get_env_by_key(g_info.env, "HOME");
+	else if (cmd->num_args > 1 && cmd->args[1][0] == '~' && cmd->args[1][1] == '/')
+	{
+		env_value[3] = msh_get_env_by_key(g_info.env, "HOME");
+		env_value[2] = ft_strndup_se(env_value[3], ft_strlen(env_value[3]) + ft_strlen(cmd->args[1] + 1), 0);
+		ft_strlcat(env_value[2], cmd->args[1] + 1, ft_strlen(env_value[3]) + ft_strlen(cmd->args[1] + 1) + 2);
+	}
+	if (msh_cd_validation(cmd, env_value[2]))
+		return (1);
+	str = getcwd(str, sizeof(str)* 512);
+	if (old_cur[0])
+		msh_modify_env_var(&g_info.env[old_cur[0]], str);
 	else
 	{
-		env_value[3] = env_value[2];
-		env_value[1] = env_value[0]; 
+		env_value[3] = ft_strjoin("OLDPWD=", str);
+		g_info.env = msh_create_env_var(env_value[3]);
 	}
-	msh_modify_env_var(&g_info.env[msh_env_str(g_info.env, "OLDPWD")], env_value[3]);
-	msh_modify_env_var(&g_info.env[msh_env_str(g_info.env, "PWD")], env_value[1]);
-	if(chdir(cmd->args[0]) == -1)
+	if(chdir(env_value[2]) == -1)
 		msh_perror("cd");
+	ft_strdel(&str);
+	str = getcwd(str, sizeof(str)* 512);
+	msh_modify_env_var(&g_info.env[old_cur[1]], str);
 	return (1);
 }
