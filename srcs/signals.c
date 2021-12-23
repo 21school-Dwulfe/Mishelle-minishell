@@ -1,6 +1,6 @@
 #include "../includes/main.h"
 
-void msh_sigint_handler(int sig_num)
+void	msh_sigint_handler(int sig_num)
 {
 	(void)sig_num;
 	printf("\n");
@@ -9,7 +9,7 @@ void msh_sigint_handler(int sig_num)
 	rl_redisplay();
 }
 
-void msh_signal_child(int sig)
+void	msh_signal_child(int sig)
 {
 	(void)sig;
 }

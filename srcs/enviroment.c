@@ -5,6 +5,7 @@ char	*msh_concat_str(char *arg, int size)
 	int		i[4];
 	char	*tmp;
 
+	tmp = NULL;
 	ft_bzero(i, sizeof(int) * 4);
 	i[0] = -1;
 	while (arg[++i[0]])

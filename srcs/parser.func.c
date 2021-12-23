@@ -62,42 +62,35 @@ int		msh_check_syntax(char *str, int in, char *c, t_command *cmd)
 	return (0);
 }
 
-void	msh_concat_args(t_command *cmd)
+char	**msh_concat_args(char **args, int size)
 {
-	int		i;
-	int		j;
-	int		num;
-	int		k;
+	int		i[4];
 	char	**tmp;
-	char	*t;
 
-	i = -1;
-	num = 0;
-	k = 0;
-	while (cmd->args[++i])
-		num++;
-	j = cmd->num_args;
-	while (j >= 0 && cmd->args[--j])
-		num++;
-	if (num)
+	tmp = args;
+	ft_bzero(i, sizeof(int) * 4);
+	i[0] = -1;
+	while (args[++i[0]])
+		i[3]++;
+	i[2] = size;
+	while (i[2] >= 0 && args[--i[2]])
+		i[3]++;
+	if (i[3])
 	{
-		tmp = cmd->args;
-		cmd->args = ft_calloc(sizeof(char *), (num + 1));
-		while (k < i)
+		tmp = ft_calloc(sizeof(char *), (i[3] + 1));
+		while (i[1] < i[0])
 		{
-			t = tmp[k];
-			cmd->args[k] = t; //tmp[k];
-			k++;
+			tmp[i[1]] =  args[i[1]]; //tmp[k];
+			i[1]++;
 		}
-		while (++j < cmd->num_args)
+		while (++i[2] < size)
 		{
-			t = tmp[j];
-			cmd->args[k] = t; //tmp[k];
-			k++;
+			tmp[i[1]] = args[i[2]];//;t; //tmp[k];
+			i[1]++;
 		}
-		cmd->args[num] = NULL;
-		cmd->num_args = num;
+		tmp[i[3]] = NULL;
 	}
+	return (tmp);
 }
 
 int		msh_if_cmd_not_found(t_command *cmd, char *str, int *index, char *c)
@@ -208,7 +201,6 @@ void	msh_replace_prefix_before_redirect(t_command *cmd, int i, char **tp, char *
 		tp[1] = cmd->args[i];
 		cmd->args[i] = NULL;
 	}
-		
 }
 
 /**
@@ -275,7 +267,7 @@ int	msh_help_parse_redirect(t_command *cmd, char *arg, int *arg_i, char *c)
 		}
 		i++;
 	}
-	msh_concat_args(cmd);
+	cmd->args = msh_concat_args(cmd->args, cmd->num_args);
 	return (*arg_i = 0);
 }
 

@@ -44,7 +44,7 @@ int msh_modify_env_var(char **env, char *new_value)
  * @param env variable environment
  * @return int returns 1 if true 0 if false
  */
-int	msh_env_str(char **env, char *argument)
+int	msh_env_exist(char **env, char *argument)
 {
 	int		j;
 	int		n[4];
@@ -71,7 +71,7 @@ int	msh_env_str(char **env, char *argument)
 			return (j);
 		j++;
 	}
-	return (0);
+	return (-1);
 }
 
 char	*msh_get_env_by_key(char **env, char *argument)
@@ -85,7 +85,7 @@ char	*msh_get_env_by_key(char **env, char *argument)
 	n = 0;
 	while (env[j])
 	{
-		i = msh_env_str(env, argument);
+		i = msh_env_exist(env, argument);
 		if (i)
 		{
 			while (env[i][n] && env[i][n] != '=')
@@ -95,4 +95,67 @@ char	*msh_get_env_by_key(char **env, char *argument)
 		j++;
 	}
 	return (0);
+}
+
+void	msh_export_add(t_command	*cmd)
+{
+	int		i;
+	int		arg_in_env;
+
+	i = 1;
+	while (i < cmd->num_args)
+	{
+		if (msh_export_invalid(cmd->args[i]))
+		{
+			msh_export_error(cmd->args[i]);
+			break ;
+		}
+		arg_in_env = msh_env_exist(g_info.env, cmd->args[i]);
+		if (arg_in_env)
+			msh_modify_env_var(&g_info.env[arg_in_env], cmd->args[i]);
+		else
+			g_info.env = msh_create_env_var(cmd->args[i]);
+		i++;
+	}
+	g_info.exit_code = 0;
+}
+
+// -n -p -f
+int	msh_custom_export(t_command *cmd)
+{
+	int		i;
+	int		index;
+
+	i = 1;
+	for (int i= 0; i < ft_str_count(g_info.env); i++)
+	{
+		printf("%d %s\n", i + 1, g_info.env[i]);
+	}
+	if (cmd->num_args > 1)
+		msh_export_add(cmd);
+	else
+		while (g_info.env[i])
+		{
+			ft_putstr_fd("declare -x ", 1);
+			index = ft_index_of(g_info.env[i], '=');
+			if (index > -1)
+			{
+				write(1, g_info.env[i], index + 1);
+				write(1,"\"", 1);
+				if (ft_strlen((g_info.env[i]) + index + 1) > 0)
+					ft_putstr_fd((g_info.env[i]) + index + 1, 1);
+				else
+					write(1, "\0", 1);
+				write(1,"\"\n", 3);
+			}
+			else
+			{
+				char *tmp = g_info.env[i];
+				ft_putendl_fd(tmp, 1);		
+			}
+				
+			i++;
+		}
+	g_info.exit_code = 0;
+	return (1);
 }

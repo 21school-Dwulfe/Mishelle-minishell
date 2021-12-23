@@ -44,7 +44,6 @@ void	msh_struct_clear()
 	t_redirect	*tmp_red;
 
 	cmds = g_info.cur_cmd;
-	g_info.num_of_commands = 0;
 	g_info.exit_code = 0;
 	while (cmds)
 	{
@@ -119,7 +118,6 @@ int main(int argc, char **argv, char **env)
 	printf("%d\n", pid);
 	line = NULL;
 	signal(SIGQUIT, SIG_IGN);
-	//signal(SIGCHLD, msh_signal_child);
 	signal(SIGINT, msh_sigint_handler);
 	msh_config(argc, argv, env);
 	ft_bzero(buff, sizeof(char) * 1024);
@@ -128,6 +126,7 @@ int main(int argc, char **argv, char **env)
 		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line);
 		if (msh_validate_line(line))
 			continue ;
+		g_info.exit_code = 0;
 		buff_st_dy = msh_strlcat(line, buff, buff_st_dy);
 		msh_check_unclosed_quotes(buff, line, buff_st_dy, 0);
 		add_history(buff_st_dy);

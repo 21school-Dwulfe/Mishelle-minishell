@@ -56,7 +56,6 @@ void	msh_parse(char *str)
 			msh_add_command(&g_info.cur_cmd, msh_split(tmp, ' '));
 			if (specials == PIPE)
 				g_info.cur_cmd->piped++;
-			msh_evaluate_env_call_if_exist(g_info.cur_cmd, g_info.env);
 			g_info.num_of_commands++;
 			ft_strdel(&tmp);
 		}

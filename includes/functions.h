@@ -8,7 +8,7 @@ void	    msh_parse(char *str);
 int 	    msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void	    msh_add_to_struct(char **result);
 void	    msh_add_command(t_command **cur_cmd, char **value);
-int 	    msh_custom_exit(t_command *cmd);
+void 	    msh_custom_exit(t_command *cmd);
 int 	    msh_custom_pwd(t_command *cmd);
 int 	    msh_custom_echo(t_command *cmd);
 int 	    msh_custom_env(t_command *cmd);
@@ -27,6 +27,7 @@ void	    msh_save_error_code(int code);
 int 	    msh_read_error_code(void);
 int	        msh_perror(char *cmd_name);
 int 	    msh_error_bash(char *message, char *str, int code);
+char	    **msh_concat_args(char **cmd, int size);
 
 /**
  * @brief Execute commands with pipe or redirect
@@ -60,6 +61,6 @@ void        msh_sigint_handler(int sig_num);
  */
 void	    msh_redirect_error(char *message, char *token_str, int token_len);
 char        *msh_get_env_by_key(char **env, char *argument);
-int         msh_env_str(char **env, char *argument);
+int         msh_env_exist(char **env, char *argument);
 int         msh_modify_env_var(char **env, char *new_value);
 #endif
