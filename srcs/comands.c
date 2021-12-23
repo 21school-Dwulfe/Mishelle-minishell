@@ -33,7 +33,7 @@ int	msh_custom_echo(t_command *cmd)
 	tmp[0] = ft_strchr(cmd->args[1], '-');
 	if (tmp[0] && *(tmp[0] + 1) == 'n' && (--is_nl == 0))
 			len = 2;
-	if (cmd->num_args > 1 && (cmd->num_args != 2 && len == 2))
+	if (cmd->num_args > 1 && !(len == 2 && cmd->num_args == 2))
 	{
 		l[2] = len;
 		while (l[2] < cmd->num_args)

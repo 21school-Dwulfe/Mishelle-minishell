@@ -45,6 +45,7 @@ void	msh_struct_clear()
 
 	cmds = g_info.cur_cmd;
 	g_info.num_of_commands = 0;
+	g_info.exit_code = 0;
 	while (cmds)
 	{
 		if (cmds->args)
@@ -118,7 +119,7 @@ int main(int argc, char **argv, char **env)
 	printf("%d\n", pid);
 	line = NULL;
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGCHLD, msh_signal_child);
+	//signal(SIGCHLD, msh_signal_child);
 	signal(SIGINT, msh_sigint_handler);
 	msh_config(argc, argv, env);
 	ft_bzero(buff, sizeof(char) * 1024);

@@ -12,5 +12,4 @@ void msh_sigint_handler(int sig_num)
 void msh_signal_child(int sig)
 {
 	(void)sig;
-	signal(SIGINT, msh_sigint_handler);
 }

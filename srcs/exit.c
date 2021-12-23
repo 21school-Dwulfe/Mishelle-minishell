@@ -2,7 +2,10 @@
 
 int	msh_read_error_code(void)
 {
-	return (g_info.exit_code);
+    int res;
+    
+    res = g_info.exit_code;
+	return (res);
 }
 
 void	msh_save_error_code(int code)

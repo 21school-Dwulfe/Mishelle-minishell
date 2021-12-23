@@ -113,6 +113,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 				}
 		}
 		msh_wait_pid(pid);
+		signal(SIGINT, msh_sigint_handler);
 	}
 }
 

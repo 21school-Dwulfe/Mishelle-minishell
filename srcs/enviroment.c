@@ -1,33 +1,88 @@
 #include "../includes/main.h"
 
+char	*msh_concat_str(char *arg, int size)
+{
+	int		i[4];
+	char	*tmp;
+
+	ft_bzero(i, sizeof(int) * 4);
+	i[0] = -1;
+	while (arg[++i[0]])
+		i[3]++;
+	i[2] = size;
+	while (i[2] >= 0 && arg[--i[2]])
+		i[3]++;
+	if (i[3])
+	{
+		tmp = ft_calloc(sizeof(char), (i[3] + 1));
+		while (i[1] < i[0])
+		{
+			tmp[i[1]] = arg[i[1]];
+			i[1]++;
+		}
+		while (++i[2] <= size)
+		{
+			tmp[i[1]] = arg[i[2]];
+			i[1]++;
+		}
+	}
+	return (tmp);
+}
+
 void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 {
-	int		i[2];
-	char	*temp[4];
+	int		i[3];
+	char	*temp[6];
 
-	ft_bzero(i, sizeof(int) * 2);
-	while (i < cmd->num_args)
+	ft_bzero(i, sizeof(int) * 3);
+	ft_bzero(temp, sizeof(char *) * 6);
+	while (i[0] < cmd->num_args)
 	{
 		temp[0] = cmd->args[i[0]];
 		temp[1] = ft_strchr(temp[0], '$');
 		i[1] = ft_index_of(temp[0], '$');
-		if (temp[1])
+		if (temp[1] && temp[1][1] != '?')
 		{
-			temp[2] = msh_get_env_by_key(env, temp[1]);
+			temp[2] = msh_get_env_by_key(env, temp[1] + 1);
 			if (temp[2])
 			{
 				if (i[1] != 0)
 				{
 					temp[3] = ft_strndup_se(temp[0], 0, '$');
 					cmd->args[i[0]] = ft_strjoin(temp[3], temp[2]);
+					ft_strdel(&temp[3]);
 				}
 				else
 					cmd->args[i[0]] = ft_strdup(temp[2]);
 				ft_strdel(&temp[0]);
-				break ;
 			}
 			else
-				ft_memset(temp[1], '\0', ft_strlen(temp[0]));
+			{
+				ft_memset(temp[1], '\0', ft_strlen(temp[1]));
+				temp[1] = temp[0];
+				cmd->args[i[0]] = msh_concat_str(temp[1], ft_strlen(temp[0]));
+				ft_strdel(&temp[0]);
+			}
+		}
+		else if (temp[1] && temp[1][1] == '?')
+		{
+			temp[2] = cmd->args[i[0]];
+			temp[3] = ft_itoa(msh_read_error_code());
+			temp[4] = ft_strjoin(temp[3], temp[1] + 2);
+			if (temp[0][0] != '$')
+			{
+				temp[5] = ft_strndup_se(temp[0], 0, '$');
+				temp[1] = ft_strjoin(temp[5], temp[4]);
+				i[2] = 6;
+			}
+			else
+			{
+				temp[1] = ft_strdup(temp[4]);
+				i[2] = 5;
+			}
+			cmd->args[i[0]] = temp[1];
+			while (1 != --i[2])
+				ft_strdel(&temp[i[2]]);
 		}
 		i[0]++;
 	}
@@ -102,6 +157,14 @@ char	**msh_create_env_var(char *new_var)
 	return (result);
 }
 
+// int main(void)
+// {
+// 	char *str = "str\0\0\0hr";
+// 	char *new = msh_concat_str(str, 8);
+// 	printf("%s\n", new);
+// 	return (0);
+// }
+
 // int main(int argc, char **argv, char **env)
 // {
 // 	int i;
@@ -121,3 +184,4 @@ char	**msh_create_env_var(char *new_var)
 // 	free(cmd);
 // 	return (0);
 // }
+
