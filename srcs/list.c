@@ -11,8 +11,13 @@ t_command	*msh_create_command(char	**dstr)
 	cmd->out = NULL;
 	cmd->err = NULL;
 	cmd->piped = 0;
+	cmd->num_token = 0;
+	cmd->args_token = NULL;
 	cmd->build = 0;
-	cmd->num_args = ft_str_count(dstr);
+	if (dstr)
+		cmd->num_args = ft_str_count(dstr);
+	else
+		cmd->num_args = 0;
 	cmd->prev = NULL;
 	cmd->redirects = NULL;
 	cmd->next = NULL;
@@ -31,10 +36,24 @@ t_redirect	*msh_create_redirect(char *filepath, t_specials specials)
 	return (redirect);
 }
 
+
 void	msh_add_command(t_command **cur_cmd, char **value)
 {
 	t_command	*tmp;
 
+	if (cur_cmd && *cur_cmd)
+	{
+		tmp = msh_create_command(value);
+		(*cur_cmd)->prev->next = tmp;
+		tmp->prev = (*cur_cmd)->prev;
+		(*cur_cmd)->prev = tmp;
+	}
+}
+
+void	msh_push_command(t_command **cur_cmd, char **value)
+{
+	t_command	*tmp;
+	
 	tmp = msh_create_command(value);
 	if (cur_cmd && *cur_cmd)
 	{

@@ -14,16 +14,36 @@ typedef enum s_specials
 	RD_REDIRECT,		// <<
 	R_REDIRECT_AMP,		// >&
 	RD_REDIRECT_AMP,	// <&
+	BIN_OR,				// ||
+	BIN_AND,			// &&
+	QUOTES,				// ''
+	D_QUOTES,			// ""
+	S_QOUTES,			// ``
+	CURL_BRACES,		// ()
+	DOLLAR_BRACES,		// $()
 	ERROR				// Error in syntax
 }				t_specials;
 
+	
+
 typedef struct s_redirect
 {
+	
 	char				*file;
 	t_specials			specials;
 	struct s_redirect	*next;
 	struct s_redirect	*prev;
 }				t_redirect;
+
+typedef struct s_arg
+{
+	int				order; 			// index of arg to swap values
+	char			*value;
+	char			**value_arr;
+	t_specials		specials;
+	struct s_arg	*next;
+	struct s_arg	*prev;
+}				t_arg;
 
 typedef struct s_command
 {
@@ -32,14 +52,17 @@ typedef struct s_command
 	t_redirect			*out;			// путь к файлу для редиректа (запись)
 	t_redirect			*input;			// путь к файлу для редиректа (чтение)
 	t_redirect			*err;			// путь к файлу для редиректа (ошибок) 
-	t_redirect			*redirects;
+	t_redirect			*redirects;		// oбший список редиректов
+	int					num_token;		// count of tokens
+	t_arg				*args_token;	// tokens
 	int					build;			// buildin function flag
 	int					piped;			// вмето булевого значения флаг указывающи на наличие pipe
-	int					background;	
-	t_specials			specials;		// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
+	int					background;
+										// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
 	struct s_command	*next;			// указатель на сдедующуу команду
 	struct s_command	*prev;			// указатель на предыдущюю команду (возможно не нужен)
 }					t_command;
+
 
 typedef struct	s_info
 {

@@ -7,7 +7,7 @@
 void	    msh_parse(char *str);
 int 	    msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void	    msh_add_to_struct(char **result);
-void	    msh_add_command(t_command **cur_cmd, char **value);
+void	    msh_push_command(t_command **cur_cmd, char **value);
 void 	    msh_custom_exit(t_command *cmd);
 int 	    msh_custom_pwd(t_command *cmd);
 int 	    msh_custom_echo(t_command *cmd);
@@ -28,6 +28,7 @@ int 	    msh_read_error_code(void);
 int	        msh_perror(char *cmd_name);
 int 	    msh_error_bash(char *message, char *str, int code);
 char	    **msh_concat_args(char **cmd, int size);
+char	    *msh_concat_str(char *arg, int size, char *insertion);
 
 /**
  * @brief Execute commands with pipe or redirect
@@ -52,6 +53,8 @@ int			msh_multiple_iterator(int num, int *i, int sign);
 void	    msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s);
 char	    *msh_strlcat(char *line, char *buff, char *reall);
 void        msh_sigint_handler(int sig_num);
+char        *msh_get_str_inside(char *str, char *set, int reg);
+void	    msh_add_command(t_command **cur_cmd, char **value);
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline

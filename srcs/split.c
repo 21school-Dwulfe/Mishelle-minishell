@@ -210,27 +210,42 @@ char	**msh_split(char *str, int c)
 
 char *msh_get_str_inside(char *str, char *set, int reg)
 {
-	unsigned int	first;
+	int	first;
 	int 			i[2];
 
-	first = 0;
+	first = -1;
 	ft_bzero(i, sizeof(int) * 2);
 	if (!set || !str || reg > 1 || reg < 0)
 		return (NULL);
 	while (str[i[0]])
 	{
-		while (!first && set[i[1]])
+		i[1] = 0;
+		while (first == -1 && set[i[1]])
 		{
 			if ((unsigned char)str[i[0]] - (unsigned char)set[i[1]] == 0)
-				first = i[1];
+			{
+				first = i[0];
+				i[0]++;
+				break;
+			}
 			i[1]++;
 		}
-		if ((unsigned char)str[i[0]] - (unsigned char)str[first] == 0)
+		if (first != -1
+			&& (unsigned char)str[i[0]] - (unsigned char)str[first] == 0)
 			break ;
 		i[0]++;
 	}
-	return (ft_strndup_se(str + first + 1 - reg, i[0] + reg, 0));
+	return (ft_strndup_se(str + first + 1 - reg, i[0] - 1 + reg, 0));
 }
+
+// int	main(void)
+// {
+// 	char *str = "as\"\"'$hhhhh'''";
+
+// 	char *s2 = msh_get_str_inside(str, "\'\"", 0);
+// 	printf("%s\n", s2);
+// 	return (0);
+// }
 
 // int main(void)
 // {
