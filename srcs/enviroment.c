@@ -32,18 +32,19 @@ char	*msh_concat_str(char *arg, int size)
 
 void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 {
-	int		i[3];
+	int		i[5];
 	char	*temp[6];
 
-	ft_bzero(i, sizeof(int) * 3);
+	ft_bzero(i, sizeof(int) * 5);
 	ft_bzero(temp, sizeof(char *) * 6);
 	while (i[0] < cmd->num_args)
 	{
 		temp[0] = cmd->args[i[0]];
 		temp[1] = ft_strchr(temp[0], '$');
 		i[1] = ft_index_of(temp[0], '$');
-		if (temp[1] && temp[1][1] != '?')
+		if (temp[1] && temp[1][1] != '?' && temp[0][0] != '\'')
 		{
+			//temp[1] = ft_strndup_se(temp[1][i[3]], 0, 0)
 			temp[2] = msh_get_env_by_key(env, temp[1] + 1);
 			if (temp[2])
 			{
@@ -51,7 +52,16 @@ void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 				{
 					temp[3] = ft_strndup_se(temp[0], 0, '$');
 					cmd->args[i[0]] = ft_strjoin(temp[3], temp[2]);
+					i[4] = ft_strlen(temp[1]);
 					ft_strdel(&temp[3]);
+					if (ft_strlen(temp[1]) < i[4])
+					{
+						temp[3] = ft_strndup_se(temp[0] + i[1] + ft_strlen(temp[1]), 0, '\"');
+						temp[4] = ft_strjoin(cmd->args[i[0]], temp[3]);
+						ft_strdel(&cmd->args[i[0]]);
+						ft_strdel(&temp[3]);
+						cmd->args[i[0]] = temp[4];
+					}
 				}
 				else
 					cmd->args[i[0]] = ft_strdup(temp[2]);
