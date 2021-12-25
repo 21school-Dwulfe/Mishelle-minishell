@@ -5,6 +5,7 @@
 
 typedef enum s_specials
 {
+	ERROR = 18,		// Error in syntax (P.S Oh, damn, you are crazy person)
 	SEMICOLON = 1, 		/* ; */
 	PIPE,				/* | */
 	AMPERSAND,			// &
@@ -21,10 +22,8 @@ typedef enum s_specials
 	S_QOUTES,			// ``
 	CURL_BRACES,		// ()
 	DOLLAR_BRACES,		// $()
-	ERROR				// Error in syntax
+	DOLLAR,				// $
 }				t_specials;
-
-	
 
 typedef struct s_redirect
 {
@@ -53,7 +52,6 @@ typedef struct s_command
 	t_redirect			*input;			// путь к файлу для редиректа (чтение)
 	t_redirect			*err;			// путь к файлу для редиректа (ошибок) 
 	t_redirect			*redirects;		// oбший список редиректов
-	int					num_token;		// count of tokens
 	t_arg				*args_token;	// tokens
 	int					build;			// buildin function flag
 	int					piped;			// вмето булевого значения флаг указывающи на наличие pipe
@@ -63,15 +61,19 @@ typedef struct s_command
 	struct s_command	*prev;			// указатель на предыдущюю команду (возможно не нужен)
 }					t_command;
 
+typedef char *(*f_special)(char *str, int *length, char **value_arg);
 
 typedef struct	s_info
 {
+	char		*pwd;					// pwd for msh recursion
 	int			exit_code;				// код ошибки
 	int			num_of_commands;		// общее число команд
+	int			num_token;				// count of tokens in shell
 	char		odd_quote;				// тип незакрытой кавычки 			
 	char		**env;					// переменное окружение минишелла (используется вместо стандартных функций редактирования окружения)
 	t_command   *cur_cmd;				// указатель на первую команду
-	char		*f[8];					// buildin
+	char		*f[8];					// buildin names
+	f_special	func[20];				// char *(*f_special)(char *str, int *length) -> function to do something specials with token parsing 
 }				t_info;
 
 t_info	g_info;

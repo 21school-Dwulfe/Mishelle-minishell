@@ -1,7 +1,6 @@
 #include "../includes/main.h"
-#include <errno.h>
 
-int msh_custom_redirect(int *fd_arr, t_command *cmd)
+int	msh_custom_redirect(int *fd_arr, t_command *cmd)
 {
 	int			fd_index;
 	t_redirect	*tmp;
@@ -35,31 +34,6 @@ int msh_custom_redirect(int *fd_arr, t_command *cmd)
 		tmp = tmp->next;
 	}
 	return(0);
-}
-
-int msh_buildins(t_command *cmd, int reg)
-{
-	int	is_buildin;
-
-	is_buildin = 0;
-	if (reg == 0 && ft_strnstr(cmd->args[0], "exit", 4))
-		msh_custom_exit(cmd);
-	else if (reg == 0 && ft_strnstr(cmd->args[0], "unset", 5))
-		is_buildin = msh_custom_unset(cmd);
-	else if (reg == 0 && ft_strnstr(cmd->args[0], "cd", 2))
-		is_buildin = msh_custom_cd(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "pwd", 3))
-		is_buildin = msh_custom_pwd(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "echo", 4))
-		is_buildin = msh_custom_echo(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "env", 3))
-		is_buildin = msh_custom_env(cmd);
-	else if (reg == 0 && ft_strnstr(cmd->args[0], "export", 6)
-		&& cmd->num_args > 1)
-		is_buildin = msh_custom_export(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "export", 6))
-		is_buildin = msh_custom_export(cmd);
-	return (is_buildin);
 }
 
 void	msh_wait_pid(int pid)
@@ -205,13 +179,21 @@ void	msh_cmd(char *line)
 	while (cmd)
 	{
 		tmp[0] = cmd->args[0];
-		cmd->build = msh_is_build(cmd->args[0]);
-		if (!cmd->build)
+		if (!ft_strncmp(cmd->args[0], g_info.f[7], ft_strlen(g_info.f[7])))
 		{
-			tmp[1] = msh_get_path(tmp[0], g_info.env);
-			if(!tmp[1])
-				break ;
-			cmd->args = msh_replace_and_copy(cmd->args, tmp[1], 0);
+			ft_strdel(&cmd->args[0]);
+			cmd->args[0] = ft_strjoin(g_info.pwd, g_info.f[7]);
+		}
+		else
+		{
+			cmd->build = msh_is_build(cmd->args[0]);
+			if (!cmd->build)
+			{
+				tmp[1] = msh_get_path(tmp[0], g_info.env);
+				if(!tmp[1])
+					break ;
+				cmd->args = msh_replace_and_copy(cmd->args, tmp[1], 0);
+			}
 		}
 		msh_execution(cmd, g_info.env, fd_pipe, in_out_s);
 		cmd = cmd->next;

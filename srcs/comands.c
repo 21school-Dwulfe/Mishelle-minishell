@@ -85,3 +85,28 @@ int	msh_custom_unset(t_command *cmd)
 	g_info.env = msh_concat_args(g_info.env, length);
 	return (1);
 }
+
+int	msh_buildins(t_command *cmd, int reg)
+{
+	int	is_buildin;
+
+	is_buildin = 0;
+	if (reg == 0 && ft_strnstr(cmd->args[0], "exit", 4))
+		msh_custom_exit(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "unset", 5))
+		is_buildin = msh_custom_unset(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "cd", 2))
+		is_buildin = msh_custom_cd(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "pwd", 3))
+		is_buildin = msh_custom_pwd(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "echo", 4))
+		is_buildin = msh_custom_echo(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "env", 3))
+		is_buildin = msh_custom_env(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "export", 6)
+		&& cmd->num_args > 1)
+		is_buildin = msh_custom_export(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "export", 6))
+		is_buildin = msh_custom_export(cmd);
+	return (is_buildin);
+}

@@ -15,6 +15,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <dirent.h>
+# include <errno.h>
 
 //#include "/Users/dwulfe/.brew/opt/readline/include/"
 #endif

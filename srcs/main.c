@@ -1,7 +1,4 @@
 #include "../includes/main.h"
-//rl_clear_history, rl_on_new_line,
-//rl_replace_line, rl_redisplay, add_history,
-
 
 void msh_readline(char *prefix, char **dest)
 {
@@ -24,11 +21,13 @@ void	msh_config(int argc, char **argv, char **env)
 	(void)env;
 	rl_catch_signals = 0;
 	g_info.num_of_commands = 0;
+	g_info.num_token = 0;
 	g_info.env = msh_copy_env(env);
-	for (int i= 0; i < ft_str_count(g_info.env); i++)
-	{
-		printf("%d %s\n", i + 1, g_info.env[i]);
-	}
+	g_info.pwd = getcwd(NULL, 0);
+	// for (int i= 0; i < ft_str_count(g_info.env); i++)
+	// {
+	// 	printf("%d %s\n", i + 1, g_info.env[i]);
+	// }
 	g_info.f[0] = "export";
 	g_info.f[1] = "exit";
 	g_info.f[2] = "unset";
@@ -36,6 +35,7 @@ void	msh_config(int argc, char **argv, char **env)
 	g_info.f[4] = "pwd";
 	g_info.f[5] = "echo";
 	g_info.f[6] = "env";
+	g_info.f[7] = "minishell";
 }
 
 void	msh_struct_clear()
@@ -45,6 +45,7 @@ void	msh_struct_clear()
 
 	cmds = g_info.cur_cmd;
 	g_info.exit_code = 0;
+	g_info.num_token = 0;
 	while (cmds)
 	{
 		if (cmds->args)
@@ -65,6 +66,7 @@ void	msh_struct_clear()
 		g_info.cur_cmd = cmds;
 	}
 }
+
 int	msh_validate_line(char *line)
 {
 	int				i;
@@ -83,39 +85,12 @@ int	msh_validate_line(char *line)
 	return (0);
 }
 
-char	*msh_strncat(char *new, char *buff, char *dyn_buff)
-{
-	int	line_l;
-	int	buff_l;
-	int new_size;
-
-	if (!dyn_buff)
-		buff_l = ft_strlen(buff);
-	else
-		buff_l = ft_strlen(dyn_buff);
-	line_l = ft_strlen(new);
-	if (buff_l + line_l > 1024)
-	{
-		new_size = ft_abs((1024 - buff_l + line_l));
-		dyn_buff = ft_realloc(buff, sizeof(char) * (new_size + 1));
-		ft_strncat(dyn_buff, new, new_size + 1);
-		return (dyn_buff);
-	}
-	else
-	{
-		ft_strncat(buff, new, 1024);
-		return (buff);
-	}
-}
-
 int main(int argc, char **argv, char **env)
 {
 	char	*line;
 	char	*buff_st_dy;
 	char	buff[1024];
-	pid_t	pid = getpid();
-
-	printf("%d\n", pid);
+	
 	line = NULL;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, msh_sigint_handler);

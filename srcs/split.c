@@ -154,7 +154,6 @@ char	**msh_split(char *str, int c)
 // 	int				i[6];
 // 	char 			*stop[2];
 
-
 // 	first = 0;
 // 	ft_bzero(i, sizeof(int) * 6);
 // 	if (side == -1)

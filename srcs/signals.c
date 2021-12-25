@@ -8,8 +8,3 @@ void	msh_sigint_handler(int sig_num)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-
-void	msh_signal_child(int sig)
-{
-	(void)sig;
-}

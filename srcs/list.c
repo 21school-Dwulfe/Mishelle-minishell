@@ -11,7 +11,6 @@ t_command	*msh_create_command(char	**dstr)
 	cmd->out = NULL;
 	cmd->err = NULL;
 	cmd->piped = 0;
-	cmd->num_token = 0;
 	cmd->args_token = NULL;
 	cmd->build = 0;
 	if (dstr)
@@ -35,7 +34,6 @@ t_redirect	*msh_create_redirect(char *filepath, t_specials specials)
 	redirect->prev = NULL;
 	return (redirect);
 }
-
 
 void	msh_add_command(t_command **cur_cmd, char **value)
 {

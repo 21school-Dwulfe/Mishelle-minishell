@@ -29,6 +29,7 @@ int	        msh_perror(char *cmd_name);
 int 	    msh_error_bash(char *message, char *str, int code);
 char	    **msh_concat_args(char **cmd, int size);
 char	    *msh_concat_str(char *arg, int size, char *insertion);
+int	        msh_buildins(t_command *cmd, int reg);
 
 /**
  * @brief Execute commands with pipe or redirect
@@ -62,7 +63,7 @@ void	    msh_add_command(t_command **cur_cmd, char **value);
  * @param str string from readline
  * @param message error message
  */
-void	    msh_redirect_error(char *message, char *token_str, int token_len);
+void	    msh_redirect_error(char *token_str, int token_len);
 char        *msh_get_env_by_key(char **env, char *argument);
 int         msh_env_exist(char **env, char *argument);
 int         msh_modify_env_var(char **env, char *new_value);

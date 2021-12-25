@@ -21,9 +21,22 @@ int	msh_multiple_iterator(int num, int *i, int sign)
 	}
 	return (in);
 }
+int	msh_validation_closest_chars(char *str, int *i, int *specials)
+{
+	if (str[*i] && str[*i + 1] == ')')
+		return (*specials == ERROR);
+	if ((str[*i] == '>' || str[*i] == '<') && str[*i + 1] == '|')
+		return (*specials == ERROR);
+	if (str[*i] == ';' && str[*i + 1] == '|')
+		return (*specials == ERROR);
+	else
+		return (0);
+}
 
 int	msh_check_special_signs(char *str, int *i, int *specials)
 {
+	if (msh_validation_closest_chars(str, i, specials))
+		return (*specials = ERROR);
 	if ((ft_strnstr(str + *i, "\";\"", 3) || ft_strnstr(str + *i, "\';\'", 3))
 		&& msh_multiple_iterator(3, i, 1))
 		return (*specials = 0);
@@ -35,6 +48,8 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 		return (*specials = QUOTES);
 	if (str[*i] == '\"' && str[*i + 1] != '\"')
 		return (*specials = D_QUOTES);
+	if (str[*i] == '$' && str[*i] != '(')
+		return (*specials = DOLLAR);
 	if (*i > 0 && str[*i] == ';')
 		return (*specials = SEMICOLON);
 	if (str[*i] == '|')
@@ -99,9 +114,11 @@ char	*msh_spec_tokens(int specials, int num)
 		str = " CURL_BRACES";
 	else if (specials == 16)
 		str = " DOLLAR_BRACES";
+	else if (specials == 17)
+		str = " DOLLAR";
 	else
 		str = (void *)0;
-	tmp = ft_itoa(10);
+	tmp = ft_itoa(num);
 	i[0] = ft_strlen(str);
 	i[1] = ft_strlen(tmp);
 	result = ft_calloc(i[0] + i[1] + 2, sizeof(char));
@@ -113,19 +130,44 @@ char	*msh_spec_tokens(int specials, int num)
 	return (result); 
 }
 
+char	*msh_token_dollar(char *str, int *index, char **value_arg)
+{
+	int	i;
+	char *result;
+
+	i = *index;
+	while (str[i]
+	&& (str[i] != ' ' || str[i] != ' ' || str[i] != '>'
+		|| str[i] != '<' || str[i] != '|' || str[i] != '('))
+		i++;
+	result = ft_strndup_se(str + *index, i, 0);
+	value_arg = NULL;
+	return (result);
+}
+
+char	*msh_token_qoutes(char *str, int *index, char **value_arg)
+{
+	char *result;
+
+	result = msh_get_str_inside(str + *index, "\'\"", 0);
+	value_arg = NULL;
+	return (result);
+}
+
 char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 {
 	int			l[2];
 	char		*value;
+	char		**value_arg;
 
-	value = msh_get_str_inside(str + *length, "\'\"", 0);
-	//length = ft_strlen(value);
-	msh_add_token(cmd, value, NULL, specials);
+	value_arg = NULL;
+	value = g_info.func[specials](str, length, value_arg); 
+	msh_add_token(cmd, value, value_arg, specials);
 	cmd->args_token->specials = specials;
 	l[0] = ft_strlen(str);
 	l[1] = ft_strlen(value);
 	ft_memset(str + *length, '\0', sizeof(char) * l[1] + 2);
-	str = msh_concat_str(str, l[0], msh_spec_tokens(specials, cmd->num_token++));
+	str = msh_concat_str(str, l[0], msh_spec_tokens(specials, g_info.num_token++));
 	return (str);
 }
 
@@ -141,6 +183,7 @@ void	msh_parse(char *str)
 	length = 0;
 	specials = 0;
 	cmd = msh_create_command((void *)0);
+	cmd->prev = cmd;
 	while (str[length])
 	{
 		if (specials > 0)
@@ -156,14 +199,16 @@ void	msh_parse(char *str)
 				if (cmd->args)
 					msh_add_command(&cmd, ft_split_se(tmp, ' '));
 				else
-					//kmkfkrf
-				msh_evaluate_env_call_if_exist(g_info.cur_cmd, g_info.env);
+					cmd->args = ft_split_se(tmp, ' ');
+				cmd->num_args = ft_str_count(cmd->args);
+				msh_evaluate_env_call_if_exist(cmd, g_info.env);
 				if (specials == PIPE)
-					g_info.cur_cmd->piped++;
+					cmd->piped++;
 				g_info.num_of_commands++;
 				ft_strdel(&tmp);
 			}
-			specials = 0;
+			if (specials >= 12)
+				specials = 0;
 		}
 		length++;
 	}

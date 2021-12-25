@@ -2,53 +2,32 @@
 
 int		msh_check_syntax(char *str, int in, char *c, t_command *cmd)
 {
-	int index;
-	int len_cmp; 
+	int		index;
+	int		len_cmp;
+	int		spec;
 	
+	spec = -1;
 	len_cmp = ft_strlen(str);
 	index = 0;
 	if (!ft_strchr(str, c[0]))
 		return (0);
 	while (str[index] == c[0])
 		index++;
-	// if (index == len_cmp && in + 1 < g_info.cur_cmd->num_args 
-	// 	&& ((ft_strcmp("<", g_info.cur_cmd->args[in + 1] ) && ft_strcmp(">", g_info.cur_cmd->args[in + 1])) ||
-	// 	(ft_strcmp("<<", g_info.cur_cmd->args[in + 1]) && ft_strcmp(">>", g_info.cur_cmd->args[in + 1]))))
-	// {
-	// 	g_info.cur_cmd->specials = ERROR;
-	// 	msh_error(str, "Mishelle: syntax error near unexpected token",
-	// 		g_info.cur_cmd->args[in + 1] , ft_strlen(g_info.cur_cmd->args[in + 1]));
-	// }
-	// else
 	if (in == cmd->num_args - 1 && cmd->piped && cmd->next == NULL)
-		msh_redirect_error( "Mishelle: syntax error near unexpected token", "|" , 1);
+		msh_redirect_error("|" , 1);
 	else if (index > 2)
-	{
-		msh_redirect_error("Mishelle: syntax error near unexpected token",
-				str + 2 , index - 2);
-	}
+		msh_redirect_error(str + 2 , index - 2);
 	else if (len_cmp > index && ft_abs(c[0] - str[index]) == 2)
-	{
-		msh_redirect_error("Mishelle: syntax error near unexpected token",
-				str + index , len_cmp - index);
-	}
+		msh_redirect_error(str + index , len_cmp - index);
 	else if ((index < len_cmp && (str[index + 1] == ';'
 		|| (in == cmd->num_args - 1 && (str[index + 1] == '|' || (cmd->piped && cmd->next == NULL)))))  )
-		{
-			msh_redirect_error("Mishelle: syntax error near unexpected token",
-					str + index , ft_strlen(str) - index);
-		}
-	
-	else if (in + 1 < cmd->num_args)
-	{
-		if (in + 1 < cmd->num_args && !ft_strcmp(cmd->args[in], cmd->args[in + 1])
+		msh_redirect_error(str + index , ft_strlen(str) - index);
+	else if (in + 1 < cmd->num_args && !ft_strcmp(cmd->args[in], cmd->args[in + 1])
 			&& (int)ft_strlen(cmd->args[in]) == index)
-		msh_redirect_error("Mishelle: syntax error near unexpected token",
-			cmd->args[in + 1], ft_strlen(cmd->args[in + 1]));
-	}
+		msh_redirect_error(cmd->args[in + 1], ft_strlen(cmd->args[in + 1]));
 	else if (in == cmd->num_args -1 && ((!ft_strcmp(cmd->args[in], "<<") || !ft_strcmp(cmd->args[in], ">>"))
 		|| (!ft_strcmp(cmd->args[in], "<") || !ft_strcmp(cmd->args[in], ">"))))
-		msh_redirect_error("Mishelle: syntax error near unexpected token", "newline", 7);
+		msh_redirect_error("newline", 7);
 	if (!cmd)
 		return (-1);
 	if (!ft_strcmp(str, c))
