@@ -210,8 +210,8 @@ char	**msh_split(char *str, int c)
 
 char *msh_get_str_inside(char *str, char *set, int reg)
 {
-	int	first;
-	int 			i[2];
+	int			first;
+	int 		i[2];
 
 	first = -1;
 	ft_bzero(i, sizeof(int) * 2);

@@ -50,7 +50,7 @@ int	msh_custom_cd(t_command *cmd)
 	{
 		env_value[3] = msh_get_env_by_key(g_info.env, "HOME");
 		env_value[2] = ft_strndup_se(env_value[3], ft_strlen(env_value[3]) + ft_strlen(cmd->args[1] + 1), 0);
-		ft_strlcat(env_value[2], cmd->args[1] + 1, ft_strlen(env_value[3]) + ft_strlen(cmd->args[1] + 1) + 2);
+		ft_strncat(env_value[2], cmd->args[1] + 1, ft_strlen(env_value[3]) + ft_strlen(cmd->args[1] + 1) + 2);
 	}
 	else
 		env_value[2] = cmd->args[1];

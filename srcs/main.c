@@ -83,7 +83,7 @@ int	msh_validate_line(char *line)
 	return (0);
 }
 
-char	*msh_strlcat(char *new, char *buff, char *dyn_buff)
+char	*msh_strncat(char *new, char *buff, char *dyn_buff)
 {
 	int	line_l;
 	int	buff_l;
@@ -98,12 +98,12 @@ char	*msh_strlcat(char *new, char *buff, char *dyn_buff)
 	{
 		new_size = ft_abs((1024 - buff_l + line_l));
 		dyn_buff = ft_realloc(buff, sizeof(char) * (new_size + 1));
-		ft_strlcat(dyn_buff, new, new_size + 1);
+		ft_strncat(dyn_buff, new, new_size + 1);
 		return (dyn_buff);
 	}
 	else
 	{
-		ft_strlcat(buff, new, 1024);
+		ft_strncat(buff, new, 1024);
 		return (buff);
 	}
 }
@@ -127,7 +127,7 @@ int main(int argc, char **argv, char **env)
 		if (msh_validate_line(line))
 			continue ;
 		g_info.exit_code = 0;
-		buff_st_dy = msh_strlcat(line, buff, buff_st_dy);
+		buff_st_dy = msh_strncat(line, buff, buff_st_dy);
 		msh_check_unclosed_quotes(buff, line, buff_st_dy, 0);
 		add_history(buff_st_dy);
 		msh_cmd(buff_st_dy);

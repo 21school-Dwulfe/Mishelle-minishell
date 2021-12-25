@@ -51,7 +51,7 @@ int         msh_export_invalid(char *arg);
 void	    msh_export_error(char *arg);
 int			msh_multiple_iterator(int num, int *i, int sign);
 void	    msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s);
-char	    *msh_strlcat(char *line, char *buff, char *reall);
+char	    *msh_strncat(char *line, char *buff, char *reall);
 void        msh_sigint_handler(int sig_num);
 char        *msh_get_str_inside(char *str, char *set, int reg);
 void	    msh_add_command(t_command **cur_cmd, char **value);

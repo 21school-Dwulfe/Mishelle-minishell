@@ -120,7 +120,6 @@ void	msh_export_add(t_command	*cmd)
 	g_info.exit_code = 0;
 }
 
-// -n -p -f
 int	msh_custom_export(t_command *cmd)
 {
 	int		i;

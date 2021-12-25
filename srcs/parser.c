@@ -1,4 +1,5 @@
 #include "../includes/main.h"
+#include <string.h>
 
 // parse string until occurs special or stop signs( ; | & > >> < << <& <<& \n)
 // validation operators order
@@ -103,17 +104,16 @@ char	*msh_spec_tokens(int specials, int num)
 	tmp = ft_itoa(10);
 	i[0] = ft_strlen(str);
 	i[1] = ft_strlen(tmp);
-	result = ft_calloc(i[0] + i[1] + 1, sizeof(char));
-	ft_strlcpy(result, str, i[0] + 1);
-	ft_strlcat(result, tmp, i[0] + i[1] + 1);
+	result = ft_calloc(i[0] + i[1] + 2, sizeof(char));
+	ft_strncat(result, str, i[0]);
+	ft_strncat(result, tmp, i[0] + i[1] + 1);
 	result[ft_strlen(result)] = ' ';
 	result[ft_strlen(result) + 1] = '\0';
-	printf("%s|\n", result);
 	ft_strdel(&tmp);
 	return (result); 
 }
 
-void	msh_specify_token(t_command *cmd, int *length, char *str, int specials)
+char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 {
 	int			l[2];
 	char		*value;
@@ -126,6 +126,7 @@ void	msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 	l[1] = ft_strlen(value);
 	ft_memset(str + *length, '\0', sizeof(char) * l[1] + 2);
 	str = msh_concat_str(str, l[0], msh_spec_tokens(specials, cmd->num_token++));
+	return (str);
 }
 
 void	msh_parse(char *str)
@@ -148,7 +149,7 @@ void	msh_parse(char *str)
 		if (specials > 0)
 		{
 			if (specials >= 12)
-				msh_specify_token(cmd, &length, str + mem, specials);
+				str = msh_specify_token(cmd, &length, str, specials);
 			if (specials < 3 || str[length] == '\0')
 			{
 				tmp = ft_strndup(str + mem, length - mem);
@@ -162,6 +163,7 @@ void	msh_parse(char *str)
 				g_info.num_of_commands++;
 				ft_strdel(&tmp);
 			}
+			specials = 0;
 		}
 		length++;
 	}
