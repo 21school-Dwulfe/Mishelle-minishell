@@ -136,8 +136,6 @@ char	**msh_split(char *str, int c)
 	return (result);
 }
 
-
-
 //regime 0 
 // stop signs any
 // stop varios special

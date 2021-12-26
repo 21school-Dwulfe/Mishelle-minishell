@@ -195,6 +195,8 @@ void	msh_cmd(char *line)
 				cmd->args = msh_replace_and_copy(cmd->args, tmp[1], 0);
 			}
 		}
+		msh_exchange_token_value(cmd);
+		msh_evaluate_env_call_if_exist(cmd, g_info.env);
 		msh_execution(cmd, g_info.env, fd_pipe, in_out_s);
 		cmd = cmd->next;
 		if ((cmd && !cmd->piped) || !cmd)

@@ -1,40 +1,5 @@
 #include "../includes/main.h"
 
-t_command	*msh_create_command(char	**dstr)
-{
-	t_command	*cmd;	
-
-	cmd = malloc(sizeof(t_command));
-	cmd->args = dstr;
-	cmd->background = 0;
-	cmd->input = NULL;
-	cmd->out = NULL;
-	cmd->err = NULL;
-	cmd->piped = 0;
-	cmd->args_token = NULL;
-	cmd->build = 0;
-	if (dstr)
-		cmd->num_args = ft_str_count(dstr);
-	else
-		cmd->num_args = 0;
-	cmd->prev = NULL;
-	cmd->redirects = NULL;
-	cmd->next = NULL;
-	return (cmd);
-}
-
-t_redirect	*msh_create_redirect(char *filepath, t_specials specials)
-{
-	t_redirect *redirect;
-
-	redirect = malloc(sizeof(t_redirect));
-	redirect->file = filepath;
-	redirect->specials = specials;
-	redirect->next = NULL;
-	redirect->prev = NULL;
-	return (redirect);
-}
-
 void	msh_add_command(t_command **cur_cmd, char **value)
 {
 	t_command	*tmp;
@@ -66,7 +31,7 @@ void	msh_push_command(t_command **cur_cmd, char **value)
 	}
 }
 
-void msh_add_redirect(t_redirect **current, char *value, t_specials specials)
+void	msh_add_redirect(t_redirect **current, char *value, t_specials specials)
 {
 	t_redirect	*tmp;
 
@@ -81,5 +46,23 @@ void msh_add_redirect(t_redirect **current, char *value, t_specials specials)
 	{
 		*current = tmp;
 		(*current)->prev = tmp;
+	}
+}
+
+void	msh_add_token(t_command *cmd, char *value, char **value_arr, int order)
+{
+	t_arg	*tmp;
+
+	if (cmd && !cmd->args_token)
+	{
+		cmd->args_token = msh_create_token(value, value_arr, order);
+		cmd->args_token->prev = cmd->args_token;
+	}
+	else
+	{
+		tmp = msh_create_token(value, value_arr, order);
+		cmd->args_token->prev->next = tmp;
+		tmp->prev = cmd->args_token->prev;
+		cmd->args_token->prev = tmp;
 	}
 }

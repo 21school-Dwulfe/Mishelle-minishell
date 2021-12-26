@@ -7,6 +7,7 @@
 void	    msh_parse(char *str);
 int 	    msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void	    msh_add_to_struct(char **result);
+void	    msh_add_token(t_command *cmd, char *value, char **value_arr, int order);
 void	    msh_push_command(t_command **cur_cmd, char **value);
 void 	    msh_custom_exit(t_command *cmd);
 int 	    msh_custom_pwd(t_command *cmd);
@@ -30,6 +31,7 @@ int 	    msh_error_bash(char *message, char *str, int code);
 char	    **msh_concat_args(char **cmd, int size);
 char	    *msh_concat_str(char *arg, int size, char *insertion);
 int	        msh_buildins(t_command *cmd, int reg);
+void	    msh_exchange_token_value(t_command *cmd);
 
 /**
  * @brief Execute commands with pipe or redirect
@@ -46,6 +48,8 @@ char	    **msh_copy_env(char **array);
 char        *msh_multy_pipe(t_command *cmds, char **env);
 int	        msh_check_special_signs(char *str, int *i, int *specials);
 t_command	*msh_create_command(char    **dstr);
+t_redirect	*msh_create_redirect(char *filepath, t_specials specials);
+t_arg       *msh_create_token(char *value, char **value_arr, int order);
 void        msh_add_redirect(t_redirect **current, char *value, t_specials specials);
 int         msh_open(char *path, int type);
 int         msh_export_invalid(char *arg);
@@ -67,4 +71,15 @@ void	    msh_redirect_error(char *token_str, int token_len);
 char        *msh_get_env_by_key(char **env, char *argument);
 int         msh_env_exist(char **env, char *argument);
 int         msh_modify_env_var(char **env, char *new_value);
+char	    *msh_specify_token(t_command *cmd, int *length, char *str, int specials);
+char	    *msh_token_quotes(char *str, int *index, char **value_arg);
+char	    *msh_token_dollar(char *str, int *index, char **value_arg);
+char	    *msh_spec_tokens(int specials, int num);
+t_arg       *msh_get_token_value(t_command *cmd, char *token);
+char        *msh_dollar(char *str, int *index, char **value_arg);
+char        *msh_dollar_braces(char *str, int *index, char **value_arg);
+char        *msh_curl_braces(char *str, int *index, char **value_arg);
+
+
+
 #endif

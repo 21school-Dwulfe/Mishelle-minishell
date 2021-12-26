@@ -19,15 +19,16 @@ void	msh_config(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
+
 	rl_catch_signals = 0;
 	g_info.num_of_commands = 0;
 	g_info.num_token = 0;
 	g_info.env = msh_copy_env(env);
 	g_info.pwd = getcwd(NULL, 0);
-	// for (int i= 0; i < ft_str_count(g_info.env); i++)
-	// {
-	// 	printf("%d %s\n", i + 1, g_info.env[i]);
-	// }
+	g_info.func[13] = msh_token_quotes;
+	g_info.func[15] = msh_curl_braces;
+	g_info.func[16] = msh_dollar_braces;
+	g_info.func[17] = msh_dollar;
 	g_info.f[0] = "export";
 	g_info.f[1] = "exit";
 	g_info.f[2] = "unset";

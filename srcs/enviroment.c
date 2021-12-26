@@ -72,7 +72,6 @@ int	msh_dollar_error_case(t_command *cmd, char *tmp, int j)
 	return (2);
 }
 
-
 int	msh_dollar_common_case(t_command *cmd, char *tmp, char **env, int *k)
 {
 	int		i[3];

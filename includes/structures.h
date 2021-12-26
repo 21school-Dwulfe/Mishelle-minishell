@@ -17,9 +17,9 @@ typedef enum s_specials
 	RD_REDIRECT_AMP,	// <&
 	BIN_OR,				// ||
 	BIN_AND,			// &&
+	S_QOUTES,			// ``
 	QUOTES,				// ''
 	D_QUOTES,			// ""
-	S_QOUTES,			// ``
 	CURL_BRACES,		// ()
 	DOLLAR_BRACES,		// $()
 	DOLLAR,				// $
