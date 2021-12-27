@@ -1,6 +1,5 @@
 #include "../includes/main.h"
 
-
 int	msh_is_token(char *arg)
 {
 
@@ -19,7 +18,6 @@ int	msh_is_token(char *arg)
 	else
 		return (0);
 }
-
 
 char	*msh_spec_tokens(int specials, int num)
 {
@@ -67,13 +65,15 @@ char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 	value = g_info.func[specials](str, length, value_arg);
 	arg = msh_add_token(cmd, value, value_arg, specials);
 	arg->order = g_info.num_token++;
+	if (ft_strchr(arg->value, '$'))
+	{
+		if (specials != QUOTES)
+			l[1] = msh_evaluate_env_call_if_exist(&arg->value, g_info.env);
+	}
 	l[0] = ft_strlen(str);
-	l[1] = ft_strlen(value);
 	ft_memset(str + *length, '\0', sizeof(char) * l[1] + 2);
 	tmp = msh_spec_tokens(specials, arg->order);
-	if (ft_strchr(tmp, '$'))
-		msh_evaluate_env_call_if_exist(&arg->value, g_info.env);
-	str = msh_concat_str(str, l[0], NULL);
+	str = msh_concat_str(str, l[0], tmp);
 	return (str);
 }
 
@@ -84,36 +84,22 @@ t_arg *msh_get_token_value(t_command *cmd, char *token)
 
     stop_int = 0;
 	tok = cmd->args_token;
-	if (msh_is_token(token))
+	while (!ft_isdigit(token[stop_int]))
+		stop_int++;
+	while (tok)
 	{
-		while (!ft_isdigit(token[stop_int]))
-			stop_int++;
-		while (tok)
-		{
-			if (tok->order == ft_atoi(token + stop_int))
-				break ;
-			tok = tok->next;
-		}
-		return (tok);
+		if (tok->order == ft_atoi(token + stop_int))
+			break ;
+		tok = tok->next;
 	}
-	return (NULL);
+	return (tok);
 }
 
-void	msh_exchange_token_value(t_command *cmd)
+void	msh_exchange_token_value(t_command *cmd, int index)
 {
-	int i;
-	t_arg	*tmp;
+	t_arg *tmp;
 
-	i = 0;
-	while (cmd->args[i])
-	{
-		tmp = msh_get_token_value(cmd, cmd->args[i]);
-		if (tmp)
-		{
-			ft_strdel(&cmd->args[i]);
-			cmd->args[i] = ft_strdup(tmp->value);
-		}	
-		i++;
-	}
-	
+	tmp = msh_get_token_value(cmd, cmd->args[index]);
+	ft_strdel(&cmd->args[index]);
+	cmd->args[index] = ft_strdup(tmp->value);
 }

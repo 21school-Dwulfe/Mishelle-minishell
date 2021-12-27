@@ -16,7 +16,7 @@ int 	    msh_custom_env(t_command *cmd);
 int 	    msh_custom_cd(t_command *cmd);
 int 	    msh_custom_export(t_command *cmd);
 int 	    msh_custom_unset(t_command *cmd);
-void	    msh_evaluate_env_call_if_exist(char **args, char **env);
+int 	    msh_evaluate_env_call_if_exist(char **args, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
 int 	    msh_common_parse();
@@ -31,8 +31,7 @@ int 	    msh_error_bash(char *message, char *str, int code);
 char	    **msh_concat_args(char **cmd, int size);
 char	    *msh_concat_str(char *arg, int size, char *insertion);
 int	        msh_buildins(t_command *cmd, int reg);
-void	    msh_exchange_token_value(t_command *cmd);
-
+void	    msh_exchange_token_value(t_command *cmd, int index);
 /**
  * @brief Execute commands with pipe or redirect
  * 
@@ -60,6 +59,7 @@ char	    *msh_strncat(char *line, char *buff, char *reall);
 void        msh_sigint_handler(int sig_num);
 char        *msh_get_str_inside(char *str, char *set, int reg);
 void	    msh_add_command(t_command **cur_cmd, char **value);
+int         msh_is_token(char *arg);
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline

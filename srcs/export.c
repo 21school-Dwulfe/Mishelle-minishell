@@ -86,7 +86,7 @@ char	*msh_get_env_by_key(char **env, char *argument)
 	while (env[j])
 	{
 		i = msh_env_exist(env, argument);
-		if (i)
+		if (i > -1)
 		{
 			while (env[i][n] && env[i][n] != '=')
 				n++;
@@ -94,7 +94,7 @@ char	*msh_get_env_by_key(char **env, char *argument)
 		}
 		j++;
 	}
-	return (0);
+	return (NULL);
 }
 
 void	msh_export_add(t_command	*cmd)

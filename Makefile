@@ -39,7 +39,7 @@ ${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS}
 			cd ./libft && $(MAKE) && $(MAKE) bonus
 			${CC} ${CFLAGS} -g  -fsanitize=address ${OBJS} ${LDFLAGS} -o ${APP}
 
-.PHONY: all clean fclean re bonus buildrepo lib print
+.PHONY: all clean fclean re bonus buildrepo lib print 
 
 print : 
 	echo $(OBJS)
