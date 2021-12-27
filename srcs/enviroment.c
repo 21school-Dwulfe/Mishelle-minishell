@@ -38,19 +38,124 @@ char	*msh_concat_str(char *arg, int size , char *insertion)
 	return (tmp);
 }
 
-void	msh_env_var()
-{
+// int	msh_dollar_error_case(t_command *cmd, char *tmp, int j)
+// {
+// 	int		i[3];
+// 	char	*temp[6];
 
-}
+// 	ft_bzero(i, sizeof(int) * 3);
+// 	ft_bzero(temp, sizeof(char *) * 6);
+// 	temp[0] = cmd->args[j];
+// 	temp[2] = tmp;
+// 	temp[3] = ft_itoa(msh_read_error_code());
+// 	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
+// 	if (temp[0][0] != '$')
+// 	{
+// 		temp[5] = ft_strndup_se(temp[0], 0, '$');
+// 		temp[1] = ft_strjoin(temp[5], temp[4]);
+// 		i[2] = 6;
+// 	}
+// 	else
+// 	{
+// 		temp[1] = ft_strdup(temp[4]);
+// 		i[2] = 5;
+// 	}
+// 	cmd->args[j] = temp[1];
+// 	while (1 != --i[2])
+// 		ft_strdel(&temp[i[2]]);
+// 	ft_strdel(&temp[0]);
+// 	return (2);
+// }
 
-int	msh_dollar_error_case(t_command *cmd, char *tmp, int j)
+// int	msh_dollar_common_case(t_command *cmd, char *tmp, char **env, int *k)
+// {
+// 	int		i[3];
+// 	char	*temp[6];
+
+// 	ft_bzero(temp, sizeof(char) * 6);
+// 	ft_bzero(i, sizeof(int) * 3);
+// 	temp[1] = tmp;
+// 	temp[2] = msh_get_env_by_key(env, temp[1] + 1);
+// 	if (temp[2])
+// 	{
+// 		if (i[1] != 0)
+// 		{
+// 			if (k[2] == 1)
+// 			{
+// 				temp[3] = ft_strndup_se(temp[0], 0, '$');
+// 				temp[4] = ft_strjoin(temp[3], temp[2]);
+// 			}
+// 			if (k[1] == 1)
+// 				cmd->args[k[0]] = temp[4];
+// 			else
+// 			{
+// 				temp[5] = ft_strjoin(cmd->args[k[0]], temp[4]);
+// 				ft_strdel(&cmd->args[k[0]]);
+// 				cmd->args[k[0]] = temp[5];
+// 			}
+// 			i[2] = ft_strlen(temp[1]);
+// 			ft_strdel(&temp[3]);
+// 		}
+// 		else
+// 			cmd->args[k[0]] = ft_strdup(temp[2]);
+// 	}
+// 	else
+// 	{
+// 		ft_memset(temp[1], '\0', ft_strlen(temp[1]));
+// 		temp[1] = temp[0];
+// 		cmd->args[k[0]] = msh_concat_str(temp[1], ft_strlen(temp[0]), NULL);
+// 	}
+// 	return (ft_strlen(temp[1]));
+// }
+
+// void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
+// {
+// 	int		i[5];
+// 	int		k[3];
+// 	char	*temp[6];
+// 	int 	j;
+// 	int 	count_dollars;
+
+// 	j = 0;
+// 	ft_bzero(i, sizeof(int) * 5);
+// 	ft_bzero(temp, sizeof(char *) * 6);
+// 	while (i[0] < cmd->num_args)
+// 	{
+// 		j = 0;
+// 		temp[0] = cmd->args[i[0]];
+// 		count_dollars = ft_ch_count(temp[0], '$');
+// 		while (j < count_dollars)
+// 		{
+// 			temp[1] = ft_strchr(temp[0], '$');
+// 			i[1] = ft_index_of(temp[0], '$');
+// 			if (temp[1] && temp[1][1] != '?' &&  temp[0][0] != '\'')// need to set flag
+// 			{
+// 				k[0] = i[0];
+// 				k[1] = count_dollars;
+// 				k[2] = j;
+// 				i[4] = msh_dollar_common_case(cmd, temp[1], env, k);
+				
+// 			}
+// 			else if (temp[1] && temp[1][1] == '?' && temp[0][0] != '\'')
+// 			{
+// 				i[4] = msh_dollar_error_case(cmd, temp[1], i[0]);
+// 			}
+// 			temp[0] = temp[0] + i[4];
+// 			j++;
+// 		}
+// 		i[0]++;
+// 	}
+// }
+
+
+int	msh_dollar_error_case(char **args, char *tmp, int j)
 {
 	int		i[3];
 	char	*temp[6];
 
 	ft_bzero(i, sizeof(int) * 3);
 	ft_bzero(temp, sizeof(char *) * 6);
-	temp[0] = cmd->args[j];
+	temp[0] = args[j];
 	temp[2] = tmp;
 	temp[3] = ft_itoa(msh_read_error_code());
 	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
@@ -65,20 +170,22 @@ int	msh_dollar_error_case(t_command *cmd, char *tmp, int j)
 		temp[1] = ft_strdup(temp[4]);
 		i[2] = 5;
 	}
-	cmd->args[j] = temp[1];
+	args[j] = temp[1];
 	while (1 != --i[2])
 		ft_strdel(&temp[i[2]]);
 	ft_strdel(&temp[0]);
 	return (2);
 }
 
-int	msh_dollar_common_case(t_command *cmd, char *tmp, char **env, int *k)
+int	msh_dollar_common_case(char **args, char *tmp, char **env, int *k)
 {
 	int		i[3];
+	int		size;
 	char	*temp[6];
 
 	ft_bzero(temp, sizeof(char) * 6);
 	ft_bzero(i, sizeof(int) * 3);
+	size = ft_str_count(args);
 	temp[1] = tmp;
 	temp[2] = msh_get_env_by_key(env, temp[1] + 1);
 	if (temp[2])
@@ -91,29 +198,30 @@ int	msh_dollar_common_case(t_command *cmd, char *tmp, char **env, int *k)
 				temp[4] = ft_strjoin(temp[3], temp[2]);
 			}
 			if (k[1] == 1)
-				cmd->args[k[0]] = temp[4];
+				args[k[0]] = temp[4];
 			else
 			{
-				temp[5] = ft_strjoin(cmd->args[k[0]], temp[4]);
-				ft_strdel(&cmd->args[k[0]]);
-				cmd->args[k[0]] = temp[5];
+				temp[5] = ft_strjoin(args[k[0]], temp[4]);
+				ft_strdel(&args[k[0]]);
+				args[k[0]] = temp[5];
 			}
 			i[2] = ft_strlen(temp[1]);
 			ft_strdel(&temp[3]);
 		}
 		else
-			cmd->args[k[0]] = ft_strdup(temp[2]);
+			args[k[0]] = ft_strdup(temp[2]);
 	}
 	else
 	{
 		ft_memset(temp[1], '\0', ft_strlen(temp[1]));
 		temp[1] = temp[0];
-		cmd->args[k[0]] = msh_concat_str(temp[1], ft_strlen(temp[0]), NULL);
+		args[k[0]] = msh_concat_str(temp[1], size, NULL);
 	}
 	return (ft_strlen(temp[1]));
 }
 
-void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
+
+void	msh_evaluate_env_call_if_exist(char **args, char **env)
 {
 	int		i[5];
 	int		k[3];
@@ -124,10 +232,10 @@ void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 	j = 0;
 	ft_bzero(i, sizeof(int) * 5);
 	ft_bzero(temp, sizeof(char *) * 6);
-	while (i[0] < cmd->num_args)
+	while (args[i[0]])
 	{
 		j = 0;
-		temp[0] = cmd->args[i[0]];
+		temp[0] = args[i[0]];
 		count_dollars = ft_ch_count(temp[0], '$');
 		while (j < count_dollars)
 		{
@@ -138,12 +246,12 @@ void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
 				k[0] = i[0];
 				k[1] = count_dollars;
 				k[2] = j;
-				i[4] = msh_dollar_common_case(cmd, temp[1], env, k);
+				i[4] = msh_dollar_common_case(args, temp[1], env, k);
 				
 			}
 			else if (temp[1] && temp[1][1] == '?' && temp[0][0] != '\'')
 			{
-				i[4] = msh_dollar_error_case(cmd, temp[1], i[0]);
+				i[4] = msh_dollar_error_case(args, temp[1], i[0]);
 			}
 			temp[0] = temp[0] + i[4];
 			j++;

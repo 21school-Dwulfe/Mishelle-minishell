@@ -25,7 +25,8 @@ void	msh_config(int argc, char **argv, char **env)
 	g_info.num_token = 0;
 	g_info.env = msh_copy_env(env);
 	g_info.pwd = getcwd(NULL, 0);
-	g_info.func[13] = msh_token_quotes;
+	g_info.func[14] = msh_token_quotes;
+	g_info.func[14] = msh_token_d_quotes;
 	g_info.func[15] = msh_curl_braces;
 	g_info.func[16] = msh_dollar_braces;
 	g_info.func[17] = msh_dollar;

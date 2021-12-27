@@ -4,9 +4,7 @@ int		msh_check_syntax(char *str, int in, char *c, t_command *cmd)
 {
 	int		index;
 	int		len_cmp;
-	int		spec;
-	
-	spec = -1;
+
 	len_cmp = ft_strlen(str);
 	index = 0;
 	if (!ft_strchr(str, c[0]))
@@ -239,6 +237,7 @@ int	msh_help_parse_redirect(t_command *cmd, char *arg, int *arg_i, char *c)
 			ft_strdel(&cmd->args[i]);
 			msh_add_redirect(&cmd->redirects, cmd->args[i + 1], msh_get_specials(c));
 			cmd->args[i + 1] = NULL;
+			cmd->num_args -= 2;
 			i++;
 		}
 		i++;

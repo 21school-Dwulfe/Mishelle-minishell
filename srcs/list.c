@@ -16,7 +16,7 @@ void	msh_add_command(t_command **cur_cmd, char **value)
 void	msh_push_command(t_command **cur_cmd, char **value)
 {
 	t_command	*tmp;
-	
+
 	tmp = msh_create_command(value);
 	if (cur_cmd && *cur_cmd)
 	{
@@ -49,13 +49,14 @@ void	msh_add_redirect(t_redirect **current, char *value, t_specials specials)
 	}
 }
 
-void	msh_add_token(t_command *cmd, char *value, char **value_arr, int order)
+t_arg	*msh_add_token(t_command *cmd, char *value, char **value_arr, int order)
 {
 	t_arg	*tmp;
 
 	if (cmd && !cmd->args_token)
 	{
-		cmd->args_token = msh_create_token(value, value_arr, order);
+		tmp = msh_create_token(value, value_arr, order);
+		cmd->args_token = tmp;
 		cmd->args_token->prev = cmd->args_token;
 	}
 	else
@@ -65,4 +66,5 @@ void	msh_add_token(t_command *cmd, char *value, char **value_arr, int order)
 		tmp->prev = cmd->args_token->prev;
 		cmd->args_token->prev = tmp;
 	}
+	return (tmp);
 }
