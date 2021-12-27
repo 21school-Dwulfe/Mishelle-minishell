@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrdel_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_ch_count_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/30 18:05:24 by dwulfe            #+#    #+#             */
-/*   Updated: 2021/11/30 20:05:51 by dwulfe           ###   ########.fr       */
+/*   Created: 2021/12/13 19:29:39 by dwulfe            #+#    #+#             */
+/*   Updated: 2021/12/13 19:29:43 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_arrstr_del(char **dst, int s_counter)
+int	ft_ch_count(char *str, char ch)
 {
-	while (s_counter > 0)
+	int i;
+	int	result;
+
+	i = 0;
+	result = 0;
+	while (str[i])
 	{
-		s_counter--;
-		free((void *)dst[s_counter]);
+		if ((unsigned char)str[i] - (unsigned char)ch == 0)
+			result++;
+		i++;
 	}
-	free(dst);
-	dst = NULL;
-	return (NULL);
+	return (result);
 }

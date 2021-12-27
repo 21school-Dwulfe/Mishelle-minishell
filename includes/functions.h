@@ -5,23 +5,33 @@
 #include "features.h"
 
 void	    msh_parse(char *str);
-void	    msh_help_parse_semi(char *str, int *length);
-int 	    msh_help_parse_pipe(char *str, int *length);
-int 	    msh_help_parse_redirect(char *str, int *length, char *c);
-int	        msh_help_parse_ampersand(char *str, int *length);
+int 	    msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void	    msh_add_to_struct(char **result);
-void	    msh_add_command(t_command **cur_cmd, char **value);
-void	    msh_custom_exit(t_command *cmd);
-void	    msh_custom_pwd(t_command *cmd);
-void	    msh_custom_echo(t_command *cmd);
-void	    msh_custom_env(t_command *cmd);
-void	    msh_custom_cd(t_command *cmd);
-void	    msh_custom_export(t_command *cmd);
-void	    msh_custom_unset(t_command *cmd);
-void	    msh_evaluate_env_call_if_exist(t_command *cmd, char **env);
+t_arg	   *msh_add_token(t_command *cmd, char *value, char **value_arr, int order);
+void	    msh_push_command(t_command **cur_cmd, char **value);
+void 	    msh_custom_exit(t_command *cmd);
+int 	    msh_custom_pwd(t_command *cmd);
+int 	    msh_custom_echo(t_command *cmd);
+int 	    msh_custom_env(t_command *cmd);
+int 	    msh_custom_cd(t_command *cmd);
+int 	    msh_custom_export(t_command *cmd);
+int 	    msh_custom_unset(t_command *cmd);
+void	    msh_evaluate_env_call_if_exist(char **args, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
-int 	    msh_redirect_parse(char *str, int *length);
+int 	    msh_common_parse();
+char		*msh_get_env_by_key(char **env, char *argument);
+void		msh_sigint_handler_ch(int sig);
+void		msh_sigint_handler(int sig_num);
+void		msh_signal_child(int sig);
+void	    msh_save_error_code(int code);
+int 	    msh_read_error_code(void);
+int	        msh_perror(char *cmd_name);
+int 	    msh_error_bash(char *message, char *str, int code);
+char	    **msh_concat_args(char **cmd, int size);
+char	    *msh_concat_str(char *arg, int size, char *insertion);
+int	        msh_buildins(t_command *cmd, int reg);
+void	    msh_exchange_token_value(t_command *cmd);
 
 /**
  * @brief Execute commands with pipe or redirect
@@ -29,17 +39,27 @@ int 	    msh_redirect_parse(char *str, int *length);
  * @param cmd List of commands
  * @param env  Evariables 
  */
-void	    msh_execute(t_command *cmd, char **env);
 void	    msh_config(int argc, char **argv, char **env);
 char	    **msh_create_env_var(char *new_var);
 char	    **msh_split(char *str, int c);
+char        *msh_read_fd(int fd);
 char        *msh_get_path(char *cmd_name, char **env);
 char	    **msh_copy_env(char **array);
 char        *msh_multy_pipe(t_command *cmds, char **env);
 int	        msh_check_special_signs(char *str, int *i, int *specials);
 t_command	*msh_create_command(char    **dstr);
-void        msh_add_redirect(t_redirect **current, char *value);
+t_redirect	*msh_create_redirect(char *filepath, t_specials specials);
+t_arg       *msh_create_token(char *value, char **value_arr, int order);
+void        msh_add_redirect(t_redirect **current, char *value, t_specials specials);
 int         msh_open(char *path, int type);
+int         msh_export_invalid(char *arg);
+void	    msh_export_error(char *arg);
+int			msh_multiple_iterator(int num, int *i, int sign);
+void	    msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s);
+char	    *msh_strncat(char *line, char *buff, char *reall);
+void        msh_sigint_handler(int sig_num);
+char        *msh_get_str_inside(char *str, char *set, int reg);
+void	    msh_add_command(t_command **cur_cmd, char **value);
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
@@ -47,7 +67,20 @@ int         msh_open(char *path, int type);
  * @param str string from readline
  * @param message error message
  */
-void	msh_error(char *str, char *message, char *token_str, int token_len);
+void	    msh_redirect_error(char *token_str, int token_len);
+char        *msh_get_env_by_key(char **env, char *argument);
+int         msh_env_exist(char **env, char *argument);
+int         msh_modify_env_var(char **env, char *new_value);
+char	    *msh_specify_token(t_command *cmd, int *length, char *str, int specials);
+char	    *msh_token_quotes(char *str, int *index, char **value_arg);
+char	    *msh_token_d_quotes(char *str, int *index, char **value_arg);
+char	    *msh_token_dollar(char *str, int *index, char **value_arg);
+char	    *msh_spec_tokens(int specials, int num);
+t_arg       *msh_get_token_value(t_command *cmd, char *token);
+char        *msh_dollar(char *str, int *index, char **value_arg);
+char        *msh_dollar_braces(char *str, int *index, char **value_arg);
+char        *msh_curl_braces(char *str, int *index, char **value_arg);
+
 
 
 #endif

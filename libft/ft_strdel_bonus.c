@@ -17,6 +17,6 @@ void	ft_strdel(char	**ptr)
 	if (ptr && *ptr)
 	{
 		free(*ptr);
+		*ptr = NULL;
 	}
-	*ptr = NULL;
 }

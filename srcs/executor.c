@@ -1,159 +1,208 @@
 #include "../includes/main.h"
 
-void	msh_simple_execute(t_command *cmd, char **env)
+int	msh_custom_redirect(int *fd_arr, t_command *cmd)
 {
-	char	*s;
-	int		ret;
+	int			fd_index;
+	t_redirect	*tmp;
 
-	s = cmd->args[0];
-	cmd->args[0] = msh_get_path(s, env);
-	for( int i = 0; cmd->args[i]; i++)
+	fd_index = 0;
+	tmp = NULL;
+	if (cmd)
+		tmp = cmd->redirects;
+	while (tmp)
 	{
-		printf("%s\n", cmd->args[i]);
-	}
-	(void) env;
-	ret = fork();
-	if (ret == 0)
-	{
-		if (execve(cmd->args[0], cmd->args, env) == -1)
+		if (tmp->specials == 5 || tmp->specials == 7)
 		{
-			perror(s);
-			exit(1);
+			if (cmd->input)
+				close(fd_arr[0]);
+			cmd->input = tmp;
+			fd_index = 0;
+		}
+		if (tmp->specials == 4 || tmp->specials == 6)
+		{
+			if (cmd->out)
+				close(fd_arr[1]);
+			cmd->out = tmp;
+			fd_index = 1;
+		}
+		fd_arr[fd_index] = msh_open(tmp->file, tmp->specials);
+		if (fd_arr[fd_index] == -1)
+		{
+			perror(tmp->file);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return(0);
+}
+
+void	msh_wait_pid(int pid)
+{
+	int status;
+	waitpid(pid, &status, 0);
+	g_info.exit_code = WEXITSTATUS(status);
+	//printf("%d", g_info.exit_code);
+	if (status == 3)
+		write(1, "Quit: 3\n", 9);
+	if (status == 2)
+		write(1, "\n", 1);
+}
+
+void	msh_pipes(t_command *cmd, int *fd_pipe)
+{
+	if ((cmd->prev && cmd->prev->piped))
+	{
+		if (!cmd->input)
+			dup2(fd_pipe[0], 0);
+		//else	dup2(fd_pipe[0], fd[0]);
+		close(fd_pipe[0]);
+	}
+	if (cmd->piped && cmd->out == NULL)
+	{	
+		if (pipe(fd_pipe) == -1)
+			perror("Pipe");
+		dup2(fd_pipe[1], 1);
+		close(fd_pipe[1]);
+	}
+}
+
+void	msh_func(t_command *cmd, int *fd_s, char **env)
+{
+	pid_t		pid;
+
+	if (!msh_buildins(cmd, 0))
+	{
+		signal(SIGINT, SIG_IGN);
+		pid = fork();
+		if (pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			close(fd_s[0]);
+			close(fd_s[1]);
+			if (!msh_buildins(cmd, 1))
+				if (execve(cmd->args[0], cmd->args, env) == -1)
+				{
+					perror(cmd->args[0]);
+					exit(1);
+				}
+			exit(g_info.exit_code);
+		}
+		msh_wait_pid(pid);
+		signal(SIGINT, msh_sigint_handler);
+	}
+}
+
+void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
+{
+	int			fd[2];
+	
+	if (cmd->redirects)
+	{
+		if (msh_custom_redirect(fd, cmd))
+			return ;
+		if (cmd->input)
+		{
+			dup2(fd[0], STDIN_FILENO);	// 0 указывает на файл с дескрпитором fd[0] 
+			close(fd[0]);				// Закрываем fd[0] чтобы потомок не копировал его
+										// в данный момент читать файл fd[0] можно только с фд 0
+		}
+		if (cmd->out)
+		{
+			dup2(fd[1], STDOUT_FILENO); // стандартный вывод закрывается и 1 начинает указывать на файл с дескриптором fd[1]
+			close(fd[1]);				// Закрываем fd[1] чтобы потомок его не копировал 
+										// в данный момент к записать файл fd[1] можно только STD_OUT (1)
 		}
 	}
-	waitpid(ret, NULL, 0);
-	ft_strdel(&s);
+	msh_pipes(cmd, fd_pipe);
+	msh_func(cmd, fd_s, env);
 }
 
-void	msh_custom_redirect(t_command *cmd)
+int	msh_is_build(char *cmd)
 {
-	// t_command *tmp;
-	// int			i;
-	(void)cmd;
-	// i = 0;
-	// if (cmd->input_file)
-	// 	tmp = cmd;
-	// while (cmd->input_file)
-	// {
-	// 	if (msh_open(cmd->input_file, cmd->specials) == -1)
-	// 		perror(cmd->input_file);
-		
-	// 	i++;
-	// }
+	int i;
+	int len;
+
+	i = 0;
+	
+	while (i < 7)
+	{
+		len = ft_strlen(g_info.f[i]);
+		if (!ft_strncmp(cmd, g_info.f[i], len))
+			return (i + 1);
+		i++;
+	}
+	return (0);
 }
 
-void	msh_custom_r_redirect(t_command *cmd, char *str)
+char	**msh_replace_and_copy(char **args, char *new, int index)
 {
-	(void)cmd;
-	(void)str;
-	// if (!ft_strcmp(g_info.current_command->args[0], "<"))
-	// {
-		
-	// }
+	int	i;
+	int len;
+	char **arr;
+	
+	arr = NULL;
+	i = 0;
+	len = ft_str_count(args);
+	arr = malloc(sizeof(char *) * (len + 1));
+	while (i < len)
+	{
+		if (i == index)
+		{
+			arr[i] = new;
+			ft_strdel(&args[index]);
+		}
+		else
+		{
+			arr[i] = args[i];
+			args[i] = NULL;
+		}
+		i++;
+	}
+	arr[i] = 0;
+	free(args);
+	return (arr);
 }
 
 void	msh_cmd(char *line)
 {
 	t_command	*cmd;
+	int			in_out_s[2];
+	int			fd_pipe[2];
+	char		*tmp[2];
 
+	ft_bzero(tmp, sizeof(char *) * 2);
 	msh_parse(line);
 	cmd = g_info.cur_cmd;
+	in_out_s[0] = dup(0);
+	in_out_s[1] = dup(1);
 	while (cmd)
 	{
-		for( int i = 0; cmd->args[i]; i++)
+		tmp[0] = cmd->args[0];
+		if (!ft_strncmp(cmd->args[0], g_info.f[7], ft_strlen(g_info.f[7])))
 		{
-			printf("%s | ", cmd->args[i]);
+			ft_strdel(&cmd->args[0]);
+			cmd->args[0] = ft_strjoin(g_info.pwd, g_info.f[7]);
 		}
-		printf("end of command\n");
-		 
-		// if (ft_strnstr(cmd->args[0], "exit", 4))
-		// 	msh_custom_exit(cmd);
-		// else if (ft_strnstr(cmd->args[0], "pwd", 3))
-		// 	msh_custom_pwd(cmd);
-		// else if (ft_strnstr(cmd->args[0], "echo", 4))
-		// 	msh_custom_echo(cmd);
-		// else if (ft_strnstr(cmd->args[0], "env", 3))
-		// 	msh_custom_env(cmd);
-		// else if (ft_strnstr(cmd->args[0], "cd", 2))
-		// 	msh_custom_cd(cmd);
-		// else if (ft_strnstr(cmd->args[0], "export", 6))
-		// 	msh_custom_export(cmd);
-		// else if (ft_strnstr(cmd->args[0], "unset", 5))
-		// 	msh_custom_unset(cmd);
-		// else if (ft_strnstr(cmd->args[0], ">", 2))
-		// 	msh_custom_redirect(cmd);
-		// else if (ft_strnstr(cmd->args[0], "<", 2))
-		// 	msh_custom_r_redirect(cmd);
-		// else
-		// {
-		// 	if (cmd->piped)
-		// 		msh_execute(cmd, g_info.env);
-		// 	else
-		// 		msh_simple_execute(cmd, g_info.env);
-		// }
+		else
+		{
+			cmd->build = msh_is_build(cmd->args[0]);
+			if (!cmd->build)
+			{
+				tmp[1] = msh_get_path(tmp[0], g_info.env);
+				if(!tmp[1])
+					break ;
+				cmd->args = msh_replace_and_copy(cmd->args, tmp[1], 0);
+			}
+		}
+		msh_exchange_token_value(cmd);
+		msh_evaluate_env_call_if_exist(cmd, g_info.env);
+		msh_execution(cmd, g_info.env, fd_pipe, in_out_s);
 		cmd = cmd->next;
+		if ((cmd && !cmd->piped) || !cmd)
+			dup2(in_out_s[1], 1);
 	}
+	close(in_out_s[1]);
+	dup2(in_out_s[0], 0);
+	close(in_out_s[0]);
 }
-
-
-// void	msh_execute(t_command *cmd, char **env)
-// {
-// 	int	fdin;
-// 	int	tmpin;
-// 	int	tmpout;
-// 	int	fdpipe[2];
-// 	int	ret;
-// 	int	fdout;
-// 	char *s;
-	
-// 	tmpin = dup(0);
-// 	tmpout = dup(1);
-// 	if (cmd->input_file)
-// 		fdin = open(cmd->input_file, O_RDONLY);
-// 	else
-// 		fdin = dup(tmpin);
-
-// 	//for
-// 	dup2(fdin, STDIN_FILENO);
-// 	close(fdin);
-// 	if (cmd->next == NULL) // if  last command
-// 	{
-// 		if (cmd->out_file)
-// 			fdout = open(cmd->out_file, O_CREAT | O_TRUNC | O_RDWR);
-// 		else
-// 			fdout = dup(tmpout);
-// 	}
-// 	else
-// 	{
-// 		pipe(fdpipe);
-// 		fdout = fdpipe[1];
-// 		fdin = fdpipe[0];
-// 	}
-// 	dup2(fdout, STDOUT_FILENO);
-// 	close(fdout);
-
-// 	ret = fork();
-// 	if (ret == 0)
-// 	{
-// 		s = cmd->args[0];
-// 		cmd->args[0] = msh_get_path(cmd->args[0], env);
-// 		//ft_strdel(s);
-// 		// for( int i = 0; i < 1; i++)
-// 		// {
-// 		// 	printf("%s\n", cmd->args[i]);
-// 		// }
-// 		if (execve(cmd->args[0], cmd->args, env) == -1)//(cmd->args[0], cmd->args, env) == -1)
-// 		{
-// 			perror(cmd->args[0]);
-// 			exit(1);
-// 		}
-// 	}// for end
-// 	//restore in/out defaults
-// 	dup2(tmpin, 0);
-// 	dup2(tmpout, 1);
-// 	close(tmpin);
-// 	close(tmpout);
-// 	int	status;
-// 	if (!cmd->background) //wait for last command
-// 		waitpid(ret, &status, 0);
-// }

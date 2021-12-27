@@ -1,45 +1,68 @@
 #include "../includes/main.h"
+#include <string.h>
 
 // parse string until occurs special or stop signs( ; | & > >> < << <& <<& \n)
 // validation operators order
 // validation cmd names
 // validation cmd args
 
-int	msh_set_specials(char *str, int *length, int specials)
-{
-	return (g_info.func[specials](str, length));
-}
-
-int	msh_multiple_iterator(int num, int *i)
+int	msh_multiple_iterator(int num, int *i, int sign)
 {
 	int in;
 
 	in = 0;
 	while (in < num)
 	{
+		if (sign > -1)
+			(*i)++;
+		else
+			(*i)--;
 		in++;
-		(*i)++;
 	}
 	return (in);
 }
 
+int	msh_validation_closest_chars(char *str, int *i, int *specials)
+{
+	if (str[*i] && str[*i + 1] == ')')
+		return (*specials == ERROR);
+	if ((str[*i] == '>' || str[*i] == '<') && str[*i + 1] == '|')
+		return (*specials == ERROR);
+	if (str[*i] == ';' && str[*i + 1] == '|')
+		return (*specials == ERROR);
+	else
+		return (0);
+}
+
 int	msh_check_special_signs(char *str, int *i, int *specials)
 {
+	if (msh_validation_closest_chars(str, i, specials))
+		return (*specials = ERROR);
 	if ((ft_strnstr(str + *i, "\";\"", 3) || ft_strnstr(str + *i, "\';\'", 3))
-		&& msh_multiple_iterator(3, i))
+		&& msh_multiple_iterator(3, i, 1))
 		return (*specials = 0);
+	if (str[*i] == '\'' && str[*i + 1] == '\'')
+		return (!(str = ft_memset(str + *i++, '\0', sizeof(char) * 2)));
+	if (str[*i] == '\"' && str[*i + 1] == '\"')
+		return (!(str = ft_memset(str + *i++, '\0', sizeof(char) * 2)));
+	if (str[*i] == '\'' && str[*i + 1] != '\'')
+		return (*specials = QUOTES);
+	if (str[*i] == '\"' && str[*i + 1] != '\"')
+		return (*specials = D_QUOTES);
+	if (str[*i] == '$' && str[*i] != '(')
+		return (*specials = DOLLAR);
 	if (*i > 0 && str[*i] == ';')
 		return (*specials = SEMICOLON);
 	if (str[*i] == '|')
 		return (*specials = PIPE);
-	
-	if (str[*i] == '&')
-		return (*specials = AMPERSAND);
+	if (str[*i + 1] == '\0' && ++*i)
+		return (*specials = 1);
 	return (*specials = 0);
 }
 
 void	msh_parse(char *str)
 {
+	t_command	*cmd;
 	int			mem;
 	int			length;
 	char		*tmp;
@@ -48,34 +71,35 @@ void	msh_parse(char *str)
 	mem = 0;
 	length = 0;
 	specials = 0;
+	cmd = msh_create_command((void *)0);
+	cmd->prev = cmd;
 	while (str[length])
 	{
-		mem = length;
-		while (str[length])
+		if (specials > 0)
+			mem = length;
+		msh_check_special_signs(str, &length, &specials);
+		if (specials > 0)
 		{
-			msh_check_special_signs(str, &length, &specials);
-			if (specials > 0)
-				break ;
-			length++;
+			if (specials > 12)
+				str = msh_specify_token(cmd, &length, str, specials);
+			if (specials < 3 || str[length] == '\0')
+			{
+				tmp = ft_strndup(str + mem, length - mem);
+				if (cmd->args)
+					msh_add_command(&cmd, ft_split_se(tmp, ' '));
+				else
+					cmd->args = ft_split_se(tmp, ' ');
+				cmd->num_args = ft_str_count(cmd->args);
+				if (specials == PIPE)
+					cmd->piped++;
+				g_info.num_of_commands++;
+				ft_strdel(&tmp);
+			}
+			if (specials >= 12)
+				specials = 0;
 		}
-		tmp = ft_strndup(str + mem, length - mem);
-		msh_add_command(&g_info.cur_cmd, msh_split(tmp, ' '));
-		msh_evaluate_env_call_if_exist(g_info.cur_cmd, g_info.env);
-		g_info.cur_cmd->num_args = ft_str_count(g_info.cur_cmd->args);
-		g_info.num_of_commands++;
-		ft_strdel(&tmp);
-		if (msh_set_specials(str, &length, specials) == -1)
-			return ;
+		length++;
 	}
+	g_info.cur_cmd = cmd;
+	msh_common_parse();
 }
-	// int i = 0;
-	// t_command *t = g_info.current_command;
-	// while (t)
-	// {
-	// 	while (t->args[i])
-	// 	{
-	// 		printf("%s\n",t->args[i]);
-	// 		i++;
-	// 	}
-	// 	t = t->next;
-	// }

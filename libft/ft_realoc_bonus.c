@@ -21,7 +21,7 @@ void	*ft_realloc(void *memory, size_t size)
 	{
 		ft_bzero(result, size);
 		result = ft_memmove(result, memory, size);
-		ft_delptr(memory);
+		ft_delptr(&memory);
 		return (result);
 	}
 	return (NULL);

@@ -10,7 +10,7 @@ SRCS			:= $(shell find $(SRCDIR) -name '*.c')
 
 SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
 OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))} 
-HEADERS			:= ${shell find ./includes -name '*.h'}
+HEADERS			:= ${shell find ./includes -name '%.h'}
 
 ifeq ($(SYSTEM), Darwin)
 	MAKE 		= make 
@@ -71,4 +71,3 @@ buildrepo:
 	$(call make-repo)
 	mkdir -p lib 
 	 cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 
-

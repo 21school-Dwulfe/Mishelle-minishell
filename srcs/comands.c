@@ -1,139 +1,112 @@
 #include "../includes/main.h"
 
-void	msh_custom_pwd(t_command *cmd)
+int	msh_custom_pwd(t_command *cmd)
 {
-	char str[512];
+	char *str;
 
+	str = NULL;
 	(void)cmd;
-	getcwd(str, sizeof(str));
-	printf("%s\n", str);
-}
-void	msh_custom_exit(t_command *cmd)
-{
-	(void)cmd;
-	exit(1);
+	str = getcwd(str, sizeof(str) * 512);
+	ft_putendl_fd(str, 1);
+	ft_strdel(&str);
+	g_info.exit_code = 0;
+	return (1);
 }
 
-char	*msh_add_space(int len, char *tmp, t_command *cmd)
-{
-	if (len < cmd->num_args)
-	{
-		tmp = ft_realloc(tmp, ft_strlen(tmp) + 2);
-		tmp[ft_strlen(tmp)] = ' ';
-	}
-	return(tmp);
-}
-
-void	msh_custom_echo(t_command *cmd)
+int	msh_custom_echo(t_command *cmd)
 {
 	short	is_nl;
 	int		len;
-	char	*c;
-	char	*tmp[2];
+	int		l[4];
+	char	*tmp[4];
 
 	is_nl = 1;
 	len = 1;
-	c = NULL;
-	if (cmd->num_args > 1)
-		c = ft_strchr(cmd->args[1], '-');
-	if (c && ft_strlen(c) == 2 && *(c + 1) == 'n' && (--is_nl == 0))
-		len = 2;
-	tmp[0] = cmd->args[len];
-	while (cmd->args[++len])
+	ft_bzero(l, sizeof(int) * 4);
+	ft_bzero(tmp, sizeof(char *) * 4);
+	tmp[0] = ft_strchr(cmd->args[1], '-');
+	if (tmp[0] && *(tmp[0] + 1) == 'n' && (--is_nl == 0))
+			len = 2;
+	if (cmd->num_args > 1 && !(len == 2 && cmd->num_args == 2))
 	{
-		tmp[1] = msh_add_space(len, tmp[0], cmd);
-		tmp[0] = ft_strjoin(tmp[1], cmd->args[len++]);
+		l[2] = len;
+		while (l[2] < cmd->num_args)
+			l[0] += ft_strlen(cmd->args[l[2]++]);
+		tmp[1] = ft_calloc(sizeof(char), (l[0] + cmd->num_args - 2));
+		while (len < cmd->num_args)
+		{
+			l[1] = (int)ft_strlcat(tmp[1], cmd->args[len], (l[0] + cmd->num_args - 1));
+			if (len != cmd->num_args - 1)
+				tmp[1][l[1]] = ' ';
+			len++;
+		}
+		ft_putstr_fd(tmp[1], 1);
 		ft_strdel(&tmp[1]);
 	}
 	if (is_nl)
-		ft_putendl_fd(tmp[0], 1);
-	else
-		ft_putstr_fd(tmp[0], 1);
-	ft_strdel(&tmp[0]);
+		ft_putstr_fd("\n", 1);
+	g_info.exit_code = 0;
+	return (1);
 }
 
-void	msh_custom_env(t_command *cmd)
-{
-	(void)cmd;
-}
-
-void	msh_custom_cd(t_command *cmd)
-{
-	// int i;
-
-	// i = 0;
-	// while ()
-	// {
-
-	// }
-	chdir(cmd->args[0]);
-}
-
-void msh_modify_env_var(char **env, char *new_value)
-{
-	ft_strdel(env);
-	*env = new_value; 
-}
-
-/**
- * @brief 
- * 
- * @param arguments an array of arguments to look for in a variable environment
- * @param env variable environment
- * @return int returns 1 if true 0 if false
- */
-int	msh_check_if_exist(char **env, char **arguments)
+int	msh_custom_env(t_command *cmd)
 {
 	int i;
-	int j;
-	int n;
 
 	i = 0;
-	while (arguments[i])
+	(void)cmd;
+	while (g_info.env[i])
 	{
-		j = 0;
-		while (env[j])
-		{
-			n = 0;
-			while(env[j][n] != '=')
-				n++;
-			if (ft_strncmp(env[j], arguments[i], n - 1) == 0)
-				return (j);
-			j++;
-		}
+		if (ft_index_of(g_info.env[i], '=') != -1)
+			ft_putendl_fd(g_info.env[i], 1);
 		i++;
 	}
-	return (0);
+	g_info.exit_code = 0;
+	return (1);
 }
 
-// -n -p -f
-void	msh_custom_export(t_command *cmd)
+int	msh_custom_unset(t_command *cmd)
 {
-	int	i;
-	int arg_in_env;
+	int		i;
+	int		res;
+	char	**args;
+	int		length;
 
-	i = 1;
-	if (cmd->num_args > 1)
-		while (i < cmd->num_args)
-		{
-			arg_in_env = msh_check_if_exist(g_info.env, cmd->args);
-			if (arg_in_env)
-				msh_modify_env_var(&g_info.env[arg_in_env], cmd->args[i]);
-			else
-				g_info.env = msh_create_env_var(cmd->args[i]);
-			i++;
-		}
-	else
-		while (g_info.env[i])
-		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(g_info.env[i], 1);
-			i++;
-		}
+	i = 0;
+	args = cmd->args;
+	length = ft_str_count(g_info.env);
+	while (args[i])
+	{
+		res = msh_env_exist(g_info.env, args[i]);
+		if (res > -1)
+			ft_strdel(&g_info.env[res]);
+		i++;
+	}
+	g_info.env = msh_concat_args(g_info.env, length);
+	return (1);
 }
 
-void	msh_custom_unset(t_command *cmd)
+int	msh_buildins(t_command *cmd, int reg)
 {
-	(void)cmd;
-}
+	int	is_buildin;
 
+	is_buildin = 0;
+	if (reg == 0 && ft_strnstr(cmd->args[0], "exit", 4))
+		msh_custom_exit(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "unset", 5))
+		is_buildin = msh_custom_unset(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "cd", 2))
+		is_buildin = msh_custom_cd(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "pwd", 3))
+		is_buildin = msh_custom_pwd(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "echo", 4))
+		is_buildin = msh_custom_echo(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "env", 3))
+		is_buildin = msh_custom_env(cmd);
+	else if (reg == 0 && ft_strnstr(cmd->args[0], "export", 6)
+		&& cmd->num_args > 1)
+		is_buildin = msh_custom_export(cmd);
+	else if (reg == 1 && ft_strnstr(cmd->args[0], "export", 6))
+		is_buildin = msh_custom_export(cmd);
+	return (is_buildin);
+}

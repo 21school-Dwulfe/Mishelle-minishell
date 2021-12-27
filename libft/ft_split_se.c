@@ -30,20 +30,20 @@ char **ft_split_se(char *str, int c)
 	j = 0;
 	result = (char **)malloc(sizeof(char *) * (count_strs(str, c) + 1));
 	while (str[i])
-	{	
+	{
 		while (str[i] && str[i] == c)
-				i++;
+			i++;
 		start = i;
-		if (str[i] != c && str[i] != '\0' )
-		{	
+		if (str[i] != c && str[i] != '\0')
+		{
 			while (str[i] && str[i] != c)
 				i++;
 			result[j] = ft_strndup(str + start, i - start);
 			j++;
 		}
 		if (result[j - 1] == NULL)
-				ft_arrstr_del(result, j);
+			ft_arrstr_del(result, j);
 	}
-	result[j] = "\0";
+	result[j] = (void *)0;
 	return (result);
 }
