@@ -172,7 +172,8 @@ void	msh_cmd(char *line)
 	char		*tmp[2];
 
 	ft_bzero(tmp, sizeof(char *) * 2);
-	msh_parse(line);
+	if (msh_parse(line) == -1)
+		return ;
 	cmd = g_info.cur_cmd;
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);

@@ -4,7 +4,7 @@
 #include "structures.h"
 #include "features.h"
 
-void	    msh_parse(char *str);
+int 	    msh_parse(char *str);
 int 	    msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void	    msh_add_to_struct(char **result);
 t_arg	   *msh_add_token(t_command *cmd, char *value, char **value_arr, int order);
@@ -19,7 +19,7 @@ int 	    msh_custom_unset(t_command *cmd);
 int 	    msh_evaluate_env_call_if_exist(char **args, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
-void 	    msh_common_parse();
+int 	    msh_common_parse();
 char		*msh_get_env_by_key(char **env, char *argument);
 void		msh_sigint_handler_ch(int sig);
 void		msh_sigint_handler(int sig_num);
@@ -68,6 +68,14 @@ int         msh_is_token(char *arg);
  * @param message error message
  */
 void	    msh_redirect_error(char *token_str, int token_len);
+
+/**
+ * @brief 
+ * 
+ * @param env 
+ * @param argument 
+ * @return char* 
+ */
 char        *msh_get_env_by_key(char **env, char *argument);
 int         msh_env_exist(char **env, char *argument);
 int         msh_modify_env_var(char **env, char *new_value);

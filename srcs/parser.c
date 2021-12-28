@@ -42,9 +42,17 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 		&& msh_multiple_iterator(3, i, 1))
 		return (*specials = 0);
 	if (str[*i] == '\'' && str[*i + 1] == '\'')
-		return (!(str = ft_memset(str + *i++, '\0', sizeof(char) * 2)));
+	{
+		ft_memset(str + *i, ' ', sizeof(char) * 2);
+		(*i)++;
+		return (!(str = ft_memset(str + *i, ' ', sizeof(char) * 2)));
+	}
 	if (str[*i] == '\"' && str[*i + 1] == '\"')
-		return (!(str = ft_memset(str + *i++, '\0', sizeof(char) * 2)));
+	{
+		ft_memset(str + *i, ' ', sizeof(char) * 2);
+		(*i)++;
+		return (0);
+	}
 	if (str[*i] == '\'' && str[*i + 1] != '\'')
 		return (*specials = QUOTES);
 	if (str[*i] == '\"' && str[*i + 1] != '\"')
@@ -60,7 +68,7 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 	return (*specials = 0);
 }
 
-void	msh_parse(char *str)
+int	msh_parse(char *str)
 {
 	t_command	*cmd;
 	int			mem;
@@ -100,6 +108,8 @@ void	msh_parse(char *str)
 		}
 		length++;
 	}
+	if (g_info.num_token)
+		ft_strdel(&str);
 	g_info.cur_cmd = cmd;
-	msh_common_parse();
+	return(msh_common_parse());
 }

@@ -5,6 +5,7 @@
         "tuple": "c",
         "sstream": "c",
         "chrono": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "complex": "c"
     }
 }

@@ -9,21 +9,22 @@
  */
 char	*msh_concat_str(char *arg, int size , char *insertion)
 {
-	int		i[5];
+	int		i[6];
 	char	*tmp;
 
 	tmp = NULL;
-	ft_bzero(i, sizeof(int) * 5);
+	ft_bzero(i, sizeof(int) * 6);
 	i[0] = -1;
 	while (arg[++i[0]])
 		i[3]++;
 	i[2] = size;
-	while (i[2] >= 0 && arg[--i[2]])
+	while (--i[2] > i[0] && arg[i[2]])
 		i[3]++;
-	size += ft_strlen(insertion);
-	if (i[3])
+	i[5] = ft_strlen(insertion);
+	size += i[5];
+	if (i[3] || i[5])
 	{
-		tmp = ft_calloc(sizeof(char), (i[3] + ft_strlen(insertion) + 1));
+		tmp = ft_calloc(sizeof(char), (i[3] + i[5] + 1));
 		while (i[1] < i[0])
 		{
 			tmp[i[1]] = arg[i[1]];
@@ -211,6 +212,13 @@ char	*msh_evaluate_env_arg(char *arg, char **env)
 	return (arg);
 }
 
+/**
+ * @brief 
+ * 
+ * @param args 
+ * @param env 
+ * @return int 
+ */
 int	msh_evaluate_env_call_if_exist(char **args, char **env)
 {
 	int		i;

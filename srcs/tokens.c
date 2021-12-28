@@ -56,7 +56,7 @@ char	*msh_spec_tokens(int specials, int num)
 char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 {
 	int			l[2];
-	char		*tmp;
+	char		*tmp[2];
 	char		*value;
 	char		**value_arg;
 	t_arg		*arg;
@@ -73,9 +73,10 @@ char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 	}
 	l[0] = ft_strlen(str);
 	ft_memset(str + *length, '\0', sizeof(char) * l[1] + 2);
-	tmp = msh_spec_tokens(specials, arg->order);
-	str = msh_concat_str(str, l[0], tmp);
-	return (str);
+	tmp[0] = msh_spec_tokens(specials, arg->order);
+	tmp[1] = msh_concat_str(str, l[0], tmp[0]);
+	ft_strdel(&tmp[0]);
+	return (tmp[1]);
 }
 
 t_arg *msh_get_token_value(t_command *cmd, char *token)

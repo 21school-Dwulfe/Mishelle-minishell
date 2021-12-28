@@ -6,11 +6,10 @@ char	*msh_token_dollar(char *str, int *index, char **value_arg)
 	char *result;
 
 	i = *index;
-	while (str[i]
-	&& (str[i] != ' ' || str[i] != ' ' || str[i] != '>'
-		|| str[i] != '<' || str[i] != '|' || str[i] != '('))
+	i++;
+	while (str[i] && str[i] != ' ' && ft_isalnum(str[i]))
 		i++;
-	result = ft_strndup_se(str + *index, i, 0);
+	result = ft_strndup_se(str + *index, i - *index, 0);
 	value_arg = NULL;
 	(void)value_arg;
 	return (result);

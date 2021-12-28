@@ -29,7 +29,7 @@ void	msh_config(int argc, char **argv, char **env)
 	g_info.func[14] = msh_token_d_quotes;
 	g_info.func[15] = msh_curl_braces;
 	g_info.func[16] = msh_dollar_braces;
-	g_info.func[17] = msh_dollar;
+	g_info.func[17] = msh_token_dollar;
 	g_info.f[0] = "export";
 	g_info.f[1] = "exit";
 	g_info.f[2] = "unset";
@@ -48,10 +48,12 @@ void	msh_struct_clear()
 	cmds = g_info.cur_cmd;
 	g_info.exit_code = 0;
 	g_info.num_token = 0;
+	g_info.num_of_commands = 0;
 	while (cmds)
 	{
+		int len = ft_str_count(cmds->args);
 		if (cmds->args)
-			ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
+			ft_arrstr_del(cmds->args, len);
 		//ft_delptr((void **)cmds->args);
 		tmp_red = cmds->redirects;
 		while (tmp_red)
