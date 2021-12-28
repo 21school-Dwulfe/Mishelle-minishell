@@ -179,8 +179,6 @@ void	msh_cmd(char *line)
 	while (cmd)
 	{
 		tmp[0] = cmd->args[0];
-		msh_exchange_token_value(cmd);
-		msh_evaluate_env_call_if_exist(cmd->args, g_info.env);
 		if (!ft_strncmp(cmd->args[0], g_info.f[7], ft_strlen(g_info.f[7])))
 		{
 			ft_strdel(&cmd->args[0]);

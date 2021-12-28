@@ -65,10 +65,11 @@ char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 	value = g_info.func[specials](str, length, value_arg);
 	arg = msh_add_token(cmd, value, value_arg, specials);
 	arg->order = g_info.num_token++;
+	l[1] = ft_strlen(value);
 	if (ft_strchr(arg->value, '$'))
 	{
 		if (specials != QUOTES)
-			l[1] = msh_evaluate_env_call_if_exist(&arg->value, g_info.env);
+			msh_evaluate_env_call_if_exist(&arg->value, g_info.env);
 	}
 	l[0] = ft_strlen(str);
 	ft_memset(str + *length, '\0', sizeof(char) * l[1] + 2);

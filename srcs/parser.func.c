@@ -59,7 +59,7 @@ char	**msh_concat_args(char **args, int size)
 		}
 		while (++i[2] < size)
 		{
-			tmp[i[1]] = args[i[2]];//;t; //tmp[k];
+			tmp[i[1]] = args[i[2]]; //;t; //tmp[k];
 			i[1]++;
 		}
 		tmp[i[3]] = NULL;
@@ -136,9 +136,11 @@ int	msh_first_redirect(t_command *cmd, char *src, int i, char *c)
 		res = 1;
 	if (rr[1] == rr[0])
 	{
-		if (rr[2] == (int)ft_strlen(src) - 1)
+		if ((int)ft_strlen(src) == 1)
 		{
 			dest = cmd->args[i + 1];
+			cmd->args[i + 1] = NULL;
+			cmd->num_args -= 1;
 		}
 		else
 			dest = ft_strdup(src + rr[2]);
@@ -194,16 +196,14 @@ void	msh_replace_prefix_before_redirect(t_command *cmd, int i, char **tp, char *
  */
 void	msh_clumped_redirects(t_command *cmd, int i, char *c)
 {
-	int			j[4];
-	char		**tmp;
-	char		*tp[4];
+	int			j;
+	char		*tp[2];
 
-	tmp = NULL;
-	ft_bzero(j, sizeof(int) * 4);
-	ft_bzero(tp, sizeof(char *) * 4);
+	j = 0;
+	ft_bzero(tp, sizeof(char *) * 2);
 	msh_replace_prefix_before_redirect(cmd, i, tp, c);
-	j[0] = msh_first_redirect(cmd, tp[1], i, c);
-	if (j[0] == 1)
+	j = msh_first_redirect(cmd, tp[1], i, c);
+	if (j == 1)
 		msh_clumped_redirects(cmd, i, c);
 	ft_strdel(&tp[1]);
 }
@@ -220,6 +220,7 @@ int	msh_help_parse_redirect(t_command *cmd, char *arg, int *arg_i, char *c)
 		is_cmd = 1;
 	while (i < cmd->num_args)
 	{
+		printf("%s'n", cmd->args[i]);
 		err = msh_check_syntax(cmd->args[i], i, c, cmd);
 		if (err == 1)
 			msh_clumped_redirects(cmd, i, c);
@@ -230,8 +231,6 @@ int	msh_help_parse_redirect(t_command *cmd, char *arg, int *arg_i, char *c)
 			if (is_cmd && i + 2 < cmd->num_args && ft_strcmp(cmd->args[i + 2] , c) && is_cmd--)
 				ft_swap_strs(cmd->args[0], cmd->args[i + 2]);
 			ft_strdel(&cmd->args[i]);
-			if (i + 2 < cmd->num_args && msh_is_token(cmd->args[i + 1]))
-				msh_exchange_token_value(cmd, i);
 			msh_add_redirect(&cmd->redirects, cmd->args[i + 1], msh_get_specials(c));
 			cmd->args[i + 1] = NULL;
 			cmd->num_args -= 2;
@@ -240,36 +239,52 @@ int	msh_help_parse_redirect(t_command *cmd, char *arg, int *arg_i, char *c)
 		i++;
 	}
 	cmd->args = msh_concat_args(cmd->args, cmd->num_args);
+	cmd->num_args = ft_str_count(cmd->args);
 	return (*arg_i = 0);
 }
 
-int	msh_common_parse()
+
+int	msh_redirects(t_command *cmd, int i, char *c, int *in)
 {
-	t_command	*cmd;
+	ft_bzero(c, sizeof(char) * 4);
+	in[0] = ft_index_of(cmd->args[i], '<');
+	in[1] = ft_index_of(cmd->args[i], '>');
+	if ((in[0] != -1 && in[1] == -1)
+		|| (in[0] != -1 && in[1] != -1 && in[0] < in[1]))
+		c[0] = '<';
+	else if ((in[1] != -1 && in[0] == -1)
+		|| (in[1] != -1 && in[0] != -1 && in[1] < in[0]))
+		c[0] = '>';
+	if (c[0] && msh_help_parse_redirect(cmd, cmd->args[i], &i, c) == -1)
+		return (-1);
+	return (0);
+}
+
+void	msh_common_parse()
+{
 	int			i;
 	char		c[4];
 	int			in[4];
+	t_command	*cmd;
 
-	i = 0;
 	cmd = g_info.cur_cmd;
 	while (cmd)
 	{
+		i = 0;
 		while (cmd->args[i])
 		{
-			ft_bzero(c, sizeof(char) * 4);
-			in[0] = ft_index_of(cmd->args[i], '<');
-			in[1] = ft_index_of(cmd->args[i], '>');
-			if ((in[0] != -1 && in[1] == -1)
-				|| (in[0] != -1 && in[1] != -1 && in[0] < in[1]))
-				c[0] = '<';
-			else if ((in[1] != -1 && in[0] == -1)
-				|| (in[1] != -1 && in[0] != -1 && in[1] < in[0]))
-				c[0] = '>';
-			if (c[0] && msh_help_parse_redirect(cmd, cmd->args[i], &i, c) == -1)
-				return (-1);
+			if (msh_is_token(cmd->args[i]))
+				msh_exchange_token_value(cmd, i);
 			i++;
 		}
 		cmd = cmd->next;
 	}
-	return(0);
+	cmd = g_info.cur_cmd;
+	while (cmd)
+	{
+		i = 0;
+		while (cmd->args[i])
+			msh_redirects(cmd, i++, c, in);
+		cmd = cmd->next;
+	}
 }

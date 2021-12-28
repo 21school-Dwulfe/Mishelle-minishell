@@ -19,7 +19,7 @@ int 	    msh_custom_unset(t_command *cmd);
 int 	    msh_evaluate_env_call_if_exist(char **args, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
-int 	    msh_common_parse();
+void 	    msh_common_parse();
 char		*msh_get_env_by_key(char **env, char *argument);
 void		msh_sigint_handler_ch(int sig);
 void		msh_sigint_handler(int sig_num);
