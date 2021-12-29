@@ -10,13 +10,13 @@ int msh_modify_env_var(char **env, char *new_value)
 
 	len = 0;
 
-	index_cmd = ft_index_of(new_value, '+');
+	index_cmd = ft_index_of(new_value, '+', 0);
 	if (index_cmd < 0)
 		result = new_value;
 	else
 	{
 		index_cmd++;
-		index_env = ft_index_of(*env, '=');
+		index_env = ft_index_of(*env, '=', 0);
 		tmp[0] = ft_strdup(new_value + index_cmd + 1);
 		if (index_env != - 1)
 			tmp[1] = ft_strdup(*env + index_env + 1);
@@ -52,7 +52,7 @@ int	msh_env_exist(char **env, char *argument)
 	char	*tmp[2];
 
 	j = 0;
-	index = ft_index_of(argument, '+');
+	index = ft_index_of(argument, '+', 0);
 	while (env[j])
 	{
 		ft_bzero(n, sizeof(int) * 4);
@@ -136,7 +136,7 @@ int	msh_custom_export(t_command *cmd)
 		while (g_info.env[i])
 		{
 			ft_putstr_fd("declare -x ", 1);
-			index = ft_index_of(g_info.env[i], '=');
+			index = ft_index_of(g_info.env[i], '=', 0);
 			if (index > -1)
 			{
 				write(1, g_info.env[i], index + 1);

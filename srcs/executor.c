@@ -28,6 +28,7 @@ int	msh_custom_redirect(int *fd_arr, t_command *cmd)
 		fd_arr[fd_index] = msh_open(tmp->file, tmp->specials);
 		if (fd_arr[fd_index] == -1)
 		{
+			printf("%s\n", tmp->file);
 			perror(tmp->file);
 			return (1);
 		}
@@ -70,6 +71,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 {
 	pid_t		pid;
 
+	
 	if (!msh_buildins(cmd, 0))
 	{
 		signal(SIGINT, SIG_IGN);
@@ -97,6 +99,11 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 {
 	int			fd[2];
 	
+	for (int j = 0; cmd->args[j]; j++)
+	{
+		printf("|%s|\n", cmd->args[j]);
+	}
+
 	if (cmd->redirects)
 	{
 		if (msh_custom_redirect(fd, cmd))
@@ -159,7 +166,7 @@ char	**msh_replace_and_copy(char **args, char *new, int index)
 		}
 		i++;
 	}
-	arr[i] = 0;
+	arr[i] = NULL;
 	free(args);
 	return (arr);
 }

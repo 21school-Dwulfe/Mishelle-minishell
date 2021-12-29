@@ -83,7 +83,7 @@ void	msh_is_close_odd_quote(char *buff, char *line, char **buf_sd, char *c)
 		*c = g_info.odd_quote;
 	else
 	{
-		i = ft_index_of(line, g_info.odd_quote);
+		i = ft_index_of(line, g_info.odd_quote, 0);
 		*c = msh_is_odd_quote(line + i + 1);
 	}
 }

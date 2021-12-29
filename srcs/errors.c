@@ -67,11 +67,11 @@ int	msh_export_invalid(char *arg)
 	length = ft_strlen(arg);
 	if (!arg || (length == 1 && !ft_isalpha(arg[0])) || ft_ch_count(arg, '+') > 1 )
 		return ((++res));
-	i[1] = ft_index_of(arg, '+');
+	i[1] = ft_index_of(arg, '+', 0);
 	if (i[1] > 0)
 		i[2] = i[1];
 	else if (i[1] == -1)
-		i[2] = ft_index_of(arg, '=');
+		i[2] = ft_index_of(arg, '=', 0);
 	else
 		return ((++res));
 	if (length > 2 && arg[i[1]] == '+' && arg[i[1] + 1] != '=')

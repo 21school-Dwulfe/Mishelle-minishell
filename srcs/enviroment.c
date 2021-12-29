@@ -277,8 +277,8 @@ char	**msh_create_env_var(char *new_var)
 	char	*new;
 
 	ft_bzero(length, sizeof(int) * 3);
-	i[0] = ft_index_of(new_var, '+');
-	i[1] = ft_index_of(new_var, '=');
+	i[0] = ft_index_of(new_var, '+', 0);
+	i[1] = ft_index_of(new_var, '=', 0);
 	if (i[0] > -1)
 	{
 		tmp[0] = ft_strdup(new_var + i[1] + 1);
