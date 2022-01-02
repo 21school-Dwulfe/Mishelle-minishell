@@ -99,11 +99,6 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 {
 	int			fd[2];
 	
-	for (int j = 0; cmd->args[j]; j++)
-	{
-		printf("|%s|\n", cmd->args[j]);
-	}
-
 	if (cmd->redirects)
 	{
 		if (msh_custom_redirect(fd, cmd))
@@ -167,7 +162,6 @@ char	**msh_replace_and_copy(char **args, char *new, int index)
 		i++;
 	}
 	arr[i] = NULL;
-	free(args);
 	return (arr);
 }
 
@@ -177,16 +171,25 @@ void	msh_cmd(char *line)
 	int			in_out_s[2];
 	int			fd_pipe[2];
 	char		*tmp[2];
+	int 		i;
 
 	ft_bzero(tmp, sizeof(char *) * 2);
 	if (msh_parse(line) == -1)
+		return ;
+	if (msh_redirects_parse() == -1)
 		return ;
 	cmd = g_info.cur_cmd;
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);
 	while (cmd)
 	{
-		tmp[0] = cmd->args[0];
+		i = 0;
+		while (cmd->args[i])
+		{
+			if (msh_is_token(cmd->args[i]))
+				msh_exchange_token_value(cmd, i);
+			i++;
+		}
 		if (!ft_strncmp(cmd->args[0], g_info.f[7], ft_strlen(g_info.f[7])))
 		{
 			ft_strdel(&cmd->args[0]);
@@ -197,10 +200,11 @@ void	msh_cmd(char *line)
 			cmd->build = msh_is_build(cmd->args[0]);
 			if (!cmd->build)
 			{
-				tmp[1] = msh_get_path(tmp[0], g_info.env);
+				tmp[1] = msh_get_path(cmd->args[0], g_info.env);
 				if(!tmp[1])
 					break ;
-				cmd->args = msh_replace_and_copy(cmd->args, tmp[1], 0);
+				ft_swap_strs(&cmd->args[0], &tmp[1]);
+				ft_strdel(&tmp[1]);
 			}
 		}
 		msh_execution(cmd, g_info.env, fd_pipe, in_out_s);

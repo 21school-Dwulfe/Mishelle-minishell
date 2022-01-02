@@ -56,6 +56,7 @@ re : fclean all
 
 clean : 
 		rm -rf $(OBJDIR)
+		cd ./libft && $(MAKE) clean
 		rm -rf $(shell find . -name '*.o')
 		cd readline-8.1 && $(MAKE) distclean
 

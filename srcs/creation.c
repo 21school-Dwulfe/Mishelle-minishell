@@ -40,6 +40,8 @@ t_arg *msh_create_token(char *value, char **value_arr, int order)
 	t_arg 	*args_token;
 
 	args_token = malloc(sizeof(t_arg));
+	args_token->next = NULL;
+	args_token->prev = NULL;
 	args_token->value = value;
 	args_token->value_arr = value_arr;
 	if (order < 0)

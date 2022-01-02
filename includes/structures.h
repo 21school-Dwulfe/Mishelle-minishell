@@ -5,7 +5,7 @@
 
 typedef enum s_specials
 {
-	ERROR = 18,		// Error in syntax (P.S Oh, damn, you are crazy person)
+	NONE = -1,
 	SEMICOLON = 1, 		/* ; */
 	PIPE,				/* | */
 	AMPERSAND,			// &
@@ -23,6 +23,7 @@ typedef enum s_specials
 	CURL_BRACES,		// ()
 	DOLLAR_BRACES,		// $()
 	DOLLAR,				// $
+	ERROR = 18,		// Error in syntax (P.S Oh, damn, you are crazy person)
 }				t_specials;
 
 typedef struct s_redirect
@@ -56,7 +57,8 @@ typedef struct s_command
 	int					build;			// buildin function flag
 	int					piped;			// вмето булевого значения флаг указывающи на наличие pipe
 	int					background;
-										// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
+	t_specials			specials;		// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
+
 	struct s_command	*next;			// указатель на сдедующуу команду
 	struct s_command	*prev;			// указатель на предыдущюю команду (возможно не нужен)
 }					t_command;

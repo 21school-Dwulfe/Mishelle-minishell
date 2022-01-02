@@ -22,37 +22,55 @@ int	msh_multiple_iterator(int num, int *i, int sign)
 	return (in);
 }
 
-int	msh_validation_closest_chars(char *str, int *i, int *specials)
+int	msh_validation_pipe(char *str, int *i)
 {
-	if (str[*i] && str[*i + 1] == ')')
-		return (*specials == ERROR);
-	if ((str[*i] == '>' || str[*i] == '<') && str[*i + 1] == '|')
-		return (*specials == ERROR);
-	if (str[*i] == ';' && str[*i + 1] == '|')
-		return (*specials == ERROR);
-	else
-		return (0);
+	(void)str;
+	if (*i == 0)
+		return (msh_unexpected_token_error("|", 1));
+	return (0);
 }
 
-int	msh_check_special_signs(char *str, int *i, int *specials)
+// int	msh_validation_brackets(char *str, int *i)
+// {
+// 	static int ascii[255];
+// 	static char *ascii_i;
+
+// 	if (!ascii_i)
+
+// }
+
+int	msh_validation_closest_chars(char *str, int *i)
 {
-	if (msh_validation_closest_chars(str, i, specials))
-		return (*specials = ERROR);
-	if ((ft_strnstr(str + *i, "\";\"", 3) || ft_strnstr(str + *i, "\';\'", 3))
-		&& msh_multiple_iterator(3, i, 1))
-		return (*specials = 0);
+	
+	// if (str[*i] && (str[*i] == ')' || str[*i] == '('))
+	// 	return (msh_validation_brackets(str, i));
+	if (str[*i] == '|')
+		return (msh_validation_pipe(str, i));
+	if (str[*i] == '>' || str[*i] == '<')
+		return (msh_validation_redirs(str, i));
+	return (0);
+}
+
+void	msh_side_effects(char *str, int *i, int *specials)
+{
+	(void)specials;
 	if (str[*i] == '\'' && str[*i + 1] == '\'')
 	{
 		ft_memset(str + *i, ' ', sizeof(char) * 2);
 		(*i)++;
-		return (!(str = ft_memset(str + *i, ' ', sizeof(char) * 2)));
 	}
 	if (str[*i] == '\"' && str[*i + 1] == '\"')
 	{
 		ft_memset(str + *i, ' ', sizeof(char) * 2);
 		(*i)++;
-		return (0);
 	}
+}
+
+int	msh_check_special_signs(char *str, int *i, int *specials)
+{
+	if (msh_validation_closest_chars(str, i))
+		return (*specials = ERROR);
+	msh_side_effects(str, i, specials);
 	if (str[*i] == '\'' && str[*i + 1] != '\'')
 		return (*specials = QUOTES);
 	if (str[*i] == '\"' && str[*i + 1] != '\"')
@@ -64,7 +82,7 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 	if (str[*i] == '|')
 		return (*specials = PIPE);
 	if (str[*i + 1] == '\0' && ++*i)
-		return (*specials = 1);
+		return (*specials = -1);
 	return (*specials = 0);
 }
 
@@ -73,43 +91,42 @@ int	msh_parse(char *str)
 	t_command	*cmd;
 	int			mem;
 	int			length;
-	char		*tmp;
 	int			specials;
+	char		*tmp;
 
 	mem = 0;
 	length = 0;
 	specials = 0;
 	cmd = msh_create_command((void *)0);
 	cmd->prev = cmd;
+	g_info.cur_cmd = cmd;
 	while (str[length])
 	{
 		if (specials > 0)
 			mem = length;
-		msh_check_special_signs(str, &length, &specials);
-		if (specials > 0)
-		{
-			if (specials > 12)
+		if(msh_check_special_signs(str, &length, &specials) == ERROR)
+			return (-1);
+		if (specials > 12)
 				str = msh_specify_token(cmd, &length, str, specials);
-			if (specials < 3 || str[length] == '\0')
-			{
-				tmp = ft_strndup(str + mem, length - mem);
-				if (cmd->args)
-					msh_add_command(&cmd, ft_split_se(tmp, ' '));
-				else
-					cmd->args = ft_split_se(tmp, ' ');
-				cmd->num_args = ft_str_count(cmd->args);
-				if (specials == PIPE)
-					cmd->piped++;
-				g_info.num_of_commands++;
-				ft_strdel(&tmp);
-			}
-			if (specials >= 12)
-				specials = 0;
+		if (specials != 0 && specials < 3)
+		{
+			tmp = ft_strndup(str + mem, length - mem);
+			if (cmd->args)
+				msh_add_command(&cmd, ft_split(tmp, ' '));
+			else
+				cmd->args = ft_split(tmp, ' ');
+			cmd->num_args = ft_str_count(cmd->args);
+			cmd->specials = specials;
+			if (specials == PIPE)
+				cmd->piped++;
+			g_info.num_of_commands++;
+			ft_strdel(&tmp);
 		}
+		if (specials >= 12)
+			specials = 0;
 		length++;
 	}
 	if (g_info.num_token)
 		ft_strdel(&str);
-	g_info.cur_cmd = cmd;
-	return(msh_common_parse());
+	return(0);
 }

@@ -32,7 +32,7 @@ int	msh_error_bash(char *message, char *str, int code)
 	return (1);
 }
 
-void	msh_redirect_error(char *token_str, int token_len)
+int	msh_unexpected_token_error(char *token_str, int token_len)
 {
 	g_info.exit_code = 258;
 	write(2, "Mishelle: syntax error near unexpected token", 44);
@@ -40,6 +40,7 @@ void	msh_redirect_error(char *token_str, int token_len)
 	write(2, token_str, token_len);
 	write(2, "'\n", 3);
 	msh_struct_clear();
+	return (-1);
 }
 
 void	msh_export_error(char *arg)

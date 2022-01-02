@@ -103,5 +103,5 @@ void	msh_exchange_token_value(t_command *cmd, int index)
 
 	tmp = msh_get_token_value(cmd, cmd->args[index]);
 	ft_strdel(&cmd->args[index]);
-	cmd->args[index] = ft_strdup(tmp->value);
+	cmd->args[index] = tmp->value;
 }

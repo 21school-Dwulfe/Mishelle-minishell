@@ -19,7 +19,7 @@ int 	    msh_custom_unset(t_command *cmd);
 int 	    msh_evaluate_env_call_if_exist(char **args, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
-int 	    msh_common_parse();
+int 	    msh_redirects_parse();
 char		*msh_get_env_by_key(char **env, char *argument);
 void		msh_sigint_handler_ch(int sig);
 void		msh_sigint_handler(int sig_num);
@@ -32,6 +32,7 @@ char	    **msh_concat_args(char **cmd, int size);
 char	    *msh_concat_str(char *arg, int size, char *insertion);
 int	        msh_buildins(t_command *cmd, int reg);
 void	    msh_exchange_token_value(t_command *cmd, int index);
+
 /**
  * @brief Execute commands with pipe or redirect
  * 
@@ -67,7 +68,7 @@ int         msh_is_token(char *arg);
  * @param str string from readline
  * @param message error message
  */
-void	    msh_redirect_error(char *token_str, int token_len);
+int	        msh_unexpected_token_error(char *token_str, int token_len);
 
 /**
  * @brief 
@@ -88,7 +89,6 @@ t_arg       *msh_get_token_value(t_command *cmd, char *token);
 char        *msh_dollar(char *str, int *index, char **value_arg);
 char        *msh_dollar_braces(char *str, int *index, char **value_arg);
 char        *msh_curl_braces(char *str, int *index, char **value_arg);
-
-
+int         msh_validation_redirs(char *str, int *i);
 
 #endif

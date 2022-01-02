@@ -11,6 +11,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+int			ft_str_is_num(char *str);
 int			ft_abs(int num);
 void		*ft_memset(void *b, int c, size_t len);
 void		ft_bzero(void *s, size_t n);

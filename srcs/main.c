@@ -44,6 +44,7 @@ void	msh_struct_clear()
 {
 	t_command 	*cmds;
 	t_redirect	*tmp_red;
+	t_arg		*tmp_arg;
 
 	cmds = g_info.cur_cmd;
 	g_info.exit_code = 0;
@@ -51,14 +52,22 @@ void	msh_struct_clear()
 	g_info.num_of_commands = 0;
 	while (cmds)
 	{
-		int len = ft_str_count(cmds->args);
 		if (cmds->args)
-			ft_arrstr_del(cmds->args, len);
+		{
+			ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
+		}
 		//ft_delptr((void **)cmds->args);
+		tmp_arg = cmds->args_token;
+		while (tmp_arg)
+		{
+			cmds->args_token = cmds->args_token->next;
+			ft_delptr((void **)tmp_arg->value_arr);
+			free(tmp_arg);
+			tmp_arg = cmds->args_token;
+		}
 		tmp_red = cmds->redirects;
 		while (tmp_red)
 		{
-			rl_catch_signals = 1;
 			cmds->redirects = cmds->redirects->next;
 			ft_strdel(&tmp_red->file);
 			free(tmp_red);
