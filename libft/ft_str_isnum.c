@@ -5,6 +5,7 @@ int ft_str_is_num(char *str)
     int i;
     int len;
 
+    len = 0;
     i = 0;
     while (str[len])
         len++;

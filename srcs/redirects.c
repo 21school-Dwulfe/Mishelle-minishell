@@ -5,6 +5,7 @@ char	**msh_concat_args(char **args, int size)
 	int		i[4];
 	char	**tmp;
 
+	tmp = NULL;
 	ft_bzero(i, sizeof(int) * 4);
 	i[0] = -1;
 	while (args[++i[0]] && ft_strcmp(args[i[0]] ,""))
@@ -37,7 +38,7 @@ void	msh_set_specials(char *c, char *src, int *rr, int res)
 	ch[0] = '<';
 	ch[1] = '>';
 	ft_bzero(c, sizeof(char) * ft_strlen(c));
-	if (src[rr[res] + 1] == src[rr[res]] || rr[2] == 2)
+	if (src[rr[res] + 1] == src[rr[res]])
 		ft_memset(c, ch[res], 2);
 	else
 		c[0] = ch[res];
@@ -75,6 +76,7 @@ int	msh_first_redirect(t_command *cmd, int *i, char *c)
 	int		rr[4];
 	int		specials;
 	char	*dest;
+	char	*hren;
 
 	res = 0;
 	ft_bzero(rr, sizeof(int) * 4);
@@ -97,13 +99,20 @@ int	msh_first_redirect(t_command *cmd, int *i, char *c)
 		}
 		dest = ft_strdup(cmd->args[*i] + rr[2]);
 		msh_add_redirect(&cmd->redirects, dest, specials);
+		ft_strdel(&cmd->args[*i]);
 	}
 	else
 	{
 		dest = ft_strndup_se(cmd->args[*i] + rr[2], rr[res], 0);
 		msh_add_redirect(&cmd->redirects, dest, specials);
-		msh_set_specials(c, cmd->args[*i], rr, res);
-		cmd->args[*i] = ft_strdup(cmd->args[*i] + rr[2] + ft_strlen(dest));
+		msh_set_specials(c, cmd->args[*i] + rr[2], rr, res);
+		hren = ft_strdup(cmd->args[*i] + rr[2] + ft_strlen(dest));
+		cmd->args[*i] = hren;
+		if (ft_strlen(cmd->args[*i]) == ft_strlen(c))
+		{
+			ft_strdel(&cmd->args[*i]);
+			(*i)++;
+		}
 	}
 	return (!(rr[1] == rr[0]));
 }
