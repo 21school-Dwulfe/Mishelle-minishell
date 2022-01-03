@@ -28,26 +28,26 @@ char	*msh_spec_tokens(int specials, int num)
 
 	(void)num;
 	if (specials == 12)
-		str = " S_QOUTES";
+		str = "S_QOUTES";
 	else if (specials == 13)
-		str = " QUOTES";
+		str = "QUOTES";
 	else if (specials == 14)
-		str = " D_QUOTES";
+		str = "D_QUOTES";
 	else if (specials == 15)
-		str = " CURL_BRACES";
+		str = "CURL_BRACES";
 	else if (specials == 16)
-		str = " DOLLAR_BRACES";
+		str = "DOLLAR_BRACES";
 	else if (specials == 17)
-		str = " DOLLAR";
+		str = "DOLLAR";
 	else
 		str = (void *)0;
 	tmp = ft_itoa(num);
 	i[0] = ft_strlen(str);
 	i[1] = ft_strlen(tmp);
-	result = ft_calloc(i[0] + i[1] + 2, sizeof(char));
+	result = ft_calloc(i[0] + i[1] + 1, sizeof(char));
 	ft_strncat(result, str, i[0]);
 	ft_strncat(result, tmp, i[0] + i[1] + 1);
-	result[ft_strlen(result)] = ' ';
+	//result[ft_strlen(result)] = ' ';
 	result[ft_strlen(result) + 1] = '\0';
 	ft_strdel(&tmp);
 	return (result); 

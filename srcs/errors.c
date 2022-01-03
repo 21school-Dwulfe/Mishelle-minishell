@@ -66,7 +66,7 @@ int	msh_export_invalid(char *arg)
 	res = 0;
 	i[0] = -1;
 	length = ft_strlen(arg);
-	if (!arg || (length == 1 && !ft_isalpha(arg[0])) || ft_ch_count(arg, '+') > 1 )
+	if (!arg || (!ft_isalpha(arg[0]) && arg[0] != '_') || ft_ch_count(arg, '+') > 1)
 		return ((++res));
 	i[1] = ft_index_of(arg, '+', 0);
 	if (i[1] > 0)
@@ -77,11 +77,11 @@ int	msh_export_invalid(char *arg)
 		return ((++res));
 	if (length > 2 && arg[i[1]] == '+' && arg[i[1] + 1] != '=')
 		return ((++res));
-	else if (!res && ((arg[length - 1] != '=' && !ft_isalpha(arg[length - 1]) && !ft_isdigit(arg[length - 1]))
-		|| (arg[length - 1] != '=' && !ft_isalpha(arg[length - 1]))))
-		return ((++res));
-	while (length > 1 && !res && ++i[0] < i[2])
-		if (!ft_isalpha(arg[i[0]]) && !ft_isdigit(arg[i[0]])  && ++res)
+	// else if (!res && ((arg[length - 1] != '=' && !ft_isalpha(arg[length - 1]) && !ft_isdigit(arg[length - 1]))
+	// 	|| (arg[length - 1] != '=' && !ft_isalpha(arg[length - 1]))))
+	// 	return ((++res));
+	while (length > 1 && !res && arg[i[0]] != '=' && ++i[0] < i[2] )
+		if (!ft_isalpha(arg[i[0]]) && !ft_isdigit(arg[i[0]]) && arg[i[0]] != '_' && ++res)
 			return ((++res));
 	return (0);
 }

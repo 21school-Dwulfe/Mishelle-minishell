@@ -84,10 +84,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 			close(fd_s[1]);
 			if (!msh_buildins(cmd, 1))
 				if (execve(cmd->args[0], cmd->args, env) == -1)
-				{
-					perror(cmd->args[0]);
-					exit(1);
-				}
+					msh_perror(cmd->args[0]);
 			exit(g_info.exit_code);
 		}
 		msh_wait_pid(pid);
@@ -224,6 +221,7 @@ void	msh_shell_prepare(t_command *cmd)
 		msh_shlvl(g_info.env);
 		msh_shell_bin(g_info.env, g_info.pwd);
 	}
+	
 }
 
 int	msh_make_path_relative(t_command *cmd)
@@ -247,6 +245,15 @@ int	msh_make_path_relative(t_command *cmd)
 	return (res);
 }
 
+// int msh_execution_validation(t_command *char *arg)
+// {
+// 	int	cases[2];
+
+// 	ft_bzero(cases, sizeof(int) * 2);
+// 	cases[0] = ft_index_of(arg, '/');
+	
+// }
+
 void	msh_cmd(char *line)
 {
 	t_command	*cmd;
@@ -263,6 +270,7 @@ void	msh_cmd(char *line)
 	while (cmd)
 	{
 		msh_evaluate_all_tokens(cmd);
+		//	msh_execution_validation(cmd);
 		cmd->build = msh_is_build(cmd->args[0]);
 		if (cmd->build != -1)
 			msh_shell_prepare(cmd);

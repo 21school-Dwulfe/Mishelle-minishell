@@ -46,6 +46,7 @@ typedef struct s_arg
 	char			*value;
 	char			**value_arr;
 	t_specials		specials;
+	int				pre_concatenated;
 	struct s_arg	*next;
 	struct s_arg	*prev;
 }				t_arg;

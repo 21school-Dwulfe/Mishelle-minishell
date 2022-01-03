@@ -162,10 +162,7 @@ void	msh_cut_redirects(t_command *cmd, int i, char *c, int *in)
 	ft_memset(c, '<', 2);
 	msh_cut_recursion(cmd, i, c);
 	if (tp[0])
-	{
-		if (i < cmd->num_args && cmd->args[i] == NULL)
-			cmd->args[i] = tp[0];
-	}
+		cmd->args[i] = tp[0];
 }
 
 void	msh_replace_null_arg(t_command *cmd)

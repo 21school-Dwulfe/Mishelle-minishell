@@ -1,5 +1,15 @@
 #include "../includes/main.h"
 
+char *msh_provider(char *first, int *i, char *str, char *set)
+{
+	if (first != 0)
+		return (first);
+	else if (i[0] != (int)ft_strlen(str) && first == 0)
+		return (msh_is_odd_quote(first, str + i[0], set));
+	else
+		return (NULL);
+}
+
 char	*msh_is_odd_quote(char *first, char *str, char *set)
 {
 	int 		i[2];
@@ -12,8 +22,7 @@ char	*msh_is_odd_quote(char *first, char *str, char *set)
 		{
 			if ((unsigned char)str[i[0]] - (unsigned char)set[i[1]] == 0)
 			{
-				first = &str[i[0]];
-				i[0]++;
+				first = &str[i[0]++];
 				break;
 			}
 			i[1]++;
@@ -27,16 +36,8 @@ char	*msh_is_odd_quote(char *first, char *str, char *set)
 		}
 		i[0]++;
 	}
-	if (first != 0)
-		return (first);
-	else if (i[0] != (int)ft_strlen(str) && first == 0)
-		return (msh_is_odd_quote(first, str + i[0], set));
-	else
-		return (NULL);
+	return (msh_provider(first, i, str, set));
 }
-
-
-
 
 char	*msh_strncat(char *new, char *buff, char *dyn_buff)
 {
@@ -80,7 +81,7 @@ int	msh_check_unclosed_quotes(char *buf, char *line, char *buf_sd, char *c)
 		msh_is_close_odd_quote(buf, line, &buf_sd, &c);
 	if (c)
 	{
-		if (QOUTES_ADD_REGIME)
+		if (QUOTES_ADD_REGIME)
 		{
 			if (*c == '\'')
 				quote_type = "quote> ";

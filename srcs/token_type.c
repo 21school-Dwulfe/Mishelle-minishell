@@ -81,7 +81,7 @@ char	*msh_token_dollar(char *str, int *index, char **value_arg)
 
 	i = *index;
 	i++;
-	while (str[i] && str[i] != ' ' && ft_isalnum(str[i]))
+	while (str[i] && str[i] != ' ' && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	result = ft_strndup_se(str + *index, i - *index, 0);
 	value_arg = NULL;

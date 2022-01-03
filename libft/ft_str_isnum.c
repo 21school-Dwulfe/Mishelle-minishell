@@ -11,7 +11,7 @@ int ft_str_is_num(char *str)
         len++;
     while (str[i])
     {
-        if ((str[i] < 48 || str[i] > 57 ) || (str[i] != '-'))
+        if ((str[i] < 48 || str[i] > 57 ) || (str[0] != '-'))
             break ;
         i++;
     }

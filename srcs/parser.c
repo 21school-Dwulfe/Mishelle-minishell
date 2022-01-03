@@ -41,7 +41,6 @@ int	msh_validation_pipe(char *str, int *i)
 
 int	msh_validation_closest_chars(char *str, int *i)
 {
-	
 	// if (str[*i] && (str[*i] == ')' || str[*i] == '('))
 	// 	return (msh_validation_brackets(str, i));
 	if (str[*i] == '|')
@@ -86,45 +85,46 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 	return (*specials = 0);
 }
 
+static void	msh_save_command(t_command *cmd, char *str, int *i)
+{
+	char		*tmp;
+
+	tmp = ft_strndup(str + i[0], i[1] - i[0]);
+	if (cmd->args)
+		msh_add_command(&cmd, ft_split(tmp, ' '));
+	else
+		cmd->args = ft_split(tmp, ' ');
+	cmd->num_args = ft_str_count(cmd->args);
+	cmd->specials = i[2];
+	if (i[2] == PIPE)
+		cmd->piped++;
+	g_info.num_of_commands++;
+	ft_strdel(&tmp);
+}
+
 int	msh_parse(char *str)
 {
 	t_command	*cmd;
-	int			mem;
-	int			length;
-	int			specials;
-	char		*tmp;
+	int			i[3];
 
-	mem = 0;
-	length = 0;
-	specials = 0;
+	
+	ft_bzero(i, sizeof(int) * 3);
 	cmd = msh_create_command((void *)0);
 	cmd->prev = cmd;
 	g_info.cur_cmd = cmd;
-	while (str[length])
+	while (str[i[1]])
 	{
-		if (specials > 0)
-			mem = length;
-		if(msh_check_special_signs(str, &length, &specials) == ERROR)
+		if (i[2] > 0)
+			i[0] = i[1];
+		if(msh_check_special_signs(str, &i[1], &i[2]) == ERROR)
 			return (-1);
-		if (specials > 12)
-				str = msh_specify_token(cmd, &length, str, specials);
-		if (specials != 0 && specials < 3)
-		{
-			tmp = ft_strndup(str + mem, length - mem);
-			if (cmd->args)
-				msh_add_command(&cmd, ft_split(tmp, ' '));
-			else
-				cmd->args = ft_split(tmp, ' ');
-			cmd->num_args = ft_str_count(cmd->args);
-			cmd->specials = specials;
-			if (specials == PIPE)
-				cmd->piped++;
-			g_info.num_of_commands++;
-			ft_strdel(&tmp);
-		}
-		if (specials >= 12)
-			specials = 0;
-		length++;
+		if (i[2] > 12)
+			str = msh_specify_token(cmd, &i[1], str, i[2]);
+		if (i[2] != 0 && i[2] < 3)
+			msh_save_command(cmd, str, i);
+		if (i[2] >= 12)
+			i[2] = 0;
+		i[1]++;
 	}
 	if (g_info.num_token)
 		ft_strdel(&str);
