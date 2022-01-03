@@ -38,7 +38,7 @@ ${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS}
 			fi
 			cd ./libft && $(MAKE) && $(MAKE) bonus
 			
-			${CC} -DQUOTES_ADD_REGIME=1 ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} #-fsanitize=address
+			${CC} -DQUOTES_ADD_REGIME=0 ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} #-fsanitize=address
 
 .PHONY: all clean fclean re bonus buildrepo lib print 
 
@@ -47,7 +47,7 @@ print :
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 		echo $@...
-		${CC} -DQUOTES_ADD_REGIME="1" ${CFLAGS}  -g -c $< -o $@
+		${CC} -DQUOTES_ADD_REGIME="0" ${CFLAGS}  -g -c $< -o $@
 
 
 

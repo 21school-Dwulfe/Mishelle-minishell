@@ -71,7 +71,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 {
 	pid_t		pid;
 
-	
+	(void)env;
 	if (!msh_buildins(cmd, 0))
 	{
 		signal(SIGINT, SIG_IGN);
@@ -84,7 +84,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 			close(fd_s[1]);
 			if (!msh_buildins(cmd, 1))
 				if (execve(cmd->args[0], cmd->args, env) == -1)
-					msh_perror(cmd->args[0]);
+				 	msh_perror(cmd->args[0]);//ft_strrchr(cmd->args[0], '/') + 1);
 			exit(g_info.exit_code);
 		}
 		msh_wait_pid(pid);
@@ -120,22 +120,26 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 int	msh_is_build(char *cmd)
 {
 	int		i;
-	int		len;
-	// char	*ptr;
-	// char	*tmp;
+	int		len[2];
+	char	*ptr;
+	char	*tmp;
 
 	i = 0;
+	ft_bzero(len, sizeof(int) * 2);
 	while (i < 7)
 	{
-		len = ft_strlen(g_info.f[i]);
-		if (!ft_strncmp(cmd, g_info.f[i], len))
+		len[0] = ft_strlen(g_info.f[i]);
+		if (!ft_strncmp(cmd, g_info.f[i], len[0]))
 			return (i + 1);
-		// ptr = ft_strnstr(cmd, "minishell", ft_strlen(g_info.f[i]));
-		// if (ptr)
-		// {
-		// 	tmp = ft_strndup_se(cmd, ft_strlen(cmd) - 10, 0);
-		// 	if (ft_strncmp());
-		// }
+		ptr = ft_strrchr(cmd, '/');
+		if (ptr)
+			if (ft_strncmp(ptr + 1, "minishell", 10) == 0)
+			{
+				len[1] = ft_strlen(cmd) - ft_strlen(ptr + 1);
+				tmp = ft_strndup_se(cmd, len[1], 0);
+				if (strncmp(g_info.pwd, tmp, len[1]) == 0)
+					return (i + 1);
+			}
 		i++;
 	}
 	return (-1);
@@ -221,6 +225,10 @@ void	msh_shell_prepare(t_command *cmd)
 		msh_shlvl(g_info.env);
 		msh_shell_bin(g_info.env, g_info.pwd);
 	}
+	else
+	{
+		
+	}
 	
 }
 
@@ -245,14 +253,22 @@ int	msh_make_path_relative(t_command *cmd)
 	return (res);
 }
 
-// int msh_execution_validation(t_command *char *arg)
-// {
-// 	int	cases[2];
-
-// 	ft_bzero(cases, sizeof(int) * 2);
-// 	cases[0] = ft_index_of(arg, '/');
+int msh_execution_validation(t_command *cmd)
+{
+	DIR	*dir;
+	int	cases[2];
 	
-// }
+	ft_bzero(cases, sizeof(int) * 2);
+	cases[0] = ft_index_of(cmd->args[0], '/', 0);
+	dir = opendir(cmd->args[0]);
+	if (dir != NULL)
+	{
+		msh_error_bash("Is a directory", cmd->args[0], 126);
+		closedir(dir);
+		return (-1);
+	}
+	return (0);
+}
 
 void	msh_cmd(char *line)
 {
@@ -270,8 +286,9 @@ void	msh_cmd(char *line)
 	while (cmd)
 	{
 		msh_evaluate_all_tokens(cmd);
-		//	msh_execution_validation(cmd);
 		cmd->build = msh_is_build(cmd->args[0]);
+		if (msh_execution_validation(cmd) == -1)
+			break ;
 		if (cmd->build != -1)
 			msh_shell_prepare(cmd);
 		else if (!msh_make_path_relative(cmd))

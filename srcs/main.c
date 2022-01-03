@@ -1,19 +1,5 @@
 #include "../includes/main.h"
 
-void msh_readline(char *prefix, char **dest)
-{
-	char *line;
-
-	line = readline(prefix);
-	if (line)
-		*dest = line;
-	else
-	{
-		msh_struct_clear();
-		exit(0);
-	}
-}
-
 void	msh_config(int argc, char **argv, char **env)
 {
 	(void)argc;
@@ -75,24 +61,6 @@ void	msh_struct_clear()
 		g_info.cur_cmd = NULL;
 		g_info.cur_cmd = cmds;
 	}
-}
-
-int	msh_validate_line(char *line)
-{
-	int				i;
-	unsigned int	ascii[256];
-
-	i = 0;
-	ft_bzero(ascii, sizeof(char) * 256);
-	while (line[i])
-	{
-		if (ft_isspace(line[i]))
-			ascii[(unsigned char)line[i]]++;
-		i++;
-	}
-	if (ft_strlen(line) == ascii[32])
-		return (1);
-	return (0);
 }
 
 int main(int argc, char **argv, char **env)

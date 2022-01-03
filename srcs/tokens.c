@@ -44,10 +44,10 @@ char	*msh_spec_tokens(int specials, int num)
 	tmp = ft_itoa(num);
 	i[0] = ft_strlen(str);
 	i[1] = ft_strlen(tmp);
-	result = ft_calloc(i[0] + i[1] + 1, sizeof(char));
+	result = ft_calloc(i[0] + i[1] + 2, sizeof(char));
 	ft_strncat(result, str, i[0]);
-	ft_strncat(result, tmp, i[0] + i[1] + 1);
-	//result[ft_strlen(result)] = ' ';
+	ft_strncat(result, tmp, i[0] + i[1] + 2);
+	result[ft_strlen(result)] = '%';
 	result[ft_strlen(result) + 1] = '\0';
 	ft_strdel(&tmp);
 	return (result); 
@@ -55,24 +55,26 @@ char	*msh_spec_tokens(int specials, int num)
 
 char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 {
-	int			l[2];
+	int			l[3];
 	char		*tmp[2];
 	char		*value;
 	char		**value_arg;
 	t_arg		*arg;
 
 	value_arg = NULL;
+	ft_bzero(l, sizeof(int) * 3);
 	value = g_info.func[specials](str, length, value_arg);
-	arg = msh_add_token(cmd, value, value_arg, specials);
-	arg->order = g_info.num_token++;
+	arg = msh_add_token(cmd, value, g_info.num_token++, specials);
+	if (arg->specials == QUOTES || arg->specials == D_QUOTES)
+		l[2] = 2;
 	l[1] = ft_strlen(value);
 	if (ft_strchr(arg->value, '$'))
 	{
 		if (specials != QUOTES)
-			msh_evaluate_env_call_if_exist(&arg->value, g_info.env);
+			msh_evaluate_env_if_exist(&arg->value, g_info.env);
 	}
 	l[0] = ft_strlen(str);
-	ft_memset(str + *length, '\0', sizeof(char) * l[1] + 2);
+	ft_memset(str + *length, '\0', sizeof(char) * l[1] + l[2]);
 	tmp[0] = msh_spec_tokens(specials, arg->order);
 	tmp[1] = msh_concat_str(str, l[0], tmp[0]);
 	ft_strdel(&tmp[0]);

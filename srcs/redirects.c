@@ -1,36 +1,5 @@
 #include "../includes/main.h"
 
-char	**msh_concat_args(char **args, int size)
-{
-	int		i[4];
-	char	**tmp;
-
-	tmp = NULL;
-	ft_bzero(i, sizeof(int) * 4);
-	i[0] = -1;
-	while (args[++i[0]] && ft_strcmp(args[i[0]] ,""))
-		i[3]++;
-	i[2] = size;
-	while (--i[2] > i[0] && args[i[2]] && ft_strcmp(args[i[2]] ,""))
-		i[3]++;
-	if (i[3])
-	{
-		tmp = ft_calloc(sizeof(char *), (i[3] + 1));
-		while (i[1] < i[0])
-		{
-			tmp[i[1]] =  args[i[1]]; //tmp[k];
-			i[1]++;
-		}
-		while (++i[2] < size)
-		{
-			tmp[i[1]] = args[i[2]]; //;t; //tmp[k];
-			i[1]++;
-		}
-		tmp[i[3]] = NULL;
-	}
-	return (tmp);
-}
-
 void	msh_set_specials(char *c, char *src, int *rr)
 {
 	char	ch[2];

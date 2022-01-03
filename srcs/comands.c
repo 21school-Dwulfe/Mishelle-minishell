@@ -35,7 +35,8 @@ int	msh_custom_echo(t_command *cmd)
 		tmp[1] = ft_calloc(sizeof(char), (l[0] + cmd->num_args - 2));
 		while (len < cmd->num_args)
 		{
-			l[1] = (int)ft_strncat(tmp[1], cmd->args[len], (l[0] + cmd->num_args - 2));
+			ft_strncat(tmp[1], cmd->args[len], (l[0] + cmd->num_args - 2));
+			l[1] = ft_strlen(tmp[1]);
 			if (len != cmd->num_args - 1)
 				tmp[1][l[1]] = ' ';
 			len++;

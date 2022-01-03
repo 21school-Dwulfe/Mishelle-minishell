@@ -49,19 +49,19 @@ void	msh_add_redirect(t_redirect **current, char *value, t_specials specials)
 	}
 }
 
-t_arg	*msh_add_token(t_command *cmd, char *value, char **value_arr, int order)
+t_arg	*msh_add_token(t_command *cmd, char *value, int order, int specials)
 {
 	t_arg	*tmp;
 
 	if (cmd && !cmd->args_token)
 	{
-		tmp = msh_create_token(value, value_arr, order);
+		tmp = msh_create_token(value, NULL, order, specials);
 		cmd->args_token = tmp;
 		cmd->args_token->prev = cmd->args_token;
 	}
 	else
 	{
-		tmp = msh_create_token(value, value_arr, order);
+		tmp = msh_create_token(value, NULL, order, specials);
 		cmd->args_token->prev->next = tmp;
 		tmp->prev = cmd->args_token->prev;
 		cmd->args_token->prev = tmp;

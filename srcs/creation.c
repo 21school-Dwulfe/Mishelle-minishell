@@ -1,8 +1,8 @@
 #include "../includes/main.h"
 
-t_command	*msh_create_command(char	**dstr)
+t_command *msh_create_command(char **dstr)
 {
-	t_command	*cmd;	
+	t_command *cmd;
 
 	cmd = malloc(sizeof(t_command));
 	cmd->args = dstr;
@@ -23,9 +23,9 @@ t_command	*msh_create_command(char	**dstr)
 	return (cmd);
 }
 
-t_redirect	*msh_create_redirect(char *filepath, t_specials specials)
+t_redirect *msh_create_redirect(char *filepath, int specials)
 {
-	t_redirect *redirect;
+	t_redirect	*redirect;
 
 	redirect = malloc(sizeof(t_redirect));
 	redirect->file = filepath;
@@ -35,18 +35,16 @@ t_redirect	*msh_create_redirect(char *filepath, t_specials specials)
 	return (redirect);
 }
 
-t_arg *msh_create_token(char *value, char **value_arr, int order)
+t_arg *msh_create_token(char *value, char **v_arr, int order, int specials)
 {
-	t_arg 	*args_token;
+	t_arg	*args_token;
 
 	args_token = malloc(sizeof(t_arg));
 	args_token->next = NULL;
 	args_token->prev = NULL;
 	args_token->value = value;
-	args_token->value_arr = value_arr;
-	if (order < 0)
-		args_token->order = order;
-	else
-		args_token->order = 0;
+	args_token->value_arr = v_arr;
+	args_token->specials = specials;
+	args_token->order = order;
 	return (args_token);
 }

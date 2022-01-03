@@ -1,50 +1,4 @@
 #include "../includes/main.h"
-/**
- * @brief 
- * 
- * @param arg 
- * @param size  - size of whole str with nulls
- * @param insertion - string which need to be inserted
- * @return char* 
- */
-char	*msh_concat_str(char *arg, int size , char *insertion)
-{
-	int		i[6];
-	char	*tmp;
-
-	tmp = NULL;
-	ft_bzero(i, sizeof(int) * 6);
-	i[0] = -1;
-	while (arg[++i[0]])
-		i[3]++;
-	i[2] = size;
-	while (--i[2] > i[0] && arg[i[2]])
-		i[3]++;
-	i[5] = ft_strlen(insertion);
-	size += i[5];
-	if (i[3] || i[5])
-	{
-		tmp = ft_calloc(sizeof(char), (i[3] + i[5] + 1));
-		while (i[1] < i[0])
-		{
-			tmp[i[1]] = arg[i[1]];
-			i[1]++;
-		}
-		while (insertion && insertion[i[4]])
-		{
-			tmp[i[1]] = insertion[i[4]];
-			i[1]++;
-			i[4]++;
-		}
-		while (++i[2] + i[4] <= size)
-		{
-			char c = arg[i[2]];
-			tmp[i[1]] = c;
-			i[1]++;
-		}
-	}
-	return (tmp);
-}
 
 // int	msh_dollar_error_case(t_command *cmd, char *tmp, int j)
 // {
@@ -219,7 +173,7 @@ char	*msh_evaluate_env_arg(char *arg, char **env)
  * @param env 
  * @return int 
  */
-int	msh_evaluate_env_call_if_exist(char **args, char **env)
+int	msh_evaluate_env_if_exist(char **args, char **env)
 {
 	int		i;
 	int 	j;

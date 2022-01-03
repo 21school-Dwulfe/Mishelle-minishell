@@ -7,7 +7,7 @@
 int 	    msh_parse(char *str);
 int 	    msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void	    msh_add_to_struct(char **result);
-t_arg	   *msh_add_token(t_command *cmd, char *value, char **value_arr, int order);
+t_arg	   *msh_add_token(t_command *cmd, char *value, int order, int specials);
 void	    msh_push_command(t_command **cur_cmd, char **value);
 void 	    msh_custom_exit(t_command *cmd);
 int 	    msh_custom_pwd(t_command *cmd);
@@ -16,7 +16,7 @@ int 	    msh_custom_env(t_command *cmd);
 int 	    msh_custom_cd(t_command *cmd);
 int 	    msh_custom_export(t_command *cmd);
 int 	    msh_custom_unset(t_command *cmd);
-int 	    msh_evaluate_env_call_if_exist(char **args, char **env);
+int 	    msh_evaluate_env_if_exist(char **args, char **env);
 void	    msh_cmd(char *line);
 void	    msh_struct_clear();
 int 	    msh_redirects_parse();
@@ -32,6 +32,7 @@ char	    **msh_concat_args(char **cmd, int size);
 char	    *msh_concat_str(char *arg, int size, char *insertion);
 int	        msh_buildins(t_command *cmd, int reg);
 void	    msh_exchange_token_value(t_command *cmd, int index);
+int         msh_validation_closest_chars(char *str, int *i);
 
 /**
  * @brief Execute commands with pipe or redirect
@@ -48,8 +49,8 @@ char	    **msh_copy_env(char **array);
 char        *msh_multy_pipe(t_command *cmds, char **env);
 int	        msh_check_special_signs(char *str, int *i, int *specials);
 t_command	*msh_create_command(char    **dstr);
-t_redirect	*msh_create_redirect(char *filepath, t_specials specials);
-t_arg       *msh_create_token(char *value, char **value_arr, int order);
+t_redirect	*msh_create_redirect(char *filepath, int specials);
+t_arg       *msh_create_token(char *value, char **v_arr, int order, int specials);
 void        msh_add_redirect(t_redirect **current, char *value, t_specials specials);
 int         msh_open(char *path, int type);
 int         msh_export_invalid(char *arg);
@@ -61,7 +62,7 @@ void        msh_sigint_handler(int sig_num);
 char        *msh_get_str_inside(char *str, char *set, int reg);
 void	    msh_add_command(t_command **cur_cmd, char **value);
 int         msh_is_token(char *arg);
-
+int	        msh_validate_line(char *line);
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
  * 
