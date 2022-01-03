@@ -19,7 +19,7 @@ int	msh_error_bash(char *message, char *str, int code)
 	if (code == 1)
 	{
 		ft_putstr_fd("msh: ", 1);
-		ft_putstr_fd("no such file or derectory: ", 1);
+		ft_putstr_fd("no such file or directory: ", 1);
 		ft_putendl_fd(str, 1);
 	}
 	else if (code == 127)

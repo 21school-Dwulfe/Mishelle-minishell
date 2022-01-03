@@ -42,7 +42,7 @@ int msh_modify_env_var(char **env, char *new_value)
  * 
  * @param arguments an array of arguments to look for in a variable environment
  * @param env variable environment
- * @return int returns 1 if true 0 if false
+ * @return int returns index of var if true 0 if false
  */
 int	msh_env_exist(char **env, char *argument)
 {

@@ -25,7 +25,7 @@ void	msh_config(int argc, char **argv, char **env)
 	g_info.num_token = 0;
 	g_info.env = msh_copy_env(env);
 	g_info.pwd = getcwd(NULL, 0);
-	g_info.func[14] = msh_token_quotes;
+	g_info.func[13] = msh_token_quotes;
 	g_info.func[14] = msh_token_d_quotes;
 	g_info.func[15] = msh_curl_braces;
 	g_info.func[16] = msh_dollar_braces;
@@ -53,10 +53,7 @@ void	msh_struct_clear()
 	while (cmds)
 	{
 		if (cmds->args)
-		{
 			ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
-		}
-		//ft_delptr((void **)cmds->args);
 		tmp_arg = cmds->args_token;
 		while (tmp_arg)
 		{
@@ -116,9 +113,11 @@ int main(int argc, char **argv, char **env)
 			continue ;
 		g_info.exit_code = 0;
 		buff_st_dy = msh_strncat(line, buff, buff_st_dy);
-		msh_check_unclosed_quotes(buff, line, buff_st_dy, 0);
-		add_history(buff_st_dy);
-		msh_cmd(buff_st_dy);
+		if (msh_check_unclosed_quotes(buff, line, buff_st_dy, 0) != -1)
+		{
+			add_history(buff_st_dy);
+			msh_cmd(buff_st_dy);
+		}
 		ft_strdel(&line);
 		ft_bzero(buff, sizeof(char) * 1024);
 		ft_bzero(buff_st_dy, (ft_strlen(buff_st_dy) * sizeof(char))); //604 365 194

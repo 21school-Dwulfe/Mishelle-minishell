@@ -122,19 +122,26 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 
 int	msh_is_build(char *cmd)
 {
-	int i;
-	int len;
+	int		i;
+	int		len;
+	// char	*ptr;
+	// char	*tmp;
 
 	i = 0;
-	
 	while (i < 7)
 	{
 		len = ft_strlen(g_info.f[i]);
 		if (!ft_strncmp(cmd, g_info.f[i], len))
 			return (i + 1);
+		// ptr = ft_strnstr(cmd, "minishell", ft_strlen(g_info.f[i]));
+		// if (ptr)
+		// {
+		// 	tmp = ft_strndup_se(cmd, ft_strlen(cmd) - 10, 0);
+		// 	if (ft_strncmp());
+		// }
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 char	**msh_replace_and_copy(char **args, char *new, int index)
@@ -165,15 +172,87 @@ char	**msh_replace_and_copy(char **args, char *new, int index)
 	return (arr);
 }
 
+void	msh_evaluate_all_tokens(t_command *cmd)
+{
+	int 		i;
+
+	i = 0;
+	while (cmd->args[i])
+	{
+		if (msh_is_token(cmd->args[i]))
+			msh_exchange_token_value(cmd, i);
+		i++;
+	}
+}
+
+void	msh_shlvl(char **env)
+{
+	int		index;
+	char	*shlvl;
+	char	*new_shlvl[2];
+	
+	index = msh_env_exist(env, "SHLVL");
+	shlvl = msh_get_env_by_key(env, "SHLVL");
+	new_shlvl[0] = ft_itoa(ft_atoi(shlvl + 1));
+	new_shlvl[1] = ft_strjoin("SHLVL", new_shlvl[0]);
+	ft_strdel(&new_shlvl[0]);
+	msh_modify_env_var(&env[index], new_shlvl[1]);
+}
+
+void	msh_shell_bin(char **env, char *path)
+{
+	int		index;
+	int		new_len;
+	char	*new_shell;
+	
+	index = msh_env_exist(env, "SHELL");
+	new_len = ft_strlen(path) + 16;
+	new_shell = ft_calloc(new_len, sizeof(char));
+	new_shell = ft_strncat(new_shell, "SHELL=", new_len);
+	new_shell = ft_strncat(new_shell, path, new_len);
+	new_shell[6 + ft_strlen(path)] = '/';
+	new_shell = ft_strncat(new_shell, "minishell", new_len);
+	msh_modify_env_var(&env[index], new_shell);
+}
+
+void	msh_shell_prepare(t_command *cmd)
+{
+	if (cmd->build == 7)
+	{
+		cmd->args[0] = ft_strjoin(g_info.pwd, g_info.f[7]);
+		ft_strdel(&cmd->args[0]);
+		msh_shlvl(g_info.env);
+		msh_shell_bin(g_info.env, g_info.pwd);
+	}
+}
+
+int	msh_make_path_relative(t_command *cmd)
+{
+	int		res;
+	char	*tmp;
+
+	res = 1;
+	tmp = NULL;
+	tmp = msh_get_path(cmd->args[0], g_info.env);
+	if(!tmp)
+	{
+		msh_error_bash("command not found", cmd->args[0], 127);
+		res = 0;
+	}
+	else if(ft_strncmp(tmp, cmd->args[0] , ft_strlen(tmp)) != 0)
+	{
+		ft_swap_strs(&cmd->args[0], &tmp);
+		ft_strdel(&tmp);
+	}
+	return (res);
+}
+
 void	msh_cmd(char *line)
 {
 	t_command	*cmd;
 	int			in_out_s[2];
 	int			fd_pipe[2];
-	char		*tmp[2];
-	int 		i;
-
-	ft_bzero(tmp, sizeof(char *) * 2);
+	
 	if (msh_parse(line) == -1)
 		return ;
 	if (msh_redirects_parse() == -1)
@@ -183,30 +262,12 @@ void	msh_cmd(char *line)
 	in_out_s[1] = dup(1);
 	while (cmd)
 	{
-		i = 0;
-		while (cmd->args[i])
-		{
-			if (msh_is_token(cmd->args[i]))
-				msh_exchange_token_value(cmd, i);
-			i++;
-		}
-		if (!ft_strncmp(cmd->args[0], g_info.f[7], ft_strlen(g_info.f[7])))
-		{
-			ft_strdel(&cmd->args[0]);
-			cmd->args[0] = ft_strjoin(g_info.pwd, g_info.f[7]);
-		}
-		else
-		{
-			cmd->build = msh_is_build(cmd->args[0]);
-			if (!cmd->build)
-			{
-				tmp[1] = msh_get_path(cmd->args[0], g_info.env);
-				if(!tmp[1])
-					break ;
-				ft_swap_strs(&cmd->args[0], &tmp[1]);
-				ft_strdel(&tmp[1]);
-			}
-		}
+		msh_evaluate_all_tokens(cmd);
+		cmd->build = msh_is_build(cmd->args[0]);
+		if (cmd->build != -1)
+			msh_shell_prepare(cmd);
+		else if (!msh_make_path_relative(cmd))
+			break ;
 		msh_execution(cmd, g_info.env, fd_pipe, in_out_s);
 		cmd = cmd->next;
 		if ((cmd && !cmd->piped) || !cmd)

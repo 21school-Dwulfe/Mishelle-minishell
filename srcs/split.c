@@ -166,31 +166,3 @@ char *msh_get_str_inside(char *str, char *set, int reg)
 	}
 	return (ft_strndup_se(str + first + 1 - reg, i[0] - 1 + reg, 0));
 }
-
-// int	main(void)
-// {
-// 	char *str = "as\"\"'$hhhhh'''";
-
-// 	char *s2 = msh_get_str_inside(str, "\'\"", 0);
-// 	printf("%s\n", s2);
-// 	return (0);
-// }
-
-// int main(void)
-// {
-// 	int i = 0;
-// 	char	**chstr;
-
-// 	chstr = msh_split("dfghj asd asdfg", ' ');
-// 	while (ft_strcmp(chstr[i], "\0"))
-// 	{
-// 		printf("|%s|\n", chstr[i]);
-// 		free(chstr[i]);
-// 		i++;
-// 	}
-
-// 	free(chstr);
-// 	//chstr = NULL;
-	
-// 	return (0);
-// }

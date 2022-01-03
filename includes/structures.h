@@ -3,6 +3,11 @@
 
 #include "libs.h"
 
+
+// #ifndef QOUTES_ADD_REGIME
+// # define QOUTES_ADD_REGIME 0
+// #endif
+
 typedef enum s_specials
 {
 	NONE = -1,
