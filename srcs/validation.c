@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:13:01 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:18:22 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
-int msh_validation_redirs(char *str, int *i)
+int	msh_validation_redirs(char *str, int *i)
 {
-	int l[4];
-	char *ptr;
+	int		l[4];
+	char	*ptr;
 
 	ptr = NULL;
 	ft_bzero(l, sizeof(int) * 4);
@@ -17,7 +29,7 @@ int msh_validation_redirs(char *str, int *i)
 	ptr = ft_strchr("|;<>", str[l[0]]);
 	if (ptr)
 		l[2] = *ptr;
-	if(str[l[0]] == '\0')
+	if (str[l[0]] == '\0')
 		return (msh_unexpected_token_error("newline", 7));
 	if (!(ft_abs(l[2] - str[*i]) == 2))
 		l[3] = 1;
@@ -55,19 +67,16 @@ int	msh_validation_pipe(char *str, int *i)
 	return (0);
 }
 
-// int	msh_validation_brackets(char *str, int *i)
-// {
-// 	static int ascii[255];
-// 	static char *ascii_i;
-
-// 	if (!ascii_i)
-
-// }
+int	msh_validation_brackets(char *str, int *i)
+{
+	(void)str;
+	(void)i;
+}
 
 int	msh_validation_closest_chars(char *str, int *i)
 {
-	// if (str[*i] && (str[*i] == ')' || str[*i] == '('))
-	// 	return (msh_validation_brackets(str, i));
+	if (str[*i] && (str[*i] == ')' || str[*i] == '('))
+		return (msh_validation_brackets(str, i));
 	if (str[*i] == '|')
 		return (msh_validation_pipe(str, i));
 	if (str[*i] == '>' || str[*i] == '<')

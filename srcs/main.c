@@ -1,21 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:07:55 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
+
+void	msh_init_functions(void)
+{
+	g_info.func[13] = msh_token_quotes;
+	g_info.func[14] = msh_token_d_quotes;
+	g_info.func[15] = msh_curl_braces;
+	g_info.func[16] = msh_dollar_braces;
+	g_info.condition[0] = msh_validation_closest_chars;
+	g_info.condition[1] = msh_conditions_d_quotes_close;
+	g_info.condition[2] = msh_conditions_quotes_close;
+	g_info.condition[3] = msh_conditions_quotes;
+	g_info.condition[4] = msh_conditions_d_quotes;
+	g_info.condition[5] = msh_conditions_pipe;
+	g_info.condition[6] = msh_conditions_semicolon;
+	g_info.condition[7] = msh_conditions_end;
+}
 
 void	msh_config(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
 	(void)env;
-
 	rl_catch_signals = 0;
 	g_info.num_of_commands = 0;
 	g_info.num_token = 0;
 	g_info.env = msh_copy_env(env);
 	g_info.pwd = getcwd(NULL, 0);
-	g_info.func[13] = msh_token_quotes;
-	g_info.func[14] = msh_token_d_quotes;
-	g_info.func[15] = msh_curl_braces;
-	g_info.func[16] = msh_dollar_braces;
-	g_info.func[17] = msh_token_dollar;
+	msh_init_functions();
 	g_info.f[0] = "export";
 	g_info.f[1] = "exit";
 	g_info.f[2] = "unset";

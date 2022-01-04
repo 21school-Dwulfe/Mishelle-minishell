@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:11:43 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:16:26 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 int	msh_is_token(char *arg)
 {
-
 	if (!ft_strncmp(arg, "QUOTES", 6))
 		return (1);
 	else if (!ft_strncmp(arg, "D_QUOTES", 8))
@@ -12,8 +23,6 @@ int	msh_is_token(char *arg)
 	else if (!ft_strncmp(arg, "CURL_BRACES", 11))
 		return (1);
 	else if (!ft_strncmp(arg, "DOLLAR_BRACES", 13))
-		return (1);
-	else if (!ft_strncmp(arg, "DOLLAR", 6))
 		return (1);
 	else
 		return (0);
@@ -26,7 +35,6 @@ char	*msh_spec_tokens(int specials, int num)
 	char	*result;
 	size_t	i[2];
 
-	(void)num;
 	if (specials == 12)
 		str = "S_QOUTES";
 	else if (specials == 13)
@@ -37,10 +45,6 @@ char	*msh_spec_tokens(int specials, int num)
 		str = "CURL_BRACES";
 	else if (specials == 16)
 		str = "DOLLAR_BRACES";
-	else if (specials == 17)
-		str = "DOLLAR";
-	else
-		str = (void *)0;
 	tmp = ft_itoa(num);
 	i[0] = ft_strlen(str);
 	i[1] = ft_strlen(tmp);
@@ -50,7 +54,7 @@ char	*msh_spec_tokens(int specials, int num)
 	result[ft_strlen(result)] = '%';
 	result[ft_strlen(result) + 1] = '\0';
 	ft_strdel(&tmp);
-	return (result); 
+	return (result);
 }
 
 char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
@@ -81,12 +85,12 @@ char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
 	return (tmp[1]);
 }
 
-t_arg *msh_get_token_value(t_command *cmd, char *token)
+t_arg	*msh_get_token_value(t_command *cmd, char *token)
 {
 	int		stop_int;
 	t_arg	*tok;
 
-    stop_int = 0;
+	stop_int = 0;
 	tok = cmd->args_token;
 	while (!ft_isdigit(token[stop_int]))
 		stop_int++;
@@ -101,7 +105,7 @@ t_arg *msh_get_token_value(t_command *cmd, char *token)
 
 void	msh_exchange_token_value(t_command *cmd, int index)
 {
-	t_arg *tmp;
+	t_arg	*tmp;
 
 	tmp = msh_get_token_value(cmd, cmd->args[index]);
 	ft_strdel(&cmd->args[index]);

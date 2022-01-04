@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:06:33 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:07:18 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 int msh_modify_env_var(char **env, char *new_value)
@@ -37,13 +49,6 @@ int msh_modify_env_var(char **env, char *new_value)
 	return (1);
 }
 
-/**
- * @brief 
- * 
- * @param arguments an array of arguments to look for in a variable environment
- * @param env variable environment
- * @return int returns index of var if true 0 if false
- */
 int	msh_env_exist(char **env, char *argument)
 {
 	int		j;
