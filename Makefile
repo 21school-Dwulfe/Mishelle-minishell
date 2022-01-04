@@ -37,16 +37,17 @@ ${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS}
 				cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install; \
 			fi
 			cd ./libft && $(MAKE) && $(MAKE) bonus
-			${CC} ${CFLAGS} -g  -fsanitize=address ${OBJS} ${LDFLAGS} -o ${APP}
+			
+			${CC} -DQUOTES_ADD_REGIME=0 ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} #-fsanitize=address
 
-.PHONY: all clean fclean re bonus buildrepo lib print
+.PHONY: all clean fclean re bonus buildrepo lib print 
 
 print : 
 	echo $(OBJS)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 		echo $@...
-		${CC} ${CFLAGS} -g -c $< -o $@
+		${CC} -DQUOTES_ADD_REGIME="0" ${CFLAGS}  -g -c $< -o $@
 
 
 
@@ -56,6 +57,7 @@ re : fclean all
 
 clean : 
 		rm -rf $(OBJDIR)
+		cd ./libft && $(MAKE) clean
 		rm -rf $(shell find . -name '*.o')
 		cd readline-8.1 && $(MAKE) distclean
 

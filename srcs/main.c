@@ -1,17 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:07:55 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
-void msh_readline(char *prefix, char **dest)
+void	msh_init_functions(void)
 {
-	char *line;
-
-	line = readline(prefix);
-	if (line)
-		*dest = line;
-	else
-	{
-		msh_struct_clear();
-		exit(0);
-	}
+	g_info.func[13] = msh_token_quotes;
+	g_info.func[14] = msh_token_d_quotes;
+	g_info.func[15] = msh_curl_braces;
+	g_info.func[16] = msh_dollar_braces;
+	g_info.condition[0] = msh_validation_closest_chars;
+	g_info.condition[1] = msh_conditions_d_quotes_close;
+	g_info.condition[2] = msh_conditions_quotes_close;
+	g_info.condition[3] = msh_conditions_quotes;
+	g_info.condition[4] = msh_conditions_d_quotes;
+	g_info.condition[5] = msh_conditions_pipe;
+	g_info.condition[6] = msh_conditions_semicolon;
+	g_info.condition[7] = msh_conditions_end;
 }
 
 void	msh_config(int argc, char **argv, char **env)
@@ -19,17 +33,12 @@ void	msh_config(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-
 	rl_catch_signals = 0;
 	g_info.num_of_commands = 0;
 	g_info.num_token = 0;
 	g_info.env = msh_copy_env(env);
 	g_info.pwd = getcwd(NULL, 0);
-	g_info.func[14] = msh_token_quotes;
-	g_info.func[14] = msh_token_d_quotes;
-	g_info.func[15] = msh_curl_braces;
-	g_info.func[16] = msh_dollar_braces;
-	g_info.func[17] = msh_dollar;
+	msh_init_functions();
 	g_info.f[0] = "export";
 	g_info.f[1] = "exit";
 	g_info.f[2] = "unset";
@@ -44,19 +53,27 @@ void	msh_struct_clear()
 {
 	t_command 	*cmds;
 	t_redirect	*tmp_red;
+	t_arg		*tmp_arg;
 
 	cmds = g_info.cur_cmd;
 	g_info.exit_code = 0;
 	g_info.num_token = 0;
+	g_info.num_of_commands = 0;
 	while (cmds)
 	{
 		if (cmds->args)
 			ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
-		//ft_delptr((void **)cmds->args);
+		tmp_arg = cmds->args_token;
+		while (tmp_arg)
+		{
+			cmds->args_token = cmds->args_token->next;
+			ft_delptr((void **)tmp_arg->value_arr);
+			free(tmp_arg);
+			tmp_arg = cmds->args_token;
+		}
 		tmp_red = cmds->redirects;
 		while (tmp_red)
 		{
-			rl_catch_signals = 1;
 			cmds->redirects = cmds->redirects->next;
 			ft_strdel(&tmp_red->file);
 			free(tmp_red);
@@ -67,24 +84,6 @@ void	msh_struct_clear()
 		g_info.cur_cmd = NULL;
 		g_info.cur_cmd = cmds;
 	}
-}
-
-int	msh_validate_line(char *line)
-{
-	int				i;
-	unsigned int	ascii[256];
-
-	i = 0;
-	ft_bzero(ascii, sizeof(char) * 256);
-	while (line[i])
-	{
-		if (ft_isspace(line[i]))
-			ascii[(unsigned char)line[i]]++;
-		i++;
-	}
-	if (ft_strlen(line) == ascii[32])
-		return (1);
-	return (0);
 }
 
 int main(int argc, char **argv, char **env)
@@ -105,9 +104,11 @@ int main(int argc, char **argv, char **env)
 			continue ;
 		g_info.exit_code = 0;
 		buff_st_dy = msh_strncat(line, buff, buff_st_dy);
-		msh_check_unclosed_quotes(buff, line, buff_st_dy, 0);
-		add_history(buff_st_dy);
-		msh_cmd(buff_st_dy);
+		if (msh_check_unclosed_quotes(buff, line, buff_st_dy, 0) != -1)
+		{
+			add_history(buff_st_dy);
+			msh_cmd(buff_st_dy);
+		}
 		ft_strdel(&line);
 		ft_bzero(buff, sizeof(char) * 1024);
 		ft_bzero(buff_st_dy, (ft_strlen(buff_st_dy) * sizeof(char))); //604 365 194

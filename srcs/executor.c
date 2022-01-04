@@ -1,40 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:04:25 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:04:27 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
-
-int	msh_custom_redirect(int *fd_arr, t_command *cmd)
-{
-	int			fd_index;
-	t_redirect	*tmp;
-
-	fd_index = 0;
-	tmp = NULL;
-	if (cmd)
-		tmp = cmd->redirects;
-	while (tmp)
-	{
-		if (tmp->specials == 5 || tmp->specials == 7)
-		{
-			if (cmd->input)
-				close(fd_arr[0]);
-			cmd->input = tmp;
-			fd_index = 0;
-		}
-		if (tmp->specials == 4 || tmp->specials == 6)
-		{
-			if (cmd->out)
-				close(fd_arr[1]);
-			cmd->out = tmp;
-			fd_index = 1;
-		}
-		fd_arr[fd_index] = msh_open(tmp->file, tmp->specials);
-		if (fd_arr[fd_index] == -1)
-		{
-			perror(tmp->file);
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-	return(0);
-}
 
 void	msh_wait_pid(int pid)
 {
@@ -70,6 +46,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 {
 	pid_t		pid;
 
+	(void)env;
 	if (!msh_buildins(cmd, 0))
 	{
 		signal(SIGINT, SIG_IGN);
@@ -82,10 +59,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 			close(fd_s[1]);
 			if (!msh_buildins(cmd, 1))
 				if (execve(cmd->args[0], cmd->args, env) == -1)
-				{
-					perror(cmd->args[0]);
-					exit(1);
-				}
+				 	msh_perror(cmd->args[0]);//ft_strrchr(cmd->args[0], '/') + 1);
 			exit(g_info.exit_code);
 		}
 		msh_wait_pid(pid);
@@ -118,50 +92,17 @@ void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 	msh_func(cmd, fd_s, env);
 }
 
-int	msh_is_build(char *cmd)
+int msh_preparings(t_command *cmd)
 {
-	int i;
-	int len;
-
-	i = 0;
-	
-	while (i < 7)
-	{
-		len = ft_strlen(g_info.f[i]);
-		if (!ft_strncmp(cmd, g_info.f[i], len))
-			return (i + 1);
-		i++;
-	}
+	msh_evaluate_all_tokens(cmd);
+	cmd->build = msh_is_build(cmd->args[0]);
+	if (msh_execution_validation(cmd) == -1)
+		return (1) ;
+	if (cmd->build != -1)
+		msh_build_preparings(cmd);
+	else if (!msh_make_path_relative(cmd))
+		return (1) ;
 	return (0);
-}
-
-char	**msh_replace_and_copy(char **args, char *new, int index)
-{
-	int	i;
-	int len;
-	char **arr;
-	
-	arr = NULL;
-	i = 0;
-	len = ft_str_count(args);
-	arr = malloc(sizeof(char *) * (len + 1));
-	while (i < len)
-	{
-		if (i == index)
-		{
-			arr[i] = new;
-			ft_strdel(&args[index]);
-		}
-		else
-		{
-			arr[i] = args[i];
-			args[i] = NULL;
-		}
-		i++;
-	}
-	arr[i] = 0;
-	free(args);
-	return (arr);
 }
 
 void	msh_cmd(char *line)
@@ -169,34 +110,18 @@ void	msh_cmd(char *line)
 	t_command	*cmd;
 	int			in_out_s[2];
 	int			fd_pipe[2];
-	char		*tmp[2];
-
-	ft_bzero(tmp, sizeof(char *) * 2);
-	msh_parse(line);
+	
+	if (msh_parse(line) == -1)
+		return ;
+	if (msh_redirects_parse() == -1)
+		return ;
 	cmd = g_info.cur_cmd;
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);
 	while (cmd)
 	{
-		tmp[0] = cmd->args[0];
-		if (!ft_strncmp(cmd->args[0], g_info.f[7], ft_strlen(g_info.f[7])))
-		{
-			ft_strdel(&cmd->args[0]);
-			cmd->args[0] = ft_strjoin(g_info.pwd, g_info.f[7]);
-		}
-		else
-		{
-			cmd->build = msh_is_build(cmd->args[0]);
-			if (!cmd->build)
-			{
-				tmp[1] = msh_get_path(tmp[0], g_info.env);
-				if(!tmp[1])
-					break ;
-				cmd->args = msh_replace_and_copy(cmd->args, tmp[1], 0);
-			}
-		}
-		msh_exchange_token_value(cmd);
-		msh_evaluate_env_call_if_exist(cmd, g_info.env);
+		if (msh_preparings(cmd))
+			break ;
 		msh_execution(cmd, g_info.env, fd_pipe, in_out_s);
 		cmd = cmd->next;
 		if ((cmd && !cmd->piped) || !cmd)

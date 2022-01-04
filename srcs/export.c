@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:06:33 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:07:18 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 int msh_modify_env_var(char **env, char *new_value)
@@ -10,13 +22,13 @@ int msh_modify_env_var(char **env, char *new_value)
 
 	len = 0;
 
-	index_cmd = ft_index_of(new_value, '+');
+	index_cmd = ft_index_of(new_value, '+', 0);
 	if (index_cmd < 0)
 		result = new_value;
 	else
 	{
 		index_cmd++;
-		index_env = ft_index_of(*env, '=');
+		index_env = ft_index_of(*env, '=', 0);
 		tmp[0] = ft_strdup(new_value + index_cmd + 1);
 		if (index_env != - 1)
 			tmp[1] = ft_strdup(*env + index_env + 1);
@@ -37,13 +49,6 @@ int msh_modify_env_var(char **env, char *new_value)
 	return (1);
 }
 
-/**
- * @brief 
- * 
- * @param arguments an array of arguments to look for in a variable environment
- * @param env variable environment
- * @return int returns 1 if true 0 if false
- */
 int	msh_env_exist(char **env, char *argument)
 {
 	int		j;
@@ -52,7 +57,7 @@ int	msh_env_exist(char **env, char *argument)
 	char	*tmp[2];
 
 	j = 0;
-	index = ft_index_of(argument, '+');
+	index = ft_index_of(argument, '+', 0);
 	while (env[j])
 	{
 		ft_bzero(n, sizeof(int) * 4);
@@ -86,7 +91,7 @@ char	*msh_get_env_by_key(char **env, char *argument)
 	while (env[j])
 	{
 		i = msh_env_exist(env, argument);
-		if (i)
+		if (i > -1)
 		{
 			while (env[i][n] && env[i][n] != '=')
 				n++;
@@ -94,7 +99,7 @@ char	*msh_get_env_by_key(char **env, char *argument)
 		}
 		j++;
 	}
-	return (0);
+	return (NULL);
 }
 
 void	msh_export_add(t_command	*cmd)
@@ -136,7 +141,7 @@ int	msh_custom_export(t_command *cmd)
 		while (g_info.env[i])
 		{
 			ft_putstr_fd("declare -x ", 1);
-			index = ft_index_of(g_info.env[i], '=');
+			index = ft_index_of(g_info.env[i], '=', 0);
 			if (index > -1)
 			{
 				write(1, g_info.env[i], index + 1);

@@ -1,154 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   enviroment.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:05:51 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:05:52 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
-char	*msh_concat_str(char *arg, int size , char *insertion)
-{
-	int		i[5];
-	char	*tmp;
-
-	tmp = NULL;
-	ft_bzero(i, sizeof(int) * 5);
-	i[0] = -1;
-	while (arg[++i[0]])
-		i[3]++;
-	i[2] = size;
-	while (i[2] >= 0 && arg[--i[2]])
-		i[3]++;
-	size += ft_strlen(insertion);
-	if (i[3])
-	{
-		tmp = ft_calloc(sizeof(char), (i[3] + ft_strlen(insertion) + 1));
-		while (i[1] < i[0])
-		{
-			tmp[i[1]] = arg[i[1]];
-			i[1]++;
-		}
-		while (insertion && insertion[i[4]])
-		{
-			tmp[i[1]] = insertion[i[4]];
-			i[1]++;
-			i[4]++;
-		}
-		while (++i[2] + i[4] <= size)
-		{
-			char c = arg[i[2]];
-			tmp[i[1]] = c;
-			i[1]++;
-		}
-	}
-	return (tmp);
-}
-
-// int	msh_dollar_error_case(t_command *cmd, char *tmp, int j)
-// {
-// 	int		i[3];
-// 	char	*temp[6];
-
-// 	ft_bzero(i, sizeof(int) * 3);
-// 	ft_bzero(temp, sizeof(char *) * 6);
-// 	temp[0] = cmd->args[j];
-// 	temp[2] = tmp;
-// 	temp[3] = ft_itoa(msh_read_error_code());
-// 	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
-// 	if (temp[0][0] != '$')
-// 	{
-// 		temp[5] = ft_strndup_se(temp[0], 0, '$');
-// 		temp[1] = ft_strjoin(temp[5], temp[4]);
-// 		i[2] = 6;
-// 	}
-// 	else
-// 	{
-// 		temp[1] = ft_strdup(temp[4]);
-// 		i[2] = 5;
-// 	}
-// 	cmd->args[j] = temp[1];
-// 	while (1 != --i[2])
-// 		ft_strdel(&temp[i[2]]);
-// 	ft_strdel(&temp[0]);
-// 	return (2);
-// }
-
-// int	msh_dollar_common_case(t_command *cmd, char *tmp, char **env, int *k)
-// {
-// 	int		i[3];
-// 	char	*temp[6];
-
-// 	ft_bzero(temp, sizeof(char) * 6);
-// 	ft_bzero(i, sizeof(int) * 3);
-// 	temp[1] = tmp;
-// 	temp[2] = msh_get_env_by_key(env, temp[1] + 1);
-// 	if (temp[2])
-// 	{
-// 		if (i[1] != 0)
-// 		{
-// 			if (k[2] == 1)
-// 			{
-// 				temp[3] = ft_strndup_se(temp[0], 0, '$');
-// 				temp[4] = ft_strjoin(temp[3], temp[2]);
-// 			}
-// 			if (k[1] == 1)
-// 				cmd->args[k[0]] = temp[4];
-// 			else
-// 			{
-// 				temp[5] = ft_strjoin(cmd->args[k[0]], temp[4]);
-// 				ft_strdel(&cmd->args[k[0]]);
-// 				cmd->args[k[0]] = temp[5];
-// 			}
-// 			i[2] = ft_strlen(temp[1]);
-// 			ft_strdel(&temp[3]);
-// 		}
-// 		else
-// 			cmd->args[k[0]] = ft_strdup(temp[2]);
-// 	}
-// 	else
-// 	{
-// 		ft_memset(temp[1], '\0', ft_strlen(temp[1]));
-// 		temp[1] = temp[0];
-// 		cmd->args[k[0]] = msh_concat_str(temp[1], ft_strlen(temp[0]), NULL);
-// 	}
-// 	return (ft_strlen(temp[1]));
-// }
-
-// void	msh_evaluate_env_call_if_exist(t_command *cmd, char **env)
-// {
-// 	int		i[5];
-// 	int		k[3];
-// 	char	*temp[6];
-// 	int 	j;
-// 	int 	count_dollars;
-
-// 	j = 0;
-// 	ft_bzero(i, sizeof(int) * 5);
-// 	ft_bzero(temp, sizeof(char *) * 6);
-// 	while (i[0] < cmd->num_args)
-// 	{
-// 		j = 0;
-// 		temp[0] = cmd->args[i[0]];
-// 		count_dollars = ft_ch_count(temp[0], '$');
-// 		while (j < count_dollars)
-// 		{
-// 			temp[1] = ft_strchr(temp[0], '$');
-// 			i[1] = ft_index_of(temp[0], '$');
-// 			if (temp[1] && temp[1][1] != '?' &&  temp[0][0] != '\'')// need to set flag
-// 			{
-// 				k[0] = i[0];
-// 				k[1] = count_dollars;
-// 				k[2] = j;
-// 				i[4] = msh_dollar_common_case(cmd, temp[1], env, k);
-				
-// 			}
-// 			else if (temp[1] && temp[1][1] == '?' && temp[0][0] != '\'')
-// 			{
-// 				i[4] = msh_dollar_error_case(cmd, temp[1], i[0]);
-// 			}
-// 			temp[0] = temp[0] + i[4];
-// 			j++;
-// 		}
-// 		i[0]++;
-// 	}
-// }
-
-
-int	msh_dollar_error_case(char **args, char *tmp, int j)
+char	*msh_dollar_error_case(char **args, char *tmp, int j)
 {
 	int		i[3];
 	char	*temp[6];
@@ -174,90 +38,72 @@ int	msh_dollar_error_case(char **args, char *tmp, int j)
 	while (1 != --i[2])
 		ft_strdel(&temp[i[2]]);
 	ft_strdel(&temp[0]);
-	return (2);
+	return (temp[1]);
 }
 
-int	msh_dollar_common_case(char **args, char *tmp, char **env, int *k)
+char	*msh_evaluate_env_arg(char *arg, char **env)
 {
-	int		i[3];
+	int		length[2];
 	int		size;
-	char	*temp[6];
+	char	*val[3];
+	char	*tmp;
 
-	ft_bzero(temp, sizeof(char) * 6);
-	ft_bzero(i, sizeof(int) * 3);
-	size = ft_str_count(args);
-	temp[1] = tmp;
-	temp[2] = msh_get_env_by_key(env, temp[1] + 1);
-	if (temp[2])
+	tmp = arg;
+	ft_bzero(length, sizeof(int) * 2);
+	while (tmp[length[0]] != '$')
+		length[0]++;
+	tmp = tmp + length[0] + 1;
+	while (tmp)
 	{
-		if (i[1] != 0)
-		{
-			if (k[2] == 1)
-			{
-				temp[3] = ft_strndup_se(temp[0], 0, '$');
-				temp[4] = ft_strjoin(temp[3], temp[2]);
-			}
-			if (k[1] == 1)
-				args[k[0]] = temp[4];
-			else
-			{
-				temp[5] = ft_strjoin(args[k[0]], temp[4]);
-				ft_strdel(&args[k[0]]);
-				args[k[0]] = temp[5];
-			}
-			i[2] = ft_strlen(temp[1]);
-			ft_strdel(&temp[3]);
-		}
-		else
-			args[k[0]] = ft_strdup(temp[2]);
+		if (!ft_isalnum(*tmp) && *tmp != '_')
+			break;
+		length[1]++;
+		tmp++;
 	}
-	else
-	{
-		ft_memset(temp[1], '\0', ft_strlen(temp[1]));
-		temp[1] = temp[0];
-		args[k[0]] = msh_concat_str(temp[1], size, NULL);
-	}
-	return (ft_strlen(temp[1]));
+	val[0] = ft_strndup(arg + length[0] + 1, length[1]);
+	size = ft_strlen(arg);
+	val[1] = msh_get_env_by_key(env, val[0]);
+	ft_memset(arg + length[0], '\0', ft_strlen(val[0]) + 1);
+	ft_strdel(&val[0]);
+	arg = msh_concat_str(arg, size, val[1]);
+	return (arg);
 }
 
-
-void	msh_evaluate_env_call_if_exist(char **args, char **env)
+/**
+ * @brief 
+ * 
+ * @param args 
+ * @param env 
+ * @return int 
+ */
+int	msh_evaluate_env_if_exist(char **args, char **env)
 {
-	int		i[5];
-	int		k[3];
-	char	*temp[6];
+	int		i;
 	int 	j;
 	int 	count_dollars;
+	char	*temp[2];
 
 	j = 0;
-	ft_bzero(i, sizeof(int) * 5);
-	ft_bzero(temp, sizeof(char *) * 6);
-	while (args[i[0]])
+	i = 0;
+	ft_bzero(temp, sizeof(char *) * 2);
+	while (args[i])
 	{
 		j = 0;
-		temp[0] = args[i[0]];
+		temp[0] = args[i];
 		count_dollars = ft_ch_count(temp[0], '$');
 		while (j < count_dollars)
 		{
-			temp[1] = ft_strchr(temp[0], '$');
-			i[1] = ft_index_of(temp[0], '$');
-			if (temp[1] && temp[1][1] != '?' &&  temp[0][0] != '\'')// need to set flag
-			{
-				k[0] = i[0];
-				k[1] = count_dollars;
-				k[2] = j;
-				i[4] = msh_dollar_common_case(args, temp[1], env, k);
-				
-			}
-			else if (temp[1] && temp[1][1] == '?' && temp[0][0] != '\'')
-			{
-				i[4] = msh_dollar_error_case(args, temp[1], i[0]);
-			}
-			temp[0] = temp[0] + i[4];
+			if (temp[0] && temp[0][1] != '?')
+				temp[0] = msh_evaluate_env_arg(temp[0], env);
+			else if (temp[0] && temp[0][1] == '?')
+				temp[0] = msh_dollar_error_case(args, temp[0], i);
 			j++;
+			ft_strdel(&args[i]);
+			args[i] = temp[0];
 		}
-		i[0]++;
+		i++;
 	}
+	return (ft_strlen(temp[0]));
 }
 
 char	**msh_copy_env(char **array)
@@ -288,8 +134,8 @@ char	**msh_create_env_var(char *new_var)
 	char	*new;
 
 	ft_bzero(length, sizeof(int) * 3);
-	i[0] = ft_index_of(new_var, '+');
-	i[1] = ft_index_of(new_var, '=');
+	i[0] = ft_index_of(new_var, '+', 0);
+	i[1] = ft_index_of(new_var, '=', 0);
 	if (i[0] > -1)
 	{
 		tmp[0] = ft_strdup(new_var + i[1] + 1);

@@ -6,13 +6,13 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 18:05:38 by dwulfe            #+#    #+#             */
-/*   Updated: 2021/11/30 18:05:40 by dwulfe           ###   ########.fr       */
+/*   Updated: 2021/12/29 12:43:32 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_index_of(char *line, int c)
+int	ft_index_of(char *line, int c, int reg)
 {
 	int i;
 
@@ -25,5 +25,8 @@ int	ft_index_of(char *line, int c)
 			return (i);
 		i++;
 	}
-	return (-1);
+	if (!reg)
+		return (-1);
+	else
+		return (ft_strlen(line));
 }

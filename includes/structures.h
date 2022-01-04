@@ -3,9 +3,14 @@
 
 #include "libs.h"
 
+
+// #ifndef QOUTES_ADD_REGIME
+// # define QOUTES_ADD_REGIME 0
+// #endif
+
 typedef enum s_specials
 {
-	ERROR = 18,		// Error in syntax (P.S Oh, damn, you are crazy person)
+	NONE = -1,
 	SEMICOLON = 1, 		/* ; */
 	PIPE,				/* | */
 	AMPERSAND,			// &
@@ -23,6 +28,7 @@ typedef enum s_specials
 	CURL_BRACES,		// ()
 	DOLLAR_BRACES,		// $()
 	DOLLAR,				// $
+	ERROR = 18,		// Error in syntax (P.S Oh, damn, you are crazy person)
 }				t_specials;
 
 typedef struct s_redirect
@@ -40,6 +46,7 @@ typedef struct s_arg
 	char			*value;
 	char			**value_arr;
 	t_specials		specials;
+	int				pre_concatenated;
 	struct s_arg	*next;
 	struct s_arg	*prev;
 }				t_arg;
@@ -56,12 +63,14 @@ typedef struct s_command
 	int					build;			// buildin function flag
 	int					piped;			// вмето булевого значения флаг указывающи на наличие pipe
 	int					background;
-										// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
+	t_specials			specials;		// переменная которая хранит тип специального знака ( >> ,  << ,  > ,  < ) для опрееления логики исполнения редиректа
+
 	struct s_command	*next;			// указатель на сдедующуу команду
 	struct s_command	*prev;			// указатель на предыдущюю команду (возможно не нужен)
 }					t_command;
 
 typedef char *(*f_special)(char *str, int *length, char **value_arg);
+typedef int (*f_condition)(char *str, int *length);
 
 typedef struct	s_info
 {
@@ -71,9 +80,10 @@ typedef struct	s_info
 	int			num_token;				// count of tokens in shell
 	char		odd_quote;				// тип незакрытой кавычки 			
 	char		**env;					// переменное окружение минишелла (используется вместо стандартных функций редактирования окружения)
-	t_command   *cur_cmd;				// указатель на первую команду
 	char		*f[8];					// buildin names
-	f_special	func[20];				// char *(*f_special)(char *str, int *length) -> function to do something specials with token parsing 
+	t_command   *cur_cmd;				// указатель на первую команду
+	f_special	func[20];				// char *(*f_special)(char *str, int *length) -> function to do something specials with token parsing
+	f_condition	condition[8];			// conditions for additional parsing logic
 }				t_info;
 
 t_info	g_info;

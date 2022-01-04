@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   comands.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:04:46 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:04:48 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 int	msh_custom_pwd(t_command *cmd)
@@ -35,7 +47,8 @@ int	msh_custom_echo(t_command *cmd)
 		tmp[1] = ft_calloc(sizeof(char), (l[0] + cmd->num_args - 2));
 		while (len < cmd->num_args)
 		{
-			l[1] = (int)ft_strlcat(tmp[1], cmd->args[len], (l[0] + cmd->num_args - 1));
+			ft_strncat(tmp[1], cmd->args[len], (l[0] + cmd->num_args - 2));
+			l[1] = ft_strlen(tmp[1]);
 			if (len != cmd->num_args - 1)
 				tmp[1][l[1]] = ' ';
 			len++;
@@ -57,7 +70,7 @@ int	msh_custom_env(t_command *cmd)
 	(void)cmd;
 	while (g_info.env[i])
 	{
-		if (ft_index_of(g_info.env[i], '=') != -1)
+		if (ft_index_of(g_info.env[i], '=', 0) != -1)
 			ft_putendl_fd(g_info.env[i], 1);
 		i++;
 	}

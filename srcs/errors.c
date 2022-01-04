@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:05:57 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:05:58 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 int	msh_perror(char *cmd_name)
@@ -19,10 +31,10 @@ int	msh_error_bash(char *message, char *str, int code)
 	if (code == 1)
 	{
 		ft_putstr_fd("msh: ", 1);
-		ft_putstr_fd("no such file or derectory: ", 1);
+		ft_putstr_fd("no such file or directory: ", 1);
 		ft_putendl_fd(str, 1);
 	}
-	else if (code == 127)
+	else if (code == 127 || code == 126)
 	{
 		ft_putstr_fd("msh: ", 1);
 		ft_putstr_fd(str, 1);
@@ -32,7 +44,7 @@ int	msh_error_bash(char *message, char *str, int code)
 	return (1);
 }
 
-void	msh_redirect_error(char *token_str, int token_len)
+int	msh_unexpected_token_error(char *token_str, int token_len)
 {
 	g_info.exit_code = 258;
 	write(2, "Mishelle: syntax error near unexpected token", 44);
@@ -40,6 +52,7 @@ void	msh_redirect_error(char *token_str, int token_len)
 	write(2, token_str, token_len);
 	write(2, "'\n", 3);
 	msh_struct_clear();
+	return (-1);
 }
 
 void	msh_export_error(char *arg)
@@ -67,11 +80,11 @@ int	msh_export_invalid(char *arg)
 	length = ft_strlen(arg);
 	if (!arg || (length == 1 && !ft_isalpha(arg[0])) || ft_ch_count(arg, '+') > 1 )
 		return ((++res));
-	i[1] = ft_index_of(arg, '+');
+	i[1] = ft_index_of(arg, '+', 0);
 	if (i[1] > 0)
 		i[2] = i[1];
 	else if (i[1] == -1)
-		i[2] = ft_index_of(arg, '=');
+		i[2] = ft_index_of(arg, '=', 0);
 	else
 		return ((++res));
 	if (length > 2 && arg[i[1]] == '+' && arg[i[1] + 1] != '=')
