@@ -55,11 +55,13 @@ all : ${APP}
 
 re : fclean all
 
-clean : 
+clean : $(OBJDIR)
 		rm -rf $(OBJDIR)
 		cd ./libft && $(MAKE) clean
 		rm -rf $(shell find . -name '*.o')
-		cd readline-8.1 && $(MAKE) distclean
+		@if [ -d "lib" ]; then \
+			cd readline-8.1 && $(MAKE) distclean; \
+		fi
 
 fclean : clean
 		cd ./libft && $(MAKE) fclean

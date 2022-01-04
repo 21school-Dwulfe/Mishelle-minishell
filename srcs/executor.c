@@ -175,14 +175,42 @@ char	**msh_replace_and_copy(char **args, char *new, int index)
 
 void	msh_evaluate_all_tokens(t_command *cmd)
 {
-	int 		i;
+	int 	i[2];
+	int 	count;
+	char	copy[48];
+	char	*buff[2];
+	t_arg	*tok;
 
-	i = 0;
-	while (cmd->args[i])
+	ft_bzero(buff, sizeof(char *) * 2);
+	ft_bzero(i, sizeof(int) * 2);
+	while (cmd->args[i[0]])
 	{
-		if (msh_is_token(cmd->args[i]))
-			msh_exchange_token_value(cmd, i);
-		i++;
+		i[1] = 0;
+		while (cmd->args[i[0]][i[1]])
+		{
+			ft_bzero(copy, sizeof(char) * 48);
+			while (cmd->args[i[0]][i[1]] && cmd->args[i[0]][i[1]] != '%')
+			{
+				copy[i[1]] = cmd->args[i[0]][i[1]];
+				i[1]++;
+			}
+			if (msh_is_token(copy[i[0]]))
+			{
+				tok = msh_get_token_value(cmd, copy[i[0]]);
+				if (!buff[0])
+					buff[0] = ft_strdup(tok->value);
+				else
+				{
+					buff[1] = ft_strjoin(buff[0], tok->value);
+					ft_strdel(&buff[0]);
+					buff[0] = buff[1];
+				}
+			}
+			i[1]++;
+		}
+		ft_strdel(&cmd->args[i[0]]);
+		cmd->args[i[0]] = buff[0];
+		i[0]++;
 	}
 }
 
@@ -229,7 +257,6 @@ void	msh_shell_prepare(t_command *cmd)
 	{
 		
 	}
-	
 }
 
 int	msh_make_path_relative(t_command *cmd)
