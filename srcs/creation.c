@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:11 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:05:13 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/06 17:37:27 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ t_arg *msh_create_token(char *name, char *value, int order, int specials)
 	args_token->next = NULL;
 	args_token->prev = NULL;
 	args_token->name = name;
-	if (!value)
-		args_token->value = ft_strdup(name);
-	else
-		args_token->value = value;
+	args_token->value = value;
+	args_token->pseudo = msh_generate_tokens(specials, order);
 	args_token->specials = specials;
 	args_token->order = order;
 	return (args_token);

@@ -6,9 +6,9 @@ LIBRARY_NAME	= lib
 SYSTEM			:= $(shell uname)
 
 REL_PATH		:= $(shell pwd)
-SRCS			:= $(shell find $(SRCDIR) -name '*.c')
+SRCS			:= $(shell ls $(SRCDIR))
 
-SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
+#SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
 OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))} 
 HEADERS			:= ${shell find ./includes -name '%.h'}
 

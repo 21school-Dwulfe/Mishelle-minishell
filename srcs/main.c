@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:07:55 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/06 17:48:58 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	msh_struct_clear()
 		while (tmp_arg)
 		{
 			cmds->args_token = cmds->args_token->next;
-			ft_delptr((void **)tmp_arg->value_arr);
 			free(tmp_arg);
 			tmp_arg = cmds->args_token;
 		}

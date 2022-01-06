@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:45 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:07:47 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/06 17:12:38 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,37 @@ void	msh_add_redirect(t_redirect **current, char *value, t_specials specials)
 	}
 }
 
-t_arg	*msh_add_token(t_command *cmd, char *name, int order, int specials)
-{
-	t_arg	*tmp;
+// t_arg	*msh_add_token(t_command *cmd, char *name, int order, int specials)
+// {
+// 	t_arg	*tmp;
 
+// 	if (cmd && !cmd->args_token)
+// 	{
+// 		tmp = msh_create_token(name, NULL, order, specials);
+// 		cmd->args_token = tmp;
+// 		cmd->args_token->prev = cmd->args_token;
+// 	}
+// 	else
+// 	{
+// 		tmp = msh_create_token(name, NULL, order, specials);
+// 		cmd->args_token->prev->next = tmp;
+// 		tmp->prev = cmd->args_token->prev;
+// 		cmd->args_token->prev = tmp;
+// 	}
+// 	return (tmp);
+// }
+
+void	msh_add_token(t_command *cmd, t_arg *arg)
+{
 	if (cmd && !cmd->args_token)
 	{
-		tmp = msh_create_token(name, NULL, order, specials);
-		cmd->args_token = tmp;
+		cmd->args_token = arg;
 		cmd->args_token->prev = cmd->args_token;
 	}
 	else
 	{
-		tmp = msh_create_token(name, NULL, order, specials);
-		cmd->args_token->prev->next = tmp;
-		tmp->prev = cmd->args_token->prev;
-		cmd->args_token->prev = tmp;
+		cmd->args_token->prev->next = arg;
+		arg->prev = cmd->args_token->prev;
+		cmd->args_token->prev = arg;
 	}
-	return (tmp);
 }

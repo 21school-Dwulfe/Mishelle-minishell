@@ -28,7 +28,7 @@ typedef enum s_specials
 	CURL_BRACES,		// ()
 	DOLLAR_BRACES,		// $()
 	DOLLAR,				// $
-	ERROR = 18,		// Error in syntax (P.S Oh, damn, you are crazy person)
+	ERROR = 18,		// 18+ Error in syntax (P.S Oh, damn, you are crazy person)
 }				t_specials;
 
 typedef struct s_redirect
@@ -43,10 +43,12 @@ typedef struct s_redirect
 typedef struct s_arg
 {
 	int				order; 			// index of arg to swap values
+	int				has_prefix;
+	int				is_prefix;
 	char			*value;
+	char			*pseudo;
 	char			*name;
 	t_specials		specials;
-	int				pre_concatenated;
 	struct s_arg	*next;
 	struct s_arg	*prev;
 }				t_arg;

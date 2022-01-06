@@ -7,7 +7,6 @@
 int			msh_parse(char *str);
 int			msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void		msh_add_to_struct(char **result);
-t_arg		*msh_add_token(t_command *cmd, char *value, int order, int specials);
 void		msh_push_command(t_command **cur_cmd, char **value);
 void		msh_custom_exit(t_command *cmd);
 int			msh_custom_pwd(t_command *cmd);
@@ -81,7 +80,7 @@ int			msh_unexpected_token_error(char *token_str, int token_len);
 char		*msh_get_env_by_key(char **env, char *argument);
 int			msh_env_exist(char **env, char *argument);
 int			msh_modify_env_var(char **env, char *new_value);
-char		*msh_specify_token(int *length, char *str, int specials);
+void        msh_specify_token(int *length, char *str, int specials);
 char		*msh_token_quotes(char *str, int *index);
 char		*msh_token_d_quotes(char *str, int *index);
 char		*msh_token_dollar(char *str, int *index);
@@ -106,6 +105,8 @@ void		msh_build_preparings(t_command *cmd);
 int			msh_is_build(char *cmd);
 void		msh_evaluate_all_tokens(t_command *cmd);
 int			msh_make_path_relative(t_command *cmd);
+void        msh_specials_replace(char **str, char *insertion, int *start, int end);
+
 
 /**
  * @brief Cut's redirect signs, if they are clumped with filename or previos arg
@@ -128,7 +129,12 @@ void	msh_cut_recursion(t_command *cmd, int i, char *c);
  * @return int 1 - requirement to use recursion
  */
 int	msh_first_redirect(t_command *cmd, int *i, char *c);
-
+/**
+ * @brief check command name if it not a dir
+ * 
+ * @param cmd current command to execute
+ * @return int 1 TRUE; 0 FALSE;
+ */
 int	msh_execution_validation(t_command *cmd);
 
 /**
@@ -152,6 +158,9 @@ char	*msh_concat_str(char *arg, int size , char *insertion);
 
 void	    msh_init_global_cmd();
 t_command	*msh_last_cmd(void);
-
+t_arg	    *msh_last_token(void);
+void	    msh_add_token(t_command *cmd, t_arg *arg);
+void	    msh_choose_effect(char **str, int *i, int specials);
+void	    msh_specials_cut(char **str, int *i, int end);
 
 #endif

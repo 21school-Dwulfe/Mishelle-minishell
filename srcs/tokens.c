@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:11:43 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:16:26 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/06 16:30:37 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,17 @@ t_arg	*msh_get_token_value(t_command *cmd, char *token)
 	return (tok);
 }
 
-// void	msh_exchange_token_value(t_command *cmd, int index)
-// {
-// 	t_arg	*tmp;
 
-// 	tmp = msh_get_token_value(cmd, cmd->args[index]);
-// 	ft_strdel(&cmd->args[index]);
-// 	cmd->args[index] = tmp->value;
-// }
+t_arg	*msh_last_token(void)
+{
+	return (msh_last_cmd()->args_token->prev);
+}
+
+void	msh_exchange_token_value(t_command *cmd, int index)
+{
+	t_arg	*tmp;
+
+	tmp = msh_get_token_value(cmd, cmd->args[index]);
+	ft_strdel(&cmd->args[index]);
+	cmd->args[index] = tmp->value;
+}
