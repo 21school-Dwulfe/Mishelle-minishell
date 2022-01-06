@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:07:27 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 char	*msh_get_path(char *cmd_name, char **env)
 {
+	int		res;
 	int		i[2];
 	char	*tmp[4];
 	char	**splited;
-	int		res;
 
 	ft_bzero(i, sizeof(int) * 2);
 	res = access(cmd_name, X_OK);

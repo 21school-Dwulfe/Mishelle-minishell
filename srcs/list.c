@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:07:45 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:07:47 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 void	msh_add_command(t_command **cur_cmd, char **value)
@@ -49,19 +61,19 @@ void	msh_add_redirect(t_redirect **current, char *value, t_specials specials)
 	}
 }
 
-t_arg	*msh_add_token(t_command *cmd, char *value, int order, int specials)
+t_arg	*msh_add_token(t_command *cmd, char *name, int order, int specials)
 {
 	t_arg	*tmp;
 
 	if (cmd && !cmd->args_token)
 	{
-		tmp = msh_create_token(value, NULL, order, specials);
+		tmp = msh_create_token(name, NULL, order, specials);
 		cmd->args_token = tmp;
 		cmd->args_token->prev = cmd->args_token;
 	}
 	else
 	{
-		tmp = msh_create_token(value, NULL, order, specials);
+		tmp = msh_create_token(name, NULL, order, specials);
 		cmd->args_token->prev->next = tmp;
 		tmp->prev = cmd->args_token->prev;
 		cmd->args_token->prev = tmp;

@@ -6,6 +6,14 @@
         "sstream": "c",
         "chrono": "c",
         "main.h": "c",
-        "complex": "c"
+        "complex": "c",
+        "*.tcc": "c",
+        "optional": "c",
+        "istream": "c",
+        "ostream": "c",
+        "system_error": "c",
+        "array": "c",
+        "type_traits": "c",
+        "utility": "c"
     }
 }

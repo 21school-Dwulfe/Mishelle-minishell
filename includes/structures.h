@@ -44,7 +44,7 @@ typedef struct s_arg
 {
 	int				order; 			// index of arg to swap values
 	char			*value;
-	char			**value_arr;
+	char			*name;
 	t_specials		specials;
 	int				pre_concatenated;
 	struct s_arg	*next;
@@ -69,7 +69,8 @@ typedef struct s_command
 	struct s_command	*prev;			// указатель на предыдущюю команду (возможно не нужен)
 }					t_command;
 
-typedef char *(*f_special)(char *str, int *length, char **value_arg);
+typedef char *(*f_special)(char *str, int *length);
+typedef int (*f_condition)(char *str, int *length);
 
 typedef struct	s_info
 {
@@ -79,9 +80,10 @@ typedef struct	s_info
 	int			num_token;				// count of tokens in shell
 	char		odd_quote;				// тип незакрытой кавычки 			
 	char		**env;					// переменное окружение минишелла (используется вместо стандартных функций редактирования окружения)
-	t_command   *cur_cmd;				// указатель на первую команду
 	char		*f[8];					// buildin names
-	f_special	func[20];				// char *(*f_special)(char *str, int *length) -> function to do something specials with token parsing 
+	t_command   *cur_cmd;				// указатель на первую команду
+	f_special	func[20];				// char *(*f_special)(char *str, int *length) -> function to do something specials with token parsing
+	f_condition	condition[8];			// conditions for additional parsing logic
 }				t_info;
 
 t_info	g_info;

@@ -1,104 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirects.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 20:08:48 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/04 20:08:49 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
-void	msh_set_specials(char *c, char *src, int *rr)
-{
-	char	ch[2];
-
-	ch[0] = '<';
-	ch[1] = '>';
-	ft_bzero(c, sizeof(char) * ft_strlen(c));
-	if (src[rr[rr[4]] + 1] == src[rr[rr[4]]])
-		ft_memset(c, ch[rr[4]], 2);
-	else
-		c[0] = ch[rr[4]];
-}
-
-int msh_get_specials(char *c)
-{
-	int index;
-	
-	index = ft_strlen(c);
-	if (index == 2 && c[0] == '<')
-		return (RD_REDIRECT);
-	if (index == 1 && c[0] == '<')
-		return (R_REDIRECT);
-	if (index == 2 && c[0] == '>')
-		return (D_REDIRECT);
-	if (index == 1 && c[0] == '>')
-		return (REDIRECT);
-	return (0);
-}
-
-int	msh_prefix_redirect(t_command *cmd, int *i, char *c, int *rr)
-{
-	if (ft_strcmp(cmd->args[*i], c) == 0)
-	{
-		ft_strdel(&cmd->args[*i]);
-		(*i)++;
-		return (1);
-	}
-	msh_add_redirect(&cmd->redirects, ft_strdup(cmd->args[*i] + rr[2]), rr[3]);
-	ft_strdel(&cmd->args[*i]);
-	return (0);
-}
-
-int	msh_postfix_redirect(t_command *cmd, int *i, char *c, int *rr)
-{
-	char	*dest;
-	char	*hren;
-
-	dest = ft_strndup_se(cmd->args[*i] + rr[2], rr[rr[4]], 0);
-	msh_add_redirect(&cmd->redirects, dest, rr[3]);
-	msh_set_specials(c, cmd->args[*i] + rr[2], rr);
-	hren = ft_strdup(cmd->args[*i] + rr[2] + ft_strlen(dest));
-	ft_strdel(&cmd->args[*i]);
-	cmd->args[*i] = hren;
-	if (ft_strcmp(cmd->args[*i], c) == 0)
-	{
-		ft_strdel(&cmd->args[*i]);
-		(*i)++;
-	}
-	return (1);
-}
-
-/**
- * @brief Cut current redirect & change next type for recursion
- * 
- * @param dest - redirect file name for adding in redirect struct
- * @param src  - income string or previos tail
- * @param tail - tail after first redirect
- * @param c - next type of redirect from list of  < , > , << , >>
- * @return int 1 - requirement to use recursion
- */
-int	msh_first_redirect(t_command *cmd, int *i, char *c)
-{
-	int		rr[5];
-
-	ft_bzero(rr, sizeof(int) * 5);
-	while (cmd->args[*i][rr[2]] == c[0])
-		rr[2]++;
-	rr[0] = ft_index_of(cmd->args[*i] + rr[2], '<', 1);
-	rr[1] = ft_index_of(cmd->args[*i] + rr[2], '>', 1);
-	if (rr[0] < rr[1])
-		rr[4] = 0;
-	if (rr[1] < rr[0])
-		rr[4] = 1;
-	rr[3] = msh_get_specials(c);
-	if (rr[1] == rr[0])
-		return (msh_prefix_redirect(cmd, i, c, rr));
-	else
-		return (msh_postfix_redirect(cmd, i, c, rr));
-}
-
-/**
- * @brief Cut's redirect signs, if they are clumped with filename or previos arg
- * j[0] = NULL	
- * j[1] = int of redirect < , > 
- * j[2] = index of another type of redirect if it exist in the string
- * j[3] = iterator for loop
- * @param i - current index of args
- * @param c - string with redirect
- */
 void	msh_cut_recursion(t_command *cmd, int i, char *c)
 {
 	int		j;
