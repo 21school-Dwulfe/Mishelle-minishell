@@ -85,7 +85,7 @@ typedef struct	s_info
 	char		*f[8];					// buildin names
 	t_command   *cur_cmd;				// указатель на первую команду
 	f_special	func[20];				// char *(*f_special)(char *str, int *length) -> function to do something specials with token parsing
-	f_condition	condition[8];			// conditions for additional parsing logic
+	f_condition	condition[12];			// conditions for additional parsing logic
 }				t_info;
 
 t_info	g_info;

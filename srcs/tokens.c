@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:11:43 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/06 16:30:37 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/07 21:16:06 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,17 @@ char	*msh_generate_tokens(int specials, int num)
 		str = " CURL_BRACES";
 	else if (specials == 16)
 		str = " DOLLAR_BRACES";
+	else if (specials == 17)
+		str = " DOLLAR";
 	tmp = ft_itoa(num);
 	i[0] = ft_strlen(str);
 	i[1] = ft_strlen(tmp);
-	result = ft_calloc(i[0] + i[1] + 2, sizeof(char));
+	result = ft_calloc(i[0] + i[1] + 3, sizeof(char));
 	ft_strncat(result, str, i[0]);
-	ft_strncat(result, tmp, i[0] + i[1] + 2);
-	result[ft_strlen(result)] = ' ';
-	result[ft_strlen(result) + 1] = '\0';
+	ft_strncat(result, tmp, i[0] + i[1] + 3);
+	result[ft_strlen(result)] = '%';
+	result[ft_strlen(result) + 1] = ' ';
+	result[ft_strlen(result) + 2] = '\0';
 	ft_strdel(&tmp);
 	return (result);
 }

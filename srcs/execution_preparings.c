@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/06 17:48:40 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/07 19:56:35 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void msh_evaluate_all_tokens(t_command *cmd)
 	t_arg	*tok;
 
 	i = 0;
+	ft_bzero(tmp, sizeof(char *) * 4);
 	while (cmd->args[i])
 	{
 		tmp[0] = cmd->args[i];

@@ -178,6 +178,7 @@ t_command	*msh_last_cmd(void);
 t_arg	    *msh_last_token(void);
 void	    msh_add_token(t_command *cmd, t_arg *arg);
 void	    msh_choose_effect(char **str, int *i, int specials);
+int         msh_conditions_dollar(char *str, int *i);
 void	    msh_specials_cut(char **str, int *i, int end);
 //; | < > space
 char        *msh_get_prev_word(char *str, int length, char *set);

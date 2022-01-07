@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:08:58 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/07 20:09:49 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	msh_shell_bin(char **env, char *path)
 
 void	msh_build_preparings(t_command *cmd)
 {
-	if (cmd->build == 7)
+	if (cmd->build == 8)
 	{
 		cmd->args[0] = ft_strjoin(g_info.pwd, g_info.f[7]);
 		ft_strdel(&cmd->args[0]);

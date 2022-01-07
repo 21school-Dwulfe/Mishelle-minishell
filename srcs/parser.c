@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:25 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/06 17:52:40 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/07 21:06:08 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 	int	res;
 
 	j = 0;
-	while (j < 8)
+	while (j < 9)
 	{
 		res = g_info.condition[j](str, i);
 		if (res != 0)
@@ -75,6 +75,7 @@ void	msh_input_call(char **str, int *i)
 	msh_readline(">", &line);
 	tmp = *str;
 	*str = ft_strjoin(tmp, line);
+	ft_strdel(&line);
 	ft_strdel(&tmp);
 	*i = 0;
 }
@@ -86,16 +87,16 @@ int	msh_parse(char *str)
 	ft_bzero(i, sizeof(int) * 3);
 	while (str[i[1]])
 	{
-		if (i[2] > 0)
+		if (i[2] == 1 || i[2] == 2)
 			i[0] = i[1];
 		if (msh_check_special_signs(str, &i[1], &i[2]) == ERROR)
 			return (-1);
-		if (i[2] < 0)
+		if (i[2] < -1)
 			msh_input_call(&str, &i[1]);
-		if (i[2] > 12 && i[2] < 20)
+		if (i[2] == -1 || (i[2] > 12 && i[2] < 20))
 			msh_choose_effect(&str, &i[1], i[2]);
 		if (i[2] == 22 || i[2] == 23)
-			msh_specials_cut(&str, &i[1], i[1] + 2);
+			msh_specials_cut(&str, &i[1], 2);
 		if (i[2] != 0 && i[2] < 3)
 			msh_save_command(str, i[0], i[1], i[2]);
 		if (i[2] >= 12 && i[2] < 20)

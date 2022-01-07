@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:51 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:05:52 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/07 19:50:23 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ char	*msh_evaluate_env_arg(char *arg, char **env)
 	char	*tmp;
 
 	tmp = arg;
+	for (int i = 0; i < ft_str_count(env); i++)
+	{
+		printf("%s\n", env[i]);
+	}
 	ft_bzero(length, sizeof(int) * 2);
 	while (tmp[length[0]] != '$')
 		length[0]++;

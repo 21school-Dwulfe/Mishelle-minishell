@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:05 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:05:06 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/07 19:06:40 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,15 @@ int msh_conditions_pipe(char *str, int *i)
 int msh_conditions_end(char *str, int *i)
 {
 	if (str[*i + 1] == '\0')
-	     return (-1);
+		return (-1);
+	else
+		return (0);
+}
+
+int msh_conditions_dollar(char *str, int *i)
+{
+	if (str[*i] == '$' && str[*i + 1] != '\0' && str[*i + 1] != ' ')
+		return (DOLLAR);
 	else
 		return (0);
 }
