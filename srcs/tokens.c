@@ -14,6 +14,8 @@
 
 int	msh_is_token(char *arg)
 {
+	if (!arg)
+		return (0);
 	if (!ft_strncmp(arg, "QUOTES", 6))
 		return (1);
 	else if (!ft_strncmp(arg, "D_QUOTES", 8))
@@ -36,22 +38,22 @@ char	*msh_generate_tokens(int specials, int num)
 	size_t	i[2];
 
 	if (specials == 12)
-		str = "%S_QOUTES";
+		str = " S_QOUTES";
 	else if (specials == 13)
-		str = "%QUOTES";
+		str = " QUOTES";
 	else if (specials == 14)
-		str = "%D_QUOTES";
+		str = " D_QUOTES";
 	else if (specials == 15)
-		str = "%CURL_BRACES";
+		str = " CURL_BRACES";
 	else if (specials == 16)
-		str = "%DOLLAR_BRACES";
+		str = " DOLLAR_BRACES";
 	tmp = ft_itoa(num);
 	i[0] = ft_strlen(str);
 	i[1] = ft_strlen(tmp);
 	result = ft_calloc(i[0] + i[1] + 2, sizeof(char));
 	ft_strncat(result, str, i[0]);
 	ft_strncat(result, tmp, i[0] + i[1] + 2);
-	result[ft_strlen(result)] = '%';
+	result[ft_strlen(result)] = ' ';
 	result[ft_strlen(result) + 1] = '\0';
 	ft_strdel(&tmp);
 	return (result);

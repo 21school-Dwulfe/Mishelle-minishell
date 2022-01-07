@@ -42,6 +42,14 @@ void		msh_config(int argc, char **argv, char **env);
 char		**msh_create_env_var(char *new_var);
 char		**msh_split(char *str, int c);
 char		*msh_read_fd(int fd);
+
+/**
+ * @brief change path to relative if it necessary
+ * 
+ * @param cmd_name 	command name
+ * @param env 		envaroment variable array
+ * @return char* if command can be executed return new allocated string else return NULL
+ */
 char		*msh_get_path(char *cmd_name, char **env);
 char		**msh_copy_env(char **array);
 char		*msh_multy_pipe(t_command *cmds, char **env);
@@ -61,6 +69,8 @@ char		*msh_get_str_inside(char *str, char *set, int reg);
 void		msh_add_command(t_command **cur_cmd, char **value);
 int			msh_is_token(char *arg);
 int			msh_validate_line(char *line);
+char        *msh_dollar_error_case(char **args, char *tmp);
+char        *msh_evaluate_env_arg(char *arg, char **env);
 
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
@@ -102,6 +112,13 @@ int			msh_validation_closest_chars(char *str, int *i);
 void		msh_side_effects(char **str, int *i, int *specials);
 int			msh_custom_redirect(int *fd_arr, t_command *cmd);
 void		msh_build_preparings(t_command *cmd);
+
+/**
+ * @brief Check cmd if it is one of buildin functions
+ * 
+ * @param cmd command
+ * @return int if success returns index from buildin arraylist else return -1 
+ * */
 int			msh_is_build(char *cmd);
 void		msh_evaluate_all_tokens(t_command *cmd);
 int			msh_make_path_relative(t_command *cmd);
@@ -162,5 +179,8 @@ t_arg	    *msh_last_token(void);
 void	    msh_add_token(t_command *cmd, t_arg *arg);
 void	    msh_choose_effect(char **str, int *i, int specials);
 void	    msh_specials_cut(char **str, int *i, int end);
+//; | < > space
+char        *msh_get_prev_word(char *str, int length, char *set);
+char        *msh_get_next_word(char *str, int length, char *set);
 
 #endif

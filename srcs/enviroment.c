@@ -12,14 +12,14 @@
 
 #include "../includes/main.h"
 
-char	*msh_dollar_error_case(char **args, char *tmp, int j)
+char	*msh_dollar_error_case(char **args, char *tmp)
 {
 	int		i[3];
 	char	*temp[6];
 
 	ft_bzero(i, sizeof(int) * 3);
 	ft_bzero(temp, sizeof(char *) * 6);
-	temp[0] = args[j];
+	temp[0] = *args;
 	temp[2] = tmp;
 	temp[3] = ft_itoa(msh_read_error_code());
 	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
@@ -34,7 +34,7 @@ char	*msh_dollar_error_case(char **args, char *tmp, int j)
 		temp[1] = ft_strdup(temp[4]);
 		i[2] = 5;
 	}
-	args[j] = temp[1];
+	*args = temp[1];
 	while (1 != --i[2])
 		ft_strdel(&temp[i[2]]);
 	ft_strdel(&temp[0]);
@@ -96,7 +96,7 @@ int	msh_evaluate_env_if_exist(char **args, char **env)
 			if (temp[0] && temp[0][1] != '?')
 				temp[0] = msh_evaluate_env_arg(temp[0], env);
 			else if (temp[0] && temp[0][1] == '?')
-				temp[0] = msh_dollar_error_case(args, temp[0], i);
+				temp[0] = msh_dollar_error_case(&args[j], temp[0]);
 			j++;
 			ft_strdel(&args[i]);
 			args[i] = temp[0];

@@ -63,6 +63,22 @@ void	msh_save_command(char *str, int start, int end, int specials)
 	ft_strdel(&tmp);
 }
 
+//-10 wait for command
+//-11 wait for command
+
+void	msh_input_call(char **str, int *i)
+{
+	char	*line;
+	char	*tmp;
+
+	(void)i;
+	msh_readline(">", &line);
+	tmp = *str;
+	*str = ft_strjoin(tmp, line);
+	ft_strdel(&tmp);
+	*i = 0;
+}
+
 int	msh_parse(char *str)
 {
 	int			i[3];
@@ -74,11 +90,10 @@ int	msh_parse(char *str)
 			i[0] = i[1];
 		if (msh_check_special_signs(str, &i[1], &i[2]) == ERROR)
 			return (-1);
+		if (i[2] < 0)
+			msh_input_call(&str, &i[1]);
 		if (i[2] > 12 && i[2] < 20)
-		{
-			msh_specify_token(&i[1], str, i[2]);
 			msh_choose_effect(&str, &i[1], i[2]);
-		}
 		if (i[2] == 22 || i[2] == 23)
 			msh_specials_cut(&str, &i[1], i[1] + 2);
 		if (i[2] != 0 && i[2] < 3)
