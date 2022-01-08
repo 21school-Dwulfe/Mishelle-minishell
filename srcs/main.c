@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/07 20:12:04 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/08 19:50:56 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ void	msh_config(int argc, char **argv, char **env)
 	g_info.num_of_commands = 0;
 	g_info.num_token = 0;
 	g_info.env = msh_copy_env(env);
-	for (int i = 0; i < ft_str_count(env); i++)
-	{
-		printf("%s\n", env[i]);
-	}
 	g_info.pwd = getcwd(NULL, 0);
 	msh_init_global_cmd();
 	msh_init_functions();

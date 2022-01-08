@@ -183,5 +183,6 @@ void	    msh_specials_cut(char **str, int *i, int end);
 //; | < > space
 char        *msh_get_prev_word(char *str, int length, char *set);
 char        *msh_get_next_word(char *str, int length, char *set);
+void        msh_replace_null_arg(t_command *cmd);
 
 #endif

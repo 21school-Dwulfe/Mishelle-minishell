@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/07 21:24:57 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/08 19:00:47 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	msh_specify_token(int *length, char *str, int specials)
 	char		*tmp[3];
 	t_arg		*arg;
 	t_command	*cmd;
+	int			add;
 	int			has_prefix;
 	int			is_prefix;
 
@@ -71,7 +72,8 @@ void	msh_specify_token(int *length, char *str, int specials)
 	arg = NULL;
 	has_prefix = 0;
 	is_prefix = 0;
-	ft_bzero(value, sizeof(char *) * 4);
+	add = 0;
+	ft_bzero(value, sizeof(char *) * 2);
 	value[0] = g_info.func[specials](str, length);
 	name = ft_strdup(value[0]);
 	tmp[0] = msh_get_prev_word(str, *length, ";|<> ");
@@ -80,15 +82,13 @@ void	msh_specify_token(int *length, char *str, int specials)
 		has_prefix = 1;
 	else if (*length - 1 > -1 && str[*length - 1] != ' ')
 		has_prefix = 1;
-	if (*length + (int)ft_strlen(value[0]) + 1 <= (int)ft_strlen(str) && str[*length + (int)ft_strlen(value[0]) + 1] != ' ' && 
-		(int)ft_strlen(str) && str[*length + (int)ft_strlen(value[0]) + 1] != '\0')
+	if (specials == 13 || specials == 14 || specials == 15)
+		add += 2;
+	if (*length + (int)ft_strlen(value[0]) + 1 <= (int)ft_strlen(str) && str[*length + (int)ft_strlen(value[0]) + add] != ' ' && 
+		(int)ft_strlen(str) && str[*length + (int)ft_strlen(value[0]) + add] != '\0')
 		is_prefix = 1;
 	ft_strdel(&tmp[0]);
-	ft_strdel(&tmp[1]);
 	if (ft_strchr(value[0], '$') && specials != QUOTES)
-	{
-		
-	}
 		msh_evaluate_env_if_exist(value, g_info.env);
 	arg = msh_create_token(name, value[0], g_info.num_token++, specials);
 	arg->has_prefix = has_prefix;

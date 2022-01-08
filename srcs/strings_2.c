@@ -10,15 +10,14 @@ char *msh_get_prev_word(char *str, int length, char *set)
     {
         i--;
     }
-	while (i - 1 > -1 && !ft_strchr(set, str[i]))
+	while (i - 1 > -1 && !ft_strchr(set, str[i - 1]))
 		i--;
-    return (ft_strndup(str + i, length));
+    return (ft_strndup(str + i, length - i));
 }
 
 char *msh_get_next_word(char *str, int length, char *set)
 {
 	int i;
-
 
 	i = length;
     while (str[i] == ' ')

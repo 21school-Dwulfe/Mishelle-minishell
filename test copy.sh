@@ -28,3 +28,4 @@ blah "|" /bin/echo OK ";"
 ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" blah "|" /bin/echo OK ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";" ";"
 
 #cat < Makefile < test.sh > file >file2 >file3> fil
+#echo "''$USER fghjk $USER''"'''$USER'$PWD '"$USER"'

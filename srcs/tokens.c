@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:11:43 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/07 21:16:06 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/08 14:50:08 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	msh_is_token(char *arg)
 	else if (!ft_strncmp(arg, "CURL_BRACES", 11))
 		return (1);
 	else if (!ft_strncmp(arg, "DOLLAR_BRACES", 13))
+		return (1);
+	else if (!ft_strncmp(arg, "DOLLAR", 6))
 		return (1);
 	else
 		return (0);
