@@ -6,20 +6,20 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:51 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:05:52 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/08 17:51:12 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-char	*msh_dollar_error_case(char **args, char *tmp, int j)
+char	*msh_dollar_error_case(char **args, char *tmp)
 {
 	int		i[3];
 	char	*temp[6];
 
 	ft_bzero(i, sizeof(int) * 3);
 	ft_bzero(temp, sizeof(char *) * 6);
-	temp[0] = args[j];
+	temp[0] = *args;
 	temp[2] = tmp;
 	temp[3] = ft_itoa(msh_read_error_code());
 	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
@@ -34,7 +34,7 @@ char	*msh_dollar_error_case(char **args, char *tmp, int j)
 		temp[1] = ft_strdup(temp[4]);
 		i[2] = 5;
 	}
-	args[j] = temp[1];
+	*args = temp[1];
 	while (1 != --i[2])
 		ft_strdel(&temp[i[2]]);
 	ft_strdel(&temp[0]);
@@ -96,7 +96,7 @@ int	msh_evaluate_env_if_exist(char **args, char **env)
 			if (temp[0] && temp[0][1] != '?')
 				temp[0] = msh_evaluate_env_arg(temp[0], env);
 			else if (temp[0] && temp[0][1] == '?')
-				temp[0] = msh_dollar_error_case(args, temp[0], i);
+				temp[0] = msh_dollar_error_case(&args[j], temp[0]);
 			j++;
 			ft_strdel(&args[i]);
 			args[i] = temp[0];
@@ -142,23 +142,10 @@ char	**msh_create_env_var(char *new_var)
 		tmp[1] = ft_strndup_se(new_var, 0, '=');
 		tmp[1][i[1] - 1] = '=';
 		tmp[1][i[1]] = '\0';
-		//tmp[2] = ft_decorate(tmp[0], "\"", "\"");
 		new = ft_strjoin(tmp[1], tmp[0]);
 		ft_strdel(&tmp[0]);
 		ft_strdel(&tmp[1]);
-		//ft_strdel(&tmp[2]);
 	}
-	// else if (i[1] > -1)
-	// {
-	// 	tmp[0] = ft_strdup(new_var + i[1] + 1);
-	// 	tmp[1] = ft_strndup_se(new_var, 0, '=');
-	// //	if (ft_index_of(tmp[0], '\"') > -1)
-	// 	//tmp[2] = ft_decorate(tmp[0], "\"", "\"");
-	// 	new = ft_strjoin(tmp[1], tmp[2]);
-	// 	ft_strdel(&tmp[0]);
-	// 	ft_strdel(&tmp[1]);
-	// //	ft_strdel(&tmp[2]);
-	// }
 	else
 		new = new_var;
 	while (g_info.env[length[1]])
@@ -174,32 +161,3 @@ char	**msh_create_env_var(char *new_var)
 	ft_arrstr_del(g_info.env, length[1]);
 	return (result);
 }
-
-// int main(void)
-// {
-// 	char *str = "str\0\0\0hr";
-// 	char *new = msh_concat_str(str, 8);
-// 	printf("%s\n", new);
-// 	return (0);
-// }
-
-// int main(int argc, char **argv, char **env)
-// {
-// 	int i;
-// 	t_command	*cmd;
-
-// 	i = 0;
-// 	cmd = malloc(sizeof(t_command));
-// 	cmd->arguments = msh_copy_env(argv);
-// 	cmd->number_args = argc;
-// 	msh_evaluate_env_call_if_exist(cmd, env);
-// 	i = 0;
-// 	while (cmd->arguments[i])
-// 	{
-// 		printf("%s\n", cmd->arguments[i++]);
-// 	}
-//	free(cmd->arguments);
-// 	free(cmd);
-// 	return (0);
-// }
-

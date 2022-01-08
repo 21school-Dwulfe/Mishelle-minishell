@@ -6,9 +6,9 @@ LIBRARY_NAME	= lib
 SYSTEM			:= $(shell uname)
 
 REL_PATH		:= $(shell pwd)
-SRCS			:= $(shell find $(SRCDIR) -name '*.c')
+SRCS			:= $(shell ls $(SRCDIR))
 
-SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
+#SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
 OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))} 
 HEADERS			:= ${shell find ./includes -name '%.h'}
 
@@ -38,7 +38,7 @@ ${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS}
 			fi
 			cd ./libft && $(MAKE) && $(MAKE) bonus
 			
-			${CC} -DQUOTES_ADD_REGIME=0 ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} #-fsanitize=address
+			${CC} -DQUOTES_ADD_REGIME=0 ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} -fsanitize=address
 
 .PHONY: all clean fclean re bonus buildrepo lib print 
 
@@ -55,11 +55,13 @@ all : ${APP}
 
 re : fclean all
 
-clean : 
+clean : $(OBJDIR)
 		rm -rf $(OBJDIR)
 		cd ./libft && $(MAKE) clean
 		rm -rf $(shell find . -name '*.o')
-		cd readline-8.1 && $(MAKE) distclean
+		@if [ -d "lib" ]; then \
+			cd readline-8.1 && $(MAKE) distclean; \
+		fi
 
 fclean : clean
 		cd ./libft && $(MAKE) fclean

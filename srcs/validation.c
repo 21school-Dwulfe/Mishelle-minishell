@@ -61,16 +61,64 @@ int	msh_validate_line(char *line)
 
 int	msh_validation_pipe(char *str, int *i)
 {
+	char	*tmp[2];
+	int		len[2];
+
 	(void)str;
-	if (*i == 0)
-		return (msh_unexpected_token_error("|", 1));
+	tmp[0] = msh_get_prev_word(str, *i, " ");
+	tmp[1] = msh_get_next_word(str, *i, " ");
+	len[0] = (int)ft_strlen(tmp[0]);
+	len[1] = (int)ft_strlen(tmp[1]);
+	if (len[1] > 2)
+		len[1] = 2;
+	if (*i == 0 || !ft_strncmp(tmp[0], "||", len[0])
+		|| !ft_strncmp(tmp[1] , "((", len[1]) || ft_strncmp(tmp[1], "<<", len[1])
+		|| !ft_strncmp(tmp[1], "))", len[1]) || ft_strncmp(tmp[1], ">>", len[1]))
+		return (msh_unexpected_token_error(tmp[1], len[1]));
 	return (0);
 }
 
 int	msh_validation_brackets(char *str, int *i)
 {
+
 	(void)str;
 	(void)i;
+	// char *tmp[2];
+
+	// tmp[0] = msh_get_prev_word(str, *i, ";|<> ");
+	// tmp[1] = msh_get_path(tmp, g_info.env);
+	// if (!msh_execution_validation(tmp[0]) && (!tmp[1] && !msh_is_build(tmp)))
+	// {
+
+	// }
+	return (0);
+
+}
+
+int msh_validation_double_amp(char *str, int *i)
+{
+	char *tmp[2];
+
+	tmp[0] = msh_get_prev_word(str, *i, " ");
+	tmp[1] = msh_get_next_word(str, *i, " ");
+	if (ft_strcmp(tmp[0], "") == 0)
+		return(msh_unexpected_token_error("&&", 2));
+	else if (ft_strcmp(tmp[1], "") == 0)
+		return (-11);
+	return (0);
+}
+
+int	msh_validation_double_pipe(char *str, int *i)
+{
+	char *tmp[2];
+
+	tmp[0] = msh_get_prev_word(str, *i, " ");
+	tmp[1] = msh_get_next_word(str, *i, " ");
+	if (ft_strcmp(tmp[0], "") == 0)
+		return(msh_unexpected_token_error("||", 2));
+	else if (ft_strcmp(tmp[1], "") == 0)
+		return (-10);
+	return (0);
 }
 
 int	msh_validation_closest_chars(char *str, int *i)
@@ -81,5 +129,7 @@ int	msh_validation_closest_chars(char *str, int *i)
 		return (msh_validation_pipe(str, i));
 	if (str[*i] == '>' || str[*i] == '<')
 		return (msh_validation_redirs(str, i));
+	if (str[*i] == '&' || str[*i] == '&')
+		return (msh_validation_double_amp(str, i));
 	return (0);
 }

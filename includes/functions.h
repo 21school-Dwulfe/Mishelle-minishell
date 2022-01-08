@@ -7,7 +7,6 @@
 int			msh_parse(char *str);
 int			msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
 void		msh_add_to_struct(char **result);
-t_arg		*msh_add_token(t_command *cmd, char *value, int order, int specials);
 void		msh_push_command(t_command **cur_cmd, char **value);
 void		msh_custom_exit(t_command *cmd);
 int			msh_custom_pwd(t_command *cmd);
@@ -43,13 +42,21 @@ void		msh_config(int argc, char **argv, char **env);
 char		**msh_create_env_var(char *new_var);
 char		**msh_split(char *str, int c);
 char		*msh_read_fd(int fd);
+
+/**
+ * @brief change path to relative if it necessary
+ * 
+ * @param cmd_name 	command name
+ * @param env 		envaroment variable array
+ * @return char* if command can be executed return new allocated string else return NULL
+ */
 char		*msh_get_path(char *cmd_name, char **env);
 char		**msh_copy_env(char **array);
 char		*msh_multy_pipe(t_command *cmds, char **env);
 int			msh_check_special_signs(char *str, int *i, int *specials);
 t_command	*msh_create_command(char    **dstr);
 t_redirect	*msh_create_redirect(char *filepath, int specials);
-t_arg		*msh_create_token(char *value, char **v_arr, int order, int specials);
+t_arg		*msh_create_token(char *name, char *value, int order, int specials);
 void		msh_add_redirect(t_redirect **current, char *value, t_specials specials);
 int			msh_open(char *path, int type);
 int			msh_export_invalid(char *arg);
@@ -62,6 +69,9 @@ char		*msh_get_str_inside(char *str, char *set, int reg);
 void		msh_add_command(t_command **cur_cmd, char **value);
 int			msh_is_token(char *arg);
 int			msh_validate_line(char *line);
+char        *msh_dollar_error_case(char **args, char *tmp);
+char        *msh_evaluate_env_arg(char *arg, char **env);
+
 /**
  * @brief Writes error message NOT ERRNO & clear struct & clear parsed string from readline
  * 
@@ -80,15 +90,15 @@ int			msh_unexpected_token_error(char *token_str, int token_len);
 char		*msh_get_env_by_key(char **env, char *argument);
 int			msh_env_exist(char **env, char *argument);
 int			msh_modify_env_var(char **env, char *new_value);
-char		*msh_specify_token(t_command *cmd, int *length, char *str, int specials);
-char		*msh_token_quotes(char *str, int *index, char **value_arg);
-char		*msh_token_d_quotes(char *str, int *index, char **value_arg);
-char		*msh_token_dollar(char *str, int *index, char **value_arg);
-char		*msh_spec_tokens(int specials, int num);
+void        msh_specify_token(int *length, char *str, int specials);
+char		*msh_token_quotes(char *str, int *index);
+char		*msh_token_d_quotes(char *str, int *index);
+char		*msh_token_dollar(char *str, int *index);
+char		*msh_generate_tokens(int specials, int num);
 t_arg		*msh_get_token_value(t_command *cmd, char *token);
-char		*msh_dollar(char *str, int *index, char **value_arg);
-char		*msh_dollar_braces(char *str, int *index, char **value_arg);
-char		*msh_curl_braces(char *str, int *index, char **value_arg);
+char		*msh_dollar(char *str, int *index);
+char		*msh_dollar_braces(char *str, int *index);
+char		*msh_curl_braces(char *str, int *index);
 int			msh_validation_redirs(char *str, int *i);
 int			msh_conditions_d_quotes_close(char *str, int *i);
 int			msh_conditions_quotes_close(char *str, int *i);
@@ -102,9 +112,19 @@ int			msh_validation_closest_chars(char *str, int *i);
 void		msh_side_effects(char **str, int *i, int *specials);
 int			msh_custom_redirect(int *fd_arr, t_command *cmd);
 void		msh_build_preparings(t_command *cmd);
+
+/**
+ * @brief Check cmd if it is one of buildin functions
+ * 
+ * @param cmd command
+ * @return int if success returns index from buildin arraylist else return -1 
+ * */
 int			msh_is_build(char *cmd);
 void		msh_evaluate_all_tokens(t_command *cmd);
 int			msh_make_path_relative(t_command *cmd);
+void        msh_specials_replace(char **str, char *insertion, int *start, int end);
+
+
 /**
  * @brief Cut's redirect signs, if they are clumped with filename or previos arg
  * j[0] = NULL	
@@ -126,6 +146,12 @@ void	msh_cut_recursion(t_command *cmd, int i, char *c);
  * @return int 1 - requirement to use recursion
  */
 int	msh_first_redirect(t_command *cmd, int *i, char *c);
+/**
+ * @brief check command name if it not a dir
+ * 
+ * @param cmd current command to execute
+ * @return int 1 TRUE; 0 FALSE;
+ */
 int	msh_execution_validation(t_command *cmd);
 
 /**
@@ -146,4 +172,17 @@ int	msh_env_exist(char **env, char *argument);
  * @return char* 
  */
 char	*msh_concat_str(char *arg, int size , char *insertion);
+
+void	    msh_init_global_cmd();
+t_command	*msh_last_cmd(void);
+t_arg	    *msh_last_token(void);
+void	    msh_add_token(t_command *cmd, t_arg *arg);
+void	    msh_choose_effect(char **str, int *i, int specials);
+int         msh_conditions_dollar(char *str, int *i);
+void	    msh_specials_cut(char **str, int *i, int end);
+//; | < > space
+char        *msh_get_prev_word(char *str, int length, char *set);
+char        *msh_get_next_word(char *str, int length, char *set);
+void        msh_replace_null_arg(t_command *cmd);
+
 #endif

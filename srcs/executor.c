@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:25 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:04:27 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/08 20:21:39 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	msh_pipes(t_command *cmd, int *fd_pipe)
 		close(fd_pipe[0]);
 	}
 	if (cmd->piped && cmd->out == NULL)
-	{	
+	{
 		if (pipe(fd_pipe) == -1)
 			perror("Pipe");
 		dup2(fd_pipe[1], 1);
@@ -69,7 +69,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 
 void	msh_execution(t_command *cmd, char **env, int *fd_pipe, int *fd_s)
 {
-	int			fd[2];
+	int		fd[2];
 	
 	if (cmd->redirects)
 	{
@@ -96,6 +96,10 @@ int msh_preparings(t_command *cmd)
 {
 	msh_evaluate_all_tokens(cmd);
 	cmd->build = msh_is_build(cmd->args[0]);
+	for (int i = 0; i < cmd->num_args; i++)
+	{
+		printf("%s\n", cmd->args[i]);
+	}
 	if (msh_execution_validation(cmd) == -1)
 		return (1) ;
 	if (cmd->build != -1)

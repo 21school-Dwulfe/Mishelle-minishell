@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:11:43 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:16:26 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/08 14:50:08 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	msh_is_token(char *arg)
 {
+	if (!arg)
+		return (0);
 	if (!ft_strncmp(arg, "QUOTES", 6))
 		return (1);
 	else if (!ft_strncmp(arg, "D_QUOTES", 8))
@@ -24,11 +26,13 @@ int	msh_is_token(char *arg)
 		return (1);
 	else if (!ft_strncmp(arg, "DOLLAR_BRACES", 13))
 		return (1);
+	else if (!ft_strncmp(arg, "DOLLAR", 6))
+		return (1);
 	else
 		return (0);
 }
 
-char	*msh_spec_tokens(int specials, int num)
+char	*msh_generate_tokens(int specials, int num)
 {
 	char	*str;
 	char	*tmp;
@@ -36,53 +40,28 @@ char	*msh_spec_tokens(int specials, int num)
 	size_t	i[2];
 
 	if (specials == 12)
-		str = "S_QOUTES";
+		str = " S_QOUTES";
 	else if (specials == 13)
-		str = "QUOTES";
+		str = " QUOTES";
 	else if (specials == 14)
-		str = "D_QUOTES";
+		str = " D_QUOTES";
 	else if (specials == 15)
-		str = "CURL_BRACES";
+		str = " CURL_BRACES";
 	else if (specials == 16)
-		str = "DOLLAR_BRACES";
+		str = " DOLLAR_BRACES";
+	else if (specials == 17)
+		str = " DOLLAR";
 	tmp = ft_itoa(num);
 	i[0] = ft_strlen(str);
 	i[1] = ft_strlen(tmp);
-	result = ft_calloc(i[0] + i[1] + 2, sizeof(char));
+	result = ft_calloc(i[0] + i[1] + 3, sizeof(char));
 	ft_strncat(result, str, i[0]);
-	ft_strncat(result, tmp, i[0] + i[1] + 2);
+	ft_strncat(result, tmp, i[0] + i[1] + 3);
 	result[ft_strlen(result)] = '%';
-	result[ft_strlen(result) + 1] = '\0';
+	result[ft_strlen(result) + 1] = ' ';
+	result[ft_strlen(result) + 2] = '\0';
 	ft_strdel(&tmp);
 	return (result);
-}
-
-char	*msh_specify_token(t_command *cmd, int *length, char *str, int specials)
-{
-	int			l[3];
-	char		*tmp[2];
-	char		*value;
-	char		**value_arg;
-	t_arg		*arg;
-
-	value_arg = NULL;
-	ft_bzero(l, sizeof(int) * 3);
-	value = g_info.func[specials](str, length, value_arg);
-	arg = msh_add_token(cmd, value, g_info.num_token++, specials);
-	if (arg->specials == QUOTES || arg->specials == D_QUOTES)
-		l[2] = 2;
-	l[1] = ft_strlen(value);
-	if (ft_strchr(arg->value, '$'))
-	{
-		if (specials != QUOTES)
-			msh_evaluate_env_if_exist(&arg->value, g_info.env);
-	}
-	l[0] = ft_strlen(str);
-	ft_memset(str + *length, '\0', sizeof(char) * l[1] + l[2]);
-	tmp[0] = msh_spec_tokens(specials, arg->order);
-	tmp[1] = msh_concat_str(str, l[0], tmp[0]);
-	ft_strdel(&tmp[0]);
-	return (tmp[1]);
 }
 
 t_arg	*msh_get_token_value(t_command *cmd, char *token)
@@ -92,7 +71,8 @@ t_arg	*msh_get_token_value(t_command *cmd, char *token)
 
 	stop_int = 0;
 	tok = cmd->args_token;
-	while (!ft_isdigit(token[stop_int]))
+	while (token[stop_int] && !ft_isdigit(token[stop_int])
+		&& token[stop_int] != ' ')
 		stop_int++;
 	while (tok)
 	{
@@ -101,6 +81,12 @@ t_arg	*msh_get_token_value(t_command *cmd, char *token)
 		tok = tok->next;
 	}
 	return (tok);
+}
+
+
+t_arg	*msh_last_token(void)
+{
+	return (msh_last_cmd()->args_token->prev);
 }
 
 void	msh_exchange_token_value(t_command *cmd, int index)

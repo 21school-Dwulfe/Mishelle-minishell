@@ -361,34 +361,7 @@
 // }
 
 
-// int	msh_dollar_error_case(t_command *cmd, char *tmp, int j)
-// {
-// 	int		i[3];
-// 	char	*temp[6];
 
-// 	ft_bzero(i, sizeof(int) * 3);
-// 	ft_bzero(temp, sizeof(char *) * 6);
-// 	temp[0] = cmd->args[j];
-// 	temp[2] = tmp;
-// 	temp[3] = ft_itoa(msh_read_error_code());
-// 	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
-// 	if (temp[0][0] != '$')
-// 	{
-// 		temp[5] = ft_strndup_se(temp[0], 0, '$');
-// 		temp[1] = ft_strjoin(temp[5], temp[4]);
-// 		i[2] = 6;
-// 	}
-// 	else
-// 	{
-// 		temp[1] = ft_strdup(temp[4]);
-// 		i[2] = 5;
-// 	}
-// 	cmd->args[j] = temp[1];
-// 	while (1 != --i[2])
-// 		ft_strdel(&temp[i[2]]);
-// 	ft_strdel(&temp[0]);
-// 	return (2);
-// }
 
 // int	msh_dollar_common_case(t_command *cmd, char *tmp, char **env, int *k)
 // {
@@ -468,4 +441,62 @@
 // 		}
 // 		i[0]++;
 // 	}
+// }
+
+// int	msh_dollar_error_case(t_command *cmd, char *tmp, int j)
+// {
+// 	int		i[3];
+// 	char	*temp[6];
+
+// 	ft_bzero(i, sizeof(int) * 3);
+// 	ft_bzero(temp, sizeof(char *) * 6);
+// 	temp[0] = cmd->args[j];
+// 	temp[2] = tmp;
+// 	temp[3] = ft_itoa(msh_read_error_code());
+// 	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
+// 	if (temp[0][0] != '$')
+// 	{
+// 		temp[5] = ft_strndup_se(temp[0], 0, '$');
+// 		temp[1] = ft_strjoin(temp[5], temp[4]);
+// 		i[2] = 6;
+// 	}
+// 	else
+// 	{
+// 		temp[1] = ft_strdup(temp[4]);
+// 		i[2] = 5;
+// 	}
+// 	cmd->args[j] = temp[1];
+// 	while (1 != --i[2])
+// 		ft_strdel(&temp[i[2]]);
+// 	ft_strdel(&temp[0]);
+// 	return (2);
+// }
+
+// char	*msh_dollar_error_case(char **args, char *tmp, int j)
+// {
+// 	int		i[3];
+// 	char	*temp[6];
+
+// 	ft_bzero(i, sizeof(int) * 3);
+// 	ft_bzero(temp, sizeof(char *) * 6);
+// 	temp[0] = args[j];
+// 	temp[2] = tmp;
+// 	temp[3] = ft_itoa(msh_read_error_code());
+// 	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
+// 	if (temp[0][0] != '$')
+// 	{
+// 		temp[5] = ft_strndup_se(temp[0], 0, '$');
+// 		temp[1] = ft_strjoin(temp[5], temp[4]);
+// 		i[2] = 6;
+// 	}
+// 	else
+// 	{
+// 		temp[1] = ft_strdup(temp[4]);
+// 		i[2] = 5;
+// 	}
+// 	args[j] = temp[1];
+// 	while (1 != --i[2])
+// 		ft_strdel(&temp[i[2]]);
+// 	ft_strdel(&temp[0]);
+// 	return (temp[1]);
 // }

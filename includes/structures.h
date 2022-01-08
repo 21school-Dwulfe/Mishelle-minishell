@@ -28,7 +28,7 @@ typedef enum s_specials
 	CURL_BRACES,		// ()
 	DOLLAR_BRACES,		// $()
 	DOLLAR,				// $
-	ERROR = 18,		// Error in syntax (P.S Oh, damn, you are crazy person)
+	ERROR = 18,		// 18+ Error in syntax (P.S Oh, damn, you are crazy person)
 }				t_specials;
 
 typedef struct s_redirect
@@ -43,10 +43,12 @@ typedef struct s_redirect
 typedef struct s_arg
 {
 	int				order; 			// index of arg to swap values
+	int				has_prefix;
+	int				is_prefix;
 	char			*value;
-	char			**value_arr;
+	char			*pseudo;
+	char			*name;
 	t_specials		specials;
-	int				pre_concatenated;
 	struct s_arg	*next;
 	struct s_arg	*prev;
 }				t_arg;
@@ -69,7 +71,7 @@ typedef struct s_command
 	struct s_command	*prev;			// указатель на предыдущюю команду (возможно не нужен)
 }					t_command;
 
-typedef char *(*f_special)(char *str, int *length, char **value_arg);
+typedef char *(*f_special)(char *str, int *length);
 typedef int (*f_condition)(char *str, int *length);
 
 typedef struct	s_info
@@ -83,7 +85,7 @@ typedef struct	s_info
 	char		*f[8];					// buildin names
 	t_command   *cur_cmd;				// указатель на первую команду
 	f_special	func[20];				// char *(*f_special)(char *str, int *length) -> function to do something specials with token parsing
-	f_condition	condition[8];			// conditions for additional parsing logic
+	f_condition	condition[12];			// conditions for additional parsing logic
 }				t_info;
 
 t_info	g_info;

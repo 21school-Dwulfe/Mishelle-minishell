@@ -1,14 +1,14 @@
 
+#include "includes/main.h"
+// // regime 0 
+// // stop signs any
+// // stop varios special
 
-//regime 0 
-// stop signs any
-// stop varios special
-
-//regime 1 output
-//asdf< asdfg
-//asdf <asdrfg
-//sdfsd $? asd
-//asdf$?asdfg
+// // regime 1 output
+// // asdf< asdfg
+// // asdf <asdrfg
+// // sdfsd $? asd
+// // asdf$?asdfg
 
 // char **msh_get_sides_ch(char *str, char *set, int side, int *reg)
 // {

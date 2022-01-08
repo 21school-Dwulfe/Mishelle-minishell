@@ -14,10 +14,10 @@
 
 char	*msh_get_path(char *cmd_name, char **env)
 {
+	int		res;
 	int		i[2];
 	char	*tmp[4];
 	char	**splited;
-	int		res;
 
 	ft_bzero(i, sizeof(int) * 2);
 	res = access(cmd_name, X_OK);
