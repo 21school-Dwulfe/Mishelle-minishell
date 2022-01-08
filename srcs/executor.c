@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:25 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/08 20:21:39 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/08 21:22:37 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 	(void)env;
 	if (!msh_buildins(cmd, 0))
 	{
-		signal(SIGINT, SIG_IGN);
+		//signal(SIGINT, SIG_IGN);
+		//signal(SIGINT, msh_sigint_handler);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -63,7 +64,7 @@ void	msh_func(t_command *cmd, int *fd_s, char **env)
 			exit(g_info.exit_code);
 		}
 		msh_wait_pid(pid);
-		signal(SIGINT, msh_sigint_handler);
+		//signal(SIGINT, msh_sigint_handler);
 	}
 }
 
@@ -96,10 +97,10 @@ int msh_preparings(t_command *cmd)
 {
 	msh_evaluate_all_tokens(cmd);
 	cmd->build = msh_is_build(cmd->args[0]);
-	for (int i = 0; i < cmd->num_args; i++)
-	{
-		printf("%s\n", cmd->args[i]);
-	}
+	// for (int i = 0; i < cmd->num_args; i++)
+	// {
+	// 	printf("%s\n", cmd->args[i]);
+	// }
 	if (msh_execution_validation(cmd) == -1)
 		return (1) ;
 	if (cmd->build != -1)
@@ -114,24 +115,33 @@ void	msh_cmd(char *line)
 	t_command	*cmd;
 	int			in_out_s[2];
 	int			fd_pipe[2];
+	int			pid;
 	
 	if (msh_parse(line) == -1)
 		return ;
 	if (msh_redirects_parse() == -1)
 		return ;
 	cmd = g_info.cur_cmd;
-	in_out_s[0] = dup(0);
-	in_out_s[1] = dup(1);
-	while (cmd)
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
 	{
-		if (msh_preparings(cmd))
-			break ;
-		msh_execution(cmd, g_info.env, fd_pipe, in_out_s);
-		cmd = cmd->next;
-		if ((cmd && !cmd->piped) || !cmd)
-			dup2(in_out_s[1], 1);
+		in_out_s[0] = dup(0);
+		in_out_s[1] = dup(1);
+		while (cmd)
+		{
+			if (msh_preparings(cmd))
+				break ;
+			msh_execution(cmd, g_info.env, fd_pipe, in_out_s);
+			cmd = cmd->next;
+			if ((cmd && !cmd->piped) || !cmd)
+				dup2(in_out_s[1], 1);
+		}
+		close(in_out_s[1]);
+		dup2(in_out_s[0], 0);
+		close(in_out_s[0]);
+		exit(g_info.exit_code);
 	}
-	close(in_out_s[1]);
-	dup2(in_out_s[0], 0);
-	close(in_out_s[0]);
+	msh_wait_pid(pid);
+	signal(SIGINT, msh_sigint_handler);
 }

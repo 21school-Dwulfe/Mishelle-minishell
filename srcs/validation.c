@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:13:01 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:18:22 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/08 21:11:28 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	msh_validation_pipe(char *str, int *i)
 	if (len[1] > 2)
 		len[1] = 2;
 	if (*i == 0 || !ft_strncmp(tmp[0], "||", len[0])
-		|| !ft_strncmp(tmp[1] , "((", len[1]) || ft_strncmp(tmp[1], "<<", len[1])
-		|| !ft_strncmp(tmp[1], "))", len[1]) || ft_strncmp(tmp[1], ">>", len[1]))
+		|| !ft_strncmp(tmp[1] , "((", len[1]) || !ft_strncmp(tmp[1], "<<", len[1])
+		|| !ft_strncmp(tmp[1], "))", len[1]) || !ft_strncmp(tmp[1], ">>", len[1]))
 		return (msh_unexpected_token_error(tmp[1], len[1]));
 	return (0);
 }
