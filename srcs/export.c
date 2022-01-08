@@ -67,7 +67,7 @@ int	msh_env_exist(char **env, char *argument)
 			n[1]++;
 		tmp[0] = env[j];
 		tmp[1] = ft_strndup_se(argument, 0, '=');
-		if (!ft_strncmp(tmp[0], tmp[1], n[0]))
+		if (!ft_strncmp(tmp[0], tmp[1], n[0]) && n[0] == n[1])
 			n[3] = 1;
 		if ((index > 1 && !ft_strncmp(env[j], tmp[1], index)))
 			n[3] = 1;

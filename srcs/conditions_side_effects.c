@@ -32,6 +32,7 @@ void    msh_specials_replace(char **str, char *insertion, int *start, int len)
 	int		l;
 
 	tmp = NULL;
+	(void)tmp;
 	l = ft_strlen(*str);
 	ft_memset((*str) + *start, '\0', sizeof(char) * len);
 	tmp = *str;
@@ -85,8 +86,13 @@ void	msh_specify_token(int *length, char *str, int specials)
 	ft_strdel(&tmp[0]);
 	ft_strdel(&tmp[1]);
 	if (ft_strchr(value[0], '$') && specials != QUOTES)
+	{
+		
+	}
 		msh_evaluate_env_if_exist(value, g_info.env);
 	arg = msh_create_token(name, value[0], g_info.num_token++, specials);
+	arg->has_prefix = has_prefix;
+	arg->is_prefix = is_prefix;
 	msh_add_token(cmd, arg);
 }
 

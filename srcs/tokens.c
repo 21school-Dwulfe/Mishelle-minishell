@@ -69,7 +69,8 @@ t_arg	*msh_get_token_value(t_command *cmd, char *token)
 
 	stop_int = 0;
 	tok = cmd->args_token;
-	while (!ft_isdigit(token[stop_int]))
+	while (token[stop_int] && !ft_isdigit(token[stop_int])
+		&& token[stop_int] != ' ')
 		stop_int++;
 	while (tok)
 	{
