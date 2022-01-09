@@ -6,6 +6,12 @@ You can obtain a list of file descriptors from /proc,
 but you first need to know the PID (process ID) of the process in question. 
 This can be found using the ps command or getpid c function.
 
+######################MAC OS
+ps -e minishell  (get PID)
+lsof -p PID     (get list of opened files)
+
+
+######################LINUX
 ps -C minishell
 
 Alternatively, you can to list all processes and search for the one that is wanted:
