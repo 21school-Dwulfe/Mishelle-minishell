@@ -24,7 +24,9 @@ int msh_modify_env_var(char **env, char *new_value)
 
 	index_cmd = ft_index_of(new_value, '+', 0);
 	if (index_cmd < 0)
-		result = new_value;
+	{
+		result = ft_strdup(new_value);
+	}
 	else
 	{
 		index_cmd++;
@@ -102,7 +104,7 @@ char	*msh_get_env_by_key(char **env, char *argument)
 	return (NULL);
 }
 
-void	msh_export_add(t_command	*cmd)
+int	msh_export_add(t_command	*cmd)
 {
 	int		i;
 	int		arg_in_env;
@@ -111,55 +113,51 @@ void	msh_export_add(t_command	*cmd)
 	while (i < cmd->num_args)
 	{
 		if (msh_export_invalid(cmd->args[i]))
-		{
-			msh_export_error(cmd->args[i]);
-			break ;
-		}
+			return (g_info.exit_code = msh_export_error(cmd->args[i]));
 		arg_in_env = msh_env_exist(g_info.env, cmd->args[i]);
-		if (arg_in_env)
+		if (arg_in_env != -1)
 			msh_modify_env_var(&g_info.env[arg_in_env], cmd->args[i]);
 		else
 			g_info.env = msh_create_env_var(cmd->args[i]);
 		i++;
 	}
-	g_info.exit_code = 0;
+	msh_save_error_code(0);
+	return (1);
 }
 
 int	msh_custom_export(t_command *cmd)
 {
 	int		i;
 	int		index;
+	char	**tmp;
 
 	i = 1;
-	for (int i= 0; i < ft_str_count(g_info.env); i++)
-	{
-		printf("%d %s\n", i + 1, g_info.env[i]);
-	}
 	if (cmd->num_args > 1)
-		msh_export_add(cmd);
+		return(msh_export_add(cmd));
 	else
-		while (g_info.env[i])
+	{
+		tmp = msh_copy_env(g_info.env);
+		ft_sort_params(ft_str_count(tmp), tmp);
+		while (tmp[i])
 		{
 			ft_putstr_fd("declare -x ", 1);
-			index = ft_index_of(g_info.env[i], '=', 0);
+			index = ft_index_of(tmp[i], '=', 0);
 			if (index > -1)
 			{
-				write(1, g_info.env[i], index + 1);
+				write(1, tmp[i], index + 1);
 				write(1,"\"", 1);
-				if (ft_strlen((g_info.env[i]) + index + 1) > 0)
-					ft_putstr_fd((g_info.env[i]) + index + 1, 1);
+				if (ft_strlen((tmp[i]) + index + 1) > 0)
+					ft_putstr_fd((tmp[i]) + index + 1, 1);
 				else
 					write(1, "\0", 1);
 				write(1,"\"\n", 3);
 			}
 			else
-			{
-				char *tmp = g_info.env[i];
-				ft_putendl_fd(tmp, 1);		
-			}
-				
+				ft_putendl_fd(tmp[i], 1);		
 			i++;
 		}
-	g_info.exit_code = 0;
+		ft_arrstr_del(tmp, ft_str_count(tmp));
+		msh_save_error_code(0);
+	}
 	return (1);
 }

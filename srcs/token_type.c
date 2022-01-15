@@ -19,6 +19,8 @@ char	*msh_token_dollar(char *str, int *index)
 
 	i = *index;
 	i++;
+	if (str[i] == '?')
+		return (ft_strdup("$?"));
 	while (str[i] && str[i] != ' ' && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	result = ft_strndup_se(str + *index, i - *index, 0);
@@ -43,24 +45,17 @@ char	*msh_token_quotes(char *str, int *index)
 
 char	*msh_curl_braces(char *str, int *index)
 {
-	(void)str;
-	(void)index;
-	return (NULL);
+	int		i;
+	char	*result;
+
+	i = *index;
+	while (str[i] && str[i] != ')')
+		i++;
+	result = ft_strndup(str + *index + 1, i - 1);
+	return (result);
 }
 
-char	*msh_bit_and_or(char *str, int *index)
+char	*msh_slash(char *str, int *index)
 {
-	(void)str;
-	(void)index;
-	// char *set | 0 <- && || -> char *set | \0
-	
-	return (NULL);
-}
-
-char	*msh_dollar_braces(char *str, int *index)
-{
-	(void)str;
-	(void)index;
-	
-	return (NULL);
+	return (ft_strndup(str + *index, 2));
 }

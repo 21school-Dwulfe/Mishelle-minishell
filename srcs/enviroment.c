@@ -12,35 +12,6 @@
 
 #include "../includes/main.h"
 
-char	*msh_dollar_error_case(char **args, char *tmp)
-{
-	int		i[3];
-	char	*temp[6];
-
-	ft_bzero(i, sizeof(int) * 3);
-	ft_bzero(temp, sizeof(char *) * 6);
-	temp[0] = *args;
-	temp[2] = tmp;
-	temp[3] = ft_itoa(msh_read_error_code());
-	temp[4] = ft_strjoin(temp[3], temp[1] + 2);
-	if (temp[0][0] != '$')
-	{
-		temp[5] = ft_strndup_se(temp[0], 0, '$');
-		temp[1] = ft_strjoin(temp[5], temp[4]);
-		i[2] = 6;
-	}
-	else
-	{
-		temp[1] = ft_strdup(temp[4]);
-		i[2] = 5;
-	}
-	*args = temp[1];
-	while (1 != --i[2])
-		ft_strdel(&temp[i[2]]);
-	ft_strdel(&temp[0]);
-	return (temp[1]);
-}
-
 char	*msh_evaluate_env_arg(char *arg, char **env)
 {
 	int		length[2];
@@ -96,7 +67,7 @@ int	msh_evaluate_env_if_exist(char **args, char **env)
 			if (temp[0] && temp[0][1] != '?')
 				temp[0] = msh_evaluate_env_arg(temp[0], env);
 			else if (temp[0] && temp[0][1] == '?')
-				temp[0] = msh_dollar_error_case(&args[j], temp[0]);
+				temp[0] = ft_itoa(msh_read_error_code());
 			j++;
 			ft_strdel(&args[i]);
 			args[i] = temp[0];
@@ -147,7 +118,7 @@ char	**msh_create_env_var(char *new_var)
 		ft_strdel(&tmp[1]);
 	}
 	else
-		new = new_var;
+		new = ft_strdup(new_var);
 	while (g_info.env[length[1]])
 		length[1]++;
 	result = ft_calloc((length[1] + 2), sizeof(char *));

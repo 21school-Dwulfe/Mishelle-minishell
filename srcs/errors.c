@@ -51,11 +51,12 @@ int	msh_unexpected_token_error(char *token_str, int token_len)
 	write(2, " `", 2);
 	write(2, token_str, token_len);
 	write(2, "'\n", 3);
-	msh_struct_clear();
-	return (-1);
+	// msh_struct_clear();
+	
+	return (ERROR);
 }
 
-void	msh_export_error(char *arg)
+int	msh_export_error(char *arg)
 {
 	char	*str[2];
 	char 	*tmp[2];
@@ -67,6 +68,7 @@ void	msh_export_error(char *arg)
 	ft_strdel(&tmp[0]);
 	write(2, tmp[1], ft_strlen(tmp[1]));
 	ft_strdel(&tmp[1]);
+	return (1);
 }
 
 int	msh_export_invalid(char *arg)
@@ -76,24 +78,22 @@ int	msh_export_invalid(char *arg)
 	int		length;
 
 	res = 0;
-	i[0] = -1;
+	i[0] = 0;
 	length = ft_strlen(arg);
-	if (!arg || (length == 1 && !ft_isalpha(arg[0])) || ft_ch_count(arg, '+') > 1 )
-		return ((++res));
+	if (!arg || (!ft_isalpha(arg[0]) && arg[i[0]] != '_')
+		|| ft_ch_count(arg, '+') > 1)
+			return ((++res));
 	i[1] = ft_index_of(arg, '+', 0);
 	if (i[1] > 0)
 		i[2] = i[1];
 	else if (i[1] == -1)
-		i[2] = ft_index_of(arg, '=', 0);
+		i[2] = ft_index_of(arg, '=', 1);
 	else
 		return ((++res));
 	if (length > 2 && arg[i[1]] == '+' && arg[i[1] + 1] != '=')
 		return ((++res));
-	else if (!res && ((arg[length - 1] != '=' && !ft_isalpha(arg[length - 1]) && !ft_isdigit(arg[length - 1]))
-		|| (arg[length - 1] != '=' && !ft_isalpha(arg[length - 1]))))
-		return ((++res));
 	while (length > 1 && !res && ++i[0] < i[2])
-		if (!ft_isalpha(arg[i[0]]) && !ft_isdigit(arg[i[0]])  && ++res)
+		if (!ft_isalnum(arg[i[0]]) && arg[i[0]] != '_')
 			return ((++res));
 	return (0);
 }

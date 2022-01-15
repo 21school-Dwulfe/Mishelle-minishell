@@ -15,5 +15,6 @@
         "array": "c",
         "type_traits": "c",
         "utility": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

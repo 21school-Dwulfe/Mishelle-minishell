@@ -30,7 +30,7 @@ int msh_conditions_semicolon(char *str, int *i)
 
 int msh_conditions_pipe(char *str, int *i)
 {
-	if (str[*i] == '|')
+	if (str[*i] == '|' && str[*i + 1] != '|')
 		return (PIPE);
 	else
 		return (0);

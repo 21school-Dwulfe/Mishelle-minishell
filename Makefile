@@ -9,18 +9,19 @@ REL_PATH		:= $(shell pwd)
 SRCS			:= $(shell ls $(SRCDIR))
 
 #SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
-OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))} 
+OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))}
 HEADERS			:= ${shell find ./includes -name '%.h'}
 
 ifeq ($(SYSTEM), Darwin)
-	MAKE 		= make 
+	MAKE 		= make
 endif
+
 ifeq ($(SYSTEM), Linux)
 	MAKE		= make
 endif
 
 ifeq ($(SYSTEM), Darwin)
-	ADD 		= 
+	ADD 		=
 endif
 ifeq ($(SYSTEM), Linux)
 	ADD			= -ltinfo
@@ -38,7 +39,7 @@ ${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS}
 			fi
 			cd ./libft && $(MAKE) && $(MAKE) bonus
 			
-			${CC} -DQUOTES_ADD_REGIME=0 ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} -fsanitize=address
+			${CC} ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} -fsanitize=address
 
 .PHONY: all clean fclean re bonus buildrepo lib print 
 
@@ -47,9 +48,7 @@ print :
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 		echo $@...
-		${CC} -DQUOTES_ADD_REGIME="0" ${CFLAGS}  -g -c $< -o $@
-
-
+		${CC} -DQUOTES_ADD_REGIME="1" ${CFLAGS}  -g -c $< -o $@
 
 all : ${APP}
 

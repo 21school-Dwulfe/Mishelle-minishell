@@ -103,3 +103,60 @@
 // 	}
 // 	return (tmp);
 // }
+
+
+// char	*msh_strncat(char *new, char *buff, char *dyn_buff)
+// {
+// 	int	line_l;
+// 	int	buff_l;
+
+// 	if (!dyn_buff)
+// 		buff_l = ft_strlen(buff);
+// 	else
+// 		buff_l = ft_strlen(dyn_buff);
+// 	line_l = ft_strlen(new);
+// 	if (buff_l + line_l > 1024)
+// 	{
+// 		dyn_buff = ft_realloc(buff, sizeof(char) * (buff_l + line_l + 1));
+// 		ft_strncat(dyn_buff, new, buff_l + line_l + 1);
+// 		return (dyn_buff);
+// 	}
+// 	else
+// 	{
+// 		ft_strncat(buff, new, 1024);
+// 		return (buff);
+// 	}
+// }
+
+// int	msh_is_build(char *cmd)
+// {
+// 	int		i;
+// 	int		len[2];
+// 	char	*tmp[2];
+
+// 	i = 0;
+// 	if (!cmd)
+// 		return (-1);
+// 	ft_bzero(len, sizeof(int) * 2);
+// 	while (i < 8)
+// 	{
+// 		len[0] = ft_strlen(g_info.f[i]);
+// 		if (!ft_strncmp(cmd, g_info.f[i], len[0] + 1))
+// 			return (i + 1);
+// 		tmp[0] = ft_strrchr(cmd, '/');
+// 		if (tmp[0])
+// 			if (ft_strncmp(tmp[0] + 1, "minishell", 10) == 0)
+// 			{
+// 				len[1] = ft_strlen(cmd) - ft_strlen(tmp[0] + 1);
+// 				tmp[1] = ft_strndup_se(cmd, len[1], 0);
+// 				if (strncmp(g_info.pwd, tmp[1], len[1]) == 0)
+// 				{
+// 					ft_strdel(&tmp[1]);
+// 					return (i + 1);
+// 				}
+// 				ft_strdel(&tmp[1]);
+// 			}
+// 		i++;
+// 	}
+// 	return (i);
+// }
