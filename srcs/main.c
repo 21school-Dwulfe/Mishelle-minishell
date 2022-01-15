@@ -12,13 +12,8 @@
 
 #include "../includes/main.h"
 
-void	msh_init_functions(void)
+static void	msh_init_functions(void)
 {
-	g_info.func[13] = msh_token_quotes;
-	g_info.func[14] = msh_token_d_quotes;
-	g_info.func[15] = msh_curl_braces;
-	g_info.func[16] = msh_dollar_braces;
-	g_info.func[17] = msh_token_dollar;
 	g_info.condition[0] = msh_validation_closest_chars;
 	g_info.condition[1] = msh_conditions_d_quotes_close;
 	g_info.condition[2] = msh_conditions_quotes_close;
@@ -28,13 +23,23 @@ void	msh_init_functions(void)
 	g_info.condition[6] = msh_conditions_semicolon;
 	g_info.condition[7] = msh_conditions_dollar;
 	g_info.condition[8] = msh_conditions_end;
+	g_info.condition[9] = msh_conditions_slash;
+	g_info.condition[10] = msh_conditions_d_pipe;
+	g_info.condition[11] = msh_conditions_d_amp;
+	g_info.condition[12] = msh_conditions_curl_braces;
+	g_info.func[13] = msh_token_quotes;
+	g_info.func[14] = msh_token_d_quotes;
+	g_info.func[15] = msh_curl_braces;
+	g_info.func[17] = msh_token_dollar;
+	g_info.func[18] = msh_slash;
 }
 
-void	msh_config(int argc, char **argv, char **env)
+static void	msh_config(int argc, char **argv, char **env, int *regime)
 {
-	(void)argc;
-	(void)argv;
-	(void)env;
+	if (argc > 2)
+		*regime = (ft_strncmp(argv[1], "-cmd", 5) == 0);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, msh_sigint_handler);
 	rl_catch_signals = 0;
 	g_info.num_of_commands = 0;
 	g_info.num_token = 0;
@@ -42,6 +47,7 @@ void	msh_config(int argc, char **argv, char **env)
 	g_info.pwd = getcwd(NULL, 0);
 	msh_init_global_cmd();
 	msh_init_functions();
+	msh_build_preparings();
 	g_info.f[0] = "export";
 	g_info.f[1] = "exit";
 	g_info.f[2] = "unset";
@@ -52,69 +58,99 @@ void	msh_config(int argc, char **argv, char **env)
 	g_info.f[7] = "minishell";
 }
 
-void	msh_struct_clear()
+static void	msh_clear_tokens(t_command *cmd)
 {
-	t_command 	*cmds;
-	t_redirect	*tmp_red;
 	t_arg		*tmp_arg;
 
-	cmds = g_info.cur_cmd;
-	g_info.exit_code = 0;
+	tmp_arg = cmd->args_token;
+	while (tmp_arg)
+	{
+		cmd->args_token = cmd->args_token->next;
+		ft_strdel(&tmp_arg->name);
+		ft_strdel(&tmp_arg->pseudo);
+		ft_strdel(&tmp_arg->value);
+		free(tmp_arg);
+		tmp_arg = cmd->args_token;
+	}
+}
+
+void	msh_struct_clear()
+{
+	t_command 	*cmd;
+	t_redirect	*tmp_red;
+
+	cmd = g_info.cur_cmd;
 	g_info.num_token = 0;
 	g_info.num_of_commands = 0;
-	while (cmds)
+	while (cmd)
 	{
-		if (cmds->args)
-			ft_arrstr_del(cmds->args, ft_str_count(cmds->args));
-		tmp_arg = cmds->args_token;
-		while (tmp_arg)
-		{
-			cmds->args_token = cmds->args_token->next;
-			free(tmp_arg);
-			tmp_arg = cmds->args_token;
-		}
-		tmp_red = cmds->redirects;
+		if (cmd->args)
+			ft_arrstr_del(cmd->args, ft_str_count(cmd->args));
+		msh_clear_tokens(cmd);
+		tmp_red = cmd->redirects;
 		while (tmp_red)
 		{
-			cmds->redirects = cmds->redirects->next;
+			cmd->redirects = cmd->redirects->next;
 			ft_strdel(&tmp_red->file);
 			free(tmp_red);
-			tmp_red = cmds->redirects;
+			tmp_red = cmd->redirects;
 		}
-		cmds = cmds->next;
+		cmd = cmd->next;
 		free(g_info.cur_cmd);
 		g_info.cur_cmd = NULL;
-		g_info.cur_cmd = cmds;
+		g_info.cur_cmd = cmd;
 	}
-	msh_init_global_cmd();
+}
+
+void	msh_stdin_regime(void)
+{
+	char	*line;
+	
+	line = NULL;
+	while (1)
+	{
+		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line);
+		add_history(line);
+		if (msh_validate_line(line))
+			continue ;
+		if (!msh_unclosed_quotes(&line, NULL, 0))
+			msh_cmd(&line);
+		ft_strdel(&line);
+		msh_struct_clear();
+		msh_init_global_cmd();
+	}
+}
+
+void	msh_argv_regime(char **argv)
+{
+	int 	i;
+	int 	len;
+	char	*line;
+
+	i = 0;
+	len = 0;
+	while (argv[i])
+		len += ft_strlen(argv[i++]);
+	line = ft_calloc(len, sizeof(char));
+	i = 0;
+	while (argv[i])
+		line = ft_strncpy(line, argv[i++], len);
+	if (msh_validate_line(line))
+			return ;
+	if (!msh_unclosed_quotes(&line, NULL, 0))
+		msh_cmd(&line);
+	ft_strdel(&line);
+	msh_struct_clear();
 }
 
 int main(int argc, char **argv, char **env)
 {
-	char	*line;
-	char	*buff_st_dy;
-	char	buff[1024];
-	
-	line = NULL;
-	buff_st_dy = NULL;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, msh_sigint_handler);
-	msh_config(argc, argv, env);
-	ft_bzero(buff, sizeof(char) * 1024);
-	while (1)
-	{
-		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line);
-		g_info.exit_code = 0;
-		buff_st_dy = msh_strncat(line, buff, buff_st_dy);
-		add_history(buff_st_dy);
-		if (msh_validate_line(buff_st_dy))
-			continue ;
-		if (msh_check_unclosed_quotes(buff, line, buff_st_dy, 0) != -1)
-			msh_cmd(buff_st_dy);
-		ft_strdel(&line);
-		ft_bzero(buff, sizeof(char) * 1024);
-		ft_bzero(buff_st_dy, (ft_strlen(buff_st_dy) * sizeof(char))); //604 365 194
-		msh_struct_clear();
-	}
+	int	regime;
+
+	msh_config(argc, argv, env, &regime);
+	if (regime)
+		msh_argv_regime(argv + 2);
+	else
+		msh_stdin_regime();
 	return (0);
 }

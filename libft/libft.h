@@ -82,5 +82,6 @@ char		*ft_strncat(char *dest, const char *src, size_t n);
 char 		*ft_strncpy(char *dest, const char *src, size_t n);
 int			*ft_min(int *arr, int size);
 int			*ft_max(int *arr, int size);
+void		ft_sort_params(int length, char *str_arr[]);
 
 #endif

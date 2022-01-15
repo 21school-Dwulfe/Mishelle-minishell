@@ -22,6 +22,7 @@ int	msh_read_error_code(void)
 
 void	msh_save_error_code(int code)
 {
+	printf("save %d", code);
 	g_info.exit_code = code;
 }
 

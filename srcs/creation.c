@@ -56,6 +56,8 @@ t_arg *msh_create_token(char *name, char *value, int order, int specials)
 	args_token->prev = NULL;
 	args_token->name = name;
 	args_token->value = value;
+	args_token->is_prefix = 0;
+	args_token->has_prefix = 0;
 	args_token->pseudo = msh_generate_tokens(specials, order);
 	args_token->specials = specials;
 	args_token->order = order;

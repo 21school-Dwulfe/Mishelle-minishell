@@ -43,3 +43,15 @@ int msh_conditions_d_quotes(char *str, int *i)
 	else
 		return (0);
 }
+
+int	msh_conditions_slash(char *str, int *i)
+{
+	if (str[*i] == '\\' && str[*i + 1] && ft_strchr(";$|<>", str[*i + 1]))
+		return (SLASH);
+	if (str[*i] == '\\' && str[*i + 1] != '\\')
+		return (25);
+	if (str[*i] == '\\' && str[*i + 1] == '\\')
+		return (26);
+	else
+		return (0);
+}

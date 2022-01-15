@@ -25,7 +25,7 @@ void	msh_cut_recursion(t_command *cmd, int i, char *c)
 void	msh_cut_redirects(t_command *cmd, int i, char *c, int *in)
 {
 	char	*tp[2];
-	
+
 	ft_bzero(tp, sizeof(char *) * 2);
 	if (cmd->args[i][0] != c[0])
 	{
