@@ -80,6 +80,7 @@ int msh_preparings(t_command *cmd)
 int	msh_buildin_excutor(t_command *cmd)
 {
 	int		result;
+	int 	len;
 	char	*tmp;
 
 	result = 0;
@@ -87,7 +88,11 @@ int	msh_buildin_excutor(t_command *cmd)
 	if (cmd->build == 8)
 	{
 		tmp = cmd->args[0];
-		cmd->args[0] = ft_strjoin(g_info.pwd, g_info.f[7]);
+		len = ft_strlen(g_info.pwd)	+ ft_strlen(g_info.f[7]) + 1;
+		cmd->args[0] = ft_calloc(len, sizeof (char));
+		ft_strncat(cmd->args[0], g_info.pwd, len);
+		cmd->args[0][ft_strlen(cmd->args[0])] = '/';
+		ft_strncat(cmd->args[0], g_info.f[7], len);
 		ft_strdel(&tmp);
 	}
 	if (!cmd->piped)

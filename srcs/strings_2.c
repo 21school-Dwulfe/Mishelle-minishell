@@ -8,10 +8,14 @@ void	msh_specials_cut(char **str, int *i, int end)
 	tmp = NULL;
 	len = ft_strlen(*str);
 	ft_memset((*str) + *i, '\0', sizeof(char) * end);
-	tmp = *str;
-	*str = msh_concat_str(*str, len, NULL);
-	ft_strdel(&tmp);
-	(*i)--;
+	if (len > end)
+	{
+		tmp = *str;
+		*str = msh_concat_str(*str, len, NULL);
+		ft_strdel(&tmp);
+		if (*i - 1 >= 0)
+			(*i)--;
+	}
 }
 
 void    msh_specials_replace(char **str, char *insertion, int *start, int len)
@@ -20,13 +24,16 @@ void    msh_specials_replace(char **str, char *insertion, int *start, int len)
 	int		l;
 
 	tmp = NULL;
-	(void)tmp;
 	l = ft_strlen(*str);
 	ft_memset((*str) + *start, '\0', sizeof(char) * len);
-	tmp = *str;
-	*str = msh_concat_str(*str, l, insertion);
-	ft_strdel(&tmp);
-	(*start)--;
+	if (l > len || ft_strlen(insertion))
+	{
+		tmp = *str;
+		*str = msh_concat_str(*str, l, insertion);
+		ft_strdel(&tmp);
+		if (*start - 1 >= 0)
+			(*start)--;
+	}
 }
 
 //; | < > space
@@ -35,7 +42,10 @@ char *msh_get_prev_word(char *str, int length, char *set)
 	int i;
     int spaces;
 
+	i = 0;
     spaces = 0;
+	if (length - 1 < 0)
+		return (NULL);
 	i = length - 1;
     while (i - 1 > -1 && str[i] == ' ')
     {

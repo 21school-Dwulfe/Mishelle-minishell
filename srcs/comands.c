@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:46 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:04:48 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/15 20:51:52 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	msh_custom_pwd(t_command *cmd)
 {
 	char *str;
 
-	str = NULL;
 	(void)cmd;
-	str = getcwd(str, sizeof(str) * 512);
+	str = NULL;
+	str = getcwd(NULL, 0);
 	ft_putendl_fd(str, 1);
 	ft_strdel(&str);
 	msh_save_error_code(0);

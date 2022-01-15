@@ -48,7 +48,7 @@ print :
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 		echo $@...
-		${CC} -DQUOTES_ADD_REGIME="1" ${CFLAGS}  -g -c $< -o $@
+		${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
 
 all : ${APP}
 

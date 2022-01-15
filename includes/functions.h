@@ -186,7 +186,7 @@ void	    msh_init_global_cmd();
 t_command	*msh_last_cmd(void);
 t_arg	    *msh_last_token(void);
 void	    msh_add_token(t_command *cmd, t_arg *arg);
-void	    msh_side_effect(char **str, int *i, int specials);
+void	    msh_side_effect(char **str, int *i, int *specials);
 int         msh_conditions_dollar(char *str, int *i);
 void	    msh_specials_cut(char **str, int *i, int end);
 //; | < > space
@@ -199,5 +199,7 @@ int			msh_preparings(t_command *cmd);
 int         msh_conditions_d_pipe(char *str, int *i);
 int         msh_conditions_d_amp(char *str, int *i);
 int         msh_conditions_curl_braces(char *str, int *i);
+char        *msh_tokens_pseudo(int sp);
+char        *msh_tokens_pseudo_dev(int sp);
 
 #endif

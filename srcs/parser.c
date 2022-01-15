@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:25 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/08 16:09:11 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/15 23:24:38 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	msh_parse(char **str)
 		if (i[2] < -1)
 			msh_input_call(str, &i[1]);
 		if (i[2] == -1 || i[2] > 9 )
-			msh_side_effect(str, &i[1], i[2]);
+			msh_side_effect(str, &i[1], &i[2]);
 		if ((i[2] != 0 && i[2] < 3) || i[2] == 11 || i[2] == 10)
 			msh_save_command(*str, i[0], i[1], i[2]);
 		if (i[2] >= 12 && i[2] < 20)

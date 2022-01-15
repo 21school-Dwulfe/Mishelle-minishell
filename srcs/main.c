@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/08 19:50:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/15 21:43:40 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ void	msh_stdin_regime(void)
 	while (1)
 	{
 		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line);
-		add_history(line);
 		if (msh_validate_line(line))
 			continue ;
+		add_history(line);
 		if (!msh_unclosed_quotes(&line, NULL, 0))
 			msh_cmd(&line);
 		ft_strdel(&line);
@@ -126,15 +126,22 @@ void	msh_argv_regime(char **argv)
 	int 	i;
 	int 	len;
 	char	*line;
+	int 	offset;
 
 	i = 0;
 	len = 0;
 	while (argv[i])
 		len += ft_strlen(argv[i++]);
-	line = ft_calloc(len, sizeof(char));
+	line = ft_calloc(len, sizeof(char) + i);
 	i = 0;
+	offset = 0;
 	while (argv[i])
-		line = ft_strncpy(line, argv[i++], len);
+	{
+		ft_strncpy(line + offset, argv[i], len);
+		line[ft_strlen(line)] = ' ';
+		offset += ft_strlen(line);
+		i++;
+	}
 	if (msh_validate_line(line))
 			return ;
 	if (!msh_unclosed_quotes(&line, NULL, 0))
@@ -148,6 +155,13 @@ int main(int argc, char **argv, char **env)
 	int	regime;
 
 	msh_config(argc, argv, env, &regime);
+	if (argc == 2 && !ft_strncmp(argv[1], "-cmd", 5))
+	{
+		write(1, "\nusage : -cmd [command ...args] \n\t or ", 39);
+		write(1, "    [cmd >file or fd, < file or fd, >> file or fd, << file or fd] \n\t or ", 73);
+		write(1, "    [command && command, command || command, command | command ]\n\n", 67);
+		return (0);
+	}
 	if (regime)
 		msh_argv_regime(argv + 2);
 	else

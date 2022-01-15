@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:13:01 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/08 21:11:28 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/15 14:40:07 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int	msh_validation_double_pipe(char *str, int *i)
 	int	result;
 	char *tmp[2];
 
+	result = 0;
 	tmp[0] = msh_get_prev_word(str, *i, " ");
 	tmp[1] = msh_get_next_word(str, *i, " ");
 	if (ft_strcmp(tmp[0], "") == 0)

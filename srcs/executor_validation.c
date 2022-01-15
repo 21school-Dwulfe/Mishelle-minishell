@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:18 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:06:20 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/15 23:32:42 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ int msh_execution_validation(t_command *cmd)
 	char	*tmp[2];
 	int		cases[2];
 	
+	if (!cmd->args || !cmd->num_args)
+		return (0);
 	ft_bzero(cases, sizeof(int) * 2);
 	ft_bzero(tmp, sizeof(char) * 2);
-	if (cmd->args[0][0] == '~')
+	if (cmd->args && cmd->args[0][0] == '~')
 	{
 		tmp[0] = msh_get_env_by_key(g_info.env, "HOME");
 		tmp[1] = ft_strjoin(tmp[0], cmd->args[0] + 1);

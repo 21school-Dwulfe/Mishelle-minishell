@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/08 19:00:47 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/15 23:54:45 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,6 @@ void	msh_common_side_effect(char **str, int *i, int sp)
 		msh_specials_cut(str, i, l);
 }
 
-void	msh_curl_brace_side_effect()
-{
-	t_arg 	*last;
-	char	*tmp;
-	char	*new;
-
-	last = msh_last_token();
-	tmp = last->value;
-	new = ft_strjoin("minishell ", tmp);
-	last->value = new;
-	ft_strdel(&tmp);
-}
-
 void	msh_cut_effect(char **str, int *i, int specials)
 {
 	t_command	*command;
@@ -130,19 +117,22 @@ void	msh_cut_effect(char **str, int *i, int specials)
 	}
 	else
 		msh_specials_cut(str, i, 2);
-	(*i)--;
+	if (str && *i - 1 >= 0)
+		(*i)--;
 }
 
-void	msh_side_effect(char **str, int *i, int sp)
+void	msh_side_effect(char **str, int *i, int *sp)
 {
-	if (sp == -1)
+	if (*sp == -1)
 		(*i)++;
-	if (sp == 10 || sp == 11)
+	if (*sp == 10 || *sp == 11)
 		msh_specials_cut(str, i, 2);
-	if (sp == 13 || sp == 17 || sp == 14 || sp == 15 || sp == 18)
-		msh_common_side_effect(str, i, sp);
-	if (sp == 15)
-		msh_curl_brace_side_effect();
-	if (sp > 21)
-		msh_cut_effect(str, &i[1], i[2]);
+	if (*sp == 13 || *sp == 17 || *sp == 14 || *sp == 15 || *sp == 18)
+		msh_common_side_effect(str, i, *sp);
+	if (*sp == 15)
+		msh_specials_replace(str, "minishell -cmd ", i, 1);
+	if (*sp > 21)
+		msh_cut_effect(str, i, *sp);
+	if (ft_strlen(*str) == 0)
+		*sp = -1;
 }
