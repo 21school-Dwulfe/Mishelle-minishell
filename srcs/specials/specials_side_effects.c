@@ -133,7 +133,7 @@ void	msh_side_effect(char **str, int *i, int *sp)
 	if (*sp == 13 || *sp == 17 || *sp == 14 || *sp == 15 || *sp == 18)
 		msh_common_side_effect(str, i, *sp);
 	if (*sp == 15)
-		msh_specials_replace(str, "minishell -cmd ", i, 1);
+		msh_specials_replace(str, "minishell ", i, 1);
 	if (*sp > 21)
 		msh_cut_effect(str, i, *sp);
 	if (ft_strlen(*str) == 0)

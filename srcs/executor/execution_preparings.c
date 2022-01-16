@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "../../includes/main.h"
 
 int msh_recursion_eval(int i, t_command *cmd, char **buff)
 {
@@ -38,13 +39,50 @@ int msh_recursion_eval(int i, t_command *cmd, char **buff)
 	return (i);
 }
 
+void msh_heredoc_input(t_arg *tok)
+{
+	int 	i;
+	int		value_len;
+	int		tok_name_len;
+	int		recursion;
+	char	*ptr;
+	
+	i = 0;
+	value_len = 0;
+	recursion = 1;
+	tok_name_len = ft_strlen(tok->name);
+	while (recursion)
+	{
+		msh_input_call(tok->value, 0);
+		while (1)
+		{
+			ptr = ft_strnstr(tok->value + i, tok->name), tok_name_len);
+			if (!ptr)
+			{
+				recursion = 0;
+				break ;
+			}
+			if (i - 1 == value_len)
+			{
+				recursion = 1;
+				break ;
+			}
+			i++;
+		}
+	}
+}
+
 void	msh_token_convertations(t_arg *tok)
 {
+	
+
 	if (tok->specials == SLASH)
 	{
 		tok->value[0] = tok->value[1];
 		tok->value[1] = '\0';
 	}
+	if (tok->specials == D_REDIRECT)
+		msh_heredoc_input(tok);
 }
 
 void msh_evaluate_all_tokens(t_command *cmd)

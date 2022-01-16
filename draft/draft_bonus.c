@@ -160,3 +160,17 @@
 // 	}
 // 	return (i);
 // }
+
+// void    msh_add_arg(t_arg *dest, char *arg)
+// {
+// 	t_arg	*tmp;
+
+// 	tmp = malloc(sizeof(t_arg));
+// 	tmp = (t_arg){};
+// 	tmp->prev = tmp;
+// 	tmp->value = arg;
+// 	if (!dest)
+// 		dest = tmp;
+// 	else
+// 		dest->next = tmp;
+// }

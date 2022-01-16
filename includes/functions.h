@@ -117,7 +117,7 @@ int			msh_conditions_eof(char *str, int *i);
 int			msh_validation_closest_chars(char *str, int *i);
 void		msh_side_effects(char **str, int *i, int *specials);
 int     	msh_buildins_s(t_command *cmd);
-void		msh_build_preparings(void);
+void		msh_reflection_turn_on(void);
 void        msh_redirects_fd(t_command *cmd);
 int			msh_define_redirects(int *fd_arr, t_command *cmd);
 int 	    msh_redirects_parse();
@@ -201,5 +201,6 @@ int         msh_conditions_d_amp(char *str, int *i);
 int         msh_conditions_curl_braces(char *str, int *i);
 char        *msh_tokens_pseudo(int sp);
 char        *msh_tokens_pseudo_dev(int sp);
+char        *msh_token_wild_card(char *str, int *i);
 
 #endif
