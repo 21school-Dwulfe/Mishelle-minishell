@@ -113,7 +113,7 @@ int			msh_conditions_d_quotes(char *str, int *i);
 int			msh_conditions_dollar_braces(char *str, int *i);
 int			msh_conditions_semicolon(char *str, int *i);
 int			msh_conditions_pipe(char *str, int *i);
-int			msh_conditions_end(char *str, int *i);
+int			msh_conditions_eof(char *str, int *i);
 int			msh_validation_closest_chars(char *str, int *i);
 void		msh_side_effects(char **str, int *i, int *specials);
 int     	msh_buildins_s(t_command *cmd);

@@ -1,0 +1,4 @@
+find srcs/ -type d | awk -F'/' {print $2}                   //print all substr
+awk '{print substr($0,index($0,$5))}'                       // print from 5 to eof
+awk -F'/'                                                   // analog split
+find srcs/ -type d | awk -F'/' '{print $2 substr($0, index($0, $2))}'

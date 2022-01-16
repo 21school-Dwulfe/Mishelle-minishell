@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/main.h"
+#include "minishell.h"
 
 static void	msh_init_functions(void)
 {
@@ -71,53 +71,6 @@ static void	msh_clear_tokens(t_command *cmd)
 		ft_strdel(&tmp_arg->value);
 		free(tmp_arg);
 		tmp_arg = cmd->args_token;
-	}
-}
-
-void	msh_struct_clear()
-{
-	t_command 	*cmd;
-	t_redirect	*tmp_red;
-
-	cmd = g_info.cur_cmd;
-	g_info.num_token = 0;
-	g_info.num_of_commands = 0;
-	while (cmd)
-	{
-		if (cmd->args)
-			ft_arrstr_del(cmd->args, ft_str_count(cmd->args));
-		msh_clear_tokens(cmd);
-		tmp_red = cmd->redirects;
-		while (tmp_red)
-		{
-			cmd->redirects = cmd->redirects->next;
-			ft_strdel(&tmp_red->file);
-			free(tmp_red);
-			tmp_red = cmd->redirects;
-		}
-		cmd = cmd->next;
-		free(g_info.cur_cmd);
-		g_info.cur_cmd = NULL;
-		g_info.cur_cmd = cmd;
-	}
-}
-
-void	msh_stdin_regime(void)
-{
-	char	*line;
-	
-	line = NULL;
-	while (1)
-	{
-		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line);
-		if (msh_validate_line(line))
-			continue ;
-		add_history(line);
-		if (!msh_unclosed_quotes(&line, NULL, 0))
-			msh_cmd(&line);
-		ft_strdel(&line);
-		msh_struct_clear();
-		msh_init_global_cmd();
 	}
 }
 

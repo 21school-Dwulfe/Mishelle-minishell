@@ -8,7 +8,7 @@ SYSTEM			:= $(shell uname)
 REL_PATH		:= $(shell pwd)
 SRCS			:= $(shell ls $(SRCDIR))
 
-#SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
+SRCDIRS			:= $(shell cd $(SRCDIR) && find -type d | cut -c 2}')
 OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))}
 HEADERS			:= ${shell find ./includes -name '%.h'}
 
@@ -28,7 +28,7 @@ ifeq ($(SYSTEM), Linux)
 endif
 CFLAGS			= -Wall	-Wextra -Werror
 DEBUG			= -g
-INCLUDES		=  -I./includes
+INCLUDES		=  -I./srcs
 LDFLAGS			= -L$(REL_PATH)/lib/lib -lreadline $(ADD) -I./libft -I$(REL_PATH)/includes/readline -L./libft -lft
 CC				= gcc
 
@@ -44,7 +44,7 @@ ${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS}
 .PHONY: all clean fclean re bonus buildrepo lib print 
 
 print : 
-	echo $(OBJS)
+	echo $(SRCDIRS)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 		echo $@...

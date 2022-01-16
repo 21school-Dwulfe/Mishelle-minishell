@@ -29,6 +29,7 @@ typedef enum s_specials
 	DOLLAR_BRACES,		// $()
 	DOLLAR,				// $
 	SLASH,				// /
+	WILDCARD,			// *
 	ERROR,				// 18+ Error in syntax (P.S Oh, damn, you are crazy person)
 }				t_specials;
 
