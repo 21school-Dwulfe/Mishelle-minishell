@@ -1,5 +1,5 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#include "minishell.h"
+#include "../minishell.h"
 
 #endif

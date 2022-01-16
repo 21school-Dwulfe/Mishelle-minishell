@@ -6,11 +6,11 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:41 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:08:42 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/16 19:49:34 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	msh_set_specials(char *c, char *src, int *rr)
 {

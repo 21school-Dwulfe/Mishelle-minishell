@@ -6,11 +6,11 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:33 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:07:34 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/16 19:49:34 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int msh_provider(char first, int *i, char *str, char *set)
 {

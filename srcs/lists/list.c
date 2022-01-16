@@ -6,11 +6,11 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:45 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/06 17:12:38 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/16 19:49:34 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	msh_add_command(t_command **cur_cmd, char **value)
 {

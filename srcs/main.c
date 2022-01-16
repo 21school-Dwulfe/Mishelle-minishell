@@ -6,11 +6,11 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/15 21:43:40 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/16 19:50:24 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	msh_clear_tokens(t_command *cmd)
 {
@@ -62,13 +62,13 @@ int main(int argc, char **argv, char **env)
 	int	regime;
 
 	msh_config(argc, argv, env, &regime);
-	if (argc == 2 && !ft_strncmp(argv[1], "-cmd", 5))
-	{
-		write(1, "\nusage : -cmd [command ...args] \n\t or ", 39);
-		write(1, "    [cmd >file or fd, < file or fd, >> file or fd, << file or fd] \n\t or ", 73);
-		write(1, "    [command && command, command || command, command | command ]\n\n", 67);
-		return (0);
-	}
+	// if (argc == 2 && !ft_strncmp(argv[1], "-cmd", 5))
+	// {
+	// 	write(1, "\nusage : -cmd [command ...args] \n\t or ", 39);
+	// 	write(1, "    [cmd >file or fd, < file or fd, >> file or fd, << file or fd] \n\t or ", 73);
+	// 	write(1, "    [command && command, command || command, command | command ]\n\n", 67);
+	// 	return (0);
+	// }
 	if (regime)
 		msh_argv_regime(argv + 2);
 	else

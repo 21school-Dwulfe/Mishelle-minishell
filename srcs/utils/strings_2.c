@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void	msh_specials_cut(char **str, int *i, int end)
 {

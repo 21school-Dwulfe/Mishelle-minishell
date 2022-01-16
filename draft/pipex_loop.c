@@ -1,4 +1,4 @@
-// #include "minishell.h"
+// #include "../minishell.h"
 
 // // void	msh_wait_pid(int pid)
 // // {

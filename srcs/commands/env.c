@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int	msh_custom_env(t_command *cmd)
 {

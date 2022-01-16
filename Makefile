@@ -1,14 +1,14 @@
 APP				= minishell
 
 OBJDIR			= ./objs/
-SRCDIR			= ./srcs/
+SRCDIR			= ./srcs
 LIBRARY_NAME	= lib
 SYSTEM			:= $(shell uname)
 
 REL_PATH		:= $(shell pwd)
-SRCS			:= $(shell ls $(SRCDIR))
+SRCS			:= $(shell find ${SRCDIR} -name '*.c')
 
-SRCDIRS			:= $(shell cd $(SRCDIR) && find -type d | cut -c 2}')
+SRCDIRS			:= ${shell find $(SRCDIR) -type d | awk -F"/" '{print $$3}'}
 OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))}
 HEADERS			:= ${shell find ./includes -name '%.h'}
 
@@ -44,7 +44,10 @@ ${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS}
 .PHONY: all clean fclean re bonus buildrepo lib print 
 
 print : 
-	echo $(SRCDIRS)
+	@echo $(SRCDIRS)
+
+print_src : 
+	@echo $(OBJS)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 		echo $@...
@@ -73,4 +76,4 @@ $(OBJDIR):
 buildrepo: 
 	$(call make-repo)
 	mkdir -p lib 
-	 cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 
+	 cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib
