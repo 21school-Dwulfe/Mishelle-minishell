@@ -38,7 +38,8 @@ int         msh_first_redirect(t_command *cmd, int *i, char *c);
  * 
  * @return int In case of success returns 0 else returns -1
  */
-int 	    msh_cut_redirects();
+void 	    msh_cut_redirects(t_command *cmd, int i, char *c, int *in);
+int	        msh_cut_redirects_cmd();
 /* End Parser */
 
 
@@ -81,13 +82,22 @@ int         msh_conditions_curl_braces(char *str, int *i);
 /* End of conditions */
 
 
-/*Signals*/
+/* Signals */
 void		msh_sigint_handler_ch(int sig);
 void		msh_sigint_handler(int sig_num);
 void		msh_restore_signal(int sig);
 void	    msh_pipex_sig(int sig);
 void	    msh_child_sig(int sig);
-/*End of signals*/
+/* End of signals */
+
+
+/* Config */
+void	msh_config(int argc, char **argv, char **env, int *regime);
+/* End Config */
+
+/* Input */
+void	msh_stdin_regime(void);
+/*End Input */
 
 int			msh_evaluate_env_if_exist(char **args, char **env);
 void		msh_cmd(char **line);
@@ -205,7 +215,7 @@ void	    msh_cut_recursion(t_command *cmd, int i, char *c);
  * @param cmd current command to execute
  * @return int 1 TRUE; 0 FALSE;
  */
-int	        msh_execution_validation(t_command *cmd);
+int	        msh_first_arg_validation(t_command *cmd);
 
 /**
  * @brief 

@@ -6,27 +6,11 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/16 19:50:24 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/17 19:51:58 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-void	msh_clear_tokens(t_command *cmd)
-{
-	t_arg		*tmp_arg;
-
-	tmp_arg = cmd->args_token;
-	while (tmp_arg)
-	{
-		cmd->args_token = cmd->args_token->next;
-		ft_strdel(&tmp_arg->name);
-		ft_strdel(&tmp_arg->pseudo);
-		ft_strdel(&tmp_arg->value);
-		free(tmp_arg);
-		tmp_arg = cmd->args_token;
-	}
-}
+#include "../includes/main.h"
 
 void	msh_argv_regime(char **argv)
 {
