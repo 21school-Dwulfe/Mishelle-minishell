@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 int msh_provider(char first, int *i, char *str, char *set)
 {

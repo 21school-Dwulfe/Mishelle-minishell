@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 int	msh_validation_redirs(char *str, int *i)
 {

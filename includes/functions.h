@@ -4,10 +4,46 @@
 #include "structures.h"
 #include "features.h"
 
+/* Parser */
+/**
+ * @brief Main parse function that replace special signs with tokens
+ * 
+ * @param str input line
+ * @return int In case of success returns 0 else returns 1
+ */
 int			msh_parse(char **str);
-int			msh_help_parse_redirect(t_command *cmd, char *str, int *length, char *c);
-void		msh_add_to_struct(char **result);
-void		msh_push_command(t_command **cur_cmd, char **value);
+
+/**
+ * @brief Function in while loop checks str[i] if it is a special sign and returns it
+ * 
+ * @param str input string
+ * @param i index of char
+ * @return int enum code of special sign
+ */
+int			msh_check_special_signs(char *str, int *i);
+
+/**
+ * @brief Cut current redirect & change next type for recursion
+ * 
+ * @param dest - redirect file name for adding in redirect struct
+ * @param src  - income string or previos tail
+ * @param tail - tail after first redirect
+ * @param c - next type of redirect from list of  < , > , << , >>
+ * @return int 1 - requirement to use recursion
+ */
+int         msh_first_redirect(t_command *cmd, int *i, char *c);
+
+/**
+ * @brief Function checks all commands on existance of redirect signs in arguments, then cuts them and saves in list of redirects
+ * 
+ * @return int In case of success returns 0 else returns -1
+ */
+int 	    msh_cut_redirects();
+/* End Parser */
+
+
+
+/* Commands */
 void		msh_custom_exit(t_command *cmd);
 int			msh_custom_pwd(t_command *cmd);
 int			msh_custom_echo(t_command *cmd);
@@ -15,15 +51,49 @@ int			msh_custom_env(t_command *cmd);
 int			msh_custom_cd(t_command *cmd);
 int			msh_custom_export(t_command *cmd);
 int			msh_custom_unset(t_command *cmd);
-int			msh_evaluate_env_if_exist(char **args, char **env);
-void		msh_cmd(char **line);
-char		*msh_get_env_by_key(char **env, char *argument);
-void	    msh_struct_clear();
+/* End Commands */
+
+
+/* Utils */
+/**
+ * @brief Function sticks together the rest of arguments and reallocates array of pointers on strings 
+ * 
+ * @param cmd Command
+ */
+void        msh_replace_null_arg(t_command *cmd);
+/* End of utils*/
+
+/* Conditions */
+int			msh_conditions_d_quotes_close(char *str, int *i);
+int			msh_conditions_quotes_close(char *str, int *i);
+int			msh_conditions_quotes(char *str, int *i);
+int			msh_conditions_d_quotes(char *str, int *i);
+int			msh_conditions_dollar_braces(char *str, int *i);
+int			msh_conditions_semicolon(char *str, int *i);
+int			msh_conditions_pipe(char *str, int *i);
+int			msh_conditions_eof(char *str, int *i);
+int			msh_validation_closest_chars(char *str, int *i);
+int         msh_conditions_wildcard(char *str, int *i);
+int         msh_conditions_slash(char *str, int *i);
+int         msh_conditions_d_pipe(char *str, int *i);
+int         msh_conditions_d_amp(char *str, int *i);
+int         msh_conditions_curl_braces(char *str, int *i);
+/* End of conditions */
+
+
+/*Signals*/
 void		msh_sigint_handler_ch(int sig);
 void		msh_sigint_handler(int sig_num);
 void		msh_restore_signal(int sig);
 void	    msh_pipex_sig(int sig);
 void	    msh_child_sig(int sig);
+/*End of signals*/
+
+int			msh_evaluate_env_if_exist(char **args, char **env);
+void		msh_cmd(char **line);
+char		*msh_get_env_by_key(char **env, char *argument);
+void	    msh_struct_clear();
+
 void		msh_save_error_code(int code);
 int			msh_read_error_code(void);
 int			msh_perror(char *cmd_name);
@@ -39,14 +109,8 @@ void		msh_pipex_loop(t_command *cmd, char **env);
 void    	msh_wait_pid(int pid);
 void        msh_save_error_code(int code);
 
-/**
- * @brief Execute commands with pipe or redirect
- * 
- * @param cmd List of commands
- * @param env  Evariables 
- */
+
 char		**msh_create_env_var(char *new_var);
-char		**msh_split(char *str, int c);
 char		*msh_read_fd(int fd);
 
 /**
@@ -58,8 +122,6 @@ char		*msh_read_fd(int fd);
  */
 char		*msh_get_path(char *cmd_name, char **env);
 char		**msh_copy_env(char **array);
-char		*msh_multy_pipe(t_command *cmds, char **env);
-int			msh_check_special_signs(char *str, int *i, int *specials);
 t_command	*msh_create_command(char    **dstr);
 t_redirect	*msh_create_redirect(char *filepath, int specials);
 t_arg		*msh_create_token(char *name, char *value, int order, int specials);
@@ -106,21 +168,13 @@ char		*msh_dollar(char *str, int *index);
 char		*msh_dollar_braces(char *str, int *index);
 char		*msh_curl_braces(char *str, int *index);
 int			msh_validation_redirs(char *str, int *i);
-int			msh_conditions_d_quotes_close(char *str, int *i);
-int			msh_conditions_quotes_close(char *str, int *i);
-int			msh_conditions_quotes(char *str, int *i);
-int			msh_conditions_d_quotes(char *str, int *i);
-int			msh_conditions_dollar_braces(char *str, int *i);
-int			msh_conditions_semicolon(char *str, int *i);
-int			msh_conditions_pipe(char *str, int *i);
-int			msh_conditions_eof(char *str, int *i);
-int			msh_validation_closest_chars(char *str, int *i);
+
 void		msh_side_effects(char **str, int *i, int *specials);
 int     	msh_buildins_s(t_command *cmd);
 void		msh_reflection_turn_on(void);
 void        msh_redirects_fd(t_command *cmd);
 int			msh_define_redirects(int *fd_arr, t_command *cmd);
-int 	    msh_redirects_parse();
+
 
 /**
  * @brief Check cmd if it is one of buildin functions
@@ -144,16 +198,6 @@ void        msh_specials_replace(char **str, char *insertion, int *start, int en
  */
 void	    msh_cut_recursion(t_command *cmd, int i, char *c);
 
-/**
- * @brief Cut current redirect & change next type for recursion
- * 
- * @param dest - redirect file name for adding in redirect struct
- * @param src  - income string or previos tail
- * @param tail - tail after first redirect
- * @param c - next type of redirect from list of  < , > , << , >>
- * @return int 1 - requirement to use recursion
- */
-int         msh_first_redirect(t_command *cmd, int *i, char *c);
 
 /**
  * @brief check command name if it not a dir
@@ -192,15 +236,13 @@ void	    msh_specials_cut(char **str, int *i, int end);
 //; | < > space
 char        *msh_get_prev_word(char *str, int length, char *set);
 char        *msh_get_next_word(char *str, int length, char *set);
-void        msh_replace_null_arg(t_command *cmd);
+
 char	    *msh_slash(char *str, int *index);
-int         msh_conditions_slash(char *str, int *i);
 int			msh_preparings(t_command *cmd);
-int         msh_conditions_d_pipe(char *str, int *i);
-int         msh_conditions_d_amp(char *str, int *i);
-int         msh_conditions_curl_braces(char *str, int *i);
+
 char        *msh_tokens_pseudo(int sp);
 char        *msh_tokens_pseudo_dev(int sp);
 char        *msh_token_wild_card(char *str, int *i);
+void	    msh_input_call(char **str, int *i);
 
 #endif

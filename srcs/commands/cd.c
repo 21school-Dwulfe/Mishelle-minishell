@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 static int	msh_cd_validation(t_command *cmd, char *new)
 {

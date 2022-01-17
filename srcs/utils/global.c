@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 void	msh_init_global_cmd()
 {

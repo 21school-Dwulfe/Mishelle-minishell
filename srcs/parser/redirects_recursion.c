@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
-void	msh_set_specials(char *c, char *src, int *rr)
+static void	msh_set_specials(char *c, char *src, int *rr)
 {
 	char	ch[2];
 
@@ -25,7 +25,7 @@ void	msh_set_specials(char *c, char *src, int *rr)
 		c[0] = ch[rr[4]];
 }
 
-int msh_get_specials(char *c)
+static int msh_get_specials(char *c)
 {
 	int index;
 	
@@ -41,7 +41,7 @@ int msh_get_specials(char *c)
 	return (0);
 }
 
-int	msh_prefix_redirect(t_command *cmd, int *i, char *c, int *rr)
+static int	msh_prefix_redirect(t_command *cmd, int *i, char *c, int *rr)
 {
 	if (ft_strcmp(cmd->args[*i], c) == 0)
 	{
@@ -54,7 +54,7 @@ int	msh_prefix_redirect(t_command *cmd, int *i, char *c, int *rr)
 	return (0);
 }
 
-int	msh_postfix_redirect(t_command *cmd, int *i, char *c, int *rr)
+static int	msh_postfix_redirect(t_command *cmd, int *i, char *c, int *rr)
 {
 	char	*dest;
 	char	*hren;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 t_command *msh_create_command(char **dstr)
 {

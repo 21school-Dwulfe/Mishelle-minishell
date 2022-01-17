@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
 #include "../../includes/main.h"
 
 int msh_recursion_eval(int i, t_command *cmd, char **buff)
@@ -53,10 +52,10 @@ void msh_heredoc_input(t_arg *tok)
 	tok_name_len = ft_strlen(tok->name);
 	while (recursion)
 	{
-		msh_input_call(tok->value, 0);
+		msh_input_call(&tok->value, 0);
 		while (1)
 		{
-			ptr = ft_strnstr(tok->value + i, tok->name), tok_name_len);
+			ptr = ft_strnstr(tok->value + i, tok->name, tok_name_len);
 			if (!ptr)
 			{
 				recursion = 0;

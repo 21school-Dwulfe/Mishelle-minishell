@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../includes/main.h"
 #include "../../includes/main.h"
 
 char	*msh_token_wild_card(char *str, int *i)

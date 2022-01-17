@@ -1,4 +1,14 @@
-#include "../minishell.h"
+#include "../../includes/main.h"
+
+void	msh_replace_null_arg(t_command *cmd)
+{
+	char	**tmp;
+
+	tmp = msh_concat_args(cmd->args, cmd->num_args);
+	free(cmd->args);
+	cmd->args = tmp;
+	cmd->num_args = ft_str_count(cmd->args);
+}
 
 void	msh_specials_cut(char **str, int *i, int end)
 {

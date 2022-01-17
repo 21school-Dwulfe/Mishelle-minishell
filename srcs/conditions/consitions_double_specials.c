@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 int msh_conditions_d_amp(char *str, int *i)
 {

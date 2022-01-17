@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
-void	msh_cut_recursion(t_command *cmd, int i, char *c)
+static void	msh_cut_recursion(t_command *cmd, int i, char *c)
 {
 	int		j;
 
@@ -22,7 +22,7 @@ void	msh_cut_recursion(t_command *cmd, int i, char *c)
 		msh_cut_recursion(cmd, i, c);
 }
 
-void	msh_cut_redirects(t_command *cmd, int i, char *c, int *in)
+static void	msh_cut_redirects(t_command *cmd, int i, char *c, int *in)
 {
 	char	*tp[2];
 
@@ -47,18 +47,7 @@ void	msh_cut_redirects(t_command *cmd, int i, char *c, int *in)
 		cmd->args[i] = tp[0];
 }
 
-void	msh_replace_null_arg(t_command *cmd)
-{
-	char	**tmp;
-
-	tmp = msh_concat_args(cmd->args, cmd->num_args);
-	//ft_arrstr_del(cmd->args, cmd->num_args);
-	free(cmd->args);
-	cmd->args = tmp;
-	cmd->num_args = ft_str_count(cmd->args);
-}
-
-int	msh_redirects(t_command *cmd, char *c, int *in)
+static int	msh_redirects(t_command *cmd, char *c, int *in)
 {
 	int	i;
 
@@ -86,7 +75,7 @@ int	msh_redirects(t_command *cmd, char *c, int *in)
 	return (0);
 }
 
-int	msh_redirects_parse()
+int	msh_cut_redirects()
 {
 	char		c[4];
 	int			in[4];

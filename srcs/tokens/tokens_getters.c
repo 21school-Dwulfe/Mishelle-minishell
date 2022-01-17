@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 char	*msh_generate_tokens(int specials, int num)
 {

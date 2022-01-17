@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 int msh_close_fd_redirects(t_redirect *tmp, t_command *cmd, int *fd_arr)
 {

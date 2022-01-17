@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 void	msh_add_command(t_command **cur_cmd, char **value)
 {
@@ -21,24 +21,6 @@ void	msh_add_command(t_command **cur_cmd, char **value)
 		tmp = msh_create_command(value);
 		(*cur_cmd)->prev->next = tmp;
 		tmp->prev = (*cur_cmd)->prev;
-		(*cur_cmd)->prev = tmp;
-	}
-}
-
-void	msh_push_command(t_command **cur_cmd, char **value)
-{
-	t_command	*tmp;
-
-	tmp = msh_create_command(value);
-	if (cur_cmd && *cur_cmd)
-	{
-		(*cur_cmd)->prev->next = tmp;
-		tmp->prev = (*cur_cmd)->prev;
-		(*cur_cmd)->prev = tmp;
-	}
-	else
-	{
-		*cur_cmd = tmp;
 		(*cur_cmd)->prev = tmp;
 	}
 }

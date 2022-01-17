@@ -10,7 +10,7 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 // int	msh_subshell(t_command *cmd)
 // {
@@ -24,7 +24,7 @@ void	msh_cmd(char **line)
 
 	if (msh_parse(line) == -1)
 		return ;
-	if (msh_redirects_parse() == -1)
+	if (msh_cut_redirects() == -1)
 		return ;
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);

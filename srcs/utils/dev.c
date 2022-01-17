@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 char *msh_tokens_pseudo_dev(int specials)
 {

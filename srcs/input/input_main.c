@@ -1,4 +1,20 @@
 
+#include "../"
+
+void	msh_input_call(char **str, int *i)
+{
+	char	*line;
+	char	*tmp;
+
+	(void)i;
+	msh_readline(">", &line);
+	tmp = *str;
+	*str = ft_strjoin(tmp, line);
+	ft_strdel(&line);
+	ft_strdel(&tmp);
+	*i = 0;
+}
+
 void	msh_stdin_regime(void)
 {
 	char	*line;

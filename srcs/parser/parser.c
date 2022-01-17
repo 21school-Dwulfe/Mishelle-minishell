@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
-int	msh_check_special_signs(char *str, int *i, int *specials)
+
+int	msh_check_special_signs(char *str, int *i)
 {
 	int	j;
 	int	res;
@@ -22,10 +23,10 @@ int	msh_check_special_signs(char *str, int *i, int *specials)
 	{
 		res = g_info.condition[j](str, i);
 		if (res != 0)
-			return (*specials = res);
+			return (res);
 		j++;
 	}
-	return (*specials = 0);
+	return (0);
 }
 
 void	msh_save_command(char *str, int start, int end, int specials)
@@ -47,20 +48,6 @@ void	msh_save_command(char *str, int start, int end, int specials)
 	ft_strdel(&tmp);
 }
 
-void	msh_input_call(char **str, int *i)
-{
-	char	*line;
-	char	*tmp;
-
-	(void)i;
-	msh_readline(">", &line);
-	tmp = *str;
-	*str = ft_strjoin(tmp, line);
-	ft_strdel(&line);
-	ft_strdel(&tmp);
-	*i = 0;
-}
-
 int	msh_parse(char **str)
 {
 	int			i[3];
@@ -70,7 +57,8 @@ int	msh_parse(char **str)
 	{
 		if (i[2] == 1 || i[2] == 2 || i[2] == 11 || i[2] == 10)
 			i[0] = i[1];
-		if (msh_check_special_signs(*str, &i[1], &i[2]) == ERROR)
+		i[2] = msh_check_special_signs(*str, &i[1])
+		if (i[2]== ERROR)
 			return (-1);
 		if (i[2] < -1)
 			msh_input_call(str, &i[1]);

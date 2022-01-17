@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 void	msh_cd_check_n(t_command *cmd, int *len, short *is_nl)
 {

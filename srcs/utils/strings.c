@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/main.h"
 
 static char	*msh_fill_in(char *arg, int size, char *insertion, int *i)
 {
