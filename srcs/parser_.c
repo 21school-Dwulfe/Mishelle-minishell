@@ -19,7 +19,7 @@ int	msh_check_special_signs(char *str, int *i)
 	int	res;
 
 	j = 0;
-	while (j < 13)
+	while (j < 15)
 	{
 		res = g_info.condition[j](str, i);
 		if (res != 0)
@@ -53,6 +53,8 @@ int	msh_parse(char **str)
 	int			i[3];
 
 	ft_bzero(i, sizeof(int) * 3);
+	msh_cut_set(str, "''");
+	msh_cut_set(str, "\"\"");
 	while (str[0][i[1]])
 	{
 		if (i[2] == 1 || i[2] == 2 || i[2] == 11 || i[2] == 10)

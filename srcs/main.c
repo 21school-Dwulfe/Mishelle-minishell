@@ -6,11 +6,32 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 19:51:58 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/15 21:43:40 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
+
+void	msh_cmd(char **line)
+{
+	int	in_out_s[2];
+	int counter;
+
+	if (msh_parse(line) == -1)
+		return ;
+	if (msh_cut_redirects_cmd() == -1)
+		return ;
+	in_out_s[0] = dup(0);
+	in_out_s[1] = dup(1);
+	counter = msh_executor(g_info.cur_cmd, g_info.env, in_out_s);
+	close(in_out_s[1]);
+	dup2(in_out_s[0], 0);
+	close(in_out_s[0]);
+	while (counter-- > 0)
+		msh_wait_pid(-1);
+	signal(SIGINT, msh_sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 void	msh_argv_regime(char **argv)
 {
@@ -46,15 +67,8 @@ int main(int argc, char **argv, char **env)
 	int	regime;
 
 	msh_config(argc, argv, env, &regime);
-	// if (argc == 2 && !ft_strncmp(argv[1], "-cmd", 5))
-	// {
-	// 	write(1, "\nusage : -cmd [command ...args] \n\t or ", 39);
-	// 	write(1, "    [cmd >file or fd, < file or fd, >> file or fd, << file or fd] \n\t or ", 73);
-	// 	write(1, "    [command && command, command || command, command | command ]\n\n", 67);
-	// 	return (0);
-	// }
 	if (regime)
-		msh_argv_regime(argv + 2);
+		msh_argv_regime(argv + 1);
 	else
 		msh_stdin_regime();
 	return (0);

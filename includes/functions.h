@@ -79,6 +79,8 @@ int         msh_conditions_slash(char *str, int *i);
 int         msh_conditions_d_pipe(char *str, int *i);
 int         msh_conditions_d_amp(char *str, int *i);
 int         msh_conditions_curl_braces(char *str, int *i);
+int         msh_conditions_redirects(char *str, int *i);
+int         msh_conditions_redirects(char *str, int *i);
 /* End of conditions */
 
 
@@ -98,6 +100,10 @@ void	msh_config(int argc, char **argv, char **env, int *regime);
 /* Input */
 void	msh_stdin_regime(void);
 /*End Input */
+
+/* Specials */
+void	msh_cut_set(char **src, char *set);
+/* End Specials */
 
 int			msh_evaluate_env_if_exist(char **args, char **env);
 void		msh_cmd(char **line);
@@ -185,7 +191,6 @@ void		msh_reflection_turn_on(void);
 void        msh_redirects_fd(t_command *cmd);
 int			msh_define_redirects(int *fd_arr, t_command *cmd);
 
-
 /**
  * @brief Check cmd if it is one of buildin functions
  * 
@@ -252,7 +257,7 @@ int			msh_preparings(t_command *cmd);
 
 char        *msh_tokens_pseudo(int sp);
 char        *msh_tokens_pseudo_dev(int sp);
-char        *msh_token_wild_card(char *str, int *i);
+char        *msh_token_wildcard(char *str, int *i);
 void	    msh_input_call(char **str, int *i);
 
 #endif

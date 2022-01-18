@@ -43,17 +43,27 @@ char	*msh_token_quotes(char *str, int *index)
 	return (result);
 }
 
-char	*msh_token_wildcard(char *str, int *index)
+char	*msh_token_redirect(char *str, int *index)
 {
 	int		i[2];
 	char	*result;
+	int		word;
 
 	i[0] = *index;
 	i[1] = *index;
-
-	(void)str;
-	(void)index;
+	word = 0;
 	result = NULL;
+	while (i[0] - 1 > -1 && str[i[0]] != ' ')
+		i[0]--;
+	while (str[i[1] && str[i[1]]] == ' ')
+	{
+		word = 1;
+		i[1]++;
+	}
+	while (str[i[1]] && ft_strchr(" |;<>&", str[i[1]]))
+		i[1]++;
+	if (word && (i[0] != *index || i[1] != *index))
+		result = ft_strndup(str + i[0], i[1]);
 	return (result);
 }
 

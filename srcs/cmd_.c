@@ -25,16 +25,8 @@ int	msh_buildins(t_command *cmd, int reg)
 		is_buildin = msh_custom_unset(cmd);
 	else if (reg == 0 && ft_strnstr(cmd->args[0], "cd", 3))
 		is_buildin = msh_custom_cd(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "pwd", 4))
-		is_buildin = msh_custom_pwd(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "echo", 5))
-		is_buildin = msh_custom_echo(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "env", 4))
-		is_buildin = msh_custom_env(cmd);
 	else if (reg == 0 && ft_strnstr(cmd->args[0], "export", 7)
 		&& cmd->num_args > 1)
-		is_buildin = msh_custom_export(cmd);
-	else if (reg == 1 && ft_strnstr(cmd->args[0], "export", 7))
 		is_buildin = msh_custom_export(cmd);
 	return (is_buildin);
 }

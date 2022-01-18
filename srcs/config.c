@@ -62,11 +62,14 @@ void	msh_init_functions(void)
 	g_info.condition[10] = msh_conditions_d_pipe;
 	g_info.condition[11] = msh_conditions_d_amp;
 	g_info.condition[12] = msh_conditions_curl_braces;
+	g_info.condition[13] = msh_conditions_wildcard;
+	g_info.condition[14] = msh_conditions_redirects;
 	g_info.func[13] = msh_token_quotes;
 	g_info.func[14] = msh_token_d_quotes;
 	g_info.func[15] = msh_curl_braces;
 	g_info.func[17] = msh_token_dollar;
 	g_info.func[18] = msh_slash;
+	g_info.func[19] = msh_token_wildcard;
 }
 
 void	msh_config(int argc, char **argv, char **env, int *regime)
