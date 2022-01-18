@@ -21,7 +21,7 @@ void	msh_cd_check_n(t_command *cmd, int *len, short *is_nl)
 	}
 	while (cmd->args[*len] && !ft_strcmp(cmd->args[*len], "-n"))
 		(*len)++;
-	if (!ft_strncmp(cmd->args[1], "-n", 3))
+	if (cmd->num_args > 1 && !ft_strncmp(cmd->args[1], "-n", 3))
 		(*is_nl)--;
 }
 

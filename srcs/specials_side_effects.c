@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/18 22:27:58 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,12 @@ void	msh_cut_effect(char **str, int *i, int sp)
 
 void	msh_side_effect(char **str, int *i, int *sp)
 {
-	// if (*sp == -1)
-	// 	(*i)++;
+	if (*sp == -1)
+		(*i)++;
 	if (*sp == 10 || *sp == 11)
 		msh_specials_cut(str, i, 2);
-	if (*sp == 13 || *sp == 17 || *sp == 14 || *sp == 15 || *sp == 18 || *sp == 19)
+	if (*sp == 13 || *sp == 17 || *sp == 14 || *sp == 15 || *sp == 18 || *sp == 19
+		|| *sp == 7)
 		msh_common_side_effect(str, i, *sp);
 	if (*sp == 15)
 		msh_specials_replace(str, "minishell ", i, 1);

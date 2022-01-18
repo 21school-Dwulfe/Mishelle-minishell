@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:10 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/18 21:56:56 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int msh_close_fd_redirects(t_redirect *tmp, t_command *cmd, int *fd_arr)
 {
     int			fd_index;
 
-    if (tmp->specials == 5 || tmp->specials == 7)
+    if (tmp->specials == 5 )
     {
         if (cmd->input)
             close(fd_arr[0]);
         cmd->input = tmp;
         fd_index = 0;
     }
-    if (tmp->specials == 4 || tmp->specials == 6)
+    if (tmp->specials == 4 || tmp->specials == 6 || tmp->specials == 7)
     {
         if (cmd->out)
             close(fd_arr[1]);
@@ -76,18 +76,18 @@ int	msh_define_redirects(int *fd_arr, t_command *cmd)
 	return(0);
 }
 
-void	msh_redirects_fd(t_command *cmd)
+int	msh_redirects_fd(t_command *cmd)
 {
     int		fd[2];
 
 	if (cmd->redirects)
 	{
 		if (msh_define_redirects(fd, cmd))
-			return ;
+			return (1);
 		if (cmd->input)
 		{
 			dup2(fd[0], STDIN_FILENO);	// 0 указывает на файл с дескрпитором fd[0]
-			close(fd[0]);				// Закрываем fd[0] чтобы потомок не копировал его
+			close(fd[0]);			// Закрываем fd[0] чтобы потомок не копировал его
 										// в данный момент читать файл fd[0] можно только с фд 0
 		}
 		if (cmd->out)
@@ -97,4 +97,5 @@ void	msh_redirects_fd(t_command *cmd)
 										// в данный момент к записать файл fd[1] можно только STD_OUT (1)
 		}
 	}
+	return (0);
 }

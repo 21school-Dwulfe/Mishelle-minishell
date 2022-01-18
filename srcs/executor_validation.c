@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:18 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 20:00:19 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/18 18:25:13 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ int msh_first_arg_validation(t_command *cmd)
 		return (0);
 	ft_bzero(cases, sizeof(int) * 2);
 	cases[0] = ft_index_of(cmd->args[0], '/', 0);
+	
 	if (cmd->args && msh_tilda(&cmd->args[0]))
-		return (msh_error_bash("Is a directory", cmd->args[0], 126));
+		return ((msh_error_bash("Is a directory", cmd->args[0], 126) > 0));
 	dir = opendir(cmd->args[0]);
 	if (dir != NULL)
 	{
 		closedir(dir);
-		return (msh_error_bash("Is a directory", cmd->args[0], 126));
+		return ((msh_error_bash("Is a directory", cmd->args[0], 126) > 0));
 	}
-	if (cases[0] > -1)
-		return (msh_error_bash("No such file or directory", cmd->args[0], 127));
+	if (cases[0] > -1 && access(cmd->args[0], X_OK) == -1)
+		return ((msh_error_bash("No such file or directory", cmd->args[0], 127) > 0));
 	return (0);
 }
 

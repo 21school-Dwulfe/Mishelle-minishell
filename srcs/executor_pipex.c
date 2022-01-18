@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:01:31 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 19:55:03 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/18 21:41:54 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,18 @@ int	msh_pipes(t_command *cmd, int *fd_pipe)
 	return (!pipe_status);
 }
 
+void	msh_child(int sig)
+{
+	printf("%d\n", sig);
+}
+
 void	msh_func(t_command *cmd, int *fd_s, char **env, int *fd_pipe)
 {
 	pid_t		pid;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, msh_pipex_sig);
+	signal(SIGCHLD, msh_child);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -83,7 +89,7 @@ int msh_preparings(t_command *cmd)
 		return (1);
 	build = msh_is_build(cmd->args[0]);
 	if (build == -1 || build == 8)
-		if (!msh_make_path_relative(cmd))
+		if (msh_make_path_relative(cmd))
 			return (1);
 	return (0);
 }
@@ -106,8 +112,8 @@ int	msh_buildin_excutor(t_command *cmd)
 		ft_strncat(cmd->args[0], g_info.f[7], len);
 		ft_strdel(&tmp);
 	}
-	if (!cmd->piped)
-		result = msh_buildins(cmd, 0);
+	if (!cmd->piped && cmd->build != -1)
+		result = msh_buildins_s(cmd);
 	return (result);
 }
 
@@ -122,7 +128,8 @@ int	msh_d_amp_d_pipe(t_command *cmd)
 	int	exec_result;
 
 	exec_result = 0;
-	if (g_info.exit_code > 0)
+	if (g_info.exit_code > 0
+		&& (cmd->specials == DOUBLE_PIPE || cmd->specials == DOUBLE_AMP))
 	{
 		if (cmd->piped && cmd->specials > 9
 			&& cmd->specials < 12)
@@ -143,9 +150,8 @@ int    msh_executor(t_command *cmd, char **env, int *in_out_s)
 	counter = 0;
 	while (cmd)
 	{
-		if (msh_preparings(cmd))
+		if (msh_preparings(cmd) || msh_redirects_fd(cmd))
 			break ;
-		msh_redirects_fd(cmd);
 		if (msh_buildin_excutor(cmd) == 0)
 		{
 			if (msh_pipes(cmd, fd_pipe) > -1)

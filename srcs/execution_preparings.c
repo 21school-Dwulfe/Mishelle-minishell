@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 17:00:06 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/18 21:59:06 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	msh_token_convertations(t_arg *tok)
 		tok->value[0] = tok->value[1];
 		tok->value[1] = '\0';
 	}
-	if (tok->specials == D_REDIRECT)
+	if (tok->specials == RD_REDIRECT)
 		msh_heredoc_input(tok);
 }
 
@@ -141,14 +141,16 @@ int msh_make_path_relative(t_command *cmd)
 	int res;
 	char *tmp;
 
-	res = 1;
+	res = 0;
 	tmp = NULL;
 	tmp = msh_get_path(cmd->args[0], g_info.env);
-	if (!tmp)
+	if (!tmp && msh_get_env_by_key(g_info.env, "PATH"))
 	{
 		msh_error_bash("command not found", cmd->args[0], 127);
-		res = 0;
+		res = 1;
 	}
+	else if (!tmp && !msh_get_env_by_key(g_info.env, "PATH"))
+		return (msh_error_bash("No such file or directory", cmd->args[0], 127));
 	else
 	{
 		ft_swap_strs(&cmd->args[0], &tmp);

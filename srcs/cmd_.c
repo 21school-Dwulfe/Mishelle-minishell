@@ -1,35 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _cmd_.c                                            :+:      :+:    :+:   */
+/*   cmd_.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:46 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/18 19:46:12 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
-
-int	msh_buildins(t_command *cmd, int reg)
-{
-	int	is_buildin;
-
-	is_buildin = 0;
-	if (cmd->piped)
-	 	return (0);
-	if (reg == 0 && ft_strnstr(cmd->args[0], "exit", 5))
-		msh_custom_exit(cmd);
-	else if (reg == 0 && ft_strnstr(cmd->args[0], "unset", 5))
-		is_buildin = msh_custom_unset(cmd);
-	else if (reg == 0 && ft_strnstr(cmd->args[0], "cd", 3))
-		is_buildin = msh_custom_cd(cmd);
-	else if (reg == 0 && ft_strnstr(cmd->args[0], "export", 7)
-		&& cmd->num_args > 1)
-		is_buildin = msh_custom_export(cmd);
-	return (is_buildin);
-}
 
 int	msh_buildins_s(t_command *cmd)
 {

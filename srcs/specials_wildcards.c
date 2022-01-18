@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:22:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 17:30:03 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/18 16:28:10 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char *msh_wildcard(char *path, char *pattern)
 	DIR				*dir;
 	char			*result;
   
+	(void)pattern;
 	if (!path)
 		return (NULL);
 	result = NULL;
@@ -65,20 +66,23 @@ char *msh_wildcard(char *path, char *pattern)
 char	*msh_token_wildcard(char *str, int *i)
 {
 	char	*result;
-	char	path;
+	//char	*path;
 	char	*pattern;
-	char	*tmp_m[3];
-		
-	ft_bzero(tmp_m, sizeof(char *3));
-	tmp_m[0] = msh_token_wildcard_value(str, i);
-	if (ft_strlen(tmp_m[0]) = 1)
-		path = msh_get_env_by_key(g_info.env, "PWD");
-	result = msh_wildcard(, NULL);
-	if (i - 1 > -1 && str[*i - 1] == '/')
-	{
-		path = ft_strndup_se(tmp_m[0], 0, '*');
-	}
-	result = msh_wildcard(path, ft_index_of(tmp[0], '*'));
+	//char	*tmp_m[3];
+	
+	(void)pattern;
+	(void)str;
+	(void)i;
+	result = NULL;
+	// ft_bzero(tmp_m, sizeof(char) * 3);
+	// tmp_m[0] = msh_token_wildcard_value(str, i);
+	// if (ft_strlen(tmp_m[0]) == 1)
+	// 	path = msh_get_env_by_key(g_info.env, "PWD");
+	// if (*i - 1 > -1 && str[*i - 1] == '/')
+	// {
+	// 	path = ft_strndup_se(tmp_m[0], 0, '*');
+	// }
+	// result = msh_wildcard(path, ft_index_of(tmp_m[0], '*', 0));
 	return (result);
 }
 

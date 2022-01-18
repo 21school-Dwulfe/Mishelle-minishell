@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:49:24 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/18 18:28:28 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	msh_perror(char *cmd_name)
 
 	str = strerror(errno);
 	msh_save_error_code(errno);
-	ft_putstr_fd("Mishelle: ", 1);
+	ft_putstr_fd("msh: ", 1);
 	ft_putstr_fd(cmd_name, 1);
 	write(1, ": ", 1);
 	ft_putendl_fd(str, 1);
@@ -28,20 +28,20 @@ int	msh_perror(char *cmd_name)
 int	msh_error_bash(char *message, char *str, int code)
 {
 	msh_save_error_code(code);
-	if (code == 1)
-	{
-		ft_putstr_fd("msh: ", 1);
-		ft_putstr_fd("no such file or directory: ", 1);
-		ft_putendl_fd(str, 1);
-	}
-	else if (code == 127 || code == 126)
-	{
+	// if (code == 1)
+	// {
+	// 	ft_putstr_fd("msh: ", 1);
+	// 	ft_putstr_fd("no such file or directory: ", 1);
+	// 	ft_putendl_fd(str, 1);
+	// }
+	// else// if (code == 127 || code == 126)
+	// {
 		ft_putstr_fd("msh: ", 1);
 		ft_putstr_fd(str, 1);
 		write(1, ": ", 2);
 		ft_putendl_fd(message, 1);
-	}
-	return (1);
+	//}
+	return (code);
 }
 
 int	msh_unexpected_token_error(char *token_str, int token_len)
