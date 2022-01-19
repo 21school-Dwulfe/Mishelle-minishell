@@ -6,11 +6,39 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/18 22:27:58 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/19 18:14:31 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
+
+// void	msh_heredoc_key_value(t_arg *tok)
+// {
+// 	int		i;
+// 	char	tmp;
+		
+// 	i = 2;
+// 	while (tok->value[i] && tok->value[i] == ' ')
+// 		i++;
+// 	tmp = tok->value;
+// 	tok->value = ft_strdup("");
+// 	ft_strdel(&tok->name);
+// 	tok->name = ft_strdup(tmp + i);
+// 	ft_strdel(&tmp);
+// }
+char	*msh_heredoc_value_to_name(char *value)
+{
+	int		i;
+	char	*tmp;
+		
+	i = 2;
+	while (value[i] && value[i] == ' ')
+		i++;
+	tmp = value;
+	value = ft_strdup(tmp + i);
+	ft_strdel(&tmp);
+	return (value);
+}
 
 /**
  * @brief specify token if value exist
@@ -36,6 +64,14 @@ int	msh_specify_token(int *length, char *str, int sp)
 	if (ft_strchr(value[0], '$')
 		&& sp != SLASH && sp != QUOTES && sp != CURL_BRACES)
 		msh_evaluate_env_if_exist(value, g_info.env);
+	if (sp == RD_REDIRECT)
+	{
+		result = ft_strlen(value[0]);
+		name = msh_heredoc_value_to_name(value[0]);
+		msh_add_redirect(&cmd->redirects, name, sp);
+		msh_heredoc_input(name);
+		return (result);
+	}
 	if (value[0])
 	{	
 		arg = msh_create_token(name, value[0], g_info.num_token++, sp);
@@ -74,6 +110,7 @@ void	msh_define_spaces(t_arg *arg, char *str, int *length, int specials)
 	ft_strdel(&tmp);
 }
 
+
 void	msh_common_side_effect(char **str, int *i, int sp)
 {
 	int		l;
@@ -85,7 +122,7 @@ void	msh_common_side_effect(char **str, int *i, int sp)
 	if (sp == 13 || sp == 14 || sp == 15)
 			len += 2;
 	l = msh_specify_token(i, *str, sp);
-	if (!l)
+	if (!l && sp != RD_REDIRECT)
 	{
 		arg = msh_last_token();
 		msh_define_spaces(arg, *str, i, sp);
@@ -93,7 +130,11 @@ void	msh_common_side_effect(char **str, int *i, int sp)
 		msh_specials_replace(str, arg->pseudo, i, len);
 	}
 	else
+	{
 		msh_specials_cut(str, i, l);
+		if (sp == RD_REDIRECT && *i - 1 > -1)
+			(*i)--;
+	}
 }
 
 void	msh_cut_set(char **src, char *set)

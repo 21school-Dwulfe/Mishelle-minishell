@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/18 21:59:06 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/19 18:20:30 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,21 @@ int msh_recursion_eval(int i, t_command *cmd, char **buff)
 	return (i);
 }
 
-void msh_heredoc_input(t_arg *tok)
+
+void msh_heredoc_input(char *name)
 {
 	int 	i[3];
 	char	*ptr[3];
+	int		fd;
 	
-	i[0] = ft_strlen(tok->name);
+	i[0] = ft_strlen(name);
 	i[1] = 1;
 	rl_clear_history();
+	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, S_IRWXU);
 	while (i[1])
 	{
 		msh_readline(">", &ptr[0]);
-		ptr[2] = ft_strnstr(ptr[0], tok->name, i[0]);
-		i[2] = ft_strlen(tok->value) + ft_strlen(ptr[0]) + 2;
+		ptr[2] = ft_strnstr(ptr[0], name, i[0]);
 		if (ptr[2])
 		{
 			i[1] = 0;
@@ -59,35 +61,76 @@ void msh_heredoc_input(t_arg *tok)
 		}
 		else
 		{
-			tok->value = ft_realloc(tok->value, i[2]);
-			tok->value = ft_strncat(tok->value, ptr[0], i[2]);
-			tok->value[i[2]] = '\n';
+			write(fd, ptr[0], ft_strlen(ptr[0]));
+			write(fd, "\n", 1);
 			ft_strdel(&ptr[0]);
 		}
 	}
+	close(fd);
 }
 
+// void msh_heredoc_input(t_arg *tok)
+// {
+// 	int 	i[3];
+// 	char	*ptr[3];
+// 	int		fd;
+	
+// 	i[0] = ft_strlen(tok->name);
+// 	i[1] = 1;
+// 	rl_clear_history();
+// 	fd = open(tok->name, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, S_IRWXU);
+// 	while (i[1])
+// 	{
+// 		msh_readline(">", &ptr[0]);
+// 		ptr[2] = ft_strnstr(ptr[0], tok->name, i[0]);
+// 		i[2] = ft_strlen(tok->value) + ft_strlen(ptr[0]) + 2;
+// 		if (ptr[2])
+// 		{
+// 			i[1] = 0;
+// 			ft_strdel(&ptr[0]);
+			
+// 			break ;
+// 		}
+// 		else
+// 		{
+// 			write(fd, ptr[0], ft_strlen(ptr[0]));
+// 			write(fd, "\n", 1);
+// 		}
+// 	}
+// }
+
+
+// i[2] = ft_strlen(tok->value) + ft_strlen(ptr[0]) + 2;
+// if (ptr[2])
+// {
+// 	i[1] = 0;
+// 	ft_strdel(&ptr[0]);
+// 	break ;
+// }
+// else
+// {
+// 	tok->value = ft_realloc(tok->value, i[2]);
+// 	tok->value = ft_strncat(tok->value, ptr[0], i[2]);
+// 	tok->value[i[2]] = '\n';
+// 	ft_strdel(&ptr[0]);
+// }
 void	msh_token_mutations(t_arg *tok)
 {
-	int		i;
-	char 	*tmp;
-
-	i = 2;
 	if (tok->specials == SLASH)
 	{
 		tok->value[0] = tok->value[1];
 		tok->value[1] = '\0';
 	}
-	if (tok->specials == RD_REDIRECT)
+	// if (tok->specials == RD_REDIRECT)
+	// {
+		
+	// 	msh_heredoc_input(tok);
+	// 	//msh_create_redirect(tok->arg)
+	// }
+	if (ft_strncmp(tok->name, "$?", 3) == 0)
 	{
-		while (tok->value[i] && tok->value[i] == ' ')
-			i++;
-		tmp = tok->value;
-		tok->value = ft_strdup("");
-		ft_strdel(&tok->name);
-		tok->name = ft_strdup(tmp + i);
-		ft_strdel(&tmp);
-		msh_heredoc_input(tok);
+		ft_strdel(&tok->value);
+		tok->value = ft_itoa(msh_read_error_code());
 	}
 }
 

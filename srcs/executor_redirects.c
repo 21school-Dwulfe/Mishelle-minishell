@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:10 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/18 21:56:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/19 18:22:21 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int msh_close_fd_redirects(t_redirect *tmp, t_command *cmd, int *fd_arr)
 {
     int			fd_index;
 
-    if (tmp->specials == 5 )
+    if (tmp->specials == 5 || tmp->specials == 7)
     {
         if (cmd->input)
             close(fd_arr[0]);
         cmd->input = tmp;
         fd_index = 0;
     }
-    if (tmp->specials == 4 || tmp->specials == 6 || tmp->specials == 7)
+    if (tmp->specials == 4 || tmp->specials == 6 )
     {
         if (cmd->out)
             close(fd_arr[1]);
@@ -49,7 +49,7 @@ int msh_open(char *path, int type)
 	}
 	else //if (type == RD_REDIRECT)
 	{
-		return (open(path, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, S_IRWXU));
+		return (open(path, O_RDONLY, S_IRWXU));
 	}
 }
 
@@ -69,7 +69,13 @@ int	msh_define_redirects(int *fd_arr, t_command *cmd)
 		if (fd_arr[fd_index] == -1)
 		{
 			perror(tmp->file);
-			return (1);
+			if(cmd->specials == DOUBLE_PIPE)
+			{
+				msh_save_error_code(1);
+				return (2);
+			}
+			else
+				return (1);
 		}
 		tmp = tmp->next;
 	}
@@ -79,11 +85,13 @@ int	msh_define_redirects(int *fd_arr, t_command *cmd)
 int	msh_redirects_fd(t_command *cmd)
 {
     int		fd[2];
+	int		status;
 
 	if (cmd->redirects)
 	{
-		if (msh_define_redirects(fd, cmd))
-			return (1);
+		status = msh_define_redirects(fd, cmd);
+		if (status)
+			return (status);
 		if (cmd->input)
 		{
 			dup2(fd[0], STDIN_FILENO);	// 0 указывает на файл с дескрпитором fd[0]

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:01:31 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/18 21:41:54 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/19 18:16:28 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,12 @@ int	msh_pipes(t_command *cmd, int *fd_pipe)
 	return (!pipe_status);
 }
 
-void	msh_child(int sig)
-{
-	printf("%d\n", sig);
-}
-
 void	msh_func(t_command *cmd, int *fd_s, char **env, int *fd_pipe)
 {
 	pid_t		pid;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, msh_pipex_sig);
-	signal(SIGCHLD, msh_child);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -84,6 +78,8 @@ int msh_preparings(t_command *cmd)
 {
 	int build;
 
+	if (!cmd)
+		return (1);
 	msh_evaluate_all_tokens(cmd);
 	if (msh_first_arg_validation(cmd) == 1)
 		return (1);
@@ -128,16 +124,20 @@ int	msh_d_amp_d_pipe(t_command *cmd)
 	int	exec_result;
 
 	exec_result = 0;
-	if (g_info.exit_code > 0
-		&& (cmd->specials == DOUBLE_PIPE || cmd->specials == DOUBLE_AMP))
+	if ((cmd->build == 8 || cmd->build == -1)
+		&& (cmd->specials == DOUBLE_AMP || cmd->specials == DOUBLE_PIPE))
 	{
-		if (cmd->piped && cmd->specials > 9
-			&& cmd->specials < 12)
-				msh_wait_pid(-1);
+		msh_wait_pid(-1);
+		if (g_info.exit_code > 0 && !cmd->piped  
+			&& cmd->specials == DOUBLE_AMP)
 		exec_result = 1;
 	}
+	if (cmd->specials == DOUBLE_AMP && g_info.exit_code > 0)
+		exec_result = 1;
 	if (cmd->specials == DOUBLE_PIPE && g_info.exit_code == 0)
 		exec_result = 2;
+	if (cmd->specials == DOUBLE_PIPE && g_info.exit_code > 0)
+		exec_result = 0;
 	return (exec_result);
 }
 
@@ -150,8 +150,15 @@ int    msh_executor(t_command *cmd, char **env, int *in_out_s)
 	counter = 0;
 	while (cmd)
 	{
-		if (msh_preparings(cmd) || msh_redirects_fd(cmd))
+		status = msh_preparings(cmd);
+		status = msh_redirects_fd(cmd);
+		if (status == 1)
 			break ;
+		else if (status == 2)
+		{
+			cmd = cmd->next;
+			continue;
+		}
 		if (msh_buildin_excutor(cmd) == 0)
 		{
 			if (msh_pipes(cmd, fd_pipe) > -1)

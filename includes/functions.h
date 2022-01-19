@@ -136,6 +136,7 @@ int 		msh_executor(t_command *cmd, char **env, int *in_out_s);
 void		msh_pipex_recursion(t_command *cmd, char **env);
 void		msh_pipex_loop(t_command *cmd, char **env);
 void		msh_wait_pid(int pid);
+void        msh_heredoc_input(char *path);
 
 
 char		**msh_create_env_var(char *new_var);

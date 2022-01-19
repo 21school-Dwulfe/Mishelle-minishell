@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/18 19:35:44 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/19 16:34:30 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	msh_custom_exit(t_command *cmd)
 	if (cmd->num_args > 2)
 		exit(msh_error_bash("too many arguments", cmd->args[0], 1));
 	else if (cmd->num_args == 1)
-		exit(0);
+		exit(ft_atoi(cmd->args[1]));
 	else
 	{
 		while (cmd->args[1][i] && ft_isdigit(cmd->args[1][i]))
@@ -52,4 +52,4 @@ void	msh_custom_exit(t_command *cmd)
 		}
 		exit(ft_atoi(cmd->args[1]));
 	}
-}// верни ковычки в ковычки !!!!!!
+}
