@@ -40,46 +40,55 @@ int msh_recursion_eval(int i, t_command *cmd, char **buff)
 
 void msh_heredoc_input(t_arg *tok)
 {
-	int 	i;
-	int		value_len;
-	int		tok_name_len;
-	int		recursion;
-	char	*ptr;
+	int 	i[3];
+	char	*ptr[3];
 	
-	i = 0;
-	value_len = 0;
-	recursion = 1;
-	tok_name_len = ft_strlen(tok->name);
-	while (recursion)
+	i[0] = ft_strlen(tok->name);
+	i[1] = 1;
+	rl_clear_history();
+	while (i[1])
 	{
-		msh_input_call(&tok->value, 0);
-		while (1)
+		msh_readline(">", &ptr[0]);
+		ptr[2] = ft_strnstr(ptr[0], tok->name, i[0]);
+		i[2] = ft_strlen(tok->value) + ft_strlen(ptr[0]) + 2;
+		if (ptr[2])
 		{
-			ptr = ft_strnstr(tok->value + i, tok->name, tok_name_len);
-			if (!ptr)
-			{
-				recursion = 0;
-				break ;
-			}
-			if (i - 1 == value_len)
-			{
-				recursion = 1;
-				break ;
-			}
-			i++;
+			i[1] = 0;
+			ft_strdel(&ptr[0]);
+			break ;
+		}
+		else
+		{
+			tok->value = ft_realloc(tok->value, i[2]);
+			tok->value = ft_strncat(tok->value, ptr[0], i[2]);
+			tok->value[i[2]] = '\n';
+			ft_strdel(&ptr[0]);
 		}
 	}
 }
 
-void	msh_token_convertations(t_arg *tok)
+void	msh_token_mutations(t_arg *tok)
 {
+	int		i;
+	char 	*tmp;
+
+	i = 2;
 	if (tok->specials == SLASH)
 	{
 		tok->value[0] = tok->value[1];
 		tok->value[1] = '\0';
 	}
 	if (tok->specials == RD_REDIRECT)
+	{
+		while (tok->value[i] && tok->value[i] == ' ')
+			i++;
+		tmp = tok->value;
+		tok->value = ft_strdup("");
+		ft_strdel(&tok->name);
+		tok->name = ft_strdup(tmp + i);
+		ft_strdel(&tmp);
 		msh_heredoc_input(tok);
+	}
 }
 
 void msh_evaluate_all_tokens(t_command *cmd)
@@ -99,7 +108,7 @@ void msh_evaluate_all_tokens(t_command *cmd)
 		if (msh_is_token(cmd->args[i]))
 		{
 			tok = msh_get_token_value(cmd, cmd->args[i]);
-			msh_token_convertations(tok);
+			msh_token_mutations(tok);
 			ft_strdel(&cmd->args[i]);
 			if (!tmp[0])
 			{

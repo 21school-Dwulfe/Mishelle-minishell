@@ -38,7 +38,7 @@ int msh_conditions_pipe(char *str, int *i)
 
 int msh_conditions_eof(char *str, int *i)
 {
-	if (str[*i + 1] == '\0')
+	if ((str[*i + 1] == '\0' && str[*i] != '*' ) || str[*i] == '\0')
 		return (-1);
 	else
 		return (0);

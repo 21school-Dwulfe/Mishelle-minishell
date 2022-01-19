@@ -40,6 +40,8 @@ int msh_tok_pseudo_reader_dev(char *arg)
 		return (1);
 	else if (!ft_strncmp(arg, "SLASH", 5))
 		return (1);
+	else if (!ft_strncmp(arg, "RD_REDIRECT", 5))
+		return (1);
 	else
 		return (0);
 }

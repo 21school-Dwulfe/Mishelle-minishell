@@ -33,7 +33,7 @@ int	msh_specify_token(int *length, char *str, int sp)
 	ft_bzero(value, sizeof(char *) * 2);
 	value[0] = g_info.func[sp](str, length);
 	name = ft_strdup(value[0]);
-	if (ft_strchr(value[0], '$') 
+	if (ft_strchr(value[0], '$')
 		&& sp != SLASH && sp != QUOTES && sp != CURL_BRACES)
 		msh_evaluate_env_if_exist(value, g_info.env);
 	if (value[0])

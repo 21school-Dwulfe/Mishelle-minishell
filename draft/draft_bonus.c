@@ -174,3 +174,38 @@
 // 	else
 // 		dest->next = tmp;
 // }
+
+// void msh_heredoc_input(t_arg *tok)
+// {
+// 	int 	i[4];
+// 	char	*ptr[3];
+	
+// 	i[0] = 0;
+// 	i[1] = ft_strlen(tok->name);
+// 	i[2] = 1;
+// 	i[3] = 1;
+// 	while (i[3])
+// 	{
+// 		msh_readline(">", &ptr[0]);
+// 		ptr[1] = tok->value;
+// 		tok->value = ft_strjoin(ptr[1], ptr[0]);
+// 		ft_strdel(&ptr[1]);
+// 		while (1)
+// 		{
+// 			i[2] = ft_strlen(ptr[0]);
+// 			ptr[2] = ft_strnstr(ptr[0] + i[0], tok->name, i[1]);
+// 			if (ptr[2])
+// 			{
+// 				i[3] = 0;
+// 				ft_strdel(&ptr[0]);
+// 				break ;
+// 			}
+// 			if (i[0] == i[2] - i[1])
+// 			{
+// 				ft_strdel(&ptr[0]);
+// 				break ;
+// 			}
+// 			i[0]++;
+// 		}
+// 	}
+// }
