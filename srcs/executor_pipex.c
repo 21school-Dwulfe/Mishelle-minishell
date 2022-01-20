@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:01:31 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/19 18:16:28 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/20 22:08:24 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ void	msh_wait_pid(int pid)
 {
 	int status;
 	int	west;
+	int	child_term;
 
 	waitpid(pid, &status, 0);
 	west = WEXITSTATUS(status);
+	child_term = WIFSIGNALED(status);
+	printf("%d %d\n", child_term, west);
 	msh_save_error_code(west);
 }
 
@@ -51,13 +54,31 @@ void	msh_func(t_command *cmd, int *fd_s, char **env, int *fd_pipe)
 {
 	pid_t		pid;
 
+	// signal(SIGINT, msh_pipex_sig);
+	// signal(SIGQUIT, msh_pipex_sig);
 	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, msh_pipex_sig);
+	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, msh_child_sig);
-		signal(SIGQUIT, msh_child_sig);
+		g_info.pid = 1;
+		// signal(SIGINT, msh_child_sig);
+		// signal(SIGQUIT, msh_child_sig);
+		// if (g_info.pid != 0)
+		// {
+			// signal(SIGINT, msh_child_sig);
+			// signal(SIGQUIT, msh_child_sig);
+	//	}
+		//if (cmd->build != 8)
+		// {
+		// 	signal(SIGINT, SIG_IGN);
+		// 	signal(SIGQUIT, SIG_IGN);
+		// }
+		// else
+	//	{
+			signal(SIGINT, msh_sigint_handler);
+			signal(SIGQUIT, msh_pipex_sig);
+	//	}
 		if (cmd->prev->next != NULL && cmd->prev->piped)
 			close(fd_pipe[1]);
 		if (cmd->piped)

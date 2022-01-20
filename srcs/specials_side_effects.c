@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/19 18:14:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/20 22:36:43 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ int	msh_specify_token(int *length, char *str, int sp)
 		msh_heredoc_input(name);
 		return (result);
 	}
+	// if (sp == WILDCARD)
+	// {// если файл будет с редиректом то либо менять старую логику редиректов либо убрать строку в токен wildcard 
+		
+	// }
 	if (value[0])
 	{	
 		arg = msh_create_token(name, value[0], g_info.num_token++, sp);
@@ -109,7 +113,6 @@ void	msh_define_spaces(t_arg *arg, char *str, int *length, int specials)
 		arg->is_prefix = 1;
 	ft_strdel(&tmp);
 }
-
 
 void	msh_common_side_effect(char **str, int *i, int sp)
 {
@@ -180,6 +183,8 @@ void	msh_cut_effect(char **str, int *i, int sp)
 	ft_strdel(&prev_word);
 	if (sp == 25)
 		msh_specials_cut(str, i, 1);
+	else if (sp == 22 || sp == 23)
+		msh_specials_cut(str, i, 2);
 	else if (sp == 26)
 	{
 		msh_specials_cut(str, i, 1);

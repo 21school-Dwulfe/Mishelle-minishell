@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structures.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/20 11:56:00 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/20 17:01:57 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
@@ -88,6 +100,7 @@ typedef struct	s_info
 {
 	char		*pwd;					// pwd for msh recursion
 	int			exit_code;				// код ошибки
+	int			pid;					
 	int			num_of_commands;		// общее число команд
 	int			num_token;				// count of tokens in shell
 	char		odd_quote;				// тип незакрытой кавычки

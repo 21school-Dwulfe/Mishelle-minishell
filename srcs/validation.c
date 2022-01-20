@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:13:01 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 19:54:59 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/20 16:26:42 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ int	msh_validation_pipe(char *str, int *i)
 	if (len[1] > 2)
 		len[1] = 2;
 	if (*i == 0 || !ft_strncmp(tmp[0], "||", len[0])
-		|| !ft_strncmp(tmp[1] , "((", len[1]) || !ft_strncmp(tmp[1], "<<", len[1])
-		|| !ft_strncmp(tmp[1], "))", len[1]) || !ft_strncmp(tmp[1], ">>", len[1]))
+		|| !ft_strncmp(tmp[1] , "((", len[1])
+		|| !ft_strncmp(tmp[1], "<<", len[1])
+		|| !ft_strncmp(tmp[1], "))", len[1])
+		|| !ft_strncmp(tmp[1], ">>", len[1]))
 		{
 			ft_strdel(&tmp[0]);
 			ft_strdel(&tmp[1]);

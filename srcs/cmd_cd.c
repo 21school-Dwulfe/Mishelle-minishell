@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:39 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/20 13:45:18 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	msh_custom_cd(t_command *cmd)
 		return (-1);
 	if (!msh_cd_validation(cmd, env_value[2]))
 		result = msh_success_cd(env_value, old_cur);
-	if (cmd->args[1][0] == '~' && cmd->args[1][1] == '/')
-			ft_strdel(&env_value[2]);
+	if (cmd->num_args > 1 && cmd->args[1][0] == '~' && cmd->args[1][1] == '/')
+		ft_strdel(&env_value[2]);
 	return (result);
 }

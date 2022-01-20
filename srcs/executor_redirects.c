@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:10 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/19 18:22:21 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/20 17:20:19 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int msh_open(char *path, int type)
 	{
 		return (open(path, O_RDONLY));
 	}
-	else //if (type == RD_REDIRECT)
+	else
 	{
 		return (open(path, O_RDONLY, S_IRWXU));
 	}

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/18 22:22:47 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/20 21:50:44 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,35 @@ void	msh_init_functions(void)
 void	msh_config(int argc, char **argv, char **env, int *regime)
 {
 	(void)argv;
-	*regime = (argc > 1);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, msh_sigint_handler);
+	char *shell[2];
+	// char *shlvl;
+	
+	// shlvl = msh_get_env_by_key(env, "SHLVL");
+	shell[0] = msh_get_env_by_key(env, "SHELL");
 	rl_catch_signals = 0;
 	g_info.num_of_commands = 0;
 	g_info.num_token = 0;
+	*regime = (argc > 1);
 	g_info.env = msh_copy_env(env);
 	g_info.pwd = getcwd(NULL, 0);
+	msh_shell_bin(g_info.env, g_info.pwd);
+	shell[1] = msh_get_env_by_key(env, "SHELL");
+	if (!ft_strncmp(shell[0], shell[1], ft_strlen(shell[1])))
+	{
+		
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, msh_sigint_handler);
+	}
+	else
+	{
+		g_info.pid = 0;
+		signal(SIGQUIT, msh_child_sig);
+		signal(SIGINT, msh_sigint_handler);
+	}
+	//msh_sig_init();
 	msh_init_global_cmd();
 	msh_init_functions();
 	msh_shlvl(g_info.env);
-	msh_shell_bin(g_info.env, g_info.pwd);
 	g_info.f[0] = "export";
 	g_info.f[1] = "exit";
 	g_info.f[2] = "unset";

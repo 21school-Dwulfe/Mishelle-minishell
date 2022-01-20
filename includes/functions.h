@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   functions.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/20 11:56:30 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/20 21:11:35 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+# define FUNCTIONS_H
 
-#include "structures.h"
-#include "features.h"
+# include "structures.h"
+# include "features.h"
 
-/* Parser */
+/* * * PARSER * * */
 /**
  * @brief Main parse function that replace special signs with tokens
  * 
@@ -14,7 +26,8 @@
 int			msh_parse(char **str);
 
 /**
- * @brief Function in while loop checks str[i] if it is a special sign and returns it
+ * @brief Function in while loop checks 
+ * str[i] if it is a special sign and returns it
  * 
  * @param str input string
  * @param i index of char
@@ -40,11 +53,11 @@ int			msh_first_redirect(t_command *cmd, int *i, char *c);
  */
 void		msh_cut_redirects(t_command *cmd, int i, char *c, int *in);
 int			msh_cut_redirects_cmd();
-/* End Parser */
+/* END PARSER */
 
 
 
-/* Commands */
+/* COMMANDS */
 void		msh_custom_exit(t_command *cmd);
 int			msh_custom_pwd(t_command *cmd);
 int			msh_custom_echo(t_command *cmd);
@@ -52,19 +65,19 @@ int			msh_custom_env(t_command *cmd);
 int			msh_custom_cd(t_command *cmd);
 int			msh_custom_export(t_command *cmd);
 int			msh_custom_unset(t_command *cmd);
-/* End Commands */
+/* END COMMANDS */
 
 
-/* Utils */
+/* * * UTILS  * * */
 /**
  * @brief Function sticks together the rest of arguments and reallocates array of pointers on strings 
  * 
  * @param cmd Command
  */
 void		msh_replace_null_arg(t_command *cmd);
-/* End of utils*/
+/* END OF UTILS */
 
-/* Conditions */
+/* CONDITIONS */
 int			msh_conditions_d_quotes_close(char *str, int *i);
 int			msh_conditions_quotes_close(char *str, int *i);
 int			msh_conditions_quotes(char *str, int *i);
@@ -90,6 +103,9 @@ void		msh_sigint_handler(int sig_num);
 void		msh_restore_signal(int sig);
 void		msh_pipex_sig(int sig);
 void		msh_child_sig(int sig);
+void	    msh_sig_init(void);
+void	    msh_sig_quit(int signal);
+void	    msh_sig_int(int signal);
 /* End of signals */
 
 
