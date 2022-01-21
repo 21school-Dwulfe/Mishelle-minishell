@@ -20,6 +20,7 @@ void	msh_pipex_sig(int sig)
 	// shlvl = msh_get_env_by_key(g_info.env, "SHLVL");
 	// if (ft_atoi(shlvl) == 2)
 	// {
+			write(2, "hello", 2);
 		if (sig == SIGINT)
 		{
 			write(2, "\n", 2);

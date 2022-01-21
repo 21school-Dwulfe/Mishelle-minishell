@@ -17,11 +17,20 @@ void	msh_wait_pid(int pid)
 	int status;
 	int	west;
 	int	child_term;
+	static int	filter;
 
 	waitpid(pid, &status, 0);
 	west = WEXITSTATUS(status);
-	child_term = WIFSIGNALED(status);
-	printf("%d %d\n", child_term, west);
+	child_term = WTERMSIG(status);
+	if (!filter++)
+	{
+		if (child_term == 3)
+			write(2, "Quit: 3\n", 8);
+		if (child_term == 2)
+			write(2, "\n", 2);
+	}
+	if (filter == g_info.num_of_commands)
+		filter = 0;
 	msh_save_error_code(west);
 }
 
@@ -54,31 +63,16 @@ void	msh_func(t_command *cmd, int *fd_s, char **env, int *fd_pipe)
 {
 	pid_t		pid;
 
-	// signal(SIGINT, msh_pipex_sig);
-	// signal(SIGQUIT, msh_pipex_sig);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
-		g_info.pid = 1;
-		// signal(SIGINT, msh_child_sig);
-		// signal(SIGQUIT, msh_child_sig);
-		// if (g_info.pid != 0)
-		// {
-			// signal(SIGINT, msh_child_sig);
-			// signal(SIGQUIT, msh_child_sig);
-	//	}
-		//if (cmd->build != 8)
-		// {
-		// 	signal(SIGINT, SIG_IGN);
-		// 	signal(SIGQUIT, SIG_IGN);
-		// }
-		// else
-	//	{
-			signal(SIGINT, msh_sigint_handler);
-			signal(SIGQUIT, msh_pipex_sig);
-	//	}
+		if (cmd->build == 8)
+		{
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
+		}
+		else
+			signal(SIGQUIT, msh_child_sig);
 		if (cmd->prev->next != NULL && cmd->prev->piped)
 			close(fd_pipe[1]);
 		if (cmd->piped)
@@ -93,6 +87,8 @@ void	msh_func(t_command *cmd, int *fd_s, char **env, int *fd_pipe)
 		}
 		exit(g_info.exit_code);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 int msh_preparings(t_command *cmd)
@@ -148,7 +144,7 @@ int	msh_d_amp_d_pipe(t_command *cmd)
 	if ((cmd->build == 8 || cmd->build == -1)
 		&& (cmd->specials == DOUBLE_AMP || cmd->specials == DOUBLE_PIPE))
 	{
-		msh_wait_pid(-1);
+		msh_wait_pid(0);
 		if (g_info.exit_code > 0 && !cmd->piped  
 			&& cmd->specials == DOUBLE_AMP)
 		exec_result = 1;

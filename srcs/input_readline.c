@@ -30,7 +30,6 @@ void msh_readline(char *prefix, char **dest)
 		*dest = line;
 	else
 	{
-		rl_clear_history();
 		msh_struct_clear();
 		exit(0);
 	}
