@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_global.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/21 16:19:15 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/21 16:19:22 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
-void	msh_init_global_cmd()
+void	msh_init_global_cmd(void)
 {
 	t_command	*cmd;
-	
+
 	cmd = msh_create_command((void *)0);
 	cmd->prev = cmd;
 	g_info.cur_cmd = cmd;
@@ -27,12 +39,12 @@ void	msh_clear_tokens(t_command *cmd)
 
 t_command	*msh_last_cmd(void)
 {
-    return (g_info.cur_cmd->prev);
+	return (g_info.cur_cmd->prev);
 }
 
-void	msh_struct_clear()
+void	msh_struct_clear(void)
 {
-	t_command 	*cmd;
+	t_command	*cmd;
 	t_redirect	*tmp_red;
 
 	cmd = g_info.cur_cmd;

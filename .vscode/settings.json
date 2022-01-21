@@ -14,7 +14,8 @@
         "system_error": "c",
         "array": "c",
         "type_traits": "c",
-        "utility": "c"
+        "utility": "c",
+        "__locale": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

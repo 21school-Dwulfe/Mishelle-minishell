@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:34 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:05:12 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	msh_sigint_handler(int sig_num)
 	rl_redisplay();
 }
 
-void msh_readline(char *prefix, char **dest)
+void	msh_readline(char *prefix, char **dest)
 {
-	char *line;
+	char	*line;
 
 	line = readline(prefix);
 	if (line)

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:05 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/18 16:36:09 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 19:24:01 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	msh_conditions_wildcard(char *str, int *i)
 		return (0);
 }
 
-int msh_conditions_semicolon(char *str, int *i)
+int	msh_conditions_semicolon(char *str, int *i)
 {
 	if (*i > 0 && str[*i] == ';')
 		return (SEMICOLON);
@@ -28,7 +28,7 @@ int msh_conditions_semicolon(char *str, int *i)
 		return (0);
 }
 
-int msh_conditions_pipe(char *str, int *i)
+int	msh_conditions_pipe(char *str, int *i)
 {
 	if (str[*i] == '|' && str[*i + 1] != '|')
 		return (PIPE);
@@ -36,7 +36,7 @@ int msh_conditions_pipe(char *str, int *i)
 		return (0);
 }
 
-int msh_conditions_eof(char *str, int *i)
+int	msh_conditions_eof(char *str, int *i)
 {
 	if ((str[*i + 1] == '\0' && str[*i] != '*' ) || str[*i] == '\0')
 		return (-1);
@@ -44,7 +44,7 @@ int msh_conditions_eof(char *str, int *i)
 		return (0);
 }
 
-int msh_conditions_dollar(char *str, int *i)
+int	msh_conditions_dollar(char *str, int *i)
 {
 	if (str[*i] == '$' && str[*i + 1] != '\0' && str[*i + 1] != ' ')
 		return (DOLLAR);

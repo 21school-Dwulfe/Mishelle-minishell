@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:41 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:03:26 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static void	msh_set_specials(char *c, char *src, int *rr)
 		c[0] = ch[rr[4]];
 }
 
-static int msh_get_specials(char *c)
+static int	msh_get_specials(char *c)
 {
-	int index;
-	
+	int	index;
+
 	index = ft_strlen(c);
 	if (index == 2 && c[0] == '<')
-		return (RD_REDIRECT);
+		return (HEREDOC);
 	if (index == 1 && c[0] == '<')
 		return (R_REDIRECT);
 	if (index == 2 && c[0] == '>')

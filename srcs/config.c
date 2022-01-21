@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/20 21:50:44 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 20:54:36 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	msh_shlvl(char **env)
 	int		index;
 	char	*shlvl;
 	char	*new_shlvl[2];
-	
+
 	index = msh_env_exist(env, "SHLVL");
 	shlvl = msh_get_env_by_key(env, "SHLVL");
 	new_shlvl[0] = ft_itoa(ft_atoi(shlvl) + 1);
@@ -40,7 +40,7 @@ void	msh_shell_bin(char **env, char *path)
 	new_shell = ft_strncat(new_shell, path, new_len);
 	new_shell[6 + ft_strlen(path)] = '/';
 	new_shell = ft_strncat(new_shell, "minishell", new_len);
-	if(index != -1)
+	if (index != -1)
 		msh_modify_env_var(&env[index], new_shell);
 	else
 		msh_create_env_var(new_shell);
@@ -64,23 +64,21 @@ void	msh_init_functions(void)
 	g_info.condition[12] = msh_conditions_curl_braces;
 	g_info.condition[13] = msh_conditions_wildcard;
 	g_info.condition[14] = msh_conditions_redirects;
+	g_info.func[7] = msh_token_heredoc;
 	g_info.func[13] = msh_token_quotes;
 	g_info.func[14] = msh_token_d_quotes;
 	g_info.func[15] = msh_token_curl_braces;
 	g_info.func[17] = msh_token_dollar;
 	g_info.func[18] = msh_slash;
-	g_info.func[19] = msh_token_wildcard;
-	g_info.func[7] = msh_token_redirect;
+	g_info.func[19] = msh_token_wildcard_value;
 }
 
 void	msh_config(int argc, char **argv, char **env, int *regime)
 {
+	char	*shell;
+
 	(void)argv;
-	char *shell[2];
-	// char *shlvl;
-	
-	// shlvl = msh_get_env_by_key(env, "SHLVL");
-	shell[0] = msh_get_env_by_key(env, "SHELL");
+	shell = msh_get_env_by_key(env, "SHELL");
 	rl_catch_signals = 0;
 	g_info.num_of_commands = 0;
 	g_info.num_token = 0;
@@ -88,20 +86,7 @@ void	msh_config(int argc, char **argv, char **env, int *regime)
 	g_info.env = msh_copy_env(env);
 	g_info.pwd = getcwd(NULL, 0);
 	msh_shell_bin(g_info.env, g_info.pwd);
-	shell[1] = msh_get_env_by_key(env, "SHELL");
-	if (!ft_strncmp(shell[0], shell[1], ft_strlen(shell[1])))
-	{
-		
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, msh_sigint_handler);
-	}
-	else
-	{
-		g_info.pid = 0;
-		signal(SIGQUIT, msh_child_sig);
-		signal(SIGINT, msh_sigint_handler);
-	}
-	//msh_sig_init();
+	msh_define_subshell_signals(shell, msh_get_env_by_key(env, "SHELL"));
 	msh_init_global_cmd();
 	msh_init_functions();
 	msh_shlvl(g_info.env);

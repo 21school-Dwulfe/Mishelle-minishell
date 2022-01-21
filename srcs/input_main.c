@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:14:47 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 17:14:48 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:01:47 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	msh_input_call(char **str, int *i)
 void	msh_stdin_regime(void)
 {
 	char	*line;
-	
+
 	line = NULL;
 	while (1)
 	{

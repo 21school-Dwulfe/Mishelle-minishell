@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_unset.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/21 19:27:12 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/21 19:42:30 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 int	msh_custom_unset(t_command *cmd)
@@ -8,10 +20,10 @@ int	msh_custom_unset(t_command *cmd)
 	char	**tmp;
 	int		length;
 
-	i = 0;
+	i = -1;
 	args = cmd->args;
 	length = ft_str_count(g_info.env);
-	while (args[i])
+	while (args[++i])
 	{
 		res = msh_env_exist(g_info.env, args[i]);
 		if (res > -1)
@@ -24,7 +36,6 @@ int	msh_custom_unset(t_command *cmd)
 			g_info.env = tmp;
 			length = ft_str_count(g_info.env);
 		}
-		i++;
 	}
 	msh_save_error_code(0);
 	return (1);

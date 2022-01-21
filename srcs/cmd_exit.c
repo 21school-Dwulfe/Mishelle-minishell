@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/20 15:01:38 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:28:03 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	msh_read_error_code(void)
 {
-	int res;
-	
+	int	res;
+
 	res = g_info.exit_code;
 	return (res);
 }

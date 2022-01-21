@@ -6,13 +6,13 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:52 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 19:19:24 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-int msh_conditions_d_quotes_close(char *str, int *i)
+int	msh_conditions_d_quotes_close(char *str, int *i)
 {
 	if (str[*i] == '\"' && str[*i + 1] == '\"')
 		return (22);
@@ -20,7 +20,7 @@ int msh_conditions_d_quotes_close(char *str, int *i)
 		return (0);
 }
 
-int msh_conditions_quotes_close(char *str, int *i)
+int	msh_conditions_quotes_close(char *str, int *i)
 {
 	if (str[*i] == '\'' && str[*i + 1] == '\'')
 		return (23);
@@ -28,7 +28,7 @@ int msh_conditions_quotes_close(char *str, int *i)
 		return (0);
 }
 
-int msh_conditions_quotes(char *str, int *i)
+int	msh_conditions_quotes(char *str, int *i)
 {
 	if (str[*i] == '\'' && str[*i + 1] != '\'')
 		return (QUOTES);
@@ -36,7 +36,7 @@ int msh_conditions_quotes(char *str, int *i)
 		return (0);
 }
 
-int msh_conditions_d_quotes(char *str, int *i)
+int	msh_conditions_d_quotes(char *str, int *i)
 {
 	if (str[*i] == '\"' && str[*i + 1] != '\"')
 		return (D_QUOTES);
