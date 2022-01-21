@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strings.c                                          :+:      :+:    :+:   */
+/*   utils_strings.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:09:05 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:31:39 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 16:18:36 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ char	**msh_concat_args(char **args, int size)
 	return (tmp);
 }
 
-char *msh_get_str_inside(char *str, char *set, int reg)
+char	*msh_get_str_inside(char *str, char *set, int reg)
 {
-	int			f;
-	int 		i[2];
+	int	f;
+	int	i[2];
 
 	f = -1;
 	ft_bzero(i, sizeof(int) * 2);
@@ -103,7 +103,7 @@ char *msh_get_str_inside(char *str, char *set, int reg)
 			{
 				f = i[0];
 				i[0]++;
-				break;
+				break ;
 			}
 			i[1]++;
 		}
@@ -116,10 +116,10 @@ char *msh_get_str_inside(char *str, char *set, int reg)
 
 char	**msh_replace_and_copy(char **args, char *new, int index)
 {
-	int	i;
-	int len;
-	char **arr;
-	
+	int		i;
+	int		len;
+	char	**arr;
+
 	arr = NULL;
 	i = 0;
 	len = ft_str_count(args);

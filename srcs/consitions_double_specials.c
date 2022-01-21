@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   consitions_double_specials.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/21 17:03:46 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 17:23:35 by dwulfe           ###   ########.fr       */
+/*   Created: 2022/01/21 19:24:29 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/21 19:24:54 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-void	msh_child_sig(int sig)
+int	msh_conditions_d_amp(char *str, int *i)
 {
-	if (sig == SIGINT)
-	{
-		exit(2);
-	}
-	if (sig == SIGQUIT)
-	{
-		exit(3);
-	}
-}
-
-void	msh_define_subshell_signals(char *shell_start, char *shell_current)
-{
-	if (!ft_strncmp(shell_start, shell_current, ft_strlen(shell_current)))
-		signal(SIGQUIT, SIG_IGN);
+	if (str[*i] == '&' && str[*i + 1] == '&')
+		return (DOUBLE_AMP);
 	else
-		signal(SIGQUIT, msh_child_sig);
-	signal(SIGINT, msh_sigint_handler);
+		return (0);
 }
 
-void	msh_sigignore(void)
+int	msh_conditions_d_pipe(char *str, int *i)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if (str[*i] == '|' && str[*i + 1] == '|')
+		return (DOUBLE_PIPE);
+	else
+		return (0);
+}
+
+int	msh_conditions_curl_braces(char *str, int *i)
+{
+	if (str[*i] == '(')
+		return (CURL_BRACES);
+	else
+		return (0);
 }

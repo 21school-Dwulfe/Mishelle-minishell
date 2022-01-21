@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirects_recursion.c                              :+:      :+:    :+:   */
+/*   parser_redirects_recursion.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:41 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:08:42 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:03:26 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-void	msh_set_specials(char *c, char *src, int *rr)
+static void	msh_set_specials(char *c, char *src, int *rr)
 {
 	char	ch[2];
 
@@ -25,13 +25,13 @@ void	msh_set_specials(char *c, char *src, int *rr)
 		c[0] = ch[rr[4]];
 }
 
-int msh_get_specials(char *c)
+static int	msh_get_specials(char *c)
 {
-	int index;
-	
+	int	index;
+
 	index = ft_strlen(c);
 	if (index == 2 && c[0] == '<')
-		return (RD_REDIRECT);
+		return (HEREDOC);
 	if (index == 1 && c[0] == '<')
 		return (R_REDIRECT);
 	if (index == 2 && c[0] == '>')
@@ -41,7 +41,7 @@ int msh_get_specials(char *c)
 	return (0);
 }
 
-int	msh_prefix_redirect(t_command *cmd, int *i, char *c, int *rr)
+static int	msh_prefix_redirect(t_command *cmd, int *i, char *c, int *rr)
 {
 	if (ft_strcmp(cmd->args[*i], c) == 0)
 	{
@@ -54,7 +54,7 @@ int	msh_prefix_redirect(t_command *cmd, int *i, char *c, int *rr)
 	return (0);
 }
 
-int	msh_postfix_redirect(t_command *cmd, int *i, char *c, int *rr)
+static int	msh_postfix_redirect(t_command *cmd, int *i, char *c, int *rr)
 {
 	char	*dest;
 	char	*hren;

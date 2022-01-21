@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   creation.c                                         :+:      :+:    :+:   */
+/*   list_creation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:11 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/06 17:37:27 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:08:11 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-t_command *msh_create_command(char **dstr)
+t_command	*msh_create_command(char **dstr)
 {
-	t_command *cmd;
+	t_command	*cmd;
 
 	cmd = malloc(sizeof(t_command));
 	cmd->args = dstr;
@@ -35,7 +35,7 @@ t_command *msh_create_command(char **dstr)
 	return (cmd);
 }
 
-t_redirect *msh_create_redirect(char *filepath, int specials)
+t_redirect	*msh_create_redirect(char *filepath, int specials)
 {
 	t_redirect	*redirect;
 
@@ -47,7 +47,7 @@ t_redirect *msh_create_redirect(char *filepath, int specials)
 	return (redirect);
 }
 
-t_arg *msh_create_token(char *name, char *value, int order, int specials)
+t_arg	*msh_create_token(char *name, char *value, int order, int specials)
 {
 	t_arg	*args_token;
 

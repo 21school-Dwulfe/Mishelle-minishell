@@ -160,3 +160,82 @@
 // 	}
 // 	return (i);
 // }
+
+// void    msh_add_arg(t_arg *dest, char *arg)
+// {
+// 	t_arg	*tmp;
+
+// 	tmp = malloc(sizeof(t_arg));
+// 	tmp = (t_arg){};
+// 	tmp->prev = tmp;
+// 	tmp->value = arg;
+// 	if (!dest)
+// 		dest = tmp;
+// 	else
+// 		dest->next = tmp;
+// }
+
+// void msh_heredoc_input(t_arg *tok)
+// {
+// 	int 	i[4];
+// 	char	*ptr[3];
+	
+// 	i[0] = 0;
+// 	i[1] = ft_strlen(tok->name);
+// 	i[2] = 1;
+// 	i[3] = 1;
+// 	while (i[3])
+// 	{
+// 		msh_readline(">", &ptr[0]);
+// 		ptr[1] = tok->value;
+// 		tok->value = ft_strjoin(ptr[1], ptr[0]);
+// 		ft_strdel(&ptr[1]);
+// 		while (1)
+// 		{
+// 			i[2] = ft_strlen(ptr[0]);
+// 			ptr[2] = ft_strnstr(ptr[0] + i[0], tok->name, i[1]);
+// 			if (ptr[2])
+// 			{
+// 				i[3] = 0;
+// 				ft_strdel(&ptr[0]);
+// 				break ;
+// 			}
+// 			if (i[0] == i[2] - i[1])
+// 			{
+// 				ft_strdel(&ptr[0]);
+// 				break ;
+// 			}
+// 			i[0]++;
+// 		}
+// 	}
+// }
+
+
+// char	*msh_token_redirect(char *str, int *index)
+// {
+// 	int		i[2];
+// 	char	*result;
+// 	int		word;
+// 	char	c;
+
+// 	i[0] = *index;
+// 	i[1] = *index;
+// 	word = 0;
+// 	result = NULL;
+// 	c = str[i[0]];
+// 	while (i[0] - 1 > -1 && str[i[0] - 1] != ' ')
+// 		i[0]--;
+// 	while (str[i[1]] && str[i[1]] == c)
+// 		i[1]++;
+// 	while (str[i[1]] && str[i[1]] == ' ')
+// 	{
+// 		if (str[i[1] + 1] != '\0' && str[i[1] + 1] != ' ')
+// 			word = i[1] + 1;
+// 		i[1]++;
+// 	}
+// 	while (str[i[1]] && !ft_strchr(" |;<>&", str[i[1]]))
+// 		i[1]++;
+// 	if (word && (i[0] != *index || i[1] != *index))
+// 		result = ft_strndup(str + word, i[1] - word);
+// 	return (result);
+// }

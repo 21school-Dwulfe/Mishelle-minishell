@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   conditions_sets_specials.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/21 17:03:46 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 17:23:35 by dwulfe           ###   ########.fr       */
+/*   Created: 2022/01/21 15:47:04 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/21 15:47:10 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-void	msh_child_sig(int sig)
+int	msh_conditions_dollar_braces(char *str, int *i)
 {
-	if (sig == SIGINT)
-	{
-		exit(2);
-	}
-	if (sig == SIGQUIT)
-	{
-		exit(3);
-	}
-}
-
-void	msh_define_subshell_signals(char *shell_start, char *shell_current)
-{
-	if (!ft_strncmp(shell_start, shell_current, ft_strlen(shell_current)))
-		signal(SIGQUIT, SIG_IGN);
+	if (str[*i] == '$' && str[*i] == '(')
+		return (DOLLAR_BRACES);
 	else
-		signal(SIGQUIT, msh_child_sig);
-	signal(SIGINT, msh_sigint_handler);
+		return (0);
 }
 
-void	msh_sigignore(void)
+int	msh_conditions_redirects(char *str, int *i)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if (str[*i] == '>' && str[*i + 1] != '>')
+		return (REDIRECT);
+	if (str[*i] == '<' && str[*i + 1] != '<')
+		return (R_REDIRECT);
+	if (str[*i] == '>' && str[*i + 1] == '>')
+		return (D_REDIRECT);
+	if (str[*i] == '<' && str[*i + 1] == '<')
+		return (HEREDOC);
+	return (0);
 }

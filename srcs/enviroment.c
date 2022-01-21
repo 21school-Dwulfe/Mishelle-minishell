@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:51 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/08 17:51:12 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 19:47:45 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*msh_evaluate_env_arg(char *arg, char **env)
 	while (tmp)
 	{
 		if (!ft_isalnum(*tmp) && *tmp != '_')
-			break;
+			break ;
 		length[1]++;
 		tmp++;
 	}
@@ -40,39 +40,30 @@ char	*msh_evaluate_env_arg(char *arg, char **env)
 	return (arg);
 }
 
-/**
- * @brief 
- * 
- * @param args 
- * @param env 
- * @return int 
- */
 int	msh_evaluate_env_if_exist(char **args, char **env)
 {
-	int		i;
-	int 	j;
-	int 	count_dollars;
+	int		i[2];
+	int		count_dollars;
 	char	*temp[2];
 
-	j = 0;
-	i = 0;
+	ft_bzero(i, sizeof(int) * 2);
 	ft_bzero(temp, sizeof(char *) * 2);
-	while (args[i])
+	while (args[i[0]])
 	{
-		j = 0;
-		temp[0] = args[i];
+		i[1] = 0;
+		temp[0] = args[i[0]];
 		count_dollars = ft_ch_count(temp[0], '$');
-		while (j < count_dollars)
+		while (i[1] < count_dollars)
 		{
 			if (temp[0] && temp[0][1] != '?')
 				temp[0] = msh_evaluate_env_arg(temp[0], env);
 			else if (temp[0] && temp[0][1] == '?')
 				temp[0] = ft_itoa(msh_read_error_code());
-			j++;
-			ft_strdel(&args[i]);
-			args[i] = temp[0];
+			i[1]++;
+			ft_strdel(&args[i[0]]);
+			args[i[0]] = temp[0];
 		}
-		i++;
+		i[0]++;
 	}
 	return (ft_strlen(temp[0]));
 }
@@ -96,27 +87,32 @@ char	**msh_copy_env(char **array)
 	return (result);
 }
 
+void	msh_msh_msh(char *new_var, int *i, char *new)
+{
+	char	*tmp[4];
+
+	tmp[0] = ft_strdup(new_var + i[1] + 1);
+	tmp[1] = ft_strndup_se(new_var, 0, '=');
+	tmp[1][i[1] - 1] = '=';
+	tmp[1][i[1]] = '\0';
+	new = ft_strjoin(tmp[1], tmp[0]);
+	ft_strdel(&tmp[0]);
+	ft_strdel(&tmp[1]);
+}
+
 char	**msh_create_env_var(char *new_var)
 {
 	int		length[3];
 	int		i[4];
-	char	*tmp[4];
 	char	**result;
 	char	*new;
 
+	new = NULL;
 	ft_bzero(length, sizeof(int) * 3);
 	i[0] = ft_index_of(new_var, '+', 0);
 	i[1] = ft_index_of(new_var, '=', 0);
 	if (i[0] > -1)
-	{
-		tmp[0] = ft_strdup(new_var + i[1] + 1);
-		tmp[1] = ft_strndup_se(new_var, 0, '=');
-		tmp[1][i[1] - 1] = '=';
-		tmp[1][i[1]] = '\0';
-		new = ft_strjoin(tmp[1], tmp[0]);
-		ft_strdel(&tmp[0]);
-		ft_strdel(&tmp[1]);
-	}
+		msh_msh_msh(new_var, i, new);
 	else
 		new = ft_strdup(new_var);
 	while (g_info.env[length[1]])

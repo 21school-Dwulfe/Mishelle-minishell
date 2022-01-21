@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:45 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/06 17:12:38 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,6 @@ void	msh_add_command(t_command **cur_cmd, char **value)
 		tmp = msh_create_command(value);
 		(*cur_cmd)->prev->next = tmp;
 		tmp->prev = (*cur_cmd)->prev;
-		(*cur_cmd)->prev = tmp;
-	}
-}
-
-void	msh_push_command(t_command **cur_cmd, char **value)
-{
-	t_command	*tmp;
-
-	tmp = msh_create_command(value);
-	if (cur_cmd && *cur_cmd)
-	{
-		(*cur_cmd)->prev->next = tmp;
-		tmp->prev = (*cur_cmd)->prev;
-		(*cur_cmd)->prev = tmp;
-	}
-	else
-	{
-		*cur_cmd = tmp;
 		(*cur_cmd)->prev = tmp;
 	}
 }

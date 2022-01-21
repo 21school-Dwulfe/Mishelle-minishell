@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.c                                         :+:      :+:    :+:   */
+/*   cmd_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/04 20:08:34 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/15 20:48:57 by dwulfe           ###   ########.fr       */
+/*   Created: 2022/01/21 19:26:44 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/21 19:26:57 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-void	msh_sigint_handler(int sig_num)
+int	msh_custom_pwd(t_command *cmd)
 {
-	(void)sig_num;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	char	*str;
 
-void msh_readline(char *prefix, char **dest)
-{
-	char *line;
-
-	line = readline(prefix);
-	if (line)
-		*dest = line;
-	else
-	{
-		msh_struct_clear();
-		exit(0);
-	}
+	(void)cmd;
+	str = NULL;
+	str = getcwd(NULL, 0);
+	ft_putendl_fd(str, 1);
+	ft_strdel(&str);
+	msh_save_error_code(0);
+	return (1);
 }

@@ -6,13 +6,13 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:33 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:07:34 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:12:01 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-int msh_provider(char first, int *i, char *str, char *set)
+int	msh_provider(char first, int *i, char *str, char *set)
 {
 	if (first != 0)
 		return (first);
@@ -24,7 +24,7 @@ int msh_provider(char first, int *i, char *str, char *set)
 
 int	msh_is_odd_quote(char first, char *str, char *set)
 {
-	int 		i[2];
+	int	i[2];
 
 	ft_bzero(i, sizeof(int) * 2);
 	while (str[i[0]])
@@ -35,7 +35,7 @@ int	msh_is_odd_quote(char first, char *str, char *set)
 			if ((unsigned char)str[i[0]] - (unsigned char)set[i[1]] == 0)
 			{
 				first = str[i[0]++];
-				break;
+				break ;
 			}
 			i[1]++;
 		}
@@ -75,7 +75,7 @@ void	msh_is_close_odd_quote(char **line, char *buf_sd, char *c)
 int	msh_unclosed_quotes(char **line, char *buf_sd, char c)
 {
 	char	*quote_type;
-	
+
 	if (!c)
 		c = msh_is_odd_quote(0, *line, "'\"");
 	else

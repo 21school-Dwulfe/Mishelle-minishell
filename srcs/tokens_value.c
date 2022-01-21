@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_type.c                                       :+:      :+:    :+:   */
+/*   tokens_value.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:17:48 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:17:50 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:02:58 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,36 @@ char	*msh_token_quotes(char *str, int *index)
 	return (result);
 }
 
-char	*msh_curl_braces(char *str, int *index)
+char	*msh_token_heredoc(char *str, int *index)
+{
+	int		i[2];
+	char	*result;
+	int		word;
+	char	c;
+
+	i[0] = *index;
+	i[1] = *index;
+	word = 0;
+	result = NULL;
+	c = str[i[0]];
+	while (i[0] - 1 > -1 && str[i[0] - 1] != ' ')
+		i[0]--;
+	while (str[i[1]] && str[i[1]] == c)
+		i[1]++;
+	while (str[i[1]] && str[i[1]] == ' ')
+	{
+		if (str[i[1] + 1] != '\0' && str[i[1] + 1] != ' ')
+			word = i[1] + 1;
+		i[1]++;
+	}
+	while (str[i[1]] && !ft_strchr(" |;<>&", str[i[1]]))
+		i[1]++;
+	if (word && (i[0] != *index || i[1] != *index))
+		result = ft_strndup(str + *i, i[1] - *i);
+	return (result);
+}
+
+char	*msh_token_curl_braces(char *str, int *index)
 {
 	int		i;
 	char	*result;
@@ -53,9 +82,4 @@ char	*msh_curl_braces(char *str, int *index)
 		i++;
 	result = ft_strndup(str + *index + 1, i - 1);
 	return (result);
-}
-
-char	*msh_slash(char *str, int *index)
-{
-	return (ft_strndup(str + *index, 2));
 }

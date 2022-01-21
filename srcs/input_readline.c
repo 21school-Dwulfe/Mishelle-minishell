@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   input_readline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/04 20:06:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/04 20:06:27 by dwulfe           ###   ########.fr       */
+/*   Created: 2022/01/04 20:08:34 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/21 17:05:12 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-int	msh_read_error_code(void)
+void	msh_sigint_handler(int sig_num)
 {
-	int res;
-	
-	res = g_info.exit_code;
-	return (res);
+	(void)sig_num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void	msh_save_error_code(int code)
+void	msh_readline(char *prefix, char **dest)
 {
-	printf("save %d", code);
-	g_info.exit_code = code;
-}
+	char	*line;
 
-void	msh_custom_exit(t_command *cmd)
-{
-	(void)cmd;
-	if (cmd->num_args > 2)
-		exit(1);
-	else if (cmd->num_args == 1)
-		exit(0);
+	line = readline(prefix);
+	if (line)
+		*dest = line;
 	else
-		exit(ft_atoi(cmd->args[1]));
+	{
+		msh_struct_clear();
+		exit(0);
+	}
 }

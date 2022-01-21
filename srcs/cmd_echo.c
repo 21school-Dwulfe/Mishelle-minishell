@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_echo.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/21 19:17:33 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/21 19:18:30 by dwulfe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/main.h"
 
 void	msh_cd_check_n(t_command *cmd, int *len, short *is_nl)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 1;
@@ -17,16 +29,15 @@ void	msh_cd_check_n(t_command *cmd, int *len, short *is_nl)
 			break ;
 		ft_strdel(&cmd->args[i]);
 		cmd->args[i] = ft_strdup("-n");
-		i++;	
+		i++;
 	}
 	while (cmd->args[*len] && !ft_strcmp(cmd->args[*len], "-n"))
 		(*len)++;
-	if (!ft_strncmp(cmd->args[1], "-n", 3))
+	if (cmd->num_args > 1 && !ft_strncmp(cmd->args[1], "-n", 3))
 		(*is_nl)--;
 }
 
-
-char *msh_custom_echo_buff(t_command *cmd, int *len)
+char	*msh_custom_echo_buff(t_command *cmd, int *len)
 {
 	int		l[4];
 	char	*tmp;
@@ -55,7 +66,7 @@ int	msh_custom_echo(t_command *cmd)
 {
 	short	is_nl;
 	int		len;
-	char    *tmp;
+	char	*tmp;
 
 	is_nl = 1;
 	len = 1;

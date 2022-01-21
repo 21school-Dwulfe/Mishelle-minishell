@@ -6,127 +6,83 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/15 21:43:40 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/21 18:58:07 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-static void	msh_init_functions(void)
+int	msh(t_command *cmd, int *in_out_s, int *fd_pipe, int *counter)
 {
-	g_info.condition[0] = msh_validation_closest_chars;
-	g_info.condition[1] = msh_conditions_d_quotes_close;
-	g_info.condition[2] = msh_conditions_quotes_close;
-	g_info.condition[3] = msh_conditions_quotes;
-	g_info.condition[4] = msh_conditions_d_quotes;
-	g_info.condition[5] = msh_conditions_pipe;
-	g_info.condition[6] = msh_conditions_semicolon;
-	g_info.condition[7] = msh_conditions_dollar;
-	g_info.condition[8] = msh_conditions_end;
-	g_info.condition[9] = msh_conditions_slash;
-	g_info.condition[10] = msh_conditions_d_pipe;
-	g_info.condition[11] = msh_conditions_d_amp;
-	g_info.condition[12] = msh_conditions_curl_braces;
-	g_info.func[13] = msh_token_quotes;
-	g_info.func[14] = msh_token_d_quotes;
-	g_info.func[15] = msh_curl_braces;
-	g_info.func[17] = msh_token_dollar;
-	g_info.func[18] = msh_slash;
-}
+	int	status;
 
-static void	msh_config(int argc, char **argv, char **env, int *regime)
-{
-	if (argc > 2)
-		*regime = (ft_strncmp(argv[1], "-cmd", 5) == 0);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, msh_sigint_handler);
-	rl_catch_signals = 0;
-	g_info.num_of_commands = 0;
-	g_info.num_token = 0;
-	g_info.env = msh_copy_env(env);
-	g_info.pwd = getcwd(NULL, 0);
-	msh_init_global_cmd();
-	msh_init_functions();
-	msh_build_preparings();
-	g_info.f[0] = "export";
-	g_info.f[1] = "exit";
-	g_info.f[2] = "unset";
-	g_info.f[3] = "cd";
-	g_info.f[4] = "pwd";
-	g_info.f[5] = "echo";
-	g_info.f[6] = "env";
-	g_info.f[7] = "minishell";
-}
-
-static void	msh_clear_tokens(t_command *cmd)
-{
-	t_arg		*tmp_arg;
-
-	tmp_arg = cmd->args_token;
-	while (tmp_arg)
+	if (msh_buildin_excutor(cmd) == 0)
 	{
-		cmd->args_token = cmd->args_token->next;
-		ft_strdel(&tmp_arg->name);
-		ft_strdel(&tmp_arg->pseudo);
-		ft_strdel(&tmp_arg->value);
-		free(tmp_arg);
-		tmp_arg = cmd->args_token;
+		if (msh_pipes(cmd, fd_pipe) > -1)
+			(*counter)++;
+		else
+			return (-1);
+		msh_func(cmd, in_out_s, g_info.env, fd_pipe);
 	}
+	status = msh_d_amp_d_pipe(cmd);
+	return (status);
 }
 
-void	msh_struct_clear()
+int	msh_executor(t_command *cmd, int *in_out_s, int *counter)
 {
-	t_command 	*cmd;
-	t_redirect	*tmp_red;
+	int		fd_pipe[2];
+	int		status;
 
-	cmd = g_info.cur_cmd;
-	g_info.num_token = 0;
-	g_info.num_of_commands = 0;
 	while (cmd)
 	{
-		if (cmd->args)
-			ft_arrstr_del(cmd->args, ft_str_count(cmd->args));
-		msh_clear_tokens(cmd);
-		tmp_red = cmd->redirects;
-		while (tmp_red)
+		status = msh_preparings(cmd);
+		status = msh_redirects_fd(cmd);
+		if (status == 1)
+			break ;
+		else if (status == 2)
 		{
-			cmd->redirects = cmd->redirects->next;
-			ft_strdel(&tmp_red->file);
-			free(tmp_red);
-			tmp_red = cmd->redirects;
+			cmd = cmd->next;
+			continue ;
 		}
+		status = msh(cmd, in_out_s, fd_pipe, counter);
+		if (status == 1)
+			break ;
+		else if (status == 2)
+			cmd = cmd->next;
 		cmd = cmd->next;
-		free(g_info.cur_cmd);
-		g_info.cur_cmd = NULL;
-		g_info.cur_cmd = cmd;
+		if ((cmd && !cmd->piped) || !cmd)
+			dup2(in_out_s[1], 1);
 	}
+	return (*counter);
 }
 
-void	msh_stdin_regime(void)
+void	msh_cmd(char **line)
 {
-	char	*line;
-	
-	line = NULL;
-	while (1)
-	{
-		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line);
-		if (msh_validate_line(line))
-			continue ;
-		add_history(line);
-		if (!msh_unclosed_quotes(&line, NULL, 0))
-			msh_cmd(&line);
-		ft_strdel(&line);
-		msh_struct_clear();
-		msh_init_global_cmd();
-	}
+	int		in_out_s[2];
+	int		counter;
+
+	if (msh_parse(line) == -1)
+		return ;
+	if (msh_cut_redirects_cmd() == -1)
+		return ;
+	in_out_s[0] = dup(0);
+	in_out_s[1] = dup(1);
+	msh_executor(g_info.cur_cmd, in_out_s, &counter);
+	close(in_out_s[1]);
+	dup2(in_out_s[0], 0);
+	close(in_out_s[0]);
+	while (counter-- > 0)
+		msh_wait_pid(-1);
+	signal(SIGINT, msh_sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	msh_argv_regime(char **argv)
 {
-	int 	i;
-	int 	len;
+	int		i;
+	int		len;
 	char	*line;
-	int 	offset;
+	int		offset;
 
 	i = 0;
 	len = 0;
@@ -143,27 +99,20 @@ void	msh_argv_regime(char **argv)
 		i++;
 	}
 	if (msh_validate_line(line))
-			return ;
+		return ;
 	if (!msh_unclosed_quotes(&line, NULL, 0))
 		msh_cmd(&line);
 	ft_strdel(&line);
 	msh_struct_clear();
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	int	regime;
 
 	msh_config(argc, argv, env, &regime);
-	if (argc == 2 && !ft_strncmp(argv[1], "-cmd", 5))
-	{
-		write(1, "\nusage : -cmd [command ...args] \n\t or ", 39);
-		write(1, "    [cmd >file or fd, < file or fd, >> file or fd, << file or fd] \n\t or ", 73);
-		write(1, "    [command && command, command || command, command | command ]\n\n", 67);
-		return (0);
-	}
 	if (regime)
-		msh_argv_regime(argv + 2);
+		msh_argv_regime(argv + 1);
 	else
 		msh_stdin_regime();
 	return (0);
