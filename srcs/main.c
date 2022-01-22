@@ -35,8 +35,7 @@ int	msh_executor(t_command *cmd, int *in_out_s, int *counter)
 
 	while (cmd)
 	{
-		status = msh_preparings(cmd);
-		status = msh_redirects_fd(cmd);
+		status = (msh_preparings(cmd) | msh_redirects_fd(cmd));
 		if (status == 1)
 			break ;
 		else if (status == 2)

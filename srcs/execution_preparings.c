@@ -73,11 +73,12 @@ void	msh_procedure(int *i, t_arg *tok, t_command *cmd, char **tmp)
 		cmd->args[*i] = tmp[2];
 }
 
-int	msh_tism(t_arg *tok, t_command *cmd, int *i)
+int	msh_no_prefix(t_arg *tok, t_command *cmd, int *i)
 {
 	int	boo;
 
-	boo = (!tok->has_prefix && !tok->is_prefix);
+	boo = ((!tok->has_prefix && !tok->is_prefix) || cmd->num_args == 1
+		|| *i == cmd->num_args -1);
 	if (boo)
 	{
 		cmd->args[*i] = ft_strdup(tok->value);
@@ -104,7 +105,7 @@ void	msh_evaluate_all_tokens(t_command *cmd)
 			ft_strdel(&cmd->args[i]);
 			if (!tmp[0] && ++i)
 				continue ;
-			if (msh_tism(tok, cmd, &i))
+			if (msh_no_prefix(tok, cmd, &i))
 				continue ;
 			msh_procedure(&i, tok, cmd, tmp);
 			msh_replace_null_arg(cmd);

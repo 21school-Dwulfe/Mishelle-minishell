@@ -115,12 +115,14 @@ void		msh_common_side_effect(char **str, int *i, int sp);
 /* End Specials */
 
 /* Tokens */
-char		*msh_token_wildcard_value(char *str, int *index);
+char		*msh_token_wildcard_name(char *str, int *index);
 void		msh_wildcard(char *path, char **result);
 char		*msh_token_heredoc(char *str, int *index);
 char		*msh_tokens_pseudo(int sp);
 char		*msh_tokens_pseudo_dev(int sp);
-char		*msh_token_wildcard_value(char *str, int *i);
+char		*msh_token_tilda_name(char *str, int *i);
+int			msh_conditions_tilda(char *str, int *i);
+char		*msh_token_tilda_value(char *arg);
 /* End Tokens */
 
 /* Utils */

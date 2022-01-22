@@ -36,6 +36,7 @@ typedef enum s_specials
 	DOLLAR,
 	SLASH,
 	WILDCARD,
+	TILDA,
 	ERROR
 }				t_specials;
 

@@ -28,7 +28,7 @@ char	*msh_realloc(char *res, struct dirent *ent)
 	return (res);
 }
 
-char	*msh_token_wildcard_value(char *str, int *index)
+char	*msh_token_wildcard_name(char *str, int *index)
 {
 	int		i[2];
 	char	*result;

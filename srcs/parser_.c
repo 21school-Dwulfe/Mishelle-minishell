@@ -69,7 +69,8 @@ int	msh_parse(char **str)
 			i[2] = 0;
 		if (i[2] == -1)
 			break ;
-		i[1]++;
+		if (i[2] < 21)
+			i[1]++;
 	}
 	return (0);
 }

@@ -96,6 +96,7 @@ void	msh_msh_msh(char *new_var, int *i, char *new)
 	tmp[1][i[1] - 1] = '=';
 	tmp[1][i[1]] = '\0';
 	new = ft_strjoin(tmp[1], tmp[0]);
+	(void)new;
 	ft_strdel(&tmp[0]);
 	ft_strdel(&tmp[1]);
 }
