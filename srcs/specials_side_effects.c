@@ -6,40 +6,21 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 21:16:32 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 19:34:42 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-char	*msh_heredoc_value_to_name(char *value)
-{
-	int		i;
-	char	*tmp;
-
-	i = 2;
-	while (value[i] && value[i] == ' ')
-		i++;
-	tmp = value;
-	value = ft_strdup(tmp + i);
-	ft_strdel(&tmp);
-	return (value);
-}
-
-int	msh_convertations(t_command *cmd, char *value, int sp, char *name)
+int	msh_convert(t_command *cmd, char *value, int sp, char *name)
 {
 	t_arg		*arg;
 	int			result;
 
 	if (sp == HEREDOC)
-	{
-		result = ft_strlen(value);
-		name = msh_heredoc_value_to_name(value);
-		msh_add_redirect(&cmd->redirects, name, sp);
-		rl_clear_history();
-		msh_heredoc_input(name);
-		return (result);
-	}
+		return (result = msh_convert_heredoc(cmd, value, name, sp));
+	if (sp == TILDA)
+		msh_convert_tilda(&value, name);
 	if (value)
 	{	
 		arg = msh_create_token(name, value, g_info.num_token++, sp);
@@ -80,7 +61,7 @@ int	msh_specify_token(int *length, char *str, int sp)
 		ft_memset(value[0], '\0', ft_strlen(value[0]));
 		msh_wildcard(msh_get_env_by_key(g_info.env, "PWD"), &value[0]);
 	}
-	return (msh_convertations(cmd, value[0], sp, name));
+	return (msh_convert(cmd, value[0], sp, name));
 }
 
 void	msh_define_spaces(t_arg *arg, char *str, int *length, int specials)
@@ -130,7 +111,7 @@ void	msh_common_side_effect(char **str, int *i, int sp)
 	else
 	{
 		msh_specials_cut(str, i, l);
-		if (sp == HEREDOC && *i - 1 > -1)
+		if ((sp == HEREDOC || sp == DOLLAR) && *i - 1 > -1)
 			(*i)--;
 	}
 }

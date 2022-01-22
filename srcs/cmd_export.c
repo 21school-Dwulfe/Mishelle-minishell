@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:33 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 19:40:17 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 19:25:38 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	msh_modify_env_var(char **env, char *new_value)
 	index_env = 0;
 	index_cmd = ft_index_of(new_value, '+', 0);
 	if (index_cmd < 0)
-		result = ft_strdup(new_value);
+		result = ft_strndup_se(new_value, 0, 0);
 	else
 	{
 		index_cmd++;

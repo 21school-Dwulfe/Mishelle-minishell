@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:25 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 20:29:59 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 19:32:47 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	msh_check_special_signs(char *str, int *i)
 	int	res;
 
 	j = 0;
-	while (j < 15)
+	while (j < 16)
 	{
 		res = g_info.condition[j](str, i);
 		if (res != 0)
@@ -49,7 +49,7 @@ void	msh_save_command(char *str, int start, int end, int specials)
 
 int	msh_parse(char **str)
 {
-	int			i[3];
+	int	i[3];
 
 	ft_bzero(i, sizeof(int) * 3);
 	while (str[0][i[1]])
@@ -63,7 +63,8 @@ int	msh_parse(char **str)
 			msh_input_call(str, &i[1]);
 		if (i[2] == -1 || i[2] > 6)
 			msh_side_effect(str, &i[1], &i[2]);
-		if ((i[2] != 0 && i[2] < 3) || i[2] == 11 || i[2] == 10)
+		if (str[*i] == '\0' || (i[2] != 0 && i[2] < 3)
+			|| i[2] == 11 || i[2] == 10)
 			msh_save_command(*str, i[0], i[1], i[2]);
 		if (i[2] >= 12 && i[2] < 20)
 			i[2] = 0;

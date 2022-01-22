@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 16:28:22 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 16:28:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 17:22:34 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	msh_tok_pseudo_reader_dev(char *arg)
 		return (1);
 	else if (!ft_strncmp(arg, "WILDCARD", 8))
 		return (1);
+	else if (!ft_strncmp(arg, "TILDA", 5))
+		return (1);
 	else
 		return (0);
 }
@@ -82,5 +84,7 @@ char	*msh_tokens_pseudo_dev(int specials)
 		str = " RD_REDIRECT";
 	else if (specials == WILDCARD)
 		str = " WILDCARD";
+	else if (specials == TILDA)
+		str = " TILDA";
 	return (ft_strdup(str));
 }

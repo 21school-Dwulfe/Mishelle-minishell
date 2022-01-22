@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 18:58:53 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 22:18:36 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ int	msh_recursion_eval(int i, t_command *cmd, char **buff)
 	tmp[0] = ft_strjoin(*buff, tmp[1]);
 	ft_strdel(buff);
 	ft_strdel(&cmd->args[i]);
-	if (cmd->args[i + 1] == NULL || (an_tok && !an_tok->is_prefix))
+	if (cmd->args[i + 1] == NULL || (an_tok && !an_tok->is_prefix)
+		|| (msh_is_token(cmd->args[i + 1])
+			&& !msh_get_token_value(cmd, cmd->args[i + 1])->has_prefix))
 		cmd->args[i] = tmp[0];
-	else if (an_tok && an_tok->is_prefix)
+	else
 		return (msh_recursion_eval(i + 1, cmd, &tmp[0]));
 	return (i);
 }
@@ -77,8 +79,7 @@ int	msh_no_prefix(t_arg *tok, t_command *cmd, int *i)
 {
 	int	boo;
 
-	boo = ((!tok->has_prefix && !tok->is_prefix) || cmd->num_args == 1
-		|| *i == cmd->num_args -1);
+	boo = ((!tok->has_prefix && !tok->is_prefix) || cmd->num_args == 1);
 	if (boo)
 	{
 		cmd->args[*i] = ft_strdup(tok->value);

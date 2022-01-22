@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   specials_wildcards.c                               :+:      :+:    :+:   */
+/*   token_wildcards.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:22:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 21:25:39 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 20:42:40 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,19 @@
 char	*msh_realloc(char *res, struct dirent *ent)
 {
 	int				len;
+	char			*tmp;
 
-	len = ft_strlen(res) + ft_strlen(ent->d_name) + 2;
+	len = ft_strlen(res) + ft_strlen(ent->d_name) + 1;
 	if (!res)
 		res = ft_strdup(ent->d_name);
 	else
 	{
-		res = ft_realloc(res, len);
-		res = ft_strncat(res, ent->d_name, len);
-		res[ft_strlen(res)] = ' ';
+		tmp = res;
+		res = ft_strjoin(res, ent->d_name);
+		ft_strdel(&tmp);
+		tmp = res;
+		res = ft_strjoin(res, " ");
+		ft_strdel(&tmp);
 	}
 	return (res);
 }
@@ -45,6 +49,7 @@ char	*msh_token_wildcard_name(char *str, int *index)
 	return (result);
 }
 
+// path = "/Users/dwulfe/Mishelle-minishell";
 void	msh_wildcard(char *path, char **result)
 {
 	struct dirent	*ent;
@@ -67,4 +72,12 @@ void	msh_wildcard(char *path, char **result)
 char	*msh_slash(char *str, int *index)
 {
 	return (ft_strndup(str + *index, 2));
+}
+
+int	msh_conditions_wildcard(char *str, int *i)
+{
+	if (str[*i] == '*')
+		return (WILDCARD);
+	else
+		return (0);
 }

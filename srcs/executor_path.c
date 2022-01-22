@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 19:53:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 21:38:28 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ void	msh_splited(char *cmd_name, char **tmp, int *i)
 
 char	*msh_get_path(char *cmd_name, char **env)
 {
-	int		res;
-	int		i[2];
-	char	*tmp[4];
+	int			res;
+	int			i[2];
+	char		*tmp[4];
 
 	ft_bzero(i, sizeof(int) * 2);
 	ft_bzero(tmp, sizeof(char *) * 4);
-	res = access(cmd_name, X_OK);
+	res = access(cmd_name, F_OK);
 	if (res == -1 && ++i[1])
 	{
 		tmp[0] = msh_get_env_by_key(env, "PATH");
 		msh_splited(cmd_name, tmp, i);
-		return (tmp[2]);
 	}
 	else
 		return (ft_strdup(cmd_name));
+	return (tmp[2]);
 }
 
 int	msh_d_amp_d_pipe(t_command *cmd)

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 11:56:00 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 16:51:15 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 15:15:53 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_info
 	char			**env;
 	char			*f[8];
 	t_command		*cur_cmd;
-	t_f_special		func[20];
+	t_f_special		func[24];
 	t_f_condition	condition[16];
 }				t_info;
 

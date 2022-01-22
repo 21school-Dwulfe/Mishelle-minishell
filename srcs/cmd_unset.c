@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:27:12 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 19:42:30 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 15:19:03 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	msh_custom_unset(t_command *cmd)
 {
 	int		i;
 	int		res;
+	int		length;
 	char	**args;
 	char	**tmp;
-	int		length;
 
 	i = -1;
 	args = cmd->args;

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 11:56:30 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 20:58:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 17:19:21 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,10 @@ void		msh_common_side_effect(char **str, int *i, int sp);
 /* End Specials */
 
 /* Tokens */
-char		*msh_token_wildcard_name(char *str, int *index);
+void		msh_convert_tilda(char **value, char *name);
+int			msh_convert_heredoc(t_command *cmd, char *val, char *name, int sp);
 void		msh_wildcard(char *path, char **result);
+char		*msh_token_wildcard_name(char *str, int *index);
 char		*msh_token_heredoc(char *str, int *index);
 char		*msh_tokens_pseudo(int sp);
 char		*msh_tokens_pseudo_dev(int sp);
