@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 22:18:36 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 23:47:59 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	msh_recursion_eval(int i, t_command *cmd, char **buff)
 	return (i);
 }
 
-void	msh_token_mutations(t_arg *tok)
+int	msh_token_mutations(t_arg *tok, t_command *cmd, int *i)
 {
 	if (tok->specials == SLASH)
 	{
@@ -52,6 +52,14 @@ void	msh_token_mutations(t_arg *tok)
 		ft_strdel(&tok->value);
 		tok->value = ft_itoa(msh_read_error_code());
 	}
+	if (tok->specials == WILDCARD)
+	{
+		msh_widlcard_mutations(cmd, tok, i);
+		return (1);
+	}
+	else
+		ft_strdel(&cmd->args[*i]);
+	return (0);
 }
 
 void	msh_procedure(int *i, t_arg *tok, t_command *cmd, char **tmp)
@@ -102,8 +110,8 @@ void	msh_evaluate_all_tokens(t_command *cmd)
 		if (msh_is_token(cmd->args[i]))
 		{
 			tok = msh_get_token_value(cmd, cmd->args[i]);
-			msh_token_mutations(tok);
-			ft_strdel(&cmd->args[i]);
+			if (msh_token_mutations(tok, cmd, &i) == 1)
+				continue ;
 			if (!tmp[0] && ++i)
 				continue ;
 			if (msh_no_prefix(tok, cmd, &i))

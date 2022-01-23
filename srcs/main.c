@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 21:02:59 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/23 18:35:53 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	msh_cmd(char **line)
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);
 	msh_executor(g_info.cur_cmd, in_out_s, &counter);
+	dup2(in_out_s[1], 1);
 	close(in_out_s[1]);
 	dup2(in_out_s[0], 0);
 	close(in_out_s[0]);

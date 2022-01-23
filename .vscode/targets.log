@@ -1,0 +1,634 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-apple-darwin11.3.0
+ 
+
+# Make data base, printed on Sun Jan 23 15:32:33 2022
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from `Makefile', line 31)
+INCLUDES = -I./includes
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /Users/dwulfe/Mishelle-minishell
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+_ = /usr/bin/make
+# makefile (from `Makefile', line 29)
+CFLAGS = -Wall	-Wextra -Werror
+# makefile (from `Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# makefile (from `Makefile', line 9)
+SRCS := cmd_.c cmd_cd.c cmd_echo.c cmd_env.c cmd_exit.c cmd_export.c cmd_pwd.c cmd_unset.c conditions_quotes.c conditions_sets_specials.c conditions_specials.c config.c consitions_double_specials.c enviroment.c errors.c execution_preparings.c executor_path.c executor_pipex.c executor_redirects.c executor_validation.c input_main.c input_quotes.c input_readline.c list.c list_creation.c main.c parser_.c parser_redirects.c parser_redirects_recursion.c signals.c specials.c specials_side_effects.c token_heredoc.c token_tilda.c token_wildcards.c tokens_getters.c tokens_init.c tokens_value.c utiles_strings_2.c utils_dev.c utils_global.c utils_strings.c utils_strings_2.c validation.c validation_bonuses.c
+# makefile (from `Makefile', line 24)
+ADD = 
+# makefile (from `Makefile', line 30)
+DEBUG = -g
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# makefile (from `Makefile', line 6)
+SYSTEM := Darwin
+# makefile (from `Makefile', line 12)
+ 
+OBJS := ./objs/cmd_.o ./objs/cmd_cd.o ./objs/cmd_echo.o ./objs/cmd_env.o ./objs/cmd_exit.o ./objs/cmd_export.o ./objs/cmd_pwd.o ./objs/cmd_unset.o ./objs/conditions_quotes.o ./objs/conditions_sets_specials.o ./objs/conditions_specials.o ./objs/config.o ./objs/consitions_double_specials.o ./objs/enviroment.o ./objs/errors.o ./objs/execution_preparings.o ./objs/executor_path.o ./objs/executor_pipex.o ./objs/executor_redirects.o ./objs/executor_validation.o ./objs/input_main.o ./objs/input_quotes.o ./objs/input_readline.o ./objs/list.o ./objs/list_creation.o ./objs/main.o ./objs/parser_.o ./objs/parser_redirects.o ./objs/parser_redirects_recursion.o ./objs/signals.o ./objs/specials.o ./objs/specials_side_effects.o ./objs/token_heredoc.o ./objs/token_tilda.o ./objs/token_wildcards.o ./objs/tokens_getters.o ./objs/tokens_init.o ./objs/tokens_value.o ./objs/utiles_strings_2.o ./objs/utils_dev.o ./objs/utils_global.o ./objs/utils_strings.o ./objs/utils_strings_2.o ./objs/validation.o ./objs/validation_bonuses.o
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n0001x4w000g97/T/vscode-ipc-056d2433-8669-4147-aace-1fc3fc1b9b40.sock
+# makefile (from `Makefile', line 1)
+APP = minishell
+# environment
+VSCODE_CWD = /
+# environment
+Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.akNlJpRC9P/Render
+# environment
+PATH = /Users/dwulfe/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin
+# environment
+VSCODE_LOG_STACK = false
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# makefile (from `Makefile', line 32)
+LDFLAGS = -L$(REL_PATH)/lib/lib -lreadline $(ADD) -I./libft -I$(REL_PATH)/includes/readline -L./libft -lft
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.2YEXa1j75G/Listeners
+# makefile (from `Makefile', line 4)
+SRCDIR = ./srcs/
+# automatic
+%F = $(notdir $%)
+# environment
+HOMEBREW_TEMP = /tmp/dwulfe/Homebrew/Temp
+# environment
+DISPLAY = /private/tmp/com.apple.launchd.av9KC4Q1DJ/org.xquartz:0
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /Users/dwulfe/Mishelle-minishell
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+# environment
+HOME = /Users/dwulfe
+# default
+MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/dwulfe/Library/Application Support/Code/CachedData/899d46d82c4c95423fb7e10e68eba52050e30ba3
+# environment
+LOGNAME = dwulfe
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# makefile (from `Makefile', line 13)
+HEADERS := 
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+XPC_FLAGS = 0x0
+# makefile (from `Makefile', line 16)
+MAKE = make
+# default
+MAKECMDGOALS := all
+# environment
+HOMEBREW_CACHE = /tmp/dwulfe/Homebrew/Caches
+# environment
+SHLVL = 1
+# makefile (from `Makefile', line 5)
+LIBRARY_NAME = lib
+# makefile (from `Makefile', line 33)
+CC = gcc
+# default
+MAKE_VERSION := 3.81
+# environment
+USER = dwulfe
+# makefile
+.DEFAULT_GOAL := minishell
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# default
+MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
+# default
+.VARIABLES := 
+# environment
+TMPDIR = /var/folders/zz/zyxvpxvq6csfxvn_n0001x4w000g97/T/
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /Users/dwulfe/Library/Application Support/Code/1.63.2-main.sock
+# makefile
+MAKEFLAGS = Rrqp
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+XPC_SERVICE_NAME = com.apple.xpc.launchd.oneshot.0x10000005.Electron
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# environment
+__CF_USER_TEXT_ENCODING = 0x3D27:0x0:0x0
+# environment
+COMMAND_MODE = unix2003
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# makefile (from `Makefile', line 3)
+OBJDIR = ./objs/
+# environment
+LC_ALL = C
+# environment
+SECURITYSESSIONID = 186a8
+# automatic
+^F = $(notdir $^)
+# makefile (from `Makefile', line 8)
+REL_PATH := /Users/dwulfe/Mishelle-minishell
+# default
+SUFFIXES := 
+# default
+.INCLUDE_DIRS = /usr/local/include
+# environment
+MAKELEVEL := 0
+# environment
+LANG = C
+# environment
+VSCODE_PID = 8475
+# variable set hash-table stats:
+# Load=81/1024=8%, Rehash=0, Collisions=5/134=4%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 16777233, inode 444010): 19 files, no impossibilities.
+# ./srcs (device 16777233, inode 444394): No files, no impossibilities so far.
+
+# 19 files, no impossibilities in 2 directories.
+
+# Implicit Rules
+
+objs/%.o: ./srcs/%.c
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# 1 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+# Not a target:
+objs/errors.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/utils_global.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/input_main.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/utils_strings.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/consitions_double_specials.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/main.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all: minishell
+#  Phony target (prerequisite of .PHONY).
+#  Command-line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+
+.PHONY: all clean fclean re bonus buildrepo lib print
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/input_quotes.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/enviroment.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+print:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 47):
+	echo $(OBJS)
+	
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-22 20:44:26
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+objs/parser_redirects_recursion.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/cmd_env.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/cmd_exit.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+objs:
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := objs
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
+#  commands to execute (from `Makefile', line 71):
+	mkdir -p $(OBJDIR)
+	
+
+# Not a target:
+objs/input_readline.o:
+#  Implicit rule search has not been done.
+ 
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/list_creation.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/cmd_pwd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+buildrepo:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 74):
+	$(call make-repo)
+	mkdir -p lib 
+	cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 
+	
+
+# Not a target:
+objs/signals.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+minishell: Makefile objs objs/cmd_.o objs/cmd_cd.o objs/cmd_echo.o objs/cmd_env.o objs/cmd_exit.o objs/cmd_export.o objs/cmd_pwd.o objs/cmd_unset.o objs/conditions_quotes.o objs/conditions_sets_specials.o objs/conditions_specials.o objs/config.o objs/consitions_double_specials.o objs/enviroment.o objs/errors.o objs/execution_preparings.o objs/executor_path.o objs/executor_pipex.o objs/executor_redirects.o objs/executor_validation.o objs/input_main.o objs/input_quotes.o objs/input_readline.o objs/list.o objs/list_creation.o objs/main.o objs/parser_.o objs/parser_redirects.o objs/parser_redirects_recursion.o objs/signals.o objs/specials.o objs/specials_side_effects.o objs/token_heredoc.o objs/token_tilda.o objs/token_wildcards.o objs/tokens_getters.o objs/tokens_init.o objs/tokens_value.o objs/utiles_strings_2.o objs/utils_dev.o objs/utils_global.o objs/utils_strings.o objs/utils_strings_2.o objs/validation.o objs/validation_bonuses.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  commands to execute (from `Makefile', line 36):
+	@if [ ! -d "lib" ]; then \
+	mkdir -p lib && \
+	cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install; \
+	fi
+	cd ./libft && $(MAKE) && $(MAKE) bonus
+	${CC} ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} -fsanitize=address
+	
+
+# Not a target:
+objs/token_wildcards.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/utils_strings_2.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/utils_dev.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/cmd_.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/tokens_init.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bonus:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+objs/conditions_sets_specials.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+fclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 66):
+	cd ./libft && $(MAKE) fclean
+	rm -rf lib
+	rm -rf $(APP)
+	
+
+# Not a target:
+objs/executor_validation.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+lib:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+objs/tokens_value.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/cmd_unset.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/parser_redirects.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/conditions_specials.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+re: fclean all
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+clean: objs
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 58):
+	rm -rf $(OBJDIR)
+	cd ./libft && $(MAKE) clean
+	rm -rf $(shell find . -name '*.o')
+	@if [ -d "lib" ]; then \
+	cd readline-8.1 && $(MAKE) distclean; \
+	fi
+	
+
+# Not a target:
+objs/specials.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/tokens_getters.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/executor_redirects.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/cmd_cd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/config.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/utiles_strings_2.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/specials_side_effects.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/executor_path.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/token_tilda.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/conditions_quotes.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/token_heredoc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/validation.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/parser_.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/execution_preparings.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/executor_pipex.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/cmd_echo.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/list.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/cmd_export.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+objs/validation_bonuses.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=59/1024=6%, Rehash=0, Collisions=4/133=3%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 1
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+ 
+# strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
+
+# Finished Make data base on Sun Jan 23 15:32:33 2022
+
+ 

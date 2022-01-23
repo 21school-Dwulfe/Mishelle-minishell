@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:22:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 20:42:40 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 23:23:17 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,21 @@ void	msh_wildcard(char *path, char **result)
 	*result = res;
 }
 
-char	*msh_slash(char *str, int *index)
+void	msh_widlcard_mutations(t_command *cmd, t_arg *tok, int *i)
 {
-	return (ft_strndup(str + *index, 2));
+	char	**splitted;
+	char	**tmp;
+
+	ft_strdel(&cmd->args[*i]);
+	splitted = ft_split(tok->value, ' ');
+	tmp = cmd->args;
+	cmd->args = msh_concat_insert_args(cmd->args, splitted,
+			ft_str_count(splitted));
+	cmd->num_args = ft_str_count(cmd->args);
+	*i += cmd->num_args - 1;
+	free(tmp);
+	tmp = cmd->args;
+	free(splitted);
 }
 
 int	msh_conditions_wildcard(char *str, int *i)

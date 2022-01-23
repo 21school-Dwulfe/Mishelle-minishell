@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 21:38:28 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/23 18:05:25 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	msh_make_path_relative(t_command *cmd)
 
 	res = 0;
 	tmp = NULL;
+	if (!cmd->args)
+		return (0);
 	tmp = msh_get_path(cmd->args[0], g_info.env);
 	if (!tmp && msh_get_env_by_key(g_info.env, "PATH"))
 	{

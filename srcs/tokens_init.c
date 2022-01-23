@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:11:43 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/18 22:57:10 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/22 23:22:02 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,9 @@ int	msh_is_token(char *arg)
 t_arg	*msh_last_token(void)
 {
 	return (msh_last_cmd()->args_token->prev);
+}
+
+char	*msh_slash(char *str, int *index)
+{
+	return (ft_strndup(str + *index, 2));
 }
