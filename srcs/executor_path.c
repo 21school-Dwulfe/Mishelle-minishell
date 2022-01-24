@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/23 18:05:25 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 15:00:50 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	msh_make_path_relative(t_command *cmd)
 	res = 0;
 	tmp = NULL;
 	if (!cmd->args)
-		return (0);
+		return (msh_error_bash("command not found", cmd->args[0], 127));
 	tmp = msh_get_path(cmd->args[0], g_info.env);
 	if (!tmp && msh_get_env_by_key(g_info.env, "PATH"))
 	{
@@ -95,33 +95,4 @@ int	msh_make_path_relative(t_command *cmd)
 		ft_strdel(&tmp);
 	}
 	return (res);
-}
-
-void	msh_heredoc_input(char *name)
-{
-	int		i[3];
-	char	*ptr[3];
-	int		fd;
-
-	i[0] = ft_strlen(name);
-	i[1] = 1;
-	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, S_IRWXU);
-	while (i[1])
-	{
-		msh_readline(">", &ptr[0]);
-		ptr[2] = ft_strnstr(ptr[0], name, i[0]);
-		if (ptr[2])
-		{
-			i[1] = 0;
-			ft_strdel(&ptr[0]);
-			break ;
-		}
-		else
-		{
-			write(fd, ptr[0], ft_strlen(ptr[0]));
-			write(fd, "\n", 1);
-			ft_strdel(&ptr[0]);
-		}
-	}
-	close(fd);
 }

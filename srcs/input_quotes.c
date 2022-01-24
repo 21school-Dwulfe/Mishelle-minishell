@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:33 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 17:12:01 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 13:31:10 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	msh_unclosed_quotes(char **line, char *buf_sd, char c)
 			else
 				quote_type = "dquote> ";
 			buf_sd = *line;
-			msh_readline(quote_type, line);
+			msh_readline(quote_type, line, 1);
 			msh_unclosed_quotes(line, buf_sd, c);
 		}
 		else

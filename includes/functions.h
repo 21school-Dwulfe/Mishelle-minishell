@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 11:56:30 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 23:31:24 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 13:30:30 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void		msh_common_side_effect(char **str, int *i, int sp);
 
 /* Tokens */
 void		msh_widlcard_mutations(t_command *cmd, t_arg *tok, int *i);
+void		msh_heredoc_input(char *path);
 void		msh_convert_tilda(char **value, char *name);
 int			msh_convert_heredoc(t_command *cmd, char *val, char *name, int sp);
 void		msh_wildcard(char *path, char **result);
@@ -152,7 +153,6 @@ int			msh_executor(t_command *cmd, int *in_out_s, int *counter);
 void		msh_pipex_recursion(t_command *cmd, char **env);
 void		msh_pipex_loop(t_command *cmd, char **env);
 void		msh_wait_pid(int pid);
-void		msh_heredoc_input(char *path);
 char		**msh_create_env_var(char *new_var);
 char		*msh_read_fd(int fd);
 int			msh_d_amp_d_pipe(t_command *cmd);

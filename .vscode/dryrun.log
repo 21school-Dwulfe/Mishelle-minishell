@@ -15,7 +15,6 @@ echo objs/cmd_export.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/cmd_export.c -o objs/cmd_export.o
 echo objs/cmd_pwd.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/cmd_pwd.c -o objs/cmd_pwd.o
- 
 echo objs/cmd_unset.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/cmd_unset.c -o objs/cmd_unset.o
 echo objs/conditions_quotes.o...
@@ -46,7 +45,6 @@ echo objs/input_main.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/input_main.c -o objs/input_main.o
 echo objs/input_quotes.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/input_quotes.c -o objs/input_quotes.o
- 
 echo objs/input_readline.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/input_readline.c -o objs/input_readline.o
 echo objs/list.o...
@@ -55,7 +53,6 @@ echo objs/list_creation.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/list_creation.c -o objs/list_creation.o
 echo objs/main.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/main.c -o objs/main.o
- 
 echo objs/parser_.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/parser_.c -o objs/parser_.o
 echo objs/parser_redirects.o...
@@ -85,7 +82,6 @@ gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/uti
 echo objs/utils_dev.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/utils_dev.c -o objs/utils_dev.o
 echo objs/utils_global.o...
- 
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/utils_global.c -o objs/utils_global.o
 echo objs/utils_strings.o...
 gcc -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 -Wall	-Wextra -Werror  -g -c srcs/utils_strings.c -o objs/utils_strings.o
@@ -99,12 +95,10 @@ if [ ! -d "lib" ]; then \
 				mkdir -p lib && \
 				cd readline-8.1 && ./configure --prefix=/Users/dwulfe/Mishelle-minishell/lib && make install; \
 			fi
- 
 cd ./libft && make && make bonus
  
 make[1]: Entering directory `/Users/dwulfe/Mishelle-minishell/libft'
 gcc -Wall -Wextra -Werror  -I./ -c ft_atoi.c  -o ft_atoi.o
- 
 gcc -Wall -Wextra -Werror  -I./ -c ft_bzero.c  -o ft_bzero.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_calloc.c  -o ft_calloc.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_isalnum.c  -o ft_isalnum.o
@@ -114,7 +108,6 @@ gcc -Wall -Wextra -Werror  -I./ -c ft_isdigit.c  -o ft_isdigit.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_isprint.c  -o ft_isprint.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_itoa.c  -o ft_itoa.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_lstadd_back.c  -o ft_lstadd_back.o
- 
 gcc -Wall -Wextra -Werror  -I./ -c ft_lstadd_front.c  -o ft_lstadd_front.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_lstclear.c  -o ft_lstclear.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_lstdelone.c  -o ft_lstdelone.o
@@ -163,7 +156,6 @@ gcc -Wall -Wextra -Werror  -I./ -c ft_toupper.c  -o ft_toupper.o
 ar rc libft.a  ./ft_atoi.o ./ft_bzero.o ./ft_calloc.o ./ft_isalnum.o ./ft_isalpha.o ./ft_isascii.o ./ft_isdigit.o ./ft_isprint.o ./ft_itoa.o ./ft_lstadd_back.o ./ft_lstadd_front.o ./ft_lstclear.o ./ft_lstdelone.o ./ft_lstiter.o ./ft_lstlast.o ./ft_lstmap.o ./ft_lstnew.o ./ft_lstsize.o ./ft_max.o ./ft_memccpy.o ./ft_memchr.o ./ft_memcmp.o ./ft_memcpy.o ./ft_memmove.o ./ft_memset.o ./ft_min.o ./ft_putchar_fd.o ./ft_putendl_fd.o ./ft_putnbr_fd.o ./ft_putstr_fd.o ./ft_sort_str_arr.o ./ft_split.o ./ft_split_se.o ./ft_str_counter.o ./ft_str_isnum.o ./ft_strchr.o ./ft_strcpy.o ./ft_strdup.o ./ft_strjoin.o ./ft_strjoin_se.o ./ft_strlcat.o ./ft_strlcpy.o ./ft_strlen.o ./ft_strmapi.o ./ft_strncat.o ./ft_strncmp.o ./ft_strncpy.o ./ft_strnstr.o ./ft_strrchr.o ./ft_strtrim.o ./ft_substr.o ./ft_swap_int.o ./ft_swap_strs.o ./ft_tolower.o ./ft_toupper.o
 ranlib libft.a 
 make[1]: Leaving directory `/Users/dwulfe/Mishelle-minishell/libft'
- 
 make[1]: Entering directory `/Users/dwulfe/Mishelle-minishell/libft'
 gcc -Wall -Wextra -Werror  -I./ -c ft_abs_bonus.c  -o ft_abs_bonus.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_arrdel_bonus.c  -o ft_arrdel_bonus.o
@@ -182,7 +174,6 @@ gcc -Wall -Wextra -Werror  -I./ -c ft_strndup_bonus.c  -o ft_strndup_bonus.o
 ar rc libft.a  ./ft_abs_bonus.o ./ft_arrdel_bonus.o ./ft_ch_count_bonus.o ./ft_decorate_bonus.o ./ft_delptr_bonus.o ./ft_index_of_bonus.o ./ft_islower_bonus.o ./ft_isspace_bonus.o ./ft_isupper_bonus.o ./ft_realoc_bonus.o ./ft_strcmp_bonus.o ./ft_strdel_bonus.o ./ft_strdup_se_bonus.o ./ft_strndup_bonus.o
 ranlib libft.a 
 make[1]: Leaving directory `/Users/dwulfe/Mishelle-minishell/libft'
-gcc -Wall	-Wextra -Werror  -g  ./objs/cmd_.o ./objs/cmd_cd.o ./objs/cmd_echo.o ./objs/cmd_env.o ./objs/cmd_exit.o ./objs/cmd_export.o ./objs/cmd_pwd.o ./objs/cmd_unset.o ./objs/conditions_quotes.o ./objs/conditions_sets_specials.o ./objs/conditions_specials.o ./objs/config.o ./objs/consitions_double_specials.o ./objs/enviroment.o ./objs/errors.o ./objs/execution_preparings.o ./objs/executor_path.o ./objs/executor_pipex.o ./objs/executor_redirects.o ./objs/executor_validation.o ./objs/input_main.o ./objs/input_quotes.o ./objs/input_readline.o ./objs/list.o ./objs/list_creation.o ./objs/main.o ./objs/parser_.o ./objs/parser_redirects.o ./objs/parser_redirects_recursion.o ./objs/signals.o ./objs/specials.o ./objs/specials_side_effects.o ./objs/token_heredoc.o ./objs/token_tilda.o ./objs/token_wildcards.o ./objs/tokens_getters.o ./objs/tokens_init.o ./objs/tokens_value.o ./objs/utiles_strings_2.o ./objs/utils_dev.o ./objs/utils_global.o ./objs/utils_strings.o ./objs/utils_strings_2.o ./objs/validation.o ./objs/va 
-lidation_bonuses.o -L/Users/dwulfe/Mishelle-minishell/lib/lib -lreadline  -I./libft -I/Users/dwulfe/Mishelle-minishell/includes/readline -L./libft -lft  -o minishell -fsanitize=address
+gcc -Wall	-Wextra -Werror  -g  ./objs/cmd_.o ./objs/cmd_cd.o ./objs/cmd_echo.o ./objs/cmd_env.o ./objs/cmd_exit.o ./objs/cmd_export.o ./objs/cmd_pwd.o ./objs/cmd_unset.o ./objs/conditions_quotes.o ./objs/conditions_sets_specials.o ./objs/conditions_specials.o ./objs/config.o ./objs/consitions_double_specials.o ./objs/enviroment.o ./objs/errors.o ./objs/execution_preparings.o ./objs/executor_path.o ./objs/executor_pipex.o ./objs/executor_redirects.o ./objs/executor_validation.o ./objs/input_main.o ./objs/input_quotes.o ./objs/input_readline.o ./objs/list.o ./objs/list_creation.o ./objs/main.o ./objs/parser_.o ./objs/parser_redirects.o ./objs/parser_redirects_recursion.o ./objs/signals.o ./objs/specials.o ./objs/specials_side_effects.o ./objs/token_heredoc.o ./objs/token_tilda.o ./objs/token_wildcards.o ./objs/tokens_getters.o ./objs/tokens_init.o ./objs/tokens_value.o ./objs/utiles_strings_2.o ./objs/utils_dev.o ./objs/utils_global.o ./objs/utils_strings.o ./objs/utils_strings_2.o ./objs/validation.o ./objs/validation_bonuses.o -L/Users/dwulfe/Mishelle-minishell/lib/lib -lreadline  -I./libft -I/Users/dwulfe/Mishelle-minishell/includes/readline -L./libft -lft  -o minishell -fsanitize=address
 make: Leaving directory `/Users/dwulfe/Mishelle-minishell'
  

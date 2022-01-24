@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 19:34:42 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 14:44:45 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	msh_common_side_effect(char **str, int *i, int sp)
 	len = 0;
 	arg = NULL;
 	if (sp == 13 || sp == 14 || sp == 15)
-			len += 2;
+		len += 2;
 	l = msh_specify_token(i, *str, sp);
 	if (!l && sp != HEREDOC)
 	{
@@ -110,7 +110,7 @@ void	msh_common_side_effect(char **str, int *i, int sp)
 	}
 	else
 	{
-		msh_specials_cut(str, i, l);
+		msh_specials_cut(str, i, l + len);
 		if ((sp == HEREDOC || sp == DOLLAR) && *i - 1 > -1)
 			(*i)--;
 	}

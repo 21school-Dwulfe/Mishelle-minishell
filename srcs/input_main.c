@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:14:47 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 17:01:47 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 13:30:55 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	msh_input_call(char **str, int *i)
 	char	*line;
 	char	*tmp;
 
-	msh_readline(">", &line);
+	msh_readline(">", &line, 1);
 	tmp = *str;
 	*str = ft_strjoin_se(tmp, line);
 	ft_strdel(&line);
@@ -33,7 +33,7 @@ void	msh_stdin_regime(void)
 	line = NULL;
 	while (1)
 	{
-		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line);
+		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line, 1);
 		if (msh_validate_line(line))
 			continue ;
 		add_history(line);
