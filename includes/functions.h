@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 11:56:30 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 13:30:30 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 23:45:24 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void		msh_convert_tilda(char **value, char *name);
 int			msh_convert_heredoc(t_command *cmd, char *val, char *name, int sp);
 void		msh_wildcard(char *path, char **result);
 char		*msh_token_wildcard_name(char *str, int *index);
-char		*msh_token_heredoc(char *str, int *index);
+char		*msh_token_redirect(char *str, int *index);
 char		*msh_tokens_pseudo(int sp);
 char		*msh_tokens_pseudo_dev(int sp);
 char		*msh_token_tilda_name(char *str, int *i);
@@ -169,7 +169,7 @@ char		**msh_copy_env(char **array);
 t_command	*msh_create_command(char **dstr);
 t_redirect	*msh_create_redirect(char *filepath, int specials);
 t_arg		*msh_create_token(char *name, char *value, int order, int specials);
-void		msh_add_redirect(t_redirect **current, char *value, t_specials sp);
+void		msh_push_redirect(t_redirect **current, char *value, t_specials sp);
 int			msh_open(char *path, int type);
 int			msh_export_invalid(char *arg);
 int			msh_export_error(char *arg);
@@ -258,7 +258,12 @@ int			msh_env_exist(char **env, char *argument);
  * @return char* 
  */
 char		*msh_concat_str(char *arg, int size, char *insert);
+
+/* GLOBALS */
 void		msh_init_global_cmd(void);
+t_redirect	*msh_last_redirect(t_command *cmd);
+/*End GLOBALS */
+
 t_command	*msh_last_cmd(void);
 t_arg		*msh_last_token(void);
 void		msh_add_token(t_command *cmd, t_arg *arg);

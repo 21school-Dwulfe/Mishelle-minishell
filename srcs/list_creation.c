@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:11 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 17:08:11 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:18:11 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ t_command	*msh_create_command(char **dstr)
 	cmd->out = NULL;
 	cmd->err = NULL;
 	cmd->piped = 0;
-	cmd->args_token = NULL;
+	cmd->token = NULL;
 	cmd->build = 0;
 	if (dstr)
-		cmd->num_args = ft_str_count(dstr);
+		cmd->n_args = ft_str_count(dstr);
 	else
-		cmd->num_args = 0;
+		cmd->n_args = 0;
 	cmd->prev = NULL;
 	cmd->redirects = NULL;
 	cmd->next = NULL;

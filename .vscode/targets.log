@@ -8,11 +8,10 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Mon Jan 24 13:23:32 2022
+# Make data base, printed on Mon Jan 24 21:33:28 2022
 
 # Variables
 
- 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
@@ -52,13 +51,13 @@ SYSTEM := Darwin
 # makefile (from `Makefile', line 12)
 OBJS := ./objs/cmd_.o ./objs/cmd_cd.o ./objs/cmd_echo.o ./objs/cmd_env.o ./objs/cmd_exit.o ./objs/cmd_export.o ./objs/cmd_pwd.o ./objs/cmd_unset.o ./objs/conditions_quotes.o ./objs/conditions_sets_specials.o ./objs/conditions_specials.o ./objs/config.o ./objs/consitions_double_specials.o ./objs/enviroment.o ./objs/errors.o ./objs/execution_preparings.o ./objs/executor_path.o ./objs/executor_pipex.o ./objs/executor_redirects.o ./objs/executor_validation.o ./objs/input_main.o ./objs/input_quotes.o ./objs/input_readline.o ./objs/list.o ./objs/list_creation.o ./objs/main.o ./objs/parser_.o ./objs/parser_redirects.o ./objs/parser_redirects_recursion.o ./objs/signals.o ./objs/specials.o ./objs/specials_side_effects.o ./objs/token_heredoc.o ./objs/token_tilda.o ./objs/token_wildcards.o ./objs/tokens_getters.o ./objs/tokens_init.o ./objs/tokens_value.o ./objs/utiles_strings_2.o ./objs/utils_dev.o ./objs/utils_global.o ./objs/utils_strings.o ./objs/utils_strings_2.o ./objs/validation.o ./objs/validation_bonuses.o
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n0001x4w000g97/T/vscode-ipc-a1ed7fc5-8248-47c4-80aa-5e4fed4ba2a3.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n0001x4w000g97/T/vscode-ipc-09b090e2-a931-4b36-9985-f2cb8ef2b12e.sock
 # makefile (from `Makefile', line 1)
 APP = minishell
 # environment
 VSCODE_CWD = /
 # environment
-Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.S07gZNE126/Render
+Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.vCOGNAnMEY/Render
 # environment
 PATH = /Users/dwulfe/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin
 # environment
@@ -70,7 +69,7 @@ LDFLAGS = -L$(REL_PATH)/lib/lib -lreadline $(ADD) -I./libft -I$(REL_PATH)/includ
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.EOaxKJ65Sk/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.fEjDkeKzkD/Listeners
 # makefile (from `Makefile', line 4)
 SRCDIR = ./srcs/
 # automatic
@@ -78,7 +77,7 @@ SRCDIR = ./srcs/
 # environment
 HOMEBREW_TEMP = /tmp/dwulfe/Homebrew/Temp
 # environment
-DISPLAY = /private/tmp/com.apple.launchd.ihhW0kt5KV/org.xquartz:0
+DISPLAY = /private/tmp/com.apple.launchd.7D0oCVxT26/org.xquartz:0
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -142,17 +141,14 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = com.apple.xpc.launchd.oneshot.0x10000008.Electron
+XPC_SERVICE_NAME = com.microsoft.VSCode.1252
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
 # environment
 __CF_USER_TEXT_ENCODING = 0x3D27:0x0:0x0
-# environment
-COMMAND_MODE = unix2003
 # default
- 
 MAKEFILES := 
 # automatic
 <F = $(notdir $<)
@@ -160,8 +156,6 @@ MAKEFILES :=
 OBJDIR = ./objs/
 # environment
 LC_ALL = C
-# environment
-SECURITYSESSIONID = 186c9
 # automatic
 ^F = $(notdir $^)
 # makefile (from `Makefile', line 8)
@@ -175,9 +169,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 38869
+VSCODE_PID = 71616
 # variable set hash-table stats:
-# Load=81/1024=8%, Rehash=0, Collisions=5/131=4%
+# Load=79/1024=8%, Rehash=0, Collisions=5/129=4%
 
 # Pattern-specific Variable Values
 
@@ -185,11 +179,11 @@ VSCODE_PID = 38869
 
 # Directories
 
-# . (device 16777233, inode 444010): 22 files, no impossibilities.
-# ./srcs (device 16777233, inode 611598): 47 files, no impossibilities so far.
-# srcs (device 16777233, inode 611598): 47 files, no impossibilities so far.
+# . (device 16777227, inode 444010): 21 files, no impossibilities.
+# ./srcs (device 16777227, inode 611598): 47 files, no impossibilities so far.
+# srcs (device 16777227, inode 611598): 47 files, no impossibilities so far.
 
-# 116 files, no impossibilities in 3 directories.
+# 115 files, no impossibilities in 3 directories.
 
 # Implicit Rules
 
@@ -206,7 +200,7 @@ objs/%.o: ./srcs/%.c
 objs/errors.o: srcs/errors.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `errors'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -219,7 +213,7 @@ objs/errors.o: srcs/errors.c
 # Not a target:
 srcs/executor_path.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 18:05:25
+#  Last modified 2022-01-24 20:09:31
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -228,7 +222,7 @@ srcs/executor_path.c:
 objs/utils_global.o: srcs/utils_global.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `utils_global'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -250,10 +244,11 @@ srcs/token_tilda.c:
 objs/input_main.o: srcs/input_main.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `input_main'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 17:21:03
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
+ 
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 #  commands to execute (from `Makefile', line 50):
 	echo $@...
@@ -272,7 +267,7 @@ srcs/conditions_quotes.c:
 # Not a target:
 srcs/token_heredoc.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 20:09:21
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -281,7 +276,7 @@ srcs/token_heredoc.c:
 objs/utils_strings.o: srcs/utils_strings.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `utils_strings'
-#  Last modified 2022-01-24 13:06:27
+#  Last modified 2022-01-24 17:21:04
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -294,7 +289,7 @@ objs/utils_strings.o: srcs/utils_strings.c
 objs/consitions_double_specials.o: srcs/consitions_double_specials.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `consitions_double_specials'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -307,7 +302,7 @@ objs/consitions_double_specials.o: srcs/consitions_double_specials.c
 # Not a target:
 srcs/cmd_cd.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:07
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -316,7 +311,7 @@ srcs/cmd_cd.c:
 objs/main.o: srcs/main.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `main'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 17:21:03
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -338,7 +333,7 @@ srcs/validation.c:
 # Not a target:
 srcs/parser_.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:19:39
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -347,7 +342,7 @@ srcs/parser_.c:
 # Not a target:
 srcs/execution_preparings.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 20:48:16
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -375,7 +370,7 @@ all: minishell
 # Not a target:
 srcs/executor_pipex.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 20:49:31
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -389,7 +384,7 @@ srcs/executor_pipex.c:
 # Not a target:
 srcs/cmd_echo.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:06
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -398,7 +393,7 @@ srcs/cmd_echo.c:
 objs/input_quotes.o: srcs/input_quotes.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `input_quotes'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 17:21:03
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -411,7 +406,7 @@ objs/input_quotes.o: srcs/input_quotes.c
 # Not a target:
 srcs/list.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:12
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -420,7 +415,7 @@ srcs/list.c:
 # Not a target:
 srcs/cmd_export.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:04
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -445,10 +440,9 @@ srcs/errors.c:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
- 
 srcs/utils_global.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:20
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -457,7 +451,7 @@ srcs/utils_global.c:
 # Not a target:
 srcs/input_main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 13:30:55
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -466,7 +460,7 @@ srcs/input_main.c:
 objs/enviroment.o: srcs/enviroment.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `enviroment'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -530,20 +524,21 @@ srcs/main.c:
 objs/parser_redirects_recursion.o: srcs/parser_redirects_recursion.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `parser_redirects_recursion'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 17:21:03
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 #  commands to execute (from `Makefile', line 50):
 	echo $@...
+ 
 	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
 	
 
 objs/cmd_env.o: srcs/cmd_env.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `cmd_env'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -556,7 +551,7 @@ objs/cmd_env.o: srcs/cmd_env.c
 objs/cmd_exit.o: srcs/cmd_exit.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `cmd_exit'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 18:19:46
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -568,7 +563,7 @@ objs/cmd_exit.o: srcs/cmd_exit.c
 
 objs/:
 #  Implicit rule search has not been done.
-#  Last modified 2022-01-24 13:06:27
+#  Last modified 2022-01-24 20:49:33
 #  File has been updated.
 #  Successfully updated.
 #  commands to execute (from `Makefile', line 71):
@@ -578,7 +573,7 @@ objs/:
 # Not a target:
 srcs/input_quotes.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 13:31:10
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -587,7 +582,7 @@ srcs/input_quotes.c:
 objs/input_readline.o: srcs/input_readline.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `input_readline'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 17:21:03
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -600,7 +595,7 @@ objs/input_readline.o: srcs/input_readline.c
 objs/list_creation.o: srcs/list_creation.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `list_creation'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -613,7 +608,7 @@ objs/list_creation.o: srcs/list_creation.c
 objs/cmd_pwd.o: srcs/cmd_pwd.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `cmd_pwd'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -637,7 +632,7 @@ buildrepo:
 objs/signals.o: srcs/signals.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `signals'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 17:21:04
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -649,7 +644,7 @@ objs/signals.o: srcs/signals.c
 
 minishell: Makefile objs/ objs/cmd_.o objs/cmd_cd.o objs/cmd_echo.o objs/cmd_env.o objs/cmd_exit.o objs/cmd_export.o objs/cmd_pwd.o objs/cmd_unset.o objs/conditions_quotes.o objs/conditions_sets_specials.o objs/conditions_specials.o objs/config.o objs/consitions_double_specials.o objs/enviroment.o objs/errors.o objs/execution_preparings.o objs/executor_path.o objs/executor_pipex.o objs/executor_redirects.o objs/executor_validation.o objs/input_main.o objs/input_quotes.o objs/input_readline.o objs/list.o objs/list_creation.o objs/main.o objs/parser_.o objs/parser_redirects.o objs/parser_redirects_recursion.o objs/signals.o objs/specials.o objs/specials_side_effects.o objs/token_heredoc.o objs/token_tilda.o objs/token_wildcards.o objs/tokens_getters.o objs/tokens_init.o objs/tokens_value.o objs/utiles_strings_2.o objs/utils_dev.o objs/utils_global.o objs/utils_strings.o objs/utils_strings_2.o objs/validation.o objs/validation_bonuses.o
 #  Implicit rule search has not been done.
-#  Last modified 2022-01-24 13:06:53
+#  Last modified 2022-01-24 20:49:33
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -666,7 +661,7 @@ minishell: Makefile objs/ objs/cmd_.o objs/cmd_cd.o objs/cmd_echo.o objs/cmd_env
 objs/token_wildcards.o: srcs/token_wildcards.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `token_wildcards'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -679,12 +674,11 @@ objs/token_wildcards.o: srcs/token_wildcards.c
 objs/utils_strings_2.o: srcs/utils_strings_2.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `utils_strings_2'
-#  Last modified 2022-01-24 13:06:27
+#  Last modified 2022-01-24 17:21:04
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
- 
 #  commands to execute (from `Makefile', line 50):
 	echo $@...
 	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
@@ -693,7 +687,7 @@ objs/utils_strings_2.o: srcs/utils_strings_2.c
 objs/utils_dev.o: srcs/utils_dev.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `utils_dev'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 17:21:04
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -706,7 +700,7 @@ objs/utils_dev.o: srcs/utils_dev.c
 objs/cmd_.o: srcs/cmd_.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `cmd_'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 18:19:46
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -719,7 +713,7 @@ objs/cmd_.o: srcs/cmd_.c
 objs/tokens_init.o: srcs/tokens_init.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `tokens_init'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -738,7 +732,7 @@ bonus:
 objs/conditions_sets_specials.o: srcs/conditions_sets_specials.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `conditions_sets_specials'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 17:35:01
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -771,6 +765,7 @@ srcs/parser_redirects_recursion.c:
 # Not a target:
 srcs/cmd_env.c:
 #  Implicit rule search has been done.
+ 
 #  Last modified 2022-01-23 15:33:43
 #  File has been updated.
 #  Successfully updated.
@@ -780,7 +775,7 @@ srcs/cmd_env.c:
 # Not a target:
 srcs/cmd_exit.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 18:49:56
+#  Last modified 2022-01-24 18:18:01
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -789,7 +784,7 @@ srcs/cmd_exit.c:
 objs/executor_validation.o: srcs/executor_validation.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `executor_validation'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -808,7 +803,7 @@ lib:
 objs/tokens_value.o: srcs/tokens_value.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `tokens_value'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 20:13:00
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -821,7 +816,7 @@ objs/tokens_value.o: srcs/tokens_value.c
 objs/cmd_unset.o: srcs/cmd_unset.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `cmd_unset'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -834,7 +829,7 @@ objs/cmd_unset.o: srcs/cmd_unset.c
 # Not a target:
 srcs/input_readline.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 13:53:19
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -843,7 +838,7 @@ srcs/input_readline.c:
 # Not a target:
 srcs/list_creation.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:11
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -867,7 +862,7 @@ srcs/cmd_pwd.c:
 objs/parser_redirects.o: srcs/parser_redirects.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `parser_redirects'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -889,7 +884,7 @@ srcs/signals.c:
 # Not a target:
 srcs/token_wildcards.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:19:17
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -916,7 +911,7 @@ srcs/utils_dev.c:
 # Not a target:
 srcs/cmd_.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 18:43:39
+#  Last modified 2022-01-24 18:17:58
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -925,7 +920,7 @@ srcs/cmd_.c:
 # Not a target:
 srcs/tokens_init.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:07
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -934,7 +929,7 @@ srcs/tokens_init.c:
 objs/conditions_specials.o: srcs/conditions_specials.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `conditions_specials'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -953,7 +948,7 @@ re: fclean all
 # Not a target:
 srcs/conditions_sets_specials.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 17:34:55
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -963,7 +958,6 @@ clean: objs/
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
- 
 #  File has not been updated.
 #  commands to execute (from `Makefile', line 58):
 	rm -rf $(OBJDIR)
@@ -977,7 +971,7 @@ clean: objs/
 objs/specials.o: srcs/specials.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `specials'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 17:48:53
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -990,7 +984,7 @@ objs/specials.o: srcs/specials.c
 objs/tokens_getters.o: srcs/tokens_getters.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `tokens_getters'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1003,7 +997,7 @@ objs/tokens_getters.o: srcs/tokens_getters.c
 # Not a target:
 srcs/tokens_value.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 20:12:57
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1012,7 +1006,7 @@ srcs/tokens_value.c:
 objs/executor_redirects.o: srcs/executor_redirects.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `executor_redirects'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 17:21:03
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1025,7 +1019,7 @@ objs/executor_redirects.o: srcs/executor_redirects.c
 objs/cmd_cd.o: srcs/cmd_cd.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `cmd_cd'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 18:19:46
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1038,7 +1032,7 @@ objs/cmd_cd.o: srcs/cmd_cd.c
 objs/config.o: srcs/config.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `config'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1048,10 +1042,11 @@ objs/config.o: srcs/config.c
 	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
 	
 
+ 
 objs/utiles_strings_2.o: srcs/utiles_strings_2.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `utiles_strings_2'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1064,7 +1059,7 @@ objs/utiles_strings_2.o: srcs/utiles_strings_2.c
 objs/specials_side_effects.o: srcs/specials_side_effects.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `specials_side_effects'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 20:03:12
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1077,7 +1072,7 @@ objs/specials_side_effects.o: srcs/specials_side_effects.c
 # Not a target:
 srcs/utiles_strings_2.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:03
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1086,7 +1081,7 @@ srcs/utiles_strings_2.c:
 objs/executor_path.o: srcs/executor_path.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `executor_path'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 20:09:34
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1099,7 +1094,7 @@ objs/executor_path.o: srcs/executor_path.c
 objs/token_tilda.o: srcs/token_tilda.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `token_tilda'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 17:21:04
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1112,7 +1107,7 @@ objs/token_tilda.o: srcs/token_tilda.c
 # Not a target:
 srcs/parser_redirects.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:00
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1121,7 +1116,7 @@ srcs/parser_redirects.c:
 objs/conditions_quotes.o: srcs/conditions_quotes.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `conditions_quotes'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 17:21:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1134,7 +1129,7 @@ objs/conditions_quotes.o: srcs/conditions_quotes.c
 # Not a target:
 srcs/executor_validation.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 18:20:40
+#  Last modified 2022-01-24 18:15:06
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1152,7 +1147,7 @@ srcs/conditions_specials.c:
 objs/token_heredoc.o: srcs/token_heredoc.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `token_heredoc'
-#  Last modified 2022-01-24 13:06:26
+#  Last modified 2022-01-24 20:09:26
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1165,7 +1160,7 @@ objs/token_heredoc.o: srcs/token_heredoc.c
 # Not a target:
 srcs/specials.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 17:48:50
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1174,7 +1169,7 @@ srcs/specials.c:
 objs/validation.o: srcs/validation.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `validation'
-#  Last modified 2022-01-24 13:06:27
+#  Last modified 2022-01-24 17:21:05
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1187,7 +1182,7 @@ objs/validation.o: srcs/validation.c
 objs/parser_.o: srcs/parser_.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `parser_'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1200,7 +1195,7 @@ objs/parser_.o: srcs/parser_.c
 objs/execution_preparings.o: srcs/execution_preparings.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `execution_preparings'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 20:49:25
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1213,7 +1208,7 @@ objs/execution_preparings.o: srcs/execution_preparings.c
 # Not a target:
 srcs/tokens_getters.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 18:18:09
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1225,14 +1220,13 @@ srcs/executor_redirects.c:
 #  Last modified 2022-01-23 15:33:43
 #  File has been updated.
 #  Successfully updated.
- 
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 objs/executor_pipex.o: srcs/executor_pipex.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `executor_pipex'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 20:49:33
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1254,7 +1248,7 @@ srcs/config.c:
 objs/cmd_echo.o: srcs/cmd_echo.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `cmd_echo'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 18:19:46
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1267,7 +1261,7 @@ objs/cmd_echo.o: srcs/cmd_echo.c
 # Not a target:
 srcs/specials_side_effects.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-23 15:33:43
+#  Last modified 2022-01-24 20:03:09
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1285,7 +1279,7 @@ srcs/cmd_unset.c:
 objs/list.o: srcs/list.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `list'
-#  Last modified 2022-01-24 13:06:25
+#  Last modified 2022-01-24 18:19:47
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1298,7 +1292,7 @@ objs/list.o: srcs/list.c
 objs/cmd_export.o: srcs/cmd_export.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `cmd_export'
-#  Last modified 2022-01-24 13:06:24
+#  Last modified 2022-01-24 18:19:46
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1310,8 +1304,9 @@ objs/cmd_export.o: srcs/cmd_export.c
 
 objs/validation_bonuses.o: srcs/validation_bonuses.c
 #  Implicit rule search has been done.
+ 
 #  Implicit/static pattern stem: `validation_bonuses'
-#  Last modified 2022-01-24 13:06:27
+#  Last modified 2022-01-24 17:21:05
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -1334,6 +1329,6 @@ objs/validation_bonuses.o: srcs/validation_bonuses.c
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Mon Jan 24 13:23:32 2022
+# Finished Make data base on Mon Jan 24 21:33:28 2022
 
  

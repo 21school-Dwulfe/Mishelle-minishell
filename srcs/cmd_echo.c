@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:17:33 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 19:18:30 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:18:06 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	msh_cd_check_n(t_command *cmd, int *len, short *is_nl)
 	}
 	while (cmd->args[*len] && !ft_strcmp(cmd->args[*len], "-n"))
 		(*len)++;
-	if (cmd->num_args > 1 && !ft_strncmp(cmd->args[1], "-n", 3))
+	if (cmd->n_args > 1 && !ft_strncmp(cmd->args[1], "-n", 3))
 		(*is_nl)--;
 }
 
@@ -44,17 +44,17 @@ char	*msh_custom_echo_buff(t_command *cmd, int *len)
 
 	tmp = NULL;
 	ft_bzero(l, sizeof(int) * 4);
-	if (cmd->num_args > 1 && !(*len == 2 && cmd->num_args == 2))
+	if (cmd->n_args > 1 && !(*len == 2 && cmd->n_args == 2))
 	{
 		l[2] = *len;
-		while (l[2] < cmd->num_args)
+		while (l[2] < cmd->n_args)
 			l[0] += ft_strlen(cmd->args[l[2]++]);
-		tmp = ft_calloc(sizeof(char), (l[0] + cmd->num_args - 2));
-		while (*len < cmd->num_args)
+		tmp = ft_calloc(sizeof(char), (l[0] + cmd->n_args - 2));
+		while (*len < cmd->n_args)
 		{
-			ft_strncat(tmp, cmd->args[*len], (l[0] + cmd->num_args - 2));
+			ft_strncat(tmp, cmd->args[*len], (l[0] + cmd->n_args - 2));
 			l[1] = ft_strlen(tmp);
-			if (*len != cmd->num_args - 1)
+			if (*len != cmd->n_args - 1)
 				tmp[l[1]] = ' ';
 			(*len)++;
 		}

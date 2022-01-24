@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 11:56:00 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 15:15:53 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 23:59:33 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,21 @@ typedef enum s_specials
 	ERROR
 }				t_specials;
 
-typedef struct s_redirect
-{
-	char				*file;
-	t_specials			specials;
-	struct s_redirect	*next;
-	struct s_redirect	*prev;
-}				t_redirect;
-
 typedef struct s_fd
 {
 	int			in;
 	int			out;
 	int			err;				
 }				t_fd;
+
+typedef struct s_redirect
+{
+	char				*file;
+	t_fd				*std;
+	t_specials			specials;
+	struct s_redirect	*next;
+	struct s_redirect	*prev;
+}				t_redirect;
 
 typedef struct s_arg
 {
@@ -70,14 +71,13 @@ typedef struct s_arg
 
 typedef struct s_command
 {
-	int					num_args;
+	int					n_args;
 	char				**args;
 	t_redirect			*out;
 	t_redirect			*input;
 	t_redirect			*err;
 	t_redirect			*redirects;
-	t_arg				*args_token;
-	t_fd				*std;
+	t_arg				*token;
 	int					build;
 	int					piped;
 	int					background;

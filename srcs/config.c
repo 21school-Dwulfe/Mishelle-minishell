@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 20:54:36 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 22:11:51 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ void	msh_init_functions(void)
 	g_info.condition[13] = msh_conditions_wildcard;
 	g_info.condition[14] = msh_conditions_redirects;
 	g_info.condition[15] = msh_conditions_tilda;
-	g_info.func[7] = msh_token_heredoc;
+	g_info.func[4] = msh_token_redirect;
+	g_info.func[5] = msh_token_redirect;
+	g_info.func[6] = msh_token_redirect;
+	g_info.func[7] = msh_token_redirect;
 	g_info.func[13] = msh_token_quotes;
 	g_info.func[14] = msh_token_d_quotes;
 	g_info.func[15] = msh_token_curl_braces;

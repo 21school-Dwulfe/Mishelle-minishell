@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 15:46:46 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 20:37:07 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:18:03 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	msh_replace_null_arg(t_command *cmd)
 {
 	char	**tmp;
 
-	tmp = msh_concat_args(cmd->args, cmd->num_args);
+	tmp = msh_concat_args(cmd->args, cmd->n_args);
 	free(cmd->args);
 	cmd->args = tmp;
-	cmd->num_args = ft_str_count(cmd->args);
+	cmd->n_args = ft_str_count(cmd->args);
 }
 
 void	msh_specials_cut(char **str, int *i, int end)

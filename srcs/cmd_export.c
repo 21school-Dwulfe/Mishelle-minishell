@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:33 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 19:25:38 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:18:04 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	msh_export_add(t_command	*cmd)
 	int		arg_in_env;
 
 	i = 1;
-	while (i < cmd->num_args)
+	while (i < cmd->n_args)
 	{
 		if (msh_export_invalid(cmd->args[i]))
 			return (g_info.exit_code = msh_export_error(cmd->args[i]));
@@ -101,7 +101,7 @@ int	msh_custom_export(t_command *cmd)
 	char	**tmp;
 
 	i = 1;
-	if (cmd->num_args > 1)
+	if (cmd->n_args > 1)
 		return (msh_export_add(cmd));
 	else
 	{

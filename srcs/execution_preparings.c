@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 23:47:59 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 20:48:16 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	msh_recursion_eval(int i, t_command *cmd, char **buff)
 	char	*tmp[2];
 
 	an_tok = NULL;
-	if (msh_is_token(cmd->args[i]))
+	if (cmd->args[i] && msh_is_token(cmd->args[i]))
 	{
 		an_tok = msh_get_token_value(cmd, cmd->args[i]);
 		if (an_tok)
@@ -32,10 +32,10 @@ int	msh_recursion_eval(int i, t_command *cmd, char **buff)
 	ft_strdel(buff);
 	ft_strdel(&cmd->args[i]);
 	if (cmd->args[i + 1] == NULL || (an_tok && !an_tok->is_prefix)
-		|| (msh_is_token(cmd->args[i + 1])
+		|| (i < cmd->n_args && msh_is_token(cmd->args[i + 1])
 			&& !msh_get_token_value(cmd, cmd->args[i + 1])->has_prefix))
 		cmd->args[i] = tmp[0];
-	else
+	else if (i < cmd->n_args)
 		return (msh_recursion_eval(i + 1, cmd, &tmp[0]));
 	return (i);
 }
@@ -73,7 +73,7 @@ void	msh_procedure(int *i, t_arg *tok, t_command *cmd, char **tmp)
 		tmp[2] = ft_strjoin(tmp[1], tok->value);
 		ft_strdel(&cmd->args[*i - 1]);
 	}
-	if (tok->is_prefix)
+	if (tok->is_prefix && tok->value)
 	{
 		if (!tmp[2])
 			tmp[2] = ft_strdup(tok->value);
@@ -87,16 +87,19 @@ int	msh_no_prefix(t_arg *tok, t_command *cmd, int *i)
 {
 	int	boo;
 
-	boo = ((!tok->has_prefix && !tok->is_prefix) || cmd->num_args == 1);
+	boo = ((!tok->has_prefix && !tok->is_prefix) || cmd->n_args == 1);
 	if (boo)
 	{
-		cmd->args[*i] = ft_strdup(tok->value);
+		if (tok->value)
+			cmd->args[*i] = ft_strdup(tok->value);
+		else
+			cmd->args[*i] = NULL;
 		(*i)++;
 	}
 	return (boo);
 }
 
-void	msh_evaluate_all_tokens(t_command *cmd)
+void	msh_evaluate_all_tokens(t_command *c)
 {
 	int		i;
 	char	*tmp[4];
@@ -104,20 +107,20 @@ void	msh_evaluate_all_tokens(t_command *cmd)
 
 	i = 0;
 	ft_bzero(tmp, sizeof(char *) * 4);
-	while (cmd->args[i])
+	while (c->args && c->args[i])
 	{
-		tmp[0] = cmd->args[i];
-		if (msh_is_token(cmd->args[i]))
+		tmp[0] = c->args[i];
+		if (msh_is_token(c->args[i]))
 		{
-			tok = msh_get_token_value(cmd, cmd->args[i]);
-			if (msh_token_mutations(tok, cmd, &i) == 1)
+			tok = msh_get_token_value(c, c->args[i]);
+			if (msh_token_mutations(tok, c, &i) == 1)
 				continue ;
 			if (!tmp[0] && ++i)
 				continue ;
-			if (msh_no_prefix(tok, cmd, &i))
+			if (msh_no_prefix(tok, c, &i))
 				continue ;
-			msh_procedure(&i, tok, cmd, tmp);
-			msh_replace_null_arg(cmd);
+			msh_procedure(&i, tok, c, tmp);
+			msh_replace_null_arg(c);
 		}
 		else
 			i++;

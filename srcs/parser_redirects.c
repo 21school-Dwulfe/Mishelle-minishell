@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:48 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 17:17:04 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:18:00 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	msh_redirects(t_command *cmd, char *c, int *in)
 	int	i;
 
 	i = 0;
-	while (i < cmd->num_args)
+	while (i < cmd->n_args)
 	{
 		ft_bzero(c, sizeof(char) * 4);
 		in[0] = ft_index_of(cmd->args[i], '<', 0);

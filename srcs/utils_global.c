@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 16:19:15 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 16:19:22 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 23:43:57 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,26 @@ void	msh_clear_tokens(t_command *cmd)
 {
 	t_arg		*tmp_arg;
 
-	tmp_arg = cmd->args_token;
+	tmp_arg = cmd->token;
 	while (tmp_arg)
 	{
-		cmd->args_token = cmd->args_token->next;
+		cmd->token = cmd->token->next;
 		ft_strdel(&tmp_arg->name);
 		ft_strdel(&tmp_arg->pseudo);
 		ft_strdel(&tmp_arg->value);
 		free(tmp_arg);
-		tmp_arg = cmd->args_token;
+		tmp_arg = cmd->token;
 	}
 }
 
 t_command	*msh_last_cmd(void)
 {
 	return (g_info.cur_cmd->prev);
+}
+
+t_redirect	*msh_last_redirect(t_command *cmd)
+{
+	return (cmd->redirects->prev);
 }
 
 void	msh_struct_clear(void)

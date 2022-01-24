@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 16:28:22 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 23:37:02 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 22:09:02 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	msh_tok_pseudo_reader_dev(char *arg)
 		return (1);
 	else if (!ft_strncmp(arg, "D_QUOTES", 8))
 		return (1);
-	else if (!ft_strncmp(arg, "S_QOUTES", 8))
-		return (1);
 	else if (!ft_strncmp(arg, "CURL_BRACES", 11))
 		return (1);
 	else if (!ft_strncmp(arg, "DOLLAR_BRACES", 13))
@@ -53,6 +51,8 @@ int	msh_tok_pseudo_reader_dev(char *arg)
 	else if (!ft_strncmp(arg, "SLASH", 5))
 		return (1);
 	else if (!ft_strncmp(arg, "RD_REDIRECT", 11))
+		return (1);
+	else if (!ft_strncmp(arg, "REDIRECT", 8))
 		return (1);
 	else if (!ft_strncmp(arg, "WILDCARD", 8))
 		return (1);
@@ -86,5 +86,7 @@ char	*msh_tokens_pseudo_dev(int specials)
 		str = " WILDCARD";
 	else if (specials == TILDA)
 		str = " TILDA";
+	else if (specials == REDIRECT)
+		str = " REDIRECT";
 	return (ft_strdup(str));
 }

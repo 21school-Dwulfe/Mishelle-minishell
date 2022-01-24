@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:39 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 17:34:06 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:18:07 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	msh_cd_validation(t_command *cmd, char *new)
 {
 	DIR	*dir;
 
-	if (cmd->num_args > 1)
+	if (cmd->n_args > 1)
 	{
 		if (cmd->args[1] && cmd->args[1][0] == '.'
 			&& cmd->args[1][1] == '\0')
@@ -66,9 +66,9 @@ static int	msh_error_cd_no_oldpwd(void)
 
 static int	msh_set_cd_path(t_command *cmd, char **env_value, int *old_cur)
 {
-	if (cmd->num_args == 1)
+	if (cmd->n_args == 1)
 		env_value[2] = msh_get_env_by_key(g_info.env, "HOME");
-	else if (!env_value[0] && cmd->num_args > 1
+	else if (!env_value[0] && cmd->n_args > 1
 		&& !ft_strncmp(cmd->args[1], "-", 2))
 		msh_error_cd_no_oldpwd();
 	else if (!ft_strncmp(cmd->args[1], "-", 2))
@@ -108,7 +108,7 @@ int	msh_custom_cd(t_command *cmd)
 		return (-1);
 	if (!msh_cd_validation(cmd, env_value[2]))
 		result = msh_success_cd(env_value, old_cur);
-	if (cmd->num_args > 1 && cmd->args[1][0] == '~' && cmd->args[1][1] == '/')
+	if (cmd->n_args > 1 && cmd->args[1][0] == '~' && cmd->args[1][1] == '/')
 		ft_strdel(&env_value[2]);
 	return (result);
 }

@@ -96,7 +96,6 @@ if [ ! -d "lib" ]; then \
 				cd readline-8.1 && ./configure --prefix=/Users/dwulfe/Mishelle-minishell/lib && make install; \
 			fi
 cd ./libft && make && make bonus
- 
 make[1]: Entering directory `/Users/dwulfe/Mishelle-minishell/libft'
 gcc -Wall -Wextra -Werror  -I./ -c ft_atoi.c  -o ft_atoi.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_bzero.c  -o ft_bzero.o
@@ -119,6 +118,7 @@ gcc -Wall -Wextra -Werror  -I./ -c ft_lstsize.c  -o ft_lstsize.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_max.c  -o ft_max.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_memccpy.c  -o ft_memccpy.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_memchr.c  -o ft_memchr.o
+ 
 gcc -Wall -Wextra -Werror  -I./ -c ft_memcmp.c  -o ft_memcmp.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_memcpy.c  -o ft_memcpy.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_memmove.c  -o ft_memmove.o
@@ -151,11 +151,13 @@ gcc -Wall -Wextra -Werror  -I./ -c ft_strtrim.c  -o ft_strtrim.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_substr.c  -o ft_substr.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_swap_int.c  -o ft_swap_int.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_swap_strs.c  -o ft_swap_strs.o
+ 
 gcc -Wall -Wextra -Werror  -I./ -c ft_tolower.c  -o ft_tolower.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_toupper.c  -o ft_toupper.o
 ar rc libft.a  ./ft_atoi.o ./ft_bzero.o ./ft_calloc.o ./ft_isalnum.o ./ft_isalpha.o ./ft_isascii.o ./ft_isdigit.o ./ft_isprint.o ./ft_itoa.o ./ft_lstadd_back.o ./ft_lstadd_front.o ./ft_lstclear.o ./ft_lstdelone.o ./ft_lstiter.o ./ft_lstlast.o ./ft_lstmap.o ./ft_lstnew.o ./ft_lstsize.o ./ft_max.o ./ft_memccpy.o ./ft_memchr.o ./ft_memcmp.o ./ft_memcpy.o ./ft_memmove.o ./ft_memset.o ./ft_min.o ./ft_putchar_fd.o ./ft_putendl_fd.o ./ft_putnbr_fd.o ./ft_putstr_fd.o ./ft_sort_str_arr.o ./ft_split.o ./ft_split_se.o ./ft_str_counter.o ./ft_str_isnum.o ./ft_strchr.o ./ft_strcpy.o ./ft_strdup.o ./ft_strjoin.o ./ft_strjoin_se.o ./ft_strlcat.o ./ft_strlcpy.o ./ft_strlen.o ./ft_strmapi.o ./ft_strncat.o ./ft_strncmp.o ./ft_strncpy.o ./ft_strnstr.o ./ft_strrchr.o ./ft_strtrim.o ./ft_substr.o ./ft_swap_int.o ./ft_swap_strs.o ./ft_tolower.o ./ft_toupper.o
 ranlib libft.a 
 make[1]: Leaving directory `/Users/dwulfe/Mishelle-minishell/libft'
+ 
 make[1]: Entering directory `/Users/dwulfe/Mishelle-minishell/libft'
 gcc -Wall -Wextra -Werror  -I./ -c ft_abs_bonus.c  -o ft_abs_bonus.o
 gcc -Wall -Wextra -Werror  -I./ -c ft_arrdel_bonus.c  -o ft_arrdel_bonus.o

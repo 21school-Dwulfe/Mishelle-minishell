@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:46 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/23 18:43:39 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:17:58 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	msh_buildins_s(t_command *cmd)
 	else if (ft_strnstr(cmd->args[0], "env", 3))
 		result = msh_custom_env(cmd);
 	else if (ft_strnstr(cmd->args[0], "export", 6)
-		&& cmd->num_args > 1)
+		&& cmd->n_args > 1)
 		result = msh_custom_export(cmd);
 	else if (ft_strnstr(cmd->args[0], "export", 6))
 		result = msh_custom_export(cmd);
