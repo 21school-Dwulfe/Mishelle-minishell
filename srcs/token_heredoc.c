@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 15:55:51 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 14:28:39 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 00:07:05 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,32 @@
 char	*msh_heredoc_value_to_name(char *value)
 {
 	int		i;
-	char	*tmp;
 
-	i = 2;
+	i = 0;
+	while (value[i] == value[0])
+		i++;
 	while (value[i] && value[i] == ' ')
 		i++;
-	tmp = value;
-	value = ft_strdup(tmp + i);
-	ft_strdel(&tmp);
-	return (value);
+	return (ft_strdup(value + i));
 }
 
+//msh_add_token(cmd, msh_create_token(NULL, NULL, g_info.num_token++, sp));
 int	msh_convert_heredoc(t_command *cmd, char *value, char *name, int sp)
 {
-	int	len;
+	int		len;
+	int		j;
 
+	j = 0;
 	len = ft_strlen(value);
+	while (value[j] && ft_isdigit(value[j]))
+		j++;
 	name = msh_heredoc_value_to_name(value);
-	msh_add_redirect(&cmd->redirects, name, sp);
+	msh_push_redirect(&cmd->redirects, name, sp);
+	if (value[j] - value[0] > 0)
+		msh_last_redirect(cmd)->std->in = ft_atoi(value);
+	signal(SIGINT, SIG_IGN);
 	msh_heredoc_input(name);
+	signal(SIGINT, msh_sigint_handler);
 	return (len);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:01:31 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 15:04:00 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 20:49:31 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,14 @@ int	msh_preparings(t_command *cmd)
 {
 	int	build;
 
-	if (!cmd)
-		return (1);
 	msh_evaluate_all_tokens(cmd);
+	if (ft_str_count(cmd->args) == 0 && cmd->token)
+		cmd->args[0] = ft_strdup("");
 	build = msh_is_build(cmd->args[0]);
 	if (build == -1 || build == 8)
 	{
+		if (cmd->args && cmd->args[0] == NULL)
+			return (1);
 		if (msh_make_path_relative(cmd))
 			return (1);
 		if (msh_first_arg_validation(cmd) == 1)

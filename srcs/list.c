@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:45 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:56 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 23:12:02 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	msh_add_command(t_command **cur_cmd, char **value)
 	}
 }
 
-void	msh_add_redirect(t_redirect **current, char *value, t_specials specials)
+void	msh_push_redirect(t_redirect **current, char *value, t_specials specials)
 {
 	t_redirect	*tmp;
 
@@ -45,15 +45,15 @@ void	msh_add_redirect(t_redirect **current, char *value, t_specials specials)
 
 void	msh_add_token(t_command *cmd, t_arg *arg)
 {
-	if (cmd && !cmd->args_token)
+	if (cmd && !cmd->token)
 	{
-		cmd->args_token = arg;
-		cmd->args_token->prev = cmd->args_token;
+		cmd->token = arg;
+		cmd->token->prev = cmd->token;
 	}
 	else
 	{
-		cmd->args_token->prev->next = arg;
-		arg->prev = cmd->args_token->prev;
-		cmd->args_token->prev = arg;
+		cmd->token->prev->next = arg;
+		arg->prev = cmd->token->prev;
+		cmd->token->prev = arg;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:41 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 17:03:26 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 23:15:12 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	msh_prefix_redirect(t_command *cmd, int *i, char *c, int *rr)
 		(*i)++;
 		return (1);
 	}
-	msh_add_redirect(&cmd->redirects, ft_strdup(cmd->args[*i] + rr[2]), rr[3]);
+	msh_push_redirect(&cmd->redirects, ft_strdup(cmd->args[*i] + rr[2]), rr[3]);
 	ft_strdel(&cmd->args[*i]);
 	return (0);
 }
@@ -60,7 +60,7 @@ static int	msh_postfix_redirect(t_command *cmd, int *i, char *c, int *rr)
 	char	*hren;
 
 	dest = ft_strndup_se(cmd->args[*i] + rr[2], rr[rr[4]], 0);
-	msh_add_redirect(&cmd->redirects, dest, rr[3]);
+	msh_push_redirect(&cmd->redirects, dest, rr[3]);
 	msh_set_specials(c, cmd->args[*i] + rr[2], rr);
 	hren = ft_strdup(cmd->args[*i] + rr[2] + ft_strlen(dest));
 	ft_strdel(&cmd->args[*i]);

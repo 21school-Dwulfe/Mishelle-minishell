@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:25 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 19:32:47 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 21:36:33 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	msh_save_command(char *str, int start, int end, int specials)
 	cmd = g_info.cur_cmd;
 	tmp = ft_strndup(str + start, end - start);
 	cmd->prev->args = ft_split(tmp, ' ');
-	cmd->prev->num_args = ft_str_count(cmd->prev->args);
+	cmd->prev->n_args = ft_str_count(cmd->prev->args);
 	cmd->prev->specials = specials;
 	if (specials == PIPE || specials == DOUBLE_PIPE || specials == DOUBLE_AMP)
 	{
@@ -61,16 +61,16 @@ int	msh_parse(char **str)
 			return (-1);
 		if (i[2] < -1)
 			msh_input_call(str, &i[1]);
-		if (i[2] == -1 || i[2] > 6)
+		if (i[2] == -1 || i[2] >= 4)
 			msh_side_effect(str, &i[1], &i[2]);
 		if (str[*i] == '\0' || (i[2] != 0 && i[2] < 3)
 			|| i[2] == 11 || i[2] == 10)
 			msh_save_command(*str, i[0], i[1], i[2]);
-		if (i[2] >= 12 && i[2] < 20)
-			i[2] = 0;
+		// if (i[2] >= 12 && i[2] < 20)
+		// 	i[2] = 0;
 		if (i[2] == -1)
 			break ;
-		if (i[2] < 21)
+		if (i[2] == 0)// && i[2] < 21)
 			i[1]++;
 	}
 	return (0);

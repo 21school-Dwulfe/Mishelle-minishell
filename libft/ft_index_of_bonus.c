@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 18:05:38 by dwulfe            #+#    #+#             */
-/*   Updated: 2021/12/29 12:43:32 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 22:45:40 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_index_of(char *line, int c, int reg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!line)

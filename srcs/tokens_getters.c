@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 15:59:58 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 16:00:00 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:18:09 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_arg	*msh_get_token_value(t_command *cmd, char *token)
 	if (!token)
 		return (NULL);
 	stop_int = 0;
-	tok = cmd->args_token;
+	tok = cmd->token;
 	while (token[stop_int] && !ft_isdigit(token[stop_int])
 		&& token[stop_int] != ' ')
 		stop_int++;

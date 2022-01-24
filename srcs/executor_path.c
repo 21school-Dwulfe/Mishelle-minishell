@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 15:00:50 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 20:09:31 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*msh_get_path(char *cmd_name, char **env)
 
 	ft_bzero(i, sizeof(int) * 2);
 	ft_bzero(tmp, sizeof(char *) * 4);
+	if (!ft_strncmp(cmd_name, "", 2))
+		return (NULL);
 	res = access(cmd_name, F_OK);
 	if (res == -1 && ++i[1])
 	{
@@ -72,6 +74,10 @@ int	msh_d_amp_d_pipe(t_command *cmd)
 	return (exec_result);
 }
 
+// if (!cmd->num_args && cmd->redirects)
+// 		return (1);
+// if (!cmd->args)
+// 	return (msh_error_bash("command not found", cmd->args[0], 127));
 int	msh_make_path_relative(t_command *cmd)
 {
 	int		res;
@@ -79,10 +85,9 @@ int	msh_make_path_relative(t_command *cmd)
 
 	res = 0;
 	tmp = NULL;
-	if (!cmd->args)
-		return (msh_error_bash("command not found", cmd->args[0], 127));
 	tmp = msh_get_path(cmd->args[0], g_info.env);
-	if (!tmp && msh_get_env_by_key(g_info.env, "PATH"))
+	if (!tmp && (msh_get_env_by_key(g_info.env, "PATH") \
+		|| !ft_strncmp(cmd->args[0], "", 2)))
 	{
 		msh_error_bash("command not found", cmd->args[0], 127);
 		res = 1;

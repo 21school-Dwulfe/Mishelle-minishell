@@ -6,12 +6,14 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 14:44:45 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/24 23:41:12 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
+	// if (sp == REDIRECT || sp == D_REDIRECT || sp == R_REDIRECT))
+	// 	msh_convert_redirects();
 int	msh_convert(t_command *cmd, char *value, int sp, char *name)
 {
 	t_arg		*arg;
@@ -21,18 +23,11 @@ int	msh_convert(t_command *cmd, char *value, int sp, char *name)
 		return (result = msh_convert_heredoc(cmd, value, name, sp));
 	if (sp == TILDA)
 		msh_convert_tilda(&value, name);
-	if (value)
-	{	
-		arg = msh_create_token(name, value, g_info.num_token++, sp);
-		msh_add_token(cmd, arg);
-		return (0);
-	}
-	else
-	{
-		result = ft_strlen(name);
-		ft_strdel(&name);
-		return (result);
-	}
+	arg = msh_create_token(ft_strdup(name), value, g_info.num_token++, sp);
+	msh_add_token(cmd, arg);
+	result = ft_strlen(name);
+	ft_strdel(&name);
+	return (result);
 }
 
 /**
@@ -101,11 +96,12 @@ void	msh_common_side_effect(char **str, int *i, int sp)
 	if (sp == 13 || sp == 14 || sp == 15)
 		len += 2;
 	l = msh_specify_token(i, *str, sp);
-	if (!l && sp != HEREDOC)
+	if (sp != SLASH && sp != HEREDOC && sp != REDIRECT
+		&& sp != R_REDIRECT && sp != D_REDIRECT)
 	{
 		arg = msh_last_token();
 		msh_define_spaces(arg, *str, i, sp);
-		len += (int)ft_strlen(arg->name);
+		len += l;
 		msh_specials_replace(str, arg->pseudo, i, len);
 	}
 	else
