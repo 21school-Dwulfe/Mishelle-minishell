@@ -69,10 +69,14 @@ void	msh_cut_effect(char **str, int *i, int sp)
 void	msh_side_effect(char **str, int *i, int *sp)
 {
 	if (*sp == -1)
+	{
 		(*i)++;
+		return ;
+	}
 	if (*sp == 10 || *sp == 11)
 		msh_specials_cut(str, i, 2);
-	if (((*sp >= 4 && *sp < 21) && *sp != 16) || *sp == 7)
+	if (((*sp >= 4 && *sp < 21) && *sp != 10 && *sp != 11 && *sp != 16)
+		|| *sp == 7)
 		msh_common_side_effect(str, i, *sp);
 	if (*sp == 15)
 		msh_specials_replace(str, "minishell ", i, 1);

@@ -71,7 +71,7 @@ int	msh_define_redirects(int *fd_arr, t_command *cmd)
 			perror(tmp->file);
 			if (cmd->specials == DOUBLE_PIPE)
 			{
-				msh_save_error_code(1);
+				msh_save_error_code(errno);
 				return (2);
 			}
 			else

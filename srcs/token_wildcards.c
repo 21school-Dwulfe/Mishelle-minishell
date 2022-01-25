@@ -14,10 +14,8 @@
 
 char	*msh_realloc(char *res, struct dirent *ent)
 {
-	int				len;
-	char			*tmp;
+	char	*tmp;
 
-	len = ft_strlen(res) + ft_strlen(ent->d_name) + 1;
 	if (!res)
 		res = ft_strdup(ent->d_name);
 	else

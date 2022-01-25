@@ -56,16 +56,16 @@ re : fclean all
 
 clean : $(OBJDIR)
 		rm -rf $(OBJDIR)
+		rm -rf $(shell find $(OBJDIR) -name '*.o')
 		cd ./libft && $(MAKE) clean
-		rm -rf $(shell find . -name '*.o')
+
+fclean : clean
+		rm -rf lib
+		rm -rf $(APP)
 		@if [ -d "lib" ]; then \
 			cd readline-8.1 && $(MAKE) distclean; \
 		fi
-
-fclean : clean
 		cd ./libft && $(MAKE) fclean
-		rm -rf lib
-		rm -rf $(APP)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
@@ -73,4 +73,4 @@ $(OBJDIR):
 buildrepo: 
 	$(call make-repo)
 	mkdir -p lib 
-	 cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 
+	cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 

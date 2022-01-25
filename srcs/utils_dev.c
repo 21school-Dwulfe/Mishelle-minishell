@@ -50,10 +50,6 @@ int	msh_tok_pseudo_reader_dev(char *arg)
 		return (1);
 	else if (!ft_strncmp(arg, "SLASH", 5))
 		return (1);
-	else if (!ft_strncmp(arg, "RD_REDIRECT", 11))
-		return (1);
-	else if (!ft_strncmp(arg, "REDIRECT", 8))
-		return (1);
 	else if (!ft_strncmp(arg, "WILDCARD", 8))
 		return (1);
 	else if (!ft_strncmp(arg, "TILDA", 5))
@@ -80,13 +76,14 @@ char	*msh_tokens_pseudo_dev(int specials)
 		str = " DOLLAR";
 	else if (specials == SLASH)
 		str = " SLASH";
-	else if (specials == HEREDOC)
-		str = " RD_REDIRECT";
 	else if (specials == WILDCARD)
 		str = " WILDCARD";
 	else if (specials == TILDA)
 		str = " TILDA";
-	else if (specials == REDIRECT)
-		str = " REDIRECT";
+	else if (specials == REDIRECT
+		|| specials == R_REDIRECT
+		|| specials == D_REDIRECT
+		|| specials == HEREDOC)
+		return (NULL);
 	return (ft_strdup(str));
 }

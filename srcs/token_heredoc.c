@@ -12,36 +12,24 @@
 
 #include "../includes/main.h"
 
-char	*msh_heredoc_value_to_name(char *value)
+void	msh_convert_to_redirect(t_command *cmd, char *value, int sp)
 {
+	int		j;
 	int		i;
 
 	i = 0;
+	j = 0;
+	if (!cmd || !value)
+		return ;
+	while (value[j] && ft_isdigit(value[j]))
+		j++;
 	while (value[i] == value[0])
 		i++;
 	while (value[i] && value[i] == ' ')
 		i++;
-	return (ft_strdup(value + i));
-}
-
-//msh_add_token(cmd, msh_create_token(NULL, NULL, g_info.num_token++, sp));
-int	msh_convert_heredoc(t_command *cmd, char *value, char *name, int sp)
-{
-	int		len;
-	int		j;
-
-	j = 0;
-	len = ft_strlen(value);
-	while (value[j] && ft_isdigit(value[j]))
-		j++;
-	name = msh_heredoc_value_to_name(value);
-	msh_push_redirect(&cmd->redirects, name, sp);
+	msh_push_redirect(&cmd->redirects, ft_strdup(value + i), sp);
 	if (value[j] - value[0] > 0)
 		msh_last_redirect(cmd)->std->in = ft_atoi(value);
-	signal(SIGINT, SIG_IGN);
-	msh_heredoc_input(name);
-	signal(SIGINT, msh_sigint_handler);
-	return (len);
 }
 
 void	msh_heredoc_input(char *name)

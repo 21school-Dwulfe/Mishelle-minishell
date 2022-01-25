@@ -61,13 +61,13 @@ int	msh_parse(char **str)
 			return (-1);
 		if (i[2] < -1)
 			msh_input_call(str, &i[1]);
-		if (i[2] == -1 || i[2] >= 4)
+		if (i[2] == -1 || i[2] >= 4 )
 			msh_side_effect(str, &i[1], &i[2]);
-		if (str[*i] == '\0' || (i[2] != 0 && i[2] < 3)
+		if (str[0][*i] == '\0' || (i[2] != 0 && i[2] < 3)
 			|| i[2] == 11 || i[2] == 10)
 			msh_save_command(*str, i[0], i[1], i[2]);
-		// if (i[2] >= 12 && i[2] < 20)
-		// 	i[2] = 0;
+		if (i[2] >= 12 && i[2] < 20)
+			i[2] = 0;
 		if (i[2] == -1)
 			break ;
 		if (i[2] == 0)// && i[2] < 21)
