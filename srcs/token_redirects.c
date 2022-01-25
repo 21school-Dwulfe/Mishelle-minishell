@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 21:45:50 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 23:59:08 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 16:26:03 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ char	*msh_token_redirect(char *str, int *index)
 	i[2] = *index;
 	result = NULL;
 	c = str[i[0]];
-	while (*index - 1 > -1 && str[*index - 1] != ' ' && ft_isdigit(str[*index - 1]))
+	while (*index - 1 > -1 && str[*index - 1] != ' '
+		&& ft_isdigit(str[*index - 1]))
 		(*index)--;
 	while (str[i[1]] && str[i[1]] == c)
 		i[1]++;

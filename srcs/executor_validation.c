@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:18 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 18:15:06 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 16:23:01 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	msh_tilda(char **arg)
 	return (0);
 }
 
-// if ((!cmd->args || !cmd->num_args))
-// 	return (1);
 int	msh_first_arg_validation(t_command *cmd)
 {
 	DIR		*dir;

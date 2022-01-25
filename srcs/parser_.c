@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:25 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 21:36:33 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 16:24:35 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	msh_save_command(char *str, int start, int end, int specials)
 	ft_strdel(&tmp);
 }
 
+// && i[2] < 21)
 int	msh_parse(char **str)
 {
 	int	i[3];
@@ -61,7 +62,7 @@ int	msh_parse(char **str)
 			return (-1);
 		if (i[2] < -1)
 			msh_input_call(str, &i[1]);
-		if (i[2] == -1 || i[2] >= 4 )
+		if (i[2] == -1 || i[2] >= 4)
 			msh_side_effect(str, &i[1], &i[2]);
 		if (str[0][*i] == '\0' || (i[2] != 0 && i[2] < 3)
 			|| i[2] == 11 || i[2] == 10)
@@ -70,7 +71,7 @@ int	msh_parse(char **str)
 			i[2] = 0;
 		if (i[2] == -1)
 			break ;
-		if (i[2] == 0)// && i[2] < 21)
+		if (i[2] == 0)
 			i[1]++;
 	}
 	return (0);
