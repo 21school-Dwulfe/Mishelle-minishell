@@ -187,6 +187,7 @@ void msh_evaluate_all_tokens(t_command *cmd)
 		else
 			i++;
 	}
+	msh_replace_null_arg(cmd);
 }
 
 int msh_make_path_relative(t_command *cmd)
