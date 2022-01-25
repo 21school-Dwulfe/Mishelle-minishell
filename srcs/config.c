@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 22:11:51 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/26 00:28:53 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,21 @@ void	msh_shell_bin(char **env, char *path)
 
 void	msh_init_functions(void)
 {
+	g_info.func[4] = msh_token_redirect;
+	g_info.func[5] = msh_token_redirect;
+	g_info.func[6] = msh_token_redirect;
+	g_info.func[7] = msh_token_redirect;
+	g_info.func[13] = msh_token_quotes;
+	g_info.func[14] = msh_token_d_quotes;
+	g_info.func[15] = msh_token_curl_braces;
+	g_info.func[17] = msh_token_dollar;
+	g_info.func[18] = msh_slash;
+	g_info.func[19] = msh_token_wildcard_name;
+	g_info.func[20] = msh_token_tilda_name;
+}
+
+void	msh_init_conditions(void)
+{
 	g_info.condition[0] = msh_validation_closest_chars;
 	g_info.condition[1] = msh_conditions_d_quotes_close;
 	g_info.condition[2] = msh_conditions_quotes_close;
@@ -65,17 +80,6 @@ void	msh_init_functions(void)
 	g_info.condition[13] = msh_conditions_wildcard;
 	g_info.condition[14] = msh_conditions_redirects;
 	g_info.condition[15] = msh_conditions_tilda;
-	g_info.func[4] = msh_token_redirect;
-	g_info.func[5] = msh_token_redirect;
-	g_info.func[6] = msh_token_redirect;
-	g_info.func[7] = msh_token_redirect;
-	g_info.func[13] = msh_token_quotes;
-	g_info.func[14] = msh_token_d_quotes;
-	g_info.func[15] = msh_token_curl_braces;
-	g_info.func[17] = msh_token_dollar;
-	g_info.func[18] = msh_slash;
-	g_info.func[19] = msh_token_wildcard_name;
-	g_info.func[20] = msh_token_tilda_name;
 }
 
 void	msh_config(int argc, char **argv, char **env, int *regime)
@@ -93,6 +97,7 @@ void	msh_config(int argc, char **argv, char **env, int *regime)
 	msh_shell_bin(g_info.env, g_info.pwd);
 	msh_define_subshell_signals(shell, msh_get_env_by_key(env, "SHELL"));
 	msh_init_global_cmd();
+	msh_init_conditions();
 	msh_init_functions();
 	msh_shlvl(g_info.env);
 	g_info.f[0] = "export";

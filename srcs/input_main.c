@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:14:47 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 13:30:55 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:44:12 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	msh_stdin_regime(void)
 	char	*line;
 
 	line = NULL;
+	rl_outstream = stderr;
 	while (1)
 	{
 		msh_readline("\001\e[32m\002MISHELLE >>> \001\e[37m\002", &line, 1);

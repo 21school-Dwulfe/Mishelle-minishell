@@ -1,4 +1,5 @@
-#/bin/sh
+# MSH-TESTER-2021.09
+
 RESET="\033[0m"
 BLACK="\033[30m"
 RED="\033[31m"
@@ -67,7 +68,7 @@ function exec_test()
   TEST1=$(cat msh_log)
 
   # execute commands in bash
-  bash < $pipe >msh_log 2>&-  &
+  zsh < $pipe >msh_log 2>&-  &
   IFS=';' read -ra CMND <<< "$@"
   for command in "${CMND[@]}"; do
     echo $command > $pipe
@@ -124,9 +125,9 @@ fi
 if [ "$1" == "my" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tUTYGETT TESTS\n"$RESET
   exec_test '"pwd " || echo $?'
-  exec_test "/bin/ls && echo $?" 
-  exec_test "/bin/ip || echo $?" 
-  exec_test "/bin/aaaaaaaaaaaa || echo $?" 
+  exec_test "/bin/ls && echo $?"
+  exec_test "/bin/ip || echo $?"
+  exec_test "/bin/aaaaaaaaaaaa || echo $?"
   exec_test "./non_existing_file______pouette || echo $?"
   exec_test "./fail_bin/segfault || echo $?"
   exec_test "non_existing_command______pouette || echo $?"
@@ -445,6 +446,8 @@ if [ "$1" == "export" ] || [ "$1" == "all" ]; then
 
 fi
 
+UNSET
+
 if [ "$1" == "unset" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tUNSET TESTS\n"$RESET
 exec_test "unset . || echo $?"
@@ -558,7 +561,7 @@ if [ "$1" == "syntax" ] || [ "$1" == "all" ]; then
 fi
 
 # EXIT
-if [ "$1" == "bonus" ] || [ "$1" == "all" ]; then
+if [ "$1" == "exit" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tEXIT\n"$RESET
   exec_test "exit 42"
   exec_test "exit 42 53 68"
@@ -585,7 +588,7 @@ fi
 if [ "$1" == "bonus" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tBONUS WILDCARD\n"$RESET
   exec_test "echo * | wc"
-  exec_test "echo * | cat -e"
+  exec_test "cd .. && echo * | wc"
   exec_test "echo *"
   exec_test "mkdir empty && cd empty && touch 1 lol help me && echo * && cd .. && rm -rf empty"
 fi

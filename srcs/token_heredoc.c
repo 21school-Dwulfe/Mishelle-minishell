@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 15:55:51 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/25 00:07:05 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:11:37 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	msh_convert_to_redirect(t_command *cmd, char *value, int sp)
 		i++;
 	while (value[i] && value[i] == ' ')
 		i++;
-	msh_push_redirect(&cmd->redirects, ft_strdup(value + i), sp);
+	msh_push_redirect(&cmd->redirects, ft_strdup(value + i + j), sp);
 	if (value[j] - value[0] > 0)
 		msh_last_redirect(cmd)->std->in = ft_atoi(value);
 }

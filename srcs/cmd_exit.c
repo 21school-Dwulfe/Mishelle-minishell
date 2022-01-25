@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 18:18:01 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 17:14:09 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	msh_read_error_code(void)
 
 void	msh_save_error_code(int code)
 {
-	printf("save =%d", code);
 	g_info.exit_code = code;
 }
 

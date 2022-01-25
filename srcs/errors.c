@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 16:29:59 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:45:32 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	msh_perror(char *cmd_name)
 	msh_save_error_code(errno);
 	ft_putstr_fd("msh: ", 1);
 	ft_putstr_fd(cmd_name, 1);
-	write(1, ": ", 1);
+	write(2, ": ", 1);
 	ft_putendl_fd(str, 1);
 	return (1);
 }
@@ -30,7 +30,7 @@ int	msh_error_bash(char *message, char *str, int code)
 	msh_save_error_code(code);
 	ft_putstr_fd("msh: ", 1);
 	ft_putstr_fd(str, 1);
-	write(1, ": ", 2);
+	write(2, ": ", 2);
 	ft_putendl_fd(message, 1);
 	return (code);
 }

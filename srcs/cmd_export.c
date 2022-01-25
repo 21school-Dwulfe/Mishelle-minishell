@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:33 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 18:18:04 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:45:32 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ void	msh_print_export(int i, char **tmp)
 	index = ft_index_of(tmp[i], '=', 0);
 	if (index > -1)
 	{
-		write(1, tmp[i], index + 1);
-		write(1, "\"", 1);
+		write(2, tmp[i], index + 1);
+		write(2, "\"", 1);
 		if (ft_strlen((tmp[i]) + index + 1) > 0)
 			ft_putstr_fd((tmp[i]) + index + 1, 1);
 		else
-			write(1, "\0", 1);
-		write(1, "\"\n", 3);
+			write(2, "\0", 1);
+		write(2, "\"\n", 3);
 	}
 	else
 		ft_putendl_fd(tmp[i], 1);

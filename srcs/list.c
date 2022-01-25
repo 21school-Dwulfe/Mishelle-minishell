@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:45 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 23:12:02 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 17:48:23 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	msh_add_command(t_command **cur_cmd, char **value)
 	}
 }
 
-void	msh_push_redirect(t_redirect **current, char *value, t_specials specials)
+void	msh_push_redirect(t_redirect **current, char *value,
+	t_specials specials)
 {
 	t_redirect	*tmp;
 

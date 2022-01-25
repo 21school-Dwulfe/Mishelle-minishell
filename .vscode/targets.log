@@ -1,0 +1,1335 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-apple-darwin11.3.0
+ 
+
+# Make data base, printed on Tue Jan 25 18:38:13 2022
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from `Makefile', line 31)
+INCLUDES = -I./includes
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /Users/dwulfe/Mishelle-minishell
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+_ = /usr/bin/make
+# makefile (from `Makefile', line 29)
+CFLAGS = -Wall	-Wextra -Werror
+# makefile (from `Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# makefile (from `Makefile', line 9)
+ 
+SRCS := cmd_.c cmd_cd.c cmd_echo.c cmd_env.c cmd_exit.c cmd_export.c cmd_pwd.c cmd_unset.c conditions_quotes.c conditions_specials.c config.c consitions_double_specials.c enviroment.c errors.c execution_preparings.c executor_path.c executor_pipex.c executor_redirects.c executor_validation.c input_main.c input_quotes.c input_readline.c list.c list_creation.c main.c parser_.c parser_redirects.c parser_redirects_recursion.c signals.c specials.c specials_side_effects.c token_heredoc.c token_redirects.c token_tilda.c token_wildcards.c tokens_getters.c tokens_init.c tokens_value.c utiles_strings_2.c utils_dev.c utils_global.c utils_strings.c utils_strings_2.c validation.c validation_bonuses.c
+# makefile (from `Makefile', line 24)
+ADD = 
+# makefile (from `Makefile', line 30)
+DEBUG = -g
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# makefile (from `Makefile', line 6)
+SYSTEM := Darwin
+# makefile (from `Makefile', line 12)
+OBJS := ./objs/cmd_.o ./objs/cmd_cd.o ./objs/cmd_echo.o ./objs/cmd_env.o ./objs/cmd_exit.o ./objs/cmd_export.o ./objs/cmd_pwd.o ./objs/cmd_unset.o ./objs/conditions_quotes.o ./objs/conditions_specials.o ./objs/config.o ./objs/consitions_double_specials.o ./objs/enviroment.o ./objs/errors.o ./objs/execution_preparings.o ./objs/executor_path.o ./objs/executor_pipex.o ./objs/executor_redirects.o ./objs/executor_validation.o ./objs/input_main.o ./objs/input_quotes.o ./objs/input_readline.o ./objs/list.o ./objs/list_creation.o ./objs/main.o ./objs/parser_.o ./objs/parser_redirects.o ./objs/parser_redirects_recursion.o ./objs/signals.o ./objs/specials.o ./objs/specials_side_effects.o ./objs/token_heredoc.o ./objs/token_redirects.o ./objs/token_tilda.o ./objs/token_wildcards.o ./objs/tokens_getters.o ./objs/tokens_init.o ./objs/tokens_value.o ./objs/utiles_strings_2.o ./objs/utils_dev.o ./objs/utils_global.o ./objs/utils_strings.o ./objs/utils_strings_2.o ./objs/validation.o ./objs/validation_bonuses.o
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n0001x4w000g97/T/vscode-ipc-8397db45-aa0e-4ee0-ba7d-f46e86a910d3.sock
+# makefile (from `Makefile', line 1)
+APP = minishell
+# environment
+VSCODE_CWD = /
+# environment
+Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.1zH39YqyKp/Render
+# environment
+PATH = /Users/dwulfe/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/usr/local/munki:/opt/X11/bin:~/.dotnet/tools
+# environment
+VSCODE_LOG_STACK = false
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# makefile (from `Makefile', line 32)
+LDFLAGS = -L$(REL_PATH)/lib/lib -lreadline $(ADD) -I./libft -I$(REL_PATH)/includes/readline -L./libft -lft
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.QK7rKsIaM7/Listeners
+# makefile (from `Makefile', line 4)
+SRCDIR = ./srcs/
+# automatic
+%F = $(notdir $%)
+# environment
+HOMEBREW_TEMP = /tmp/dwulfe/Homebrew/Temp
+# environment
+DISPLAY = /private/tmp/com.apple.launchd.zF22IBvHPR/org.xquartz:0
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /Users/dwulfe/Mishelle-minishell
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+# environment
+HOME = /Users/dwulfe
+# default
+MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/dwulfe/Library/Application Support/Code/CachedData/899d46d82c4c95423fb7e10e68eba52050e30ba3
+# environment
+LOGNAME = dwulfe
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# makefile (from `Makefile', line 13)
+HEADERS := 
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+XPC_FLAGS = 0x0
+# makefile (from `Makefile', line 16)
+MAKE = make
+# default
+MAKECMDGOALS := all
+# environment
+HOMEBREW_CACHE = /tmp/dwulfe/Homebrew/Caches
+# environment
+SHLVL = 1
+# makefile (from `Makefile', line 5)
+LIBRARY_NAME = lib
+# makefile (from `Makefile', line 33)
+CC = gcc
+# default
+MAKE_VERSION := 3.81
+# environment
+USER = dwulfe
+# makefile
+.DEFAULT_GOAL := minishell
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# default
+MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
+# default
+.VARIABLES := 
+# environment
+TMPDIR = /var/folders/zz/zyxvpxvq6csfxvn_n0001x4w000g97/T/
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /Users/dwulfe/Library/Application Support/Code/1.63.2-main.sock
+# makefile
+MAKEFLAGS = Rrqp
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+XPC_SERVICE_NAME = com.microsoft.VSCode.1256
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# environment
+__CF_USER_TEXT_ENCODING = 0x3D27:0x0:0x0
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# makefile (from `Makefile', line 3)
+OBJDIR = ./objs/
+# environment
+LC_ALL = C
+# automatic
+^F = $(notdir $^)
+# makefile (from `Makefile', line 8)
+REL_PATH := /Users/dwulfe/Mishelle-minishell
+# default
+SUFFIXES := 
+# default
+.INCLUDE_DIRS = /usr/local/include
+# environment
+MAKELEVEL := 0
+# environment
+LANG = C
+# environment
+VSCODE_PID = 39069
+# variable set hash-table stats:
+# Load=79/1024=8%, Rehash=0, Collisions=5/129=4%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 16777232, inode 444010): 21 files, no impossibilities.
+# ./srcs (device 16777232, inode 611598): 47 files, no impossibilities so far.
+ 
+# srcs (device 16777232, inode 611598): 47 files, no impossibilities so far.
+
+# 115 files, no impossibilities in 3 directories.
+
+# Implicit Rules
+
+objs/%.o: ./srcs/%.c
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# 1 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+objs/errors.o: srcs/errors.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `errors'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/executor_path.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 20:09:31
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/utils_global.o: srcs/utils_global.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `utils_global'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/token_tilda.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/input_main.o: srcs/input_main.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `input_main'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/conditions_quotes.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/token_heredoc.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 18:11:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/utils_strings.o: srcs/utils_strings.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `utils_strings'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/consitions_double_specials.o: srcs/consitions_double_specials.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `consitions_double_specials'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/cmd_cd.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 18:18:07
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/main.o: srcs/main.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `main'
+#  Last modified 2022-01-25 17:08:27
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/validation.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/parser_.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 17:07:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/execution_preparings.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 20:48:16
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/enviroment.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+all: minishell
+#  Phony target (prerequisite of .PHONY).
+#  Command-line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/executor_pipex.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 20:49:31
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+.PHONY: all clean fclean re bonus buildrepo lib print
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+srcs/cmd_echo.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 18:18:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/input_quotes.o: srcs/input_quotes.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `input_quotes'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/token_redirects.o: srcs/token_redirects.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `token_redirects'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/list.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 17:48:23
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/cmd_export.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 18:18:04
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/validation_bonuses.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/errors.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/utils_global.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 23:43:57
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/input_main.c:
+#  Implicit rule search has been done.
+ 
+#  Last modified 2022-01-24 13:30:55
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/enviroment.o: srcs/enviroment.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `enviroment'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/utils_strings.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+print:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 47):
+	echo $(OBJS)
+	
+
+# Not a target:
+srcs/consitions_double_specials.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:18:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/main.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 17:08:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/parser_redirects_recursion.o: srcs/parser_redirects_recursion.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `parser_redirects_recursion'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/cmd_env.o: srcs/cmd_env.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `cmd_env'
+#  Last modified 2022-01-25 16:55:44
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/cmd_exit.o: srcs/cmd_exit.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `cmd_exit'
+#  Last modified 2022-01-25 17:47:14
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/:
+#  Implicit rule search has not been done.
+#  Last modified 2022-01-25 18:11:56
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `Makefile', line 71):
+	mkdir -p $(OBJDIR)
+	
+
+# Not a target:
+srcs/input_quotes.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 13:31:10
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/token_redirects.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:26:03
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/input_readline.o: srcs/input_readline.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `input_readline'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/list_creation.o: srcs/list_creation.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `list_creation'
+#  Last modified 2022-01-25 17:47:14
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/cmd_pwd.o: srcs/cmd_pwd.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `cmd_pwd'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+buildrepo:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 74):
+	$(call make-repo)
+	mkdir -p lib 
+	cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 
+	
+
+objs/signals.o: srcs/signals.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `signals'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+minishell: Makefile objs/ objs/cmd_.o objs/cmd_cd.o objs/cmd_echo.o objs/cmd_env.o objs/cmd_exit.o objs/cmd_export.o objs/cmd_pwd.o objs/cmd_unset.o objs/conditions_quotes.o objs/conditions_specials.o objs/config.o objs/consitions_double_specials.o objs/enviroment.o objs/errors.o objs/execution_preparings.o objs/executor_path.o objs/executor_pipex.o objs/executor_redirects.o objs/executor_validation.o objs/input_main.o objs/input_quotes.o objs/input_readline.o objs/list.o objs/list_creation.o objs/main.o objs/parser_.o objs/parser_redirects.o objs/parser_redirects_recursion.o objs/signals.o objs/specials.o objs/specials_side_effects.o objs/token_heredoc.o objs/token_redirects.o objs/token_tilda.o objs/token_wildcards.o objs/tokens_getters.o objs/tokens_init.o objs/tokens_value.o objs/utiles_strings_2.o objs/utils_dev.o objs/utils_global.o objs/utils_strings.o objs/utils_strings_2.o objs/validation.o objs/validation_bonuses.o
+#  Implicit rule search has not been done.
+#  Last modified 2022-01-25 18:11:56
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 36):
+	@if [ ! -d "lib" ]; then \
+	mkdir -p lib && \
+	cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install; \
+	fi
+	cd ./libft && $(MAKE) && $(MAKE) bonus
+	${CC} ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} -fsanitize=address
+	
+
+objs/token_wildcards.o: srcs/token_wildcards.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `token_wildcards'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/utils_strings_2.o: srcs/utils_strings_2.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `utils_strings_2'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+ 
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/utils_dev.o: srcs/utils_dev.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `utils_dev'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/cmd_.o: srcs/cmd_.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `cmd_'
+#  Last modified 2022-01-25 16:55:44
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/tokens_init.o: srcs/tokens_init.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `tokens_init'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+bonus:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+fclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 63):
+	rm -rf lib
+	rm -rf $(APP)
+	@if [ -d "lib" ]; then \
+	cd readline-8.1 && $(MAKE) distclean; \
+	fi
+	cd ./libft && $(MAKE) fclean
+	
+
+# Not a target:
+srcs/parser_redirects_recursion.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 23:15:12
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/cmd_env.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/cmd_exit.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 17:14:09
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/executor_validation.o: srcs/executor_validation.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `executor_validation'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+lib:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+objs/tokens_value.o: srcs/tokens_value.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `tokens_value'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/cmd_unset.o: srcs/cmd_unset.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `cmd_unset'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/input_readline.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 13:53:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/list_creation.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 17:47:09
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/cmd_pwd.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+objs/parser_redirects.o: srcs/parser_redirects.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `parser_redirects'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/signals.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/token_wildcards.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:18:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/utils_strings_2.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/utils_dev.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:18:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/cmd_.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 18:17:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/tokens_init.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 18:18:07
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/conditions_specials.o: srcs/conditions_specials.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `conditions_specials'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+re: fclean all
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+clean: objs/
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 58):
+	rm -rf $(OBJDIR)
+	rm -rf $(shell find $(OBJDIR) -name '*.o')
+	cd ./libft && $(MAKE) clean
+	
+
+objs/specials.o: srcs/specials.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `specials'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/tokens_getters.o: srcs/tokens_getters.c
+#  Implicit rule search has been done.
+ 
+#  Implicit/static pattern stem: `tokens_getters'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/tokens_value.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 21:49:00
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/executor_redirects.o: srcs/executor_redirects.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `executor_redirects'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/cmd_cd.o: srcs/cmd_cd.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `cmd_cd'
+#  Last modified 2022-01-25 16:55:44
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/config.o: srcs/config.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `config'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/utiles_strings_2.o: srcs/utiles_strings_2.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `utiles_strings_2'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/specials_side_effects.o: srcs/specials_side_effects.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `specials_side_effects'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/utiles_strings_2.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 18:18:03
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/executor_path.o: srcs/executor_path.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `executor_path'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/token_tilda.o: srcs/token_tilda.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `token_tilda'
+#  Last modified 2022-01-25 16:55:46
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/parser_redirects.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 18:18:00
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/conditions_quotes.o: srcs/conditions_quotes.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `conditions_quotes'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/executor_validation.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:23:01
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/conditions_specials.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:18:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/token_heredoc.o: srcs/token_heredoc.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `token_heredoc'
+#  Last modified 2022-01-25 18:11:56
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/specials.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:18:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/validation.o: srcs/validation.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `validation'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/parser_.o: srcs/parser_.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `parser_'
+#  Last modified 2022-01-25 17:08:02
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/execution_preparings.o: srcs/execution_preparings.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `execution_preparings'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/tokens_getters.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 18:18:09
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/executor_redirects.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:18:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/executor_pipex.o: srcs/executor_pipex.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `executor_pipex'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/config.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-24 22:11:51
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+ 
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/cmd_echo.o: srcs/cmd_echo.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `cmd_echo'
+#  Last modified 2022-01-25 16:55:44
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# Not a target:
+srcs/specials_side_effects.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:18:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+srcs/cmd_unset.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-23 15:33:43
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objs/list.o: srcs/list.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `list'
+#  Last modified 2022-01-25 18:11:56
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/cmd_export.o: srcs/cmd_export.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `cmd_export'
+#  Last modified 2022-01-25 16:55:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+objs/validation_bonuses.o: srcs/validation_bonuses.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `validation_bonuses'
+#  Last modified 2022-01-25 16:55:47
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 50):
+	echo $@...
+	${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
+	
+
+# files hash-table stats:
+# Load=104/1024=10%, Rehash=0, Collisions=25/312=8%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 1
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
+
+# Finished Make data base on Tue Jan 25 18:38:13 2022
+
+ 

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:51 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 19:47:45 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 23:27:07 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,18 @@ char	*msh_evaluate_env_arg(char *arg, char **env)
 	while (tmp[length[0]] != '$')
 		length[0]++;
 	tmp = tmp + length[0] + 1;
-	while (tmp)
+	if (!ft_isdigit(arg[1]))
 	{
-		if (!ft_isalnum(*tmp) && *tmp != '_')
-			break ;
-		length[1]++;
-		tmp++;
+		while (tmp)
+		{
+			if (!ft_isalnum(*tmp) && *tmp != '_')
+				break ;
+			length[1]++;
+			tmp++;
+		}
 	}
+	else
+		length[1]++;
 	val[0] = ft_strndup(arg + length[0] + 1, length[1]);
 	size = ft_strlen(arg);
 	val[1] = msh_get_env_by_key(env, val[0]);

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 20:09:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/26 00:02:49 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	msh_make_path_relative(t_command *cmd)
 	if (!tmp && (msh_get_env_by_key(g_info.env, "PATH") \
 		|| !ft_strncmp(cmd->args[0], "", 2)))
 	{
-		msh_error_bash("command not found", cmd->args[0], 127);
+		msh_error_bash(" command not found", cmd->args[0], 127);
 		res = 1;
 	}
 	else if (!tmp && !msh_get_env_by_key(g_info.env, "PATH"))

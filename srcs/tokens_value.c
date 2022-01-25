@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:17:48 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 21:49:00 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 21:27:49 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*msh_token_dollar(char *str, int *index)
 	i++;
 	if (str[i] == '?')
 		return (ft_strdup("$?"));
+	if (str[i] && ft_isdigit(str[i + 1]))
+		return (ft_strndup(str + *index, i + 1 - *index));
 	while (str[i] && str[i] != ' ' && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	result = ft_strndup_se(str + *index, i - *index, 0);

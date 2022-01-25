@@ -33,7 +33,7 @@
             "request": "launch",
             "name": "Debug",
             "program": "${workspaceFolder}/minishell",
-            "args": [],
+            "args": [ "export ++ || echo $?"],
             "cwd": "${workspaceFolder}"
         }
     ]

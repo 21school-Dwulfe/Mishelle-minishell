@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/23 18:35:53 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/26 00:38:48 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	msh_cmd(char **line)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	msh_argv_regime(char **argv)
+void	msh_argv_regime(char **argv, int argc)
 {
 	int		i;
 	int		len;
@@ -89,14 +89,14 @@ void	msh_argv_regime(char **argv)
 	len = 0;
 	while (argv[i])
 		len += ft_strlen(argv[i++]);
-	line = ft_calloc(len, sizeof(char) + i);
+	line = ft_calloc(len + i, sizeof(char));
 	i = 0;
 	offset = 0;
-	while (argv[i])
+	while (i < argc - 1)
 	{
 		ft_strncpy(line + offset, argv[i], len);
 		line[ft_strlen(line)] = ' ';
-		offset += ft_strlen(line);
+		offset += ft_strlen(argv[i]) + 1;
 		i++;
 	}
 	if (msh_validate_line(line))
@@ -113,7 +113,7 @@ int	main(int argc, char **argv, char **env)
 
 	msh_config(argc, argv, env, &regime);
 	if (regime)
-		msh_argv_regime(argv + 1);
+		msh_argv_regime(argv + 1, argc);
 	else
 		msh_stdin_regime();
 	return (0);

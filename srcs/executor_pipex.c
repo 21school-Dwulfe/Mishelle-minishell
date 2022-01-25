@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:01:31 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 20:49:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/26 00:46:32 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	msh_wait_pid(int pid)
 	waitpid(pid, &status, 0);
 	west = WEXITSTATUS(status);
 	child_term = WTERMSIG(status);
+	printf("WAIt");
 	if (!filter++)
 	{
 		if (child_term == 3)

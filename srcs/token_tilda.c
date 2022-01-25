@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 15:19:18 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/22 17:36:16 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/26 00:18:05 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ char	*msh_token_tilda_name(char *str, int *index)
 
 int	msh_conditions_tilda(char *str, int *i)
 {
-	if (str[*i] == '~' && (*i == 0 || str[*i - 1] == ' '))
+	if (str[*i] == '~' && (*i == 0 || str[*i - 1] == ' ')
+		&& (str[*i + 1] == '/' || str[*i + 1] == ' ' || str[*i + 1] == '\0'))
 		return (TILDA);
 	else
 		return (0);
@@ -41,6 +42,7 @@ char	*msh_token_tilda_value(char *arg)
 {
 	char	*env_value[2];
 
+	ft_bzero(env_value, sizeof(char *) * 2);
 	if (arg[0] == '~' && arg[1] == '\0')
 		env_value[0] = ft_strdup(msh_get_env_by_key(g_info.env, "HOME"));
 	else if (arg[0] == '~' && arg[1] == '/')
