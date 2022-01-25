@@ -182,6 +182,7 @@ void msh_evaluate_all_tokens(t_command *cmd)
 			else
 				cmd->args[i] = tmp[2];
 			msh_replace_null_arg(cmd);
+			ft_bzero(tmp, sizeof(char *) * 4);
 		}
 		else
 			i++;
