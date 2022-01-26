@@ -48,6 +48,8 @@ int	msh_validate_line(char *line)
 
 	i = 0;
 	ft_bzero(ascii, sizeof(char) * 256);
+	if (line)
+		return (0);
 	while (line[i])
 	{
 		if (ft_isspace(line[i]))

@@ -76,3 +76,4 @@ int	msh_parse(char **str)
 	}
 	return (0);
 }
+//(export gg && export | grep gg | wc -l)

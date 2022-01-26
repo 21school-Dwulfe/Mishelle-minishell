@@ -42,7 +42,7 @@ t_redirect	*msh_create_redirect(char *filepath, int specials)
 	redirect = malloc(sizeof(t_redirect));
 	redirect->file = filepath;
 	redirect->specials = specials;
-	redirect->std = malloc(sizeof(t_fd));
+//	redirect->std = malloc(sizeof(t_fd));
 	redirect->next = NULL;
 	redirect->prev = NULL;
 	return (redirect);

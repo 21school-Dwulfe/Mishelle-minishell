@@ -37,6 +37,7 @@ int	msh_convert(t_command *cmd, char *value, int sp, char *name)
 	arg = msh_create_token(ft_strdup(name), value, g_info.num_token++, sp);
 	msh_add_token(cmd, arg);
 	len = ft_strlen(name);
+	ft_strdel(&name);
 	return (len);
 }
 

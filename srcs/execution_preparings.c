@@ -22,6 +22,7 @@ int	msh_recursion_eval(int i, t_command *cmd, char **buff)
 
 	an_tok = NULL;
 	mirror = cmd->args;
+	(void)mirror;
 	if (cmd->args[i] && msh_is_token(cmd->args[i]))
 	{
 		an_tok = msh_get_token_value(cmd, cmd->args[i]);
@@ -111,6 +112,7 @@ void	msh_evaluate_all_tokens(t_command *c)
 	char	**mirror;
 
 	i = 0;
+	(void)mirror;
 	ft_bzero(tmp, sizeof(char *) * 4);
 	while (c->args && c->args[i])
 	{

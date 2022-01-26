@@ -26,9 +26,9 @@ void	msh_wait_pid(int pid)
 	if (!filter++)
 	{
 		if (child_term == 3)
-			write(2, "Quit: 3\n", 8);
+			write(1, "Quit: 3\n", 8);
 		if (child_term == 2)
-			write(2, "\n", 2);
+			write(1, "\n", 2);
 	}
 	if (filter == g_info.num_of_commands)
 		filter = 0;

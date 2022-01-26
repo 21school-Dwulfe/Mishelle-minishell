@@ -83,22 +83,22 @@ void	msh_argv_regime(char **argv, int argc)
 	int		i;
 	int		len;
 	char	*line;
-	int		offset;
+	char	*tmp;
 
 	i = 0;
-	len = 0;
 	while (argv[i])
 		len += ft_strlen(argv[i++]);
-	line = ft_calloc(len + i, sizeof(char));
 	i = 0;
-	offset = 0;
+	line = NULL;
 	while (i < argc - 1)
 	{
-		ft_strncpy(line + offset, argv[i], len);
-		line[ft_strlen(line)] = ' ';
-		offset += ft_strlen(argv[i]) + 1;
+		line = ft_strjoin_se(line, argv[i]);
+		tmp = line;
+		line = ft_strjoin(tmp, " ");
+		ft_strdel(&tmp);
 		i++;
 	}
+	ft_putstr_fd(line, 1);
 	if (msh_validate_line(line))
 		return ;
 	if (!msh_unclosed_quotes(&line, NULL, 0))
