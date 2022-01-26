@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/26 00:38:48 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/26 18:05:15 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,24 +81,20 @@ void	msh_cmd(char **line)
 void	msh_argv_regime(char **argv, int argc)
 {
 	int		i;
-	int		len;
 	char	*line;
 	char	*tmp;
 
 	i = 0;
-	while (argv[i])
-		len += ft_strlen(argv[i++]);
-	i = 0;
 	line = NULL;
-	while (i < argc - 1)
+	while (i < argc)
 	{
 		line = ft_strjoin_se(line, argv[i]);
 		tmp = line;
 		line = ft_strjoin(tmp, " ");
+		ft_putstr_fd(line, 1);
 		ft_strdel(&tmp);
 		i++;
 	}
-	ft_putstr_fd(line, 1);
 	if (msh_validate_line(line))
 		return ;
 	if (!msh_unclosed_quotes(&line, NULL, 0))
@@ -113,7 +109,7 @@ int	main(int argc, char **argv, char **env)
 
 	msh_config(argc, argv, env, &regime);
 	if (regime)
-		msh_argv_regime(argv + 1, argc);
+		msh_argv_regime(argv + 1, argc - 1);
 	else
 		msh_stdin_regime();
 	return (0);

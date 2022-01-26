@@ -60,10 +60,10 @@ clean : $(OBJDIR)
 		@if [ -d "lib" ]; then \
 			cd readline-8.1 && $(MAKE) distclean; \
 		fi
+		rm -rf lib
 		cd ./libft && $(MAKE) clean
 
 fclean : clean
-		rm -rf lib
 		rm -rf $(APP)
 		cd ./libft && $(MAKE) fclean
 

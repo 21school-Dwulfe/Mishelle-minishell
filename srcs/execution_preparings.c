@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/25 23:48:24 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/26 18:05:38 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,12 @@ void	msh_evaluate_all_tokens(t_command *c)
 	int		i;
 	char	*tmp[4];
 	t_arg	*tok;
-	char	**mirror;
 
 	i = 0;
-	(void)mirror;
 	ft_bzero(tmp, sizeof(char *) * 4);
 	while (c->args && c->args[i])
 	{
 		tmp[0] = c->args[i];
-		mirror = c->args;
 		if (msh_is_token(c->args[i]))
 		{
 			tok = msh_get_token_value(c, c->args[i]);
@@ -135,5 +132,4 @@ void	msh_evaluate_all_tokens(t_command *c)
 			i++;
 	}
 	msh_replace_null_arg(c);
-	mirror = c->args;
 }
