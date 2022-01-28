@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:25 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/26 01:42:06 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 22:30:43 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	msh_check_special_signs(char *str, int *i)
 	int	res;
 
 	j = 0;
-	while (j < 16)
+	while (j < 14)
 	{
 		res = g_info.condition[j](str, i);
 		if (res != 0)
@@ -47,9 +47,6 @@ void	msh_save_command(char *str, int start, int end, int specials)
 	ft_strdel(&tmp);
 }
 
-// && i[2] < 21)	
-// if (i[2] >= 12 && i[2] < 20)
-		// 	i[2] = 0;
 int	msh_parse(char **str)
 {
 	int	i[3];
@@ -64,16 +61,15 @@ int	msh_parse(char **str)
 			return (-1);
 		if (i[2] < -1)
 			msh_input_call(str, &i[1]);
-		if (i[2] == -1 || i[2] >= 4)
+		if (i[2] != 0)
 			msh_side_effect(str, &i[1], &i[2]);
+		if (i[2] == 0 || i[2] < 4)
+			i[1]++;
 		if (str[0][i[1]] == '\0' || (i[2] != 0 && i[2] < 3)
 			|| i[2] == 11 || i[2] == 10)
 			msh_save_command(*str, i[0], i[1], i[2]);
 		if (i[2] == -1)
 			break ;
-		if (i[2] == 0 || i[2] < 4)
-			i[1]++;
 	}
 	return (0);
 }
-//(export gg && export | grep gg | wc -l)

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/26 18:05:38 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 21:11:22 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	msh_procedure(int *i, t_arg *tok, t_command *cmd, char **tmp)
 			tmp[1] = msh_get_token_value(cmd, cmd->args[*i - 1])->value;
 		else
 			tmp[1] = cmd->args[*i - 1];
-		tmp[2] = ft_strjoin(tmp[1], tok->value);
+		tmp[2] = ft_strjoin_se(tmp[1], tok->value);
 		ft_strdel(&cmd->args[*i - 1]);
 	}
 	if (tok->is_prefix && tok->value)
@@ -92,7 +92,8 @@ int	msh_no_prefix(t_arg *tok, t_command *cmd, int *i)
 {
 	int	boo;
 
-	boo = ((!tok->has_prefix && !tok->is_prefix) || cmd->n_args == *i + 1);
+	boo = ((!tok->has_prefix && !tok->is_prefix)
+			|| (!tok->has_prefix && cmd->n_args == *i + 1));
 	if (boo)
 	{
 		if (tok->value)
@@ -131,5 +132,4 @@ void	msh_evaluate_all_tokens(t_command *c)
 		else
 			i++;
 	}
-	msh_replace_null_arg(c);
 }

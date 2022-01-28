@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/26 18:05:15 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 16:17:26 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	msh(t_command *cmd, int *in_out_s, int *fd_pipe, int *counter)
 {
-	int	status;
-
 	if (msh_buildin_excutor(cmd) == 0)
 	{
 		if (msh_pipes(cmd, fd_pipe) > -1)
@@ -24,8 +22,7 @@ int	msh(t_command *cmd, int *in_out_s, int *fd_pipe, int *counter)
 			return (-1);
 		msh_func(cmd, in_out_s, g_info.env, fd_pipe);
 	}
-	status = msh_d_amp_d_pipe(cmd);
-	return (status);
+	return (0);
 }
 
 int	msh_executor(t_command *cmd, int *in_out_s, int *counter)
@@ -36,14 +33,9 @@ int	msh_executor(t_command *cmd, int *in_out_s, int *counter)
 	while (cmd)
 	{
 		status = (msh_preparings(cmd) | msh_redirects_fd(cmd));
-		if (status == 1)
-			break ;
-		else if (status == 2)
-		{
-			cmd = cmd->next;
-			continue ;
-		}
-		status = msh(cmd, in_out_s, fd_pipe, counter);
+		if (!status || (cmd->prev->specials == DOUBLE_PIPE && status))
+			msh(cmd, in_out_s, fd_pipe, counter);
+		status = msh_d_amp_d_pipe(cmd);
 		if (status == 1)
 			break ;
 		else if (status == 2)
@@ -67,6 +59,8 @@ void	msh_cmd(char **line)
 		return ;
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);
+	if (!g_info.cur_cmd->args || !g_info.cur_cmd->n_args)
+		return ;
 	msh_executor(g_info.cur_cmd, in_out_s, &counter);
 	dup2(in_out_s[1], 1);
 	close(in_out_s[1]);
@@ -91,7 +85,6 @@ void	msh_argv_regime(char **argv, int argc)
 		line = ft_strjoin_se(line, argv[i]);
 		tmp = line;
 		line = ft_strjoin(tmp, " ");
-		ft_putstr_fd(line, 1);
 		ft_strdel(&tmp);
 		i++;
 	}

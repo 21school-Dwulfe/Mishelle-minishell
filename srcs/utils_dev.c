@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 16:28:22 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 22:09:02 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 22:27:08 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ char	*msh_tokens_pseudo_dev(int specials)
 		str = " WILDCARD";
 	else if (specials == TILDA)
 		str = " TILDA";
-	else if (specials == REDIRECT
-		|| specials == R_REDIRECT
+	else if (specials == REDIRECT || specials == R_REDIRECT
 		|| specials == D_REDIRECT
 		|| specials == HEREDOC)
 		return (NULL);

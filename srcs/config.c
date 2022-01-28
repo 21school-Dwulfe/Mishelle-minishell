@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/26 00:28:53 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 22:21:31 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,21 +65,19 @@ void	msh_init_functions(void)
 void	msh_init_conditions(void)
 {
 	g_info.condition[0] = msh_validation_closest_chars;
-	g_info.condition[1] = msh_conditions_d_quotes_close;
-	g_info.condition[2] = msh_conditions_quotes_close;
-	g_info.condition[3] = msh_conditions_quotes;
-	g_info.condition[4] = msh_conditions_d_quotes;
-	g_info.condition[5] = msh_conditions_pipe;
-	g_info.condition[6] = msh_conditions_semicolon;
-	g_info.condition[7] = msh_conditions_dollar;
-	g_info.condition[8] = msh_conditions_eof;
-	g_info.condition[9] = msh_conditions_slash;
-	g_info.condition[10] = msh_conditions_d_pipe;
-	g_info.condition[11] = msh_conditions_d_amp;
-	g_info.condition[12] = msh_conditions_curl_braces;
-	g_info.condition[13] = msh_conditions_wildcard;
-	g_info.condition[14] = msh_conditions_redirects;
-	g_info.condition[15] = msh_conditions_tilda;
+	g_info.condition[1] = msh_conditions_quotes;
+	g_info.condition[2] = msh_conditions_d_quotes;
+	g_info.condition[3] = msh_conditions_pipe;
+	g_info.condition[4] = msh_conditions_semicolon;
+	g_info.condition[5] = msh_conditions_dollar;
+	g_info.condition[6] = msh_conditions_eof;
+	g_info.condition[7] = msh_conditions_slash;
+	g_info.condition[8] = msh_conditions_d_pipe;
+	g_info.condition[9] = msh_conditions_d_amp;
+	g_info.condition[10] = msh_conditions_curl_braces;
+	g_info.condition[11] = msh_conditions_wildcard;
+	g_info.condition[12] = msh_conditions_redirects;
+	g_info.condition[13] = msh_conditions_tilda;
 }
 
 void	msh_config(int argc, char **argv, char **env, int *regime)

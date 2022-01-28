@@ -1,42 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens_value.c                                     :+:      :+:    :+:   */
+/*   token_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/04 20:17:48 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/28 22:18:43 by dwulfe           ###   ########.fr       */
+/*   Created: 2022/01/28 22:17:59 by dwulfe            #+#    #+#             */
+/*   Updated: 2022/01/28 22:32:10 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-char	*msh_token_dollar(char *str, int *index)
+// && str[*i + 1] != '\''
+int	msh_conditions_quotes(char *str, int *i)
 {
-	int		i;
+	if (str[*i] == '\'')
+		return (QUOTES);
+	else
+		return (0);
+}
+
+//&& str[*i + 1] != '\"'
+int	msh_conditions_d_quotes(char *str, int *i)
+{
+	if (str[*i] == '\"')
+		return (D_QUOTES);
+	else
+		return (0);
+}
+
+char	*msh_token_d_quotes(char *str, int *index)
+{
 	char	*result;
 
-	i = *index;
-	i++;
-	if (str[i] == '?')
-		return (ft_strdup("$?"));
-	if (str[i] && ft_isdigit(str[i + 1]))
-		return (ft_strndup(str + *index, i + 1 - *index));
-	while (str[i] && str[i] != ' ' && (ft_isalnum(str[i]) || str[i] == '_'))
-		i++;
-	result = ft_strndup_se(str + *index, i - *index, 0);
+	result = msh_get_str_inside(str + *index, "\"", 0);
 	return (result);
 }
 
-char	*msh_token_curl_braces(char *str, int *index)
+char	*msh_token_quotes(char *str, int *index)
 {
-	int		i;
 	char	*result;
 
-	i = *index;
-	while (str[i] && str[i] != ')')
-		i++;
-	result = ft_strndup(str + *index + 1, i - 1);
+	result = msh_get_str_inside(str + *index, "\'", 0);
 	return (result);
 }

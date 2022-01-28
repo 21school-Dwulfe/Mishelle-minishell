@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/26 17:50:43 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 16:00:28 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	msh_d_amp_d_pipe(t_command *cmd)
 {
 	int	exec_result;
 
-	printf("cmd->build = %d error code = %d\n", cmd->build, g_info.exit_code);
 	exec_result = 0;
 	if ((cmd->build == 8 || cmd->build == -1)
 		&& (cmd->specials == DOUBLE_AMP || cmd->specials == DOUBLE_PIPE))
@@ -67,7 +66,6 @@ int	msh_d_amp_d_pipe(t_command *cmd)
 		exec_result = 2;
 	if (cmd->specials == DOUBLE_PIPE && g_info.exit_code > 0)
 		exec_result = 0;
-	printf("exec_result %d\n", exec_result);
 	return (exec_result);
 }
 

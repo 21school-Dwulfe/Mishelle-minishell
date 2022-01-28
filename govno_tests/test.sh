@@ -68,7 +68,7 @@ function exec_test()
   TEST1=$(cat msh_log)
 
   # execute commands in bash
-  zsh < $pipe >msh_log 2>&-  &
+  bash < $pipe >msh_log 2>&-  &
   IFS=';' read -ra CMND <<< "$@"
   for command in "${CMND[@]}"; do
     echo $command > $pipe
