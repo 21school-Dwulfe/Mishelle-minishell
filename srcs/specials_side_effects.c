@@ -6,28 +6,39 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:59 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 23:41:12 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 22:29:29 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-	// if (sp == REDIRECT || sp == D_REDIRECT || sp == R_REDIRECT))
-	// 	msh_convert_redirects();
 int	msh_convert(t_command *cmd, char *value, int sp, char *name)
 {
 	t_arg		*arg;
-	int			result;
+	int			len;
 
-	if (sp == HEREDOC)
-		return (result = msh_convert_heredoc(cmd, value, name, sp));
+	if (sp >= 4 && sp <= 7)
+	{
+		len = ft_strlen(name);
+		msh_convert_to_redirect(cmd, value, sp);
+		msh_cut_quotes(&msh_last_redirect(cmd)->file, 0, len);
+		ft_strdel(&name);
+		ft_strdel(&value);
+		if (sp == HEREDOC)
+		{
+			signal(SIGINT, SIG_IGN);
+			msh_heredoc_input(msh_last_redirect(cmd)->file);
+			signal(SIGINT, msh_sigint_handler);
+		}
+		return (len);
+	}
 	if (sp == TILDA)
 		msh_convert_tilda(&value, name);
 	arg = msh_create_token(ft_strdup(name), value, g_info.num_token++, sp);
 	msh_add_token(cmd, arg);
-	result = ft_strlen(name);
+	len = ft_strlen(name);
 	ft_strdel(&name);
-	return (result);
+	return (len);
 }
 
 /**
@@ -87,7 +98,6 @@ void	msh_define_spaces(t_arg *arg, char *str, int *length, int specials)
 
 void	msh_common_side_effect(char **str, int *i, int sp)
 {
-	int		l;
 	t_arg	*arg;
 	int		len;
 
@@ -95,18 +105,17 @@ void	msh_common_side_effect(char **str, int *i, int sp)
 	arg = NULL;
 	if (sp == 13 || sp == 14 || sp == 15)
 		len += 2;
-	l = msh_specify_token(i, *str, sp);
+	len += msh_specify_token(i, *str, sp);
 	if (sp != SLASH && sp != HEREDOC && sp != REDIRECT
 		&& sp != R_REDIRECT && sp != D_REDIRECT)
 	{
 		arg = msh_last_token();
 		msh_define_spaces(arg, *str, i, sp);
-		len += l;
 		msh_specials_replace(str, arg->pseudo, i, len);
 	}
 	else
 	{
-		msh_specials_cut(str, i, l + len);
+		msh_specials_cut(str, i, len);
 		if ((sp == HEREDOC || sp == DOLLAR) && *i - 1 > -1)
 			(*i)--;
 	}

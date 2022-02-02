@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:05:11 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 18:18:11 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 20:46:07 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_redirect	*msh_create_redirect(char *filepath, int specials)
 	redirect = malloc(sizeof(t_redirect));
 	redirect->file = filepath;
 	redirect->specials = specials;
+//	redirect->std = malloc(sizeof(t_fd)); убери лики
 	redirect->next = NULL;
 	redirect->prev = NULL;
 	return (redirect);

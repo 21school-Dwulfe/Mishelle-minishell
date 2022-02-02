@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:10 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/21 18:42:40 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 16:12:31 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,9 @@ int	msh_define_redirects(int *fd_arr, t_command *cmd)
 			perror(tmp->file);
 			if (cmd->specials == DOUBLE_PIPE)
 			{
-				msh_save_error_code(1);
-				return (2);
-			}
-			else
+				msh_save_error_code(errno);
 				return (1);
+			}
 		}
 		tmp = tmp->next;
 	}

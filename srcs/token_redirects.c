@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 21:45:50 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 23:59:08 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 16:26:03 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,58 @@ int	msh_convert_redirects(t_command *cmd, char *value, char *name, int sp)
 {
 	int		len;
 
+	(void)len;
 	len = ft_strlen(value);
 	name = msh_redirects_value_to_name(value);
 	msh_push_redirect(&cmd->redirects, name, sp);
 	return (0);
 }
 
+void	msh_cut_quotes(char **str, int j, int len)
+{
+	int		i;
+	char	*ptr;
+	int		full_len;
+
+	i = j;
+	ptr = *str;
+	while (ptr[i] && i < len - 1)
+	{
+		if ((ptr[i] == '"' && ptr[i + 1] == '"')
+			|| (ptr[i] == '\'' && ptr[i + 1] == '\''))
+		{
+			full_len = ft_strlen(ptr);
+			ft_memset(ptr + i, '\0', 2);
+			*str = msh_concat_str(ptr, full_len, NULL);
+			ft_strdel(&ptr);
+			i -= 2;
+			ptr = *str;
+		}
+		i++;
+	}
+}
+
 char	*msh_token_redirect(char *str, int *index)
 {
-	int		i[2];
+	int		i[3];
 	char	*result;
-	int		word;
 	char	c;
 
 	i[0] = *index;
 	i[1] = *index;
-	word = 0;
+	i[2] = *index;
 	result = NULL;
 	c = str[i[0]];
-	while (i[0] - 1 > -1 && str[i[0] - 1] != ' ' && ft_isdigit(str[i[0] - 1]))
-		i[0]--;
+	while (*index - 1 > -1 && str[*index - 1] != ' '
+		&& ft_isdigit(str[*index - 1]))
+		(*index)--;
 	while (str[i[1]] && str[i[1]] == c)
 		i[1]++;
 	while (str[i[1]] && str[i[1]] == ' ')
 		i[1]++;
-	word = i[1];
 	while (str[i[1]] && !ft_strchr(" |;<>&", str[i[1]]))
 		i[1]++;
-	if (word && (i[0] != *index || i[1] != *index))
-		result = ft_strndup(str + *i, i[1] - *i);
+	if (i[1] != i[2])
+		result = ft_strndup(str + *index, i[1] - *index);
 	return (result);
 }

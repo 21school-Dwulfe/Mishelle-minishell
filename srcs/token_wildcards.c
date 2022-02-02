@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:22:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 18:19:17 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 22:22:03 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 char	*msh_realloc(char *res, struct dirent *ent)
 {
-	int				len;
-	char			*tmp;
+	char	*tmp;
 
-	len = ft_strlen(res) + ft_strlen(ent->d_name) + 1;
 	if (!res)
 		res = ft_strdup(ent->d_name);
 	else

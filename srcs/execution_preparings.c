@@ -6,18 +6,23 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:03 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 20:48:16 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 21:11:22 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
-
+// || (i < cmd->n_args && msh_is_token(cmd->args[i + 1])
+// && cmd->args[i + 1] == NULL
+// 			&& !msh_get_token_value(cmd, cmd->args[i + 1])->has_prefix)
 int	msh_recursion_eval(int i, t_command *cmd, char **buff)
 {
 	t_arg	*an_tok;
 	char	*tmp[2];
+	char	**mirror;
 
 	an_tok = NULL;
+	mirror = cmd->args;
+	(void)mirror;
 	if (cmd->args[i] && msh_is_token(cmd->args[i]))
 	{
 		an_tok = msh_get_token_value(cmd, cmd->args[i]);
@@ -28,12 +33,10 @@ int	msh_recursion_eval(int i, t_command *cmd, char **buff)
 	}
 	else
 		tmp[1] = cmd->args[i];
-	tmp[0] = ft_strjoin(*buff, tmp[1]);
+	tmp[0] = ft_strjoin_se(*buff, tmp[1]);
 	ft_strdel(buff);
 	ft_strdel(&cmd->args[i]);
-	if (cmd->args[i + 1] == NULL || (an_tok && !an_tok->is_prefix)
-		|| (i < cmd->n_args && msh_is_token(cmd->args[i + 1])
-			&& !msh_get_token_value(cmd, cmd->args[i + 1])->has_prefix))
+	if (an_tok == NULL || (an_tok && !an_tok->is_prefix))
 		cmd->args[i] = tmp[0];
 	else if (i < cmd->n_args)
 		return (msh_recursion_eval(i + 1, cmd, &tmp[0]));
@@ -70,7 +73,7 @@ void	msh_procedure(int *i, t_arg *tok, t_command *cmd, char **tmp)
 			tmp[1] = msh_get_token_value(cmd, cmd->args[*i - 1])->value;
 		else
 			tmp[1] = cmd->args[*i - 1];
-		tmp[2] = ft_strjoin(tmp[1], tok->value);
+		tmp[2] = ft_strjoin_se(tmp[1], tok->value);
 		ft_strdel(&cmd->args[*i - 1]);
 	}
 	if (tok->is_prefix && tok->value)
@@ -80,14 +83,17 @@ void	msh_procedure(int *i, t_arg *tok, t_command *cmd, char **tmp)
 		msh_recursion_eval(*i + 1, cmd, &tmp[2]);
 	}
 	else
+	{
 		cmd->args[*i] = tmp[2];
+	}
 }
 
 int	msh_no_prefix(t_arg *tok, t_command *cmd, int *i)
 {
 	int	boo;
 
-	boo = ((!tok->has_prefix && !tok->is_prefix) || cmd->n_args == 1);
+	boo = ((!tok->has_prefix && !tok->is_prefix)
+			|| (!tok->has_prefix && cmd->n_args == *i + 1));
 	if (boo)
 	{
 		if (tok->value)
@@ -121,6 +127,7 @@ void	msh_evaluate_all_tokens(t_command *c)
 				continue ;
 			msh_procedure(&i, tok, c, tmp);
 			msh_replace_null_arg(c);
+			ft_bzero(tmp, sizeof(char *) * 4);
 		}
 		else
 			i++;

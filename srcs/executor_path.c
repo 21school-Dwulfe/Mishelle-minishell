@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 20:09:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 16:00:28 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,7 @@ int	msh_d_amp_d_pipe(t_command *cmd)
 	exec_result = 0;
 	if ((cmd->build == 8 || cmd->build == -1)
 		&& (cmd->specials == DOUBLE_AMP || cmd->specials == DOUBLE_PIPE))
-	{
 		msh_wait_pid(0);
-		if (g_info.exit_code > 0 && !cmd->piped
-			&& cmd->specials == DOUBLE_AMP)
-		exec_result = 1;
-	}
 	if (cmd->specials == DOUBLE_AMP && g_info.exit_code > 0)
 		exec_result = 1;
 	if (cmd->specials == DOUBLE_PIPE && g_info.exit_code == 0)
@@ -89,7 +84,7 @@ int	msh_make_path_relative(t_command *cmd)
 	if (!tmp && (msh_get_env_by_key(g_info.env, "PATH") \
 		|| !ft_strncmp(cmd->args[0], "", 2)))
 	{
-		msh_error_bash("command not found", cmd->args[0], 127);
+		msh_error_bash(" command not found", cmd->args[0], 127);
 		res = 1;
 	}
 	else if (!tmp && !msh_get_env_by_key(g_info.env, "PATH"))

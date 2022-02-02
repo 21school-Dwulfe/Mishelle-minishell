@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:39 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 18:18:07 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:45:32 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	msh_success_cd(char **env_value, int *old_cur)
 
 static int	msh_error_cd_no_oldpwd(void)
 {
-	write(1, "Mishelle: cd: OLDPWD not set\n", 30);
+	write(2, "Mishelle: cd: OLDPWD not set\n", 30);
 	msh_save_error_code(1);
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:17:33 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 18:18:06 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/25 20:02:43 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	msh_cd_check_n(t_command *cmd, int *len, short *is_nl)
 		cmd->args[i] = ft_strdup("-n");
 		i++;
 	}
+	cmd->n_args = ft_str_count(cmd->args);
 	while (cmd->args[*len] && !ft_strcmp(cmd->args[*len], "-n"))
 		(*len)++;
 	if (cmd->n_args > 1 && !ft_strncmp(cmd->args[1], "-n", 3))
@@ -50,7 +51,7 @@ char	*msh_custom_echo_buff(t_command *cmd, int *len)
 		while (l[2] < cmd->n_args)
 			l[0] += ft_strlen(cmd->args[l[2]++]);
 		tmp = ft_calloc(sizeof(char), (l[0] + cmd->n_args - 2));
-		while (*len < cmd->n_args)
+		while (cmd->args[*len] && *len < cmd->n_args)
 		{
 			ft_strncat(tmp, cmd->args[*len], (l[0] + cmd->n_args - 2));
 			l[1] = ft_strlen(tmp);

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:01:31 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 20:49:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 22:24:10 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@ void	msh_wait_pid(int pid)
 	int			child_term;
 	static int	filter;
 
+	child_term = -1;
 	waitpid(pid, &status, 0);
 	west = WEXITSTATUS(status);
-	child_term = WTERMSIG(status);
+	if (WIFSIGNALED(status))
+		child_term = WTERMSIG(status);
 	if (!filter++)
 	{
 		if (child_term == 3)
-			write(2, "Quit: 3\n", 8);
+			write(1, "Quit: 3\n", 8);
 		if (child_term == 2)
-			write(2, "\n", 2);
+			write(1, "\n", 2);
 	}
 	if (filter == g_info.num_of_commands)
 		filter = 0;
@@ -92,6 +94,7 @@ int	msh_preparings(t_command *cmd)
 	int	build;
 
 	msh_evaluate_all_tokens(cmd);
+	msh_replace_null_arg(cmd);
 	if (ft_str_count(cmd->args) == 0 && cmd->token)
 		cmd->args[0] = ft_strdup("");
 	build = msh_is_build(cmd->args[0]);

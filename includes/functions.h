@@ -111,6 +111,7 @@ void		msh_stdin_regime(void);
 
 /* Specials */
 void		msh_cut_set(char **src, char *set);
+void		msh_cut_quotes(char **str, int i, int len);
 void		msh_common_side_effect(char **str, int *i, int sp);
 /* End Specials */
 
@@ -118,7 +119,7 @@ void		msh_common_side_effect(char **str, int *i, int sp);
 void		msh_widlcard_mutations(t_command *cmd, t_arg *tok, int *i);
 void		msh_heredoc_input(char *path);
 void		msh_convert_tilda(char **value, char *name);
-int			msh_convert_heredoc(t_command *cmd, char *val, char *name, int sp);
+void		msh_convert_to_redirect(t_command *cmd, char *value, int sp);
 void		msh_wildcard(char *path, char **result);
 char		*msh_token_wildcard_name(char *str, int *index);
 char		*msh_token_redirect(char *str, int *index);

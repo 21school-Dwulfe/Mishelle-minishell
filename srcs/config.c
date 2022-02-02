@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/24 22:11:51 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/01/28 22:21:31 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,6 @@ void	msh_shell_bin(char **env, char *path)
 
 void	msh_init_functions(void)
 {
-	g_info.condition[0] = msh_validation_closest_chars;
-	g_info.condition[1] = msh_conditions_d_quotes_close;
-	g_info.condition[2] = msh_conditions_quotes_close;
-	g_info.condition[3] = msh_conditions_quotes;
-	g_info.condition[4] = msh_conditions_d_quotes;
-	g_info.condition[5] = msh_conditions_pipe;
-	g_info.condition[6] = msh_conditions_semicolon;
-	g_info.condition[7] = msh_conditions_dollar;
-	g_info.condition[8] = msh_conditions_eof;
-	g_info.condition[9] = msh_conditions_slash;
-	g_info.condition[10] = msh_conditions_d_pipe;
-	g_info.condition[11] = msh_conditions_d_amp;
-	g_info.condition[12] = msh_conditions_curl_braces;
-	g_info.condition[13] = msh_conditions_wildcard;
-	g_info.condition[14] = msh_conditions_redirects;
-	g_info.condition[15] = msh_conditions_tilda;
 	g_info.func[4] = msh_token_redirect;
 	g_info.func[5] = msh_token_redirect;
 	g_info.func[6] = msh_token_redirect;
@@ -76,6 +60,24 @@ void	msh_init_functions(void)
 	g_info.func[18] = msh_slash;
 	g_info.func[19] = msh_token_wildcard_name;
 	g_info.func[20] = msh_token_tilda_name;
+}
+
+void	msh_init_conditions(void)
+{
+	g_info.condition[0] = msh_validation_closest_chars;
+	g_info.condition[1] = msh_conditions_quotes;
+	g_info.condition[2] = msh_conditions_d_quotes;
+	g_info.condition[3] = msh_conditions_pipe;
+	g_info.condition[4] = msh_conditions_semicolon;
+	g_info.condition[5] = msh_conditions_dollar;
+	g_info.condition[6] = msh_conditions_eof;
+	g_info.condition[7] = msh_conditions_slash;
+	g_info.condition[8] = msh_conditions_d_pipe;
+	g_info.condition[9] = msh_conditions_d_amp;
+	g_info.condition[10] = msh_conditions_curl_braces;
+	g_info.condition[11] = msh_conditions_wildcard;
+	g_info.condition[12] = msh_conditions_redirects;
+	g_info.condition[13] = msh_conditions_tilda;
 }
 
 void	msh_config(int argc, char **argv, char **env, int *regime)
@@ -93,6 +95,7 @@ void	msh_config(int argc, char **argv, char **env, int *regime)
 	msh_shell_bin(g_info.env, g_info.pwd);
 	msh_define_subshell_signals(shell, msh_get_env_by_key(env, "SHELL"));
 	msh_init_global_cmd();
+	msh_init_conditions();
 	msh_init_functions();
 	msh_shlvl(g_info.env);
 	g_info.f[0] = "export";
