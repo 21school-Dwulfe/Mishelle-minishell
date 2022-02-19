@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 16:43:47 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/28 22:28:05 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/02/04 15:25:17 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ void	msh_cut_effect(char **str, int *i, int sp)
 void	msh_side_effect(char **str, int *i, int *sp)
 {
 	if (*sp == 2)
-		ft_memset(str + *i, ' ', 1);
+		ft_memset(*str + *i, ' ', 1);
 	if (*sp == 3)
 		;
 	if (*sp == 10 || *sp == 11)
-		ft_memset(str + *i, ' ', 2);
+		ft_memset(*str + *i, ' ', 2);
 	if (*sp == PIPE || *sp == SLASH)
 		ft_memset(str + *i, ' ', 1);
 	if (((*sp >= 4 && *sp < 21) && *sp != 10 && *sp != 11 && *sp != 16)
