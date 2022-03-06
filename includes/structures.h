@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 11:56:00 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/25 17:46:02 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/03/05 21:14:32 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef int		(*t_f_condition)(char *str, int *length);
 typedef struct s_info
 {
 	char			*pwd;
+	char			*pwd_box;
 	int				exit_code;
 	int				num_of_commands;
 	int				num_token;

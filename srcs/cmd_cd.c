@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:04:39 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/25 18:45:32 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/03/05 21:43:40 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,21 @@ static int	msh_success_cd(char **env_value, int *old_cur)
 	char	*str;
 
 	str = NULL;
-	str = getcwd(NULL, 0);
-	env_value[3] = ft_strjoin("OLDPWD=", str);
+	str = ft_strdup(g_info.pwd_box);
+	env_value[3] = ft_strjoin_se("OLDPWD=", str);
 	if (old_cur[0] != -1)
 		msh_modify_env_var(&g_info.env[old_cur[0]], env_value[3]);
 	else
 		g_info.env = msh_create_env_var(env_value[3]);
 	ft_strdel(&env_value[3]);
-	ft_strdel(&str);
 	if (chdir(env_value[2]) == -1)
 		msh_perror("cd");
 	env_value[4] = getcwd(NULL, 0);
 	if (old_cur[2])
 		ft_putendl_fd(env_value[4], 1);
 	env_value[3] = ft_strjoin("PWD=", env_value[4]);
+	ft_strdel(&g_info.pwd_box);
+	g_info.pwd_box = ft_strdup(env_value[4]);
 	msh_modify_env_var(&g_info.env[old_cur[1]], env_value[3]);
 	ft_strdel(&env_value[3]);
 	ft_strdel(&env_value[4]);

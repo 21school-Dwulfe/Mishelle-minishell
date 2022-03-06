@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/28 16:17:26 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/03/05 22:46:07 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	msh(t_command *cmd, int *in_out_s, int *fd_pipe, int *counter)
 		if (msh_pipes(cmd, fd_pipe) > -1)
 			(*counter)++;
 		else
-			return (-1);
+			return (1);
 		msh_func(cmd, in_out_s, g_info.env, fd_pipe);
 	}
 	return (0);
@@ -35,6 +35,8 @@ int	msh_executor(t_command *cmd, int *in_out_s, int *counter)
 		status = (msh_preparings(cmd) | msh_redirects_fd(cmd));
 		if (!status || (cmd->prev->specials == DOUBLE_PIPE && status))
 			msh(cmd, in_out_s, fd_pipe, counter);
+		// if (status == 1 && !(cmd->prev->specials == DOUBLE_PIPE))
+		// 	break ;
 		status = msh_d_amp_d_pipe(cmd);
 		if (status == 1)
 			break ;
@@ -55,8 +57,8 @@ void	msh_cmd(char **line)
 	counter = 0;
 	if (msh_parse(line) == -1)
 		return ;
-	if (msh_cut_redirects_cmd() == -1)
-		return ;
+	// if (msh_cut_redirects_cmd() == -1)
+	// 	return ;
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);
 	if (!g_info.cur_cmd->args || !g_info.cur_cmd->n_args)

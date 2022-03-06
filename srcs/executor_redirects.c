@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:06:10 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/28 16:12:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/03/05 22:58:41 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ int	msh_define_redirects(int *fd_arr, t_command *cmd)
 		fd_arr[fd_index] = msh_open(tmp->file, tmp->specials);
 		if (fd_arr[fd_index] == -1)
 		{
-			perror(tmp->file);
-			if (cmd->specials == DOUBLE_PIPE)
-			{
-				msh_save_error_code(errno);
-				return (1);
-			}
+			// if (cmd->specials == DOUBLE_PIPE)
+			// {
+			// 	msh_save_error_code(errno);
+			// 	//return (1);
+			// }
+			return (msh_error_bash("No such file or directory", tmp->file, 1));
 		}
 		tmp = tmp->next;
 	}

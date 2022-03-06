@@ -32,36 +32,36 @@ INCLUDES		=  -I./includes
 LDFLAGS			= -L$(REL_PATH)/lib/lib -lreadline $(ADD) -I./libft -I$(REL_PATH)/includes/readline -L./libft -lft
 CC				= gcc
 
-${APP}:	  Makefile $(HEADERS) $(LIB) $(OBJDIR) ${OBJS} 
+${APP}:	 Makefile $(HEADERS) $(LIB) $(OBJDIR)  ${OBJS}
 			@if [ ! -d "lib" ]; then \
 				mkdir -p lib && \
 				cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install; \
 			fi
 			cd ./libft && $(MAKE) && $(MAKE) bonus
-			
 			${CC} ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} -fsanitize=address
 
-.PHONY: all clean fclean re bonus buildrepo lib print 
+.PHONY: all clean fclean re bonus buildrepo lib print
 
 print : 
-	echo $(OBJS)
+	# echo $(OBJS)
+	mkdir -p $(OBJDIR)
 
-$(OBJDIR)%.o: $(SRCDIR)%.c
+$(OBJDIR)%.o: $(SRCDIR)%.c 
 		echo $@...
 		${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
 
-all : ${APP}
+all :  ${APP}
 
 re : fclean all
 
 clean : $(OBJDIR)
-		rm -rf $(OBJDIR)
-		rm -rf $(shell find . -name '*.o')
 		@if [ -d "lib" ]; then \
 			cd readline-8.1 && $(MAKE) distclean; \
 		fi
 		rm -rf lib
 		cd ./libft && $(MAKE) clean
+		rm -rf $(OBJDIR)
+		rm -rf $(shell find . -name '*.o')
 
 fclean : clean
 		rm -rf $(APP)

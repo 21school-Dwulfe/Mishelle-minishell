@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:08:57 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/28 22:21:31 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/03/05 21:27:29 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	msh_config(int argc, char **argv, char **env, int *regime)
 	*regime = (argc > 1);
 	g_info.env = msh_copy_env(env);
 	g_info.pwd = getcwd(NULL, 0);
+	g_info.pwd_box = getcwd(NULL, 0);
 	msh_shell_bin(g_info.env, g_info.pwd);
 	msh_define_subshell_signals(shell, msh_get_env_by_key(env, "SHELL"));
 	msh_init_global_cmd();

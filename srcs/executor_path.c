@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:26 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/28 16:00:28 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/03/06 15:34:30 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,12 @@ int	msh_d_amp_d_pipe(t_command *cmd)
 	if ((cmd->build == 8 || cmd->build == -1)
 		&& (cmd->specials == DOUBLE_AMP || cmd->specials == DOUBLE_PIPE))
 		msh_wait_pid(0);
-	if (cmd->specials == DOUBLE_AMP && g_info.exit_code > 0)
+	if (g_info.exit_code > 0)
 		exec_result = 1;
+	if (cmd->specials == PIPE && g_info.exit_code > 0)
+	{
+		exec_result = 0;
+	}
 	if (cmd->specials == DOUBLE_PIPE && g_info.exit_code == 0)
 		exec_result = 2;
 	if (cmd->specials == DOUBLE_PIPE && g_info.exit_code > 0)
