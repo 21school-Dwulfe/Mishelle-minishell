@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:01:31 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/01/28 22:24:10 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/03/07 20:49:48 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	msh_wait_pid(int pid)
 	}
 	if (filter == g_info.num_of_commands)
 		filter = 0;
-	msh_save_error_code(west);
+		msh_save_error_code(west);
 }
 
 int	msh_pipes(t_command *cmd, int *fd_pipe)

@@ -6,7 +6,7 @@
 /*   By: dwulfe <dwulfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 20:07:53 by dwulfe            #+#    #+#             */
-/*   Updated: 2022/03/05 22:46:07 by dwulfe           ###   ########.fr       */
+/*   Updated: 2022/03/07 20:41:38 by dwulfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@ int	msh(t_command *cmd, int *in_out_s, int *fd_pipe, int *counter)
 int	msh_executor(t_command *cmd, int *in_out_s, int *counter)
 {
 	int		fd_pipe[2];
+	int		j;
 	int		status;
 
+	j = 0;
 	while (cmd)
 	{
 		status = (msh_preparings(cmd) | msh_redirects_fd(cmd));
-		if (!status || (cmd->prev->specials == DOUBLE_PIPE && status))
+		if ((!status || (cmd->prev->specials == DOUBLE_PIPE && status))
+			&& !(cmd->prev->specials == PIPE && g_info.exit_code == 1))
 			msh(cmd, in_out_s, fd_pipe, counter);
-		// if (status == 1 && !(cmd->prev->specials == DOUBLE_PIPE))
-		// 	break ;
 		status = msh_d_amp_d_pipe(cmd);
-		if (status == 1)
+		if (status == 1 && cmd->prev->specials != PIPE)
 			break ;
 		else if (status == 2)
 			cmd = cmd->next;
@@ -57,19 +58,18 @@ void	msh_cmd(char **line)
 	counter = 0;
 	if (msh_parse(line) == -1)
 		return ;
-	// if (msh_cut_redirects_cmd() == -1)
-	// 	return ;
 	in_out_s[0] = dup(0);
 	in_out_s[1] = dup(1);
-	if (!g_info.cur_cmd->args || !g_info.cur_cmd->n_args)
-		return ;
 	msh_executor(g_info.cur_cmd, in_out_s, &counter);
 	dup2(in_out_s[1], 1);
 	close(in_out_s[1]);
 	dup2(in_out_s[0], 0);
 	close(in_out_s[0]);
-	while (counter-- > 0)
+	while (counter > 0)
+	{
 		msh_wait_pid(0);
+		counter--;
+	}
 	signal(SIGINT, msh_sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

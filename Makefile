@@ -6,7 +6,7 @@ LIBRARY_NAME	= lib
 SYSTEM			:= $(shell uname)
 
 REL_PATH		:= $(shell pwd)
-SRCS			:= $(shell ls $(SRCDIR))
+SRCS			:= $(shell find $(SRCDIR) -name '*.c')
 
 #SRCDIRS			:= $(shell find $(SRCDIR) -name '*.c' -exec dirname {} \; | uniq)
 OBJS			:= ${addprefix $(OBJDIR), $(notdir $(SRCS:.c=.o))}
@@ -38,19 +38,22 @@ ${APP}:	 Makefile $(HEADERS) $(LIB) $(OBJDIR)  ${OBJS}
 				cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib && $(MAKE) install; \
 			fi
 			cd ./libft && $(MAKE) && $(MAKE) bonus
-			${CC} ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} -fsanitize=address
+			${CC} ${CFLAGS}  -g  ${OBJS} ${LDFLAGS}  -o ${APP} #-fsanitize=address
 
 .PHONY: all clean fclean re bonus buildrepo lib print
 
 print : 
 	# echo $(OBJS)
-	mkdir -p $(OBJDIR)
+		mkdir -p $(OBJDIR)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c 
 		echo $@...
+		@if [ ! -d "./objs" ]; then \
+			mkdir -p $(OBJDIR); \
+		fi
 		${CC} -DQUOTES_ADD_REGIME="1" -DDEV_TOKENS=1 ${CFLAGS}  -g -c $< -o $@
 
-all :  ${APP}
+all :  ${APP} 
 
 re : fclean all
 
@@ -72,5 +75,5 @@ $(OBJDIR):
 
 buildrepo: 
 	$(call make-repo)
-	mkdir -p lib 
+	mkdir -p lib
 	cd readline-8.1 && ./configure --prefix=$(REL_PATH)/lib 
